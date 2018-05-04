@@ -2,7 +2,8 @@ language: java
 jdk:
     - oraclejdk8
 script: 
-    - mvn clean install
-    - curl -H "Authorization: Bearer AKCp2UNCd6WBGDfvtbdfy1Xs3BEbp6DqDFc1CqVFcbaZ2agMxjynwwCgyZSXhnSxyVdjnZGXJ" -X PUT "http://calinfo.jfrog.io/calinfo/ext-release-local/com/calinfo-nc/services/common.jar" -T /home/travis/build/toutfic/services-common-project/common/target/common-1.0-SNAPSHOT.jar
+    - pwd
+#    - mvn clean install
+#    - curl -H "Authorization: Bearer AKCp2UNCd6WBGDfvtbdfy1Xs3BEbp6DqDFc1CqVFcbaZ2agMxjynwwCgyZSXhnSxyVdjnZGXJ" -X PUT "http://calinfo.jfrog.io/calinfo/ext-release-local/com/calinfo-nc/services/common.jar" -T /home/travis/build/toutfic/services-common-project/common/target/common-1.0-SNAPSHOT.jar
     
     
