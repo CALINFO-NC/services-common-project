@@ -7,6 +7,6 @@ script:
     - ls common
     - ls common/target
 #    - mvn clean install
-    - "curl -u travis:AKCp5aU5fEqwPiLpANw9U6Pygt6bS1BFzpvd6ZkVUhfdLcJ3Rrpi4nuffsZ8P9DCXU8e9oVuF -X PUT \"https://calinfo.artifactoryonline.com/calinfo/ext-release-local/com/calinfo-nc/services/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar\" -T \"common/target/common-1.0-SNAPSHOT.jar\""
+    - "curl -u travis:AKCp5aU5fEqwPiLpANw9U6Pygt6bS1BFzpvd6ZkVUhfdLcJ3Rrpi4nuffsZ8P9DCXU8e9oVuF -X PUT \"https://calinfo.artifactoryonline.com/calinfo/ext-snapshot-local/com/calinfo-nc/services/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar\" -T \"common/target/common-1.0-SNAPSHOT.jar\""
     
     
