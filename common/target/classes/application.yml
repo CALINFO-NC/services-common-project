@@ -1,0 +1,8 @@
+common:
+  configuration: # Configuration du common
+
+    tenant: # Propriété de la classe TenantProperties
+
+    security: # Propriété de la classe SecurityProperties
+
+    application: # Propriété de la classe ApplicationProperties

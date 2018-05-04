@@ -1,0 +1,39 @@
+common:
+  configuration:
+
+    application:
+      id: "${common.configuration.application.name}_${common.configuration.application.version}"
+      name: "common"
+      version: "TEST"
+
+liquibase:
+  change-log: classpath:liquibase/changelog-master.xml
+  enabled: false
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:sido;MODE=PostgreSQL
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+---
+spring:
+    profiles: disableSecurity
+common:
+  configuration:
+
+    security:
+      enable: false
+---
+spring:
+    profiles: enableSecurity
+common:
+  configuration:
+
+    security:
+      enable: true
+      publicKeyValue: "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCy/bnCEtHF6im5sGUIuktbILl9vCaYMCi0CZ4wGtEUtdHZ+tsnMpeOIAusMBrmfYaq4jcUde9fWV9+vNENhpLD29x7YtR5rnaqsQv+hp+eQoWp5u3fqkRtmkjy0kqmU9idVkGjn2dA5YeXF3xxF8WnyKSwohLK8oYAxQxoaS0yuwIDAQAB"

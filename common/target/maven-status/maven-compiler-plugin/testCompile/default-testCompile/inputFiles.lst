@@ -1,0 +1,16 @@
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/MockServiceConstrainteVilationService.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/SecurityFilterController.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/JsonizablePrincipal.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/utils/LiquibaseUtilsUpdateSchemaTest.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/utils/SecurityUtilsTest.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/MockMessageServiceImpl.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/MockDtoInerContrainteViolation.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/MockResponseEntityExceptionController.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/handler/RestResponseEntityExceptionHandlerMissignServletRequestParameterExceptionTest.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/MockResponseResource.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/security/CommonSecurityUrlFilterDisableTest.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/security/CommonSecurityUrlFilterEnableTest.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/resource/ResponseTest.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/MockDtoContrainteViolation.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/mocks/MockMessageCode.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common/src/test/java/com/calinfo/api/common/MocksApplication.java

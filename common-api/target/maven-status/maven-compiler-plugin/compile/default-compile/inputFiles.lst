@@ -1,0 +1,12 @@
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/type/TypeAttribut.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/validation/Create.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/resource/BadRequestParameterResource.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/service/DeleteService.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/resource/BadResponseResource.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/service/UpdateService.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/dto/AttributDto.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/service/CreateService.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/resource/EmptyResponseResource.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/resource/Resource.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/service/ReadService.java
+/Users/dalexis/workspace/intelliJ/services/security/common-project/common-api/src/main/java/com/calinfo/api/common/validation/Update.java
