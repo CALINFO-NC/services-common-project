@@ -78,14 +78,6 @@
         <!-- Dépendence sur l'API common -->
         <dependency>
             <groupId>com.calinfo-nc.services</groupId>
-            <artifactId>security-cloud-api</artifactId>
-            <version>${version.service-common}</version>
-        </dependency>
-
-
-        <!-- Dépendence sur l'API common -->
-        <dependency>
-            <groupId>com.calinfo-nc.services</groupId>
             <artifactId>common-api</artifactId>
             <version>${version.service-common}</version>
         </dependency>
