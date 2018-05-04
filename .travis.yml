@@ -3,6 +3,7 @@ jdk:
     - oraclejdk8
 script: 
     - mvn clean install
-    - "curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT \"https://calinfo.artifactoryonline.com/calinfo/ext-snapshot-local/com/calinfo-nc/services/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar\" -T \"common/target/common-1.0-SNAPSHOT.jar\""
+    # - "curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT \"https://calinfo.artifactoryonline.com/calinfo/ext-snapshot-local/com/calinfo-nc/services/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar\" -T \"common/target/common-1.0-SNAPSHOT.jar\""
+    - "curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT \"https://calinfo.artifactoryonline.com/calinfo/ext-snapshot-local/\" -T \"common/target/common-1.0-SNAPSHOT.jar\""
     
     
