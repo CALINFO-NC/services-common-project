@@ -3,9 +3,8 @@ jdk:
     - oraclejdk8
 env:
     global:
-        - secure:
-            - artifactory_user: $ARTIFACTORY_USER
-            - artifactory_token: $ARTIFACTORY_TOKEN
+        - artifactory_user: $ARTIFACTORY_USER
+        - artifactory_token: $ARTIFACTORY_TOKEN
 script: 
     - mvn clean install
     - "curl -u $artifactory_user:$artifactory_token -X PUT \"https://calinfo.artifactoryonline.com/calinfo/ext-snapshot-local/com/calinfo-nc/services/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar\" -T \"common/target/common-1.0-SNAPSHOT.jar\""
