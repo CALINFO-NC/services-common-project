@@ -7,6 +7,6 @@ script:
     - ls common
     - ls common/target
 #    - mvn clean install
-    - curl -H "Authorization: Bearer AKCp2UNCd6WBGDfvtbdfy1Xs3BEbp6DqDFc1CqVFcbaZ2agMxjynwwCgyZSXhnSxyVdjnZGXJ" -X PUT "http://calinfo.jfrog.io/calinfo/ext-release-local/com/calinfo-nc/services/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar" -T common/target/common-1.0-SNAPSHOT.jar
+    - curl -H 'Authorization: Bearer AKCp2UNCd6WBGDfvtbdfy1Xs3BEbp6DqDFc1CqVFcbaZ2agMxjynwwCgyZSXhnSxyVdjnZGXJ' -X PUT http://calinfo.jfrog.io/calinfo/ext-release-local/com/calinfo-nc/services/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar -T common/target/common-1.0-SNAPSHOT.jar
     
     
