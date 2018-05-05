@@ -6,14 +6,13 @@ sudo: required
 language: java
 jdk:
     - oraclejdk8
-#before_install:
-
-script:
-  - mvn clean install -DskipTests
+before_install:
   - mkdir .travis
   - git clone https://github.com/toutfic/travis.git .travis
   - chmod +x .travis/scripts/script_init.sh
   - .travis/scripts/script_init.sh .travis/scripts
-  #- artifactory_deploy $commonPathPomFile $commonBbuildFileName
-  #- artifactory_deploy $commonPathPomFile $commonBbuildFileName
+script:
+  - mvn clean install -DskipTests
+  - artifactory_deploy $commonPathPomFile $commonBbuildFileName
+  - artifactory_deploy $commonPathPomFile $commonBbuildFileName
 
