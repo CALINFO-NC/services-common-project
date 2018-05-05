@@ -4,9 +4,9 @@
 baseScriptPath=$1
 
 
-chmod +x $baseScriptPath/scripts/artifactory_deploy.sh
-chmod +x $baseScriptPath/scripts/test.sh
+chmod +x $baseScriptPath/artifactory_deploy.sh
+chmod +x $baseScriptPath/test.sh
 
 export $SCRIPT_BASE_DIR=$baseScriptPath
 
-$SCRIPT_BASE_DIR/scripts/test.sh
+$SCRIPT_BASE_DIR/test.sh
