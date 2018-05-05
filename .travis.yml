@@ -15,7 +15,7 @@ before_install:
 script:
   - mvn clean install -DskipTests
 #  - .travis/scripts/artifactory_deploy.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
-  - .travis/scripts/test.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
+#  - .travis/scripts/test.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
 after_success:
   - git config --global credential.helper store
   - ps: Add-Content "$HOME\.git-credentials" "https://$GITHUB_TOKEN:x-oauth-basic@github.com`n"
