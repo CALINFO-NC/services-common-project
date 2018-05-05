@@ -20,7 +20,7 @@ artifactName=$artifactId-$version
 
 echo "$baseUrl/ext-snapshot-local/$path/$artifactName.$packaging"
 
-if ["$packaging" != "pom" ]
+if [ "$packaging" != "pom" ]
 then
     echo "publier pom"
 fi
