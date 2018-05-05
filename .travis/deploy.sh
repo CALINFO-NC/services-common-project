@@ -117,4 +117,4 @@ artifactory_deploy(){
 	fi
 }
 
-artifactory_deploy $commonPathPomFile $commonBbuildFileName
+$(artifactory_deploy $commonPathPomFile $commonBbuildFileName)
