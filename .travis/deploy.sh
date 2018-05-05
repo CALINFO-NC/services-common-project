@@ -7,6 +7,8 @@ export SCRIPT_BASE_DIR=$TRAVIS_BUILD_DIR/.travis-github/scripts
 
 # source $SCRIPT_BASE_DIR/script_init.sh
 
+sudo apt-get install libxml2-utils
+
 xml_xpath(){
 
 	# Paramètre de la fonction
@@ -14,8 +16,11 @@ xml_xpath(){
 	xpath=$2
 
 	tempfile=$(mktemp)
+	echo tempfile=$tempfile
 	cat $xmlFile | sed '2 s/xmlns=".*"//g' > $tempfile
-	var=$(echo "$2" | xmllint $tempfile --xpath 'string('$xpath')')
+	echo cat OK
+	var=$(echo "$2" | sudo xmllint $tempfile --xpath 'string('$xpath')')
+	echo xmllint ok
 
 	echo $var
 }
