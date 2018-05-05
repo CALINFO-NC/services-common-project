@@ -6,7 +6,6 @@ env:
     - commonPackaging: jar
     - commonPathPomFile: $TRAVIS_BUILD_DIR/common
     - commonBbuildFileName: common-1.0-SNAPSHOT.jar
-# Je ne veux pas compiler le master lorsque c'est poussé
 branches:
   except:
     - master
