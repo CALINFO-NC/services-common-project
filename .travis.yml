@@ -10,6 +10,9 @@ before_install:
   - mkdir .travis-github
   - git clone https://github.com/toutfic/travis.git .travis-github
   - chmod +x .travis/deploy.sh
+  - chmod +x .travis-github/xml.sh
+  - chmod +x .travis-github/maven.sh
+  - chmod +x .travis-github/artifactory.sh
 script:
   - mvn clean install -DskipTests
   - .travis/deploy.sh $commonPathPomFile $commonBbuildFileName
