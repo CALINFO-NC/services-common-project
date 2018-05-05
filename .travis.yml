@@ -6,6 +6,7 @@ env:
     - commonPackaging: jar
     - commonPathPomFile: $TRAVIS_BUILD_DIR/common
     - commonBbuildFileName: common-1.0-SNAPSHOT.jar
+    
 branches:
   except:
     - master
