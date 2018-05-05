@@ -3,10 +3,10 @@
 # Paramètre du script
 groupId=com.calinfo-nc.services
 artifactId=common
-version=1.0-SNAPSHOTk
+version=1.0-SNAPSHOT
 packaging=jar
 pathPomFile=$TRAVIS_BUILD_DIR/common
-publishFileName=common-1.0-SNAPSHOT.jar
+buildFileName=common-1.0-SNAPSHOT.jar
 
 # Variable du programme
 baseUrl=https://calinfo.artifactoryonline.com/calinfo
@@ -26,12 +26,9 @@ then
     repository=ext-snapshot-local
 fi
 
-echo $repository
-
-#curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/$repository/$path/$artifactName.$packaging" -T "$pathPomFile/target/$publishFileName"
+curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/$repository/$path/$artifactName.$packaging" -T "$pathPomFile/target/$buildFileName"
 
 if [ "$packaging" != "pom" ]
 then
-    echo toto
-    #curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/$repository/$path/$artifactName.pom" -T "$pathPomFile/pom.xml"
+    curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/$repository/$path/$artifactName.pom" -T "$pathPomFile/pom.xml"
 fi
