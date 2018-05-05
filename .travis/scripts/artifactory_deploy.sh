@@ -3,7 +3,7 @@
 # Paramètre du script
 groupId=com.calinfo-nc.services
 artifactId=common
-version=1.0-SNAPSHOT
+version=1.0-SNAPSHOTk
 packaging=jar
 pathPomFile=$TRAVIS_BUILD_DIR/common
 publishFileName=common-1.0-SNAPSHOT.jar
