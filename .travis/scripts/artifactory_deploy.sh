@@ -6,6 +6,7 @@ artifactId=common
 version=1.0-SNAPSHOT
 packaging=jar
 pathPomFile=$TRAVIS_BUILD_DIR/common
+publishFileName=common-1.0-SNAPSHOT.jar
 
 # Variable du programme
 baseUrl=https://calinfo.artifactoryonline.com/calinfo
@@ -18,12 +19,18 @@ path=$pathGroupId/$pathArtifactId/$version
 # Reconstruction du nom de l'artifact dans Artifactory
 artifactName=$artifactId-$version
 
-echo "$baseUrl/ext-snapshot-local/$path/$artifactName.$packaging"
+# Reconstruction du repository dans Artifactory
+repository=ext-release-local
+if [[ $version = *-SNAPSHOT ]]
+then
+    repository=ext-snapshot-local
+fi
+
+echo $repository
+
+#curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/$repository/$path/$artifactName.$packaging" -T "$pathPomFile/target/$publishFileName"
 
 if [ "$packaging" != "pom" ]
 then
-    echo "publier pom"
+    #curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/$repository/$path/$artifactName.pom" -T "$pathPomFile/pom.xml"
 fi
-
-#curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/ext-snapshot-local/$path/$artifactName.$packaging" -T "$pathPomFile/target/common-1.0-SNAPSHOT.jar"
-#curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/ext-snapshot-local/$path/$artifactName.pom" -T "$pathPomFile/pom.xml"
