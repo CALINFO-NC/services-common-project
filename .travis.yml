@@ -15,8 +15,8 @@ script:
   - mvn clean install -DskipTests
 #    - .travis/scripts/artifactory_deploy.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
 # after_success:
-  - git config --global user.email "david.alexis@calinfo-nc.com"
-  - git config --global user.name "Travis CI"
+#  - git config --global user.email "david.alexis@calinfo-nc.com"
+#  - git config --global user.name "Travis CI"
   - export GIT_TAG=TEST-TAG
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"
   - git push origin $GIT_TAG
