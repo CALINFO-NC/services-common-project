@@ -32,3 +32,5 @@ if [ "$packaging" != "pom" ]
 then
     curl -u $ARTIFACTORY_USER:$ARTIFACTORY_TOKEN -X PUT "$baseUrl/$repository/$path/$artifactName.pom" -T "$pathPomFile/pom.xml"
 fi
+
+echo artifact deployed
