@@ -12,4 +12,4 @@ before_install:
   - chmod +x .travis/deploy.sh
 script:
   - mvn clean install -DskipTests
-  - .travis/deploy.sh ; artifactory_deploy $commonPathPomFile $commonBbuildFileName
+  - .travis/deploy.sh $commonPathPomFile $commonBbuildFileName
