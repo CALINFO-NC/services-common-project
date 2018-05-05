@@ -17,7 +17,7 @@ xml_xpath(){
 
 	tempfile=$(mktemp)
 	echo tempfile=$tempfile
-	cat $xmlFile | sed '2 s/xmlns=".*"//g' > $tempfile
+	sudo cat $xmlFile | sed '2 s/xmlns=".*"//g' > $tempfile
 	echo cat OK
 	var=$(echo "$2" | sudo xmllint $tempfile --xpath 'string('$xpath')')
 	echo xmllint ok
@@ -27,8 +27,10 @@ xml_xpath(){
 
 maven_version(){
 
+    echo maven_version $1
 	# Paramètre de la fonction
 	pomFile=$1	# Chemin complet du fichier pom.xml
+	echo maven_version prm $pomFile
 
 	val=$(xml_xpath $pomFile "/project/version")
 
@@ -84,10 +86,10 @@ artifactory_deploy(){
 	pathPomFile=$1
 	buildFileName=$2
 
-	groupId=maven_groupId "$pathPomFile/pom.xml"
-	artifactId=maven_artifactId "$pathPomFile/pom.xml"
-	version=maven_version "$pathPomFile/pom.xml"
-	packaging=maven_packaging "$pathPomFile/pom.xml"
+	version=$(maven_version "$pathPomFile/pom.xml")
+	groupId=$(maven_groupId "$pathPomFile/pom.xml")
+	artifactId=$(maven_artifactId "$pathPomFile/pom.xml")
+	packaging=$(maven_packaging "$pathPomFile/pom.xml")
 
 	# Variable du programme
 	baseUrl=https://calinfo.artifactoryonline.com/calinfo
