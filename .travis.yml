@@ -17,11 +17,12 @@ script:
 #  - .travis/scripts/artifactory_deploy.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
   - .travis/scripts/test.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
 after_success:
-  - machine host.example.net
-  - login $GITHUB_USER
-  - password $GITHUB_TOKEN
+  - git config --global credential.helper store
+  - ps: Add-Content "$HOME\.git-credentials" "https://$GITHUB_TOKEN:x-oauth-basic@github.com`n"
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
   - export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d-%H-%M-%S")-$TRAVIS_BUILD_NUMBER
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"
   - git push origin $GIT_TAG
+
+
