@@ -11,6 +11,7 @@ env:
     - commonPathPomFile: $TRAVIS_BUILD_DIR/common
     - commonBbuildFileName: common-1.0-SNAPSHOT.jar
 script:
-   - mvn clean install -DskipTests
+  - mvn clean install -DskipTests
   - artifactory_deploy $commonPathPomFile $commonBbuildFileName
   - artifactory_deploy $commonPathPomFile $commonBbuildFileName
+
