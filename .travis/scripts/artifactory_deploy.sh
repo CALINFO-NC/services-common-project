@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Paramètre du script
-groupId=com.calinfo-nc.services
-artifactId=common
-version=1.0-SNAPSHOT
-packaging=jar
-pathPomFile=$TRAVIS_BUILD_DIR/common
-buildFileName=common-1.0-SNAPSHOT.jar
+groupId=$1
+artifactId=$2
+version=$3
+packaging=$4
+pathPomFile=$5
+buildFileName=$6
 
 # Variable du programme
 baseUrl=https://calinfo.artifactoryonline.com/calinfo
