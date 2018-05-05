@@ -34,4 +34,3 @@ then
 fi
 
 echo artifact deployed
-echo end script
