@@ -1,11 +1,3 @@
-env:
-  global:
-    - groupId: com.calinfo-nc.services
-    - version: 1.0-SNAPSHOT
-    - commonArtifactId: common
-    - commonPackaging: jar
-    - commonPathPomFile: $TRAVIS_BUILD_DIR/common
-    - commonBbuildFileName: common-1.0-SNAPSHOT.jar
 language: java
 jdk:
     - oraclejdk8
@@ -14,7 +6,11 @@ before_install:
   - git clone https://github.com/toutfic/travis.git .travis
   - chmod +x .travis/scripts/script_init.sh
   - .travis/scripts/script_init.sh .travis/scripts
-# script:
-#   - mvn clean install -DskipTests
-#  - artifactory_deploy $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
-#  - artifactory_deploy $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
+env:
+  global:
+    - commonPathPomFile: $TRAVIS_BUILD_DIR/common
+    - commonBbuildFileName: common-1.0-SNAPSHOT.jar
+script:
+   - mvn clean install -DskipTests
+  - artifactory_deploy $commonPathPomFile $commonBbuildFileName
+  - artifactory_deploy $commonPathPomFile $commonBbuildFileName
