@@ -2,6 +2,7 @@ env:
   global:
     - commonPathPomFile: $TRAVIS_BUILD_DIR/common
     - commonBbuildFileName: common-1.0-SNAPSHOT.jar
+sudo: required
 language: java
 jdk:
     - oraclejdk8
