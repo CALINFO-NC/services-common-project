@@ -21,8 +21,7 @@ artifactName=$artifactId-$version
 
 # Reconstruction du repository dans Artifactory
 repository=ext-release-local
-if [[ $version = *-SNAPSHOT ]]
-then
+if [[ $version = *-SNAPSHOT ]] ; then
     repository=ext-snapshot-local
 fi
 
