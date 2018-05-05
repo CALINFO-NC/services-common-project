@@ -10,9 +10,10 @@ before_install:
   - mkdir .travis
   - git clone https://github.com/toutfic/travis.git .travis
   - chmod +x .travis/scripts/script_init.sh
-  - .travis/scripts/script_init.sh .travis/scripts
 script:
   - mvn clean install -DskipTests
+  - .travis/scripts/script_init.sh .travis/scripts
+  - echo $SCRIPT_BASE_DIR
   - artifactory_deploy $commonPathPomFile $commonBbuildFileName
   - artifactory_deploy $commonPathPomFile $commonBbuildFileName
 
