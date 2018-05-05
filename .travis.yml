@@ -14,8 +14,7 @@ before_install:
 script:
   - mvn clean install -DskipTests
 #    - .travis/scripts/artifactory_deploy.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
-
-after_success:
+# after_success:
   - git config --global user.email "travis@calinfo-nc.com"
   - git config --global user.name "Travis CI"
   - export GIT_TAG=TEST-TAG
