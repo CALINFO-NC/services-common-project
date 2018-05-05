@@ -14,5 +14,6 @@ before_install:
   - chmod +x .travis/scripts/script_init.sh .travis/scripts
 script:
   - mvn clean install -DskipTests
+  - .travis/scripts/script_init.sh
 #  - .travis/scripts/artifactory_deploy.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
 #  - .travis/scripts/test.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
