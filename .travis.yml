@@ -11,9 +11,9 @@ jdk:
     - oraclejdk8
 before_install:
 #  - chmod +x .travis/scripts/artifactory_deploy.sh
-  - chmod +x .travis/scripts/script_init.sh .travis/scripts
+  - chmod +x .travis/scripts/script_init.sh
 script:
   - mvn clean install -DskipTests
-  - .travis/scripts/script_init.sh
+  - .travis/scripts/script_init.sh .travis/scripts
 #  - .travis/scripts/artifactory_deploy.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
 #  - .travis/scripts/test.sh $groupId $commonArtifactId $version $commonPackaging $commonPathPomFile $commonBbuildFileName
