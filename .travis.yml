@@ -7,11 +7,9 @@ language: java
 jdk:
     - oraclejdk8
 before_install:
-  - mkdir .travis
-  - git clone https://github.com/toutfic/travis.git .travis
-  - chmod +x .travis/scripts/script_init.sh
+  - mkdir .travis-github
+  - git clone https://github.com/toutfic/travis.git .travis-github
+  - chmod +x .travis/deploy.sh
 script:
   - mvn clean install -DskipTests
-  - SCRIPT_BASE_DIR=.travis/scripts ; source .travis/scripts/script_init.sh ; artifactory_deploy $commonPathPomFile $commonBbuildFileName
-  - SCRIPT_BASE_DIR=.travis/scripts ; source .travis/scripts/script_init.sh ; artifactory_deploy $commonPathPomFile $commonBbuildFileName
-
+  - .travis/deploy.sh ; artifactory_deploy $commonPathPomFile $commonBbuildFileName
