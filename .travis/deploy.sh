@@ -16,21 +16,16 @@ xml_xpath(){
 	xpath=$2
 
 	tempfile=$(mktemp)
-	echo tempfile=$tempfile
-	sudo cat $xmlFile | sed '2 s/xmlns=".*"//g' > $tempfile
-	echo cat OK
-	var=$(echo "$2" | sudo xmllint $tempfile --xpath 'string('$xpath')')
-	echo xmllint ok
+	cat $xmlFile | sed '2 s/xmlns=".*"//g' > $tempfile
+	var=$(echo "$2" | xmllint $tempfile --xpath 'string('$xpath')')
 
 	echo $var
 }
 
 maven_version(){
 
-    echo maven_version $1
 	# Paramètre de la fonction
 	pomFile=$1	# Chemin complet du fichier pom.xml
-	echo maven_version prm $pomFile
 
 	val=$(xml_xpath $pomFile "/project/version")
 
@@ -117,4 +112,4 @@ artifactory_deploy(){
 	fi
 }
 
-$(artifactory_deploy $commonPathPomFile $commonBbuildFileName)
+artifactory_deploy $commonPathPomFile $commonBbuildFileName
