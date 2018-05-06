@@ -13,7 +13,6 @@
         <relativePath>../common-libs</relativePath>
     </parent>
 
-    <version>1.0</version>
     <artifactId>common</artifactId>
     <packaging>jar</packaging>
 

@@ -7,7 +7,6 @@ jdk:
     - oraclejdk8
 before_install:
   - mkdir $SCRIPT_BASE_DIR
-#  - git checkout https://github.com/toutfic/travis.git $SCRIPT_BASE_DIR
   - git clone https://github.com/toutfic/travis.git $SCRIPT_BASE_DIR
   - chmod +x .travis/deploy.sh
 script:
