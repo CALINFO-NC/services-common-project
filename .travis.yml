@@ -11,4 +11,5 @@ before_install:
   - chmod +x .travis/deploy.sh
 script:
   - mvn clean install -DskipTests
+  - mvn sonar:sonar -Dsonar.organization=toutfic-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=fb1b3d7d2b6532e6ed7220b94ffe4c90fad2a865
   - .travis/deploy.sh
