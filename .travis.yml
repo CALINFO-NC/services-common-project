@@ -15,5 +15,5 @@ before_install:
   - git clone https://github.com/toutfic/travis.git $SCRIPT_BASE_DIR
   - chmod +x .travis/deploy.sh
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dprofile.java="CALINFO way"
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dprofile.java='CALINFO way'
   - .travis/deploy.sh
