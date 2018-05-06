@@ -14,6 +14,7 @@ addons:
 before_install:
   - mkdir $SCRIPT_BASE_DIR
   - git clone https://github.com/CALINFO-NC/travis.git $SCRIPT_BASE_DIR
+  - cp $SCRIPT_BASE_DIR/.m2/settings.xml $HOME/.m2/settings.xml
   - chmod +x .travis/deploy.sh
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
