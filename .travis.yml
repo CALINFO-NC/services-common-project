@@ -1,10 +1,13 @@
+env:
+  global:
+    - SCRIPT_BASE_DIR: $TRAVIS_BUILD_DIR/.travis-github  # Definir le lieu de stockage des script travis (obligatoire)
 sudo: required
 language: java
 jdk:
     - oraclejdk8
 before_install:
-  - mkdir .travis-github
-  - git clone https://github.com/toutfic/travis.git .travis-github
+  - mkdir $SCRIPT_BASE_DIR
+  - git clone https://github.com/toutfic/travis.git $SCRIPT_BASE_DIR
   - chmod +x .travis/deploy.sh
 script:
   - mvn clean install -DskipTests
