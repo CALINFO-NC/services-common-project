@@ -17,7 +17,7 @@
             <url>http://central.maven.org/maven2/</url>
         </repository>
     </repositories>
-    
+
     <modules>
         <module>common-libs</module>
         <module>common-api</module>

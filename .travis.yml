@@ -13,7 +13,7 @@ addons:
       secure: $SONARQUBE_TOKEN
 before_install:
   - mkdir $SCRIPT_BASE_DIR
-  - git clone https://github.com/toutfic/travis.git $SCRIPT_BASE_DIR
+  - git clone https://github.com/CALINFO-NC/travis.git $SCRIPT_BASE_DIR
   - chmod +x .travis/deploy.sh
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
