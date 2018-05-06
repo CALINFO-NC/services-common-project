@@ -10,6 +10,12 @@ import java.io.StringWriter;
  */
 public final class ExceptionUtils {
 
+    /**
+     * Permet déviter que l'on puisse instancier une classe utilitaire
+     */
+    private ExceptionUtils(){
+    }
+
 
     /**
      * Retourne la stacktrace d'une exception au format String

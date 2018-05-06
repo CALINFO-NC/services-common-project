@@ -30,6 +30,12 @@ public class MiscUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(MiscUtils.class);
 
+    /**
+     * Permet déviter que l'on puisse instancier une classe utilitaire
+     */
+    private MiscUtils(){
+    }
+
     public static ObjectMapper getObjectMapper(){
         final ObjectMapper result = new ObjectMapper();
 

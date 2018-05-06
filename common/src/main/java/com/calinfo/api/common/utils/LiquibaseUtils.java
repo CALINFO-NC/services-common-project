@@ -20,6 +20,12 @@ public class LiquibaseUtils {
 
     private static final String CHAGELOG_LOG_CLASSPATH_REFIXE = "classpath:";
 
+    /**
+     * Permet déviter que l'on puisse instancier une classe utilitaire
+     */
+    private LiquibaseUtils(){
+    }
+
     public static void updateSchema(DataSource dataSource, String changelogFileConf, String schemaName) {
 
         // Création de la connection

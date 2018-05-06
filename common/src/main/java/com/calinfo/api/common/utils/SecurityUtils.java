@@ -30,6 +30,12 @@ import java.util.UUID;
 public class SecurityUtils {
 
     /**
+     * Permet déviter que l'on puisse instancier une classe utilitaire
+     */
+    private SecurityUtils(){
+    }
+
+    /**
      * Permet de créer un token JWT
      *
      * @param privateKeyValue Valeur de la clée privée permettant de crypter le token
