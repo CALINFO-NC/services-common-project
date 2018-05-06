@@ -8,8 +8,6 @@ jdk:
 addons:
   sonarcloud:
     organization: "calinfo-nc"
-    profile:
-      - java: "CALINFO way"
     token:
       secure: $SONARQUBE_TOKEN
 before_install:
@@ -17,5 +15,5 @@ before_install:
   - git clone https://github.com/toutfic/travis.git $SCRIPT_BASE_DIR
   - chmod +x .travis/deploy.sh
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dprofile.java="CALINFO way"
   - .travis/deploy.sh
