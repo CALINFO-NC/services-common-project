@@ -2,7 +2,6 @@ package com.calinfo.api.common.ex;
 
 import com.calinfo.api.common.MessageStructure;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -4,7 +4,6 @@ import com.calinfo.api.common.ErrorMessageFieldConvertor;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.resource.BadResponseResource;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;

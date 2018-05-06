@@ -1,6 +1,5 @@
 package com.calinfo.api.common.security;
 
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

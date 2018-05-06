@@ -1,7 +1,6 @@
 package com.calinfo.api.common.utils;
 
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
-import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

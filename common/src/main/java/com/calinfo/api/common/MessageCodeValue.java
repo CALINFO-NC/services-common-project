@@ -1,7 +1,9 @@
 package com.calinfo.api.common;
 
 
-public interface MessageCodeValue {
+import java.io.Serializable;
+
+public interface MessageCodeValue extends Serializable{
 
     String name();
 }

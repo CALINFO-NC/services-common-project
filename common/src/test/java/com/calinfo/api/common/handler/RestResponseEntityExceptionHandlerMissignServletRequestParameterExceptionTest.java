@@ -1,14 +1,14 @@
 package com.calinfo.api.common.handler;
 
 import com.calinfo.api.common.dto.AttributDto;
-import com.calinfo.api.common.mocks.MockDtoInerContrainteViolation;
-import com.calinfo.api.common.resource.BadRequestParameterResource;
-import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.mocks.MockDtoContrainteViolation;
+import com.calinfo.api.common.mocks.MockDtoInerContrainteViolation;
 import com.calinfo.api.common.mocks.MockMessageCode;
+import com.calinfo.api.common.resource.BadRequestParameterResource;
 import com.calinfo.api.common.resource.BadResponseResource;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.type.TypeAttribut;
+import com.calinfo.api.common.utils.MiscUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +29,6 @@ import java.util.Locale;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
