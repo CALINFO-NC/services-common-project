@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Indiquer le lieu de stockage des script Travis
+# Import des scripts travis
 export SCRIPT_BASE_DIR=$TRAVIS_BUILD_DIR/.travis-github/scripts
-
 source $SCRIPT_BASE_DIR/artifactory.sh
 
-# Effectuer un déploiement du common sur artifactory
+# Effectuer les déploiements sur artifactory
 artifactory_deploy $TRAVIS_BUILD_DIR/common common-1.0-SNAPSHOT.jar
+artifactory_deploy $TRAVIS_BUILD_DIR/common-api common-api-1.0-SNAPSHOT.jar
+artifactory_deploy $TRAVIS_BUILD_DIR/common-libs pom.xml
