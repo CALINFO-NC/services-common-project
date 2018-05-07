@@ -16,5 +16,5 @@ before_install:
   - cp $SCRIPT_BASE_DIR/.m2/settings.xml $HOME/.m2/settings.xml
   - chmod +x .travis/deploy.sh
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
   - .travis/deploy.sh
