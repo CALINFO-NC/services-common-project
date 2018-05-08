@@ -15,5 +15,22 @@
     <artifactId>common-api</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Test des POJO -->
+        <dependency>
+            <groupId>com.openpojo</groupId>
+            <artifactId>openpojo</artifactId>
+            <version>0.8.6</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 
 </project>
