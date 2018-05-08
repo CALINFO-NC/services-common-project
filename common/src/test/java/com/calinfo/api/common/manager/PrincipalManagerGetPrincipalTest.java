@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PrincipalManagerGetPrincipal {
+public class PrincipalManagerGetPrincipalTest {
 
     private AbstractCommonPrincipal principalAjouteAuContext;
 

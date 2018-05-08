@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RestTemplateManagerGetRestTemplate {
+public class RestTemplateManagerGetRestTemplateTest {
 
     @Autowired
     private RestTemplateManager restTemplateManager;
