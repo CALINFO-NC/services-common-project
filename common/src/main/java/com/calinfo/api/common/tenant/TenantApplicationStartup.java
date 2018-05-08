@@ -71,7 +71,7 @@ public class TenantApplicationStartup implements ApplicationListener<Application
             }
 
         }
-        catch(Throwable e){
+        catch(Exception e){
             log.error(e.getMessage(), e);
             throw new Error(e.getMessage(), e);
         }

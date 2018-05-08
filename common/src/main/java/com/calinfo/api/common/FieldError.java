@@ -11,11 +11,9 @@ public class FieldError extends HashMap<String, List<MessageStructure>> {
 
     public void put(String key, MessageStructure firstValue, MessageStructure... values){
 
-        List<MessageStructure> lst = this.get(key);
-        if (lst == null){
-            lst = new ArrayList<>();
-            this.put(key, lst);
-        }
+
+
+        List<MessageStructure> lst = this.computeIfAbsent(key, k ->  new ArrayList<>());
 
         lst.add(firstValue);
         for(MessageStructure item : values)

@@ -1,14 +1,11 @@
 package com.calinfo.api.common.utils;
 
-import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.KeyFactory;
@@ -113,18 +110,5 @@ public class SecurityUtils {
         }
 
         return tokenUser;
-    }
-
-    // Utiliser le PrincipalManager
-    @Deprecated
-    public static AbstractCommonPrincipal getPrincipal(){
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null){
-            return null;
-        }
-
-        return (AbstractCommonPrincipal)authentication.getPrincipal();
     }
 }

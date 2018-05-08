@@ -16,18 +16,12 @@ import java.sql.Statement;
 @Component
 public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionProvider {
 
-    // Bug IntelliJ qui ne support pas l'injection de la source de donnée
-    // https://intellij-support.jetbrains.com/hc/en-us/community/posts/207338055-Autowiring-for-Bean-Class-inspection-in-Spring-Boot-project
-    //@SuppressWarnings("SpringJavaAutowiringInspection")
-    //@Autowired
-    //private DataSource dataSource;
-
     @Autowired
-    private TenantProperties tenantProperties;
+    private transient TenantProperties tenantProperties;
 
     @Autowired
     @Qualifier("tenantDataSource")
-    private DataSource dataSource;
+    private transient DataSource dataSource;
 
     @Override
     public Connection getAnyConnection() throws SQLException {

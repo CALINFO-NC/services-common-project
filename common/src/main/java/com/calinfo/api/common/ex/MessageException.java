@@ -27,8 +27,10 @@ public class MessageException extends RuntimeException {
     }
 
     public MessageException(HashMap<String, List<MessageStructure>> fieldsErrors){
-        for (String key: fieldsErrors.keySet())
-            getMapErrorMessagesFields().put(key, fieldsErrors.get(key));
+
+        for (Map.Entry<String, List<MessageStructure>> entry : fieldsErrors.entrySet()){
+            getMapErrorMessagesFields().put(entry.getKey(), entry.getValue());
+        }
     }
 
     public MessageException(List<MessageStructure> listErrorMessages, Map<String, List<MessageStructure>> mapErrorMessagesFields){

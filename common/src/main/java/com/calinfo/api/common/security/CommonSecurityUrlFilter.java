@@ -99,7 +99,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             ResponseEntity<String> response = responseEntityExceptionHandler.messageStatusException(e);
             httpServletResponse.sendError(response.getStatusCodeValue(), response.getBody());
         }
-        catch (Throwable e){
+        catch (Exception e){
             log.error(e.getMessage(), e);
             ResponseEntity<String> response = responseEntityExceptionHandler.messageThrowable(e);
             httpServletResponse.sendError(response.getStatusCodeValue(), response.getBody());

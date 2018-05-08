@@ -8,8 +8,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -26,9 +24,6 @@ import java.util.Map;
  * Created by dalexis on 20/11/2017.
  */
 public class MiscUtils {
-
-
-    private final static Logger logger = LoggerFactory.getLogger(MiscUtils.class);
 
     /**
      * Permet déviter que l'on puisse instancier une classe utilitaire
@@ -58,7 +53,7 @@ public class MiscUtils {
         catch(HttpClientErrorException e){
             return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         }
-        catch(Throwable e){
+        catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
