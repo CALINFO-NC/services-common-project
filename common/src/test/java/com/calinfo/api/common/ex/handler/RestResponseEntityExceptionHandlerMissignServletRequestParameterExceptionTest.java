@@ -1,4 +1,4 @@
-package com.calinfo.api.common.handler;
+package com.calinfo.api.common.ex.handler;
 
 import com.calinfo.api.common.dto.AttributDto;
 import com.calinfo.api.common.mocks.MockDtoContrainteViolation;
