@@ -85,17 +85,17 @@ public class SecurityUtilsTest {
 
         Assert.assertEquals(result.getLogin(), login);
 
-        Assert.assertEquals(result.getRolesApp().size(), 2);
+        Assert.assertEquals(2, result.getRolesApp().size());
         Assert.assertTrue(result.getRolesApp().containsKey("app1"));
         Assert.assertTrue(result.getRolesApp().containsKey("app2"));
 
         List<String> resultRoleApp = result.getRolesApp().get("app1");
-        Assert.assertEquals(resultRoleApp.size(), 2);
+        Assert.assertEquals(2, resultRoleApp.size());
         Assert.assertTrue(resultRoleApp.contains("app1Role1"));
         Assert.assertTrue(resultRoleApp.contains("app1Role2"));
 
         resultRoleApp = result.getRolesApp().get("app2");
-        Assert.assertEquals(resultRoleApp.size(), 2);
+        Assert.assertEquals(2, resultRoleApp.size());
         Assert.assertTrue(resultRoleApp.contains("app2Role1"));
         Assert.assertTrue(resultRoleApp.contains("app2Role2"));
 

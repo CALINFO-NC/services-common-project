@@ -1,9 +1,10 @@
 package com.calinfo.api.common.mocks;
 
-import com.calinfo.api.common.FieldError;
+import com.calinfo.api.common.FieldErrorStructure;
 import com.calinfo.api.common.MessageCode;
 import com.calinfo.api.common.MessageCodeValue;
 import com.calinfo.api.common.MessageStructure;
+import com.calinfo.api.common.ServiceErrorStructure;
 import com.calinfo.api.common.ex.MessageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +53,10 @@ public class MockResponseEntityExceptionController {
     @GetMapping(value = "/launchMessageException", produces = MediaType.APPLICATION_JSON_VALUE)
     public void launchMessageException() {
 
-        List<MessageStructure> listErrorMessages = new ArrayList<>();
+        ServiceErrorStructure serviceErrorStructure = new ServiceErrorStructure();
+
+
+        List<MessageStructure> listErrorMessages = serviceErrorStructure.getGlobalErrors();
         listErrorMessages.add(new MessageStructure(new MessageCodeValue() {
             @Override
             public String name() {
@@ -68,10 +71,10 @@ public class MockResponseEntityExceptionController {
         }));
 
 
-        FieldError fieldError = new FieldError();
+        FieldErrorStructure fieldError = serviceErrorStructure.getFieldsErrors();
         fieldError.put("prop", new MessageStructure(MessageCode.INVALID_CAPTCHA_VALUE), new MessageStructure(MessageCode.LOGIN_ALL_READY_EXIST));
 
-        throw new MessageException(listErrorMessages, fieldError);
+        throw new MessageException(serviceErrorStructure);
     }
 
     @GetMapping(value = "/launchConstraintViolationException", produces = MediaType.APPLICATION_JSON_VALUE)

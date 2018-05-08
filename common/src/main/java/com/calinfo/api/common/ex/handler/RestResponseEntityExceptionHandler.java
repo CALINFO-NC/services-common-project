@@ -27,6 +27,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 @RestControllerAdvice
@@ -116,12 +117,12 @@ public class RestResponseEntityExceptionHandler {
 
 
         BadResponseResource result = new BadResponseResource();
-        for (MessageStructure ms: ex.getListErrorMessages()){
+        for (MessageStructure ms: ex.getErrors().getGlobalErrors()){
             result.getListErrorMessages().add(messageService.translate(locale, ms.getMessageCode(), ms.getParameters()));
         }
 
-        for (String key: ex.getMapErrorMessagesFields().keySet()){
-            List<MessageStructure> value = ex.getMapErrorMessagesFields().get(key);
+        for (Map.Entry<String, List<MessageStructure>> entry : ex.getErrors().getFieldsErrors().entrySet()){
+            List<MessageStructure> value = entry.getValue();
             List<String> lstMsg = new ArrayList<>();
 
             for (MessageStructure ms: value){
@@ -129,7 +130,7 @@ public class RestResponseEntityExceptionHandler {
                 lstMsg.add(msg);
             }
 
-            result.getMapErrorMessagesFields().put(key, lstMsg);
+            result.getMapErrorMessagesFields().put(entry.getKey(), lstMsg);
         }
 
         return result;

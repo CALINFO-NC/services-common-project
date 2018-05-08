@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public class MessageStatusException extends RuntimeException{
 
     @Getter
-    private HttpStatus status;
+    private final HttpStatus status;
 
     public MessageStatusException(HttpStatus statuts, String message){
         super(constructMessage(statuts, message));

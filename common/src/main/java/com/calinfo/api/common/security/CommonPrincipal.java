@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.Objects;
 
 
 /**
@@ -19,4 +20,23 @@ public class CommonPrincipal extends AbstractCommonPrincipal {
         this.domain = domain;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CommonPrincipal)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        CommonPrincipal that = (CommonPrincipal) o;
+        return Objects.equals(getDomain(), that.getDomain());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getDomain());
+    }
 }
