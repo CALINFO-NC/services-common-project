@@ -48,7 +48,7 @@ public class MiscUtils {
     private static ResponseEntity<String> getResponse(RestTemplate restTemplate, URI uri, HttpMethod httpMethod, HttpEntity<?> entity){
 
         try {
-            return restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+            return restTemplate.exchange(uri, httpMethod, entity, String.class);
         }
         catch(HttpClientErrorException e){
             return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
@@ -60,7 +60,7 @@ public class MiscUtils {
 
     public static <T> T callRestApiService(RestTemplate restTemplate, URI uri, HttpMethod httpMethod, HttpEntity<?> entity, Class<T> clazz, ErrorMessageFieldConvertor convertor) {
 
-        ResponseEntity<String> response = getResponse(restTemplate, uri, HttpMethod.GET, entity);
+        ResponseEntity<String> response = getResponse(restTemplate, uri, httpMethod, entity);
         ObjectMapper objectMapper = MiscUtils.getObjectMapper();
 
         if (response.getStatusCode() == HttpStatus.OK){
