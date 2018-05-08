@@ -34,6 +34,8 @@ public class DefaultDatasourceConfiguration {
     @Autowired
     private TenantProperties tenantProperties;
 
+    // Bug IntelliJ qui ne support pas l'injection de la source de donnée
+    // https://intellij-support.jetbrains.com/hc/en-us/community/posts/207338055-Autowiring-for-Bean-Class-inspection-in-Spring-Boot-project
     @Primary
     @Bean(name = "dataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
