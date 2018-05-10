@@ -31,7 +31,7 @@ import java.util.List;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AllTenantTest {
 
-    
+
     @Autowired
     private TenantProperties tenantProperties;
 
