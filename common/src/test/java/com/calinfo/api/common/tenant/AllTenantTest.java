@@ -69,7 +69,7 @@ public class AllTenantTest {
     }
 
     @Test
-    public void test(){
+    public void call(){
 
         // Créer une donnée dans le domain 1
         principal.setDomain(domain1);
@@ -107,5 +107,9 @@ public class AllTenantTest {
         val = tableGenericService.read(id + 1);
         Assert.assertNull(val);
 
+        // Vérifier que la donnée est tojours présente même si je change de domaine
+        principal.setDomain(domain1);
+        val = tableGenericService.read(id);
+        Assert.assertEquals(val, "gen1");
     }
 }
