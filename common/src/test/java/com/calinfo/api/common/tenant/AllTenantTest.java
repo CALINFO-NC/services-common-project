@@ -86,6 +86,7 @@ public class AllTenantTest {
         principal.setDomain(domain1);
         lstVal1 = tableDomainService.read("val1");
         Assert.assertFalse(lstVal1.isEmpty());
+        Assert.assertEquals(Long.valueOf(idVal1), lstVal1.get(0));
 
         // Cérifier que val 2 n'est pas dans domain 1 mais est bien dans domain 2
         principal.setDomain(domain1);
@@ -94,6 +95,7 @@ public class AllTenantTest {
         principal.setDomain(domain2);
         lstVal2 = tableDomainService.read("val2");
         Assert.assertFalse(lstVal2.isEmpty());
+        Assert.assertEquals(Long.valueOf(idVal2), lstVal2.get(0));
 
         // Créer une donnée dans la table générique
         Long id = tableGenericService.create("gen1");
@@ -101,7 +103,7 @@ public class AllTenantTest {
 
         // Lire la donnée dans la table générique
         String val = tableGenericService.read(id);
-        Assert.assertEquals(val, "gen1");
+        Assert.assertEquals("gen1", val);
 
         // Lire une données inexistante
         val = tableGenericService.read(id + 1);
@@ -110,6 +112,6 @@ public class AllTenantTest {
         // Vérifier que la donnée est tojours présente même si je change de domaine
         principal.setDomain(domain1);
         val = tableGenericService.read(id);
-        Assert.assertEquals(val, "gen1");
+        Assert.assertEquals("gen1", val);
     }
 }

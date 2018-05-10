@@ -20,7 +20,7 @@ public class DatabaseUtils {
         // Création de la connection
         try (Connection con = dataSource.getConnection(); Statement statement = con.createStatement()) {
 
-            int count = statement.executeUpdate(String.format("CREATE SCHEMA %s", schemaName));
+            statement.executeUpdate(String.format("CREATE SCHEMA %s", schemaName));
 
 
         } catch (SQLException e) {

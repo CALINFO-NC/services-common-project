@@ -24,6 +24,6 @@ public class DateUtilsNowTest {
         now = DateUtils.now();
         System.clearProperty(DateUtils.SYSTEM_PROPERTIE_DATE_SYSTEM);
         ZonedDateTime dateToTest = ZonedDateTime.parse(strDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
-        Assert.assertEquals(now, dateToTest);
+        Assert.assertEquals(dateToTest, now);
     }
 }
