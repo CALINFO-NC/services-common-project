@@ -1,5 +1,6 @@
 package com.calinfo.api.common.resource;
 
+import com.calinfo.api.common.dto.Dto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class Resource {
+public class Resource implements Dto {
 
     private List<String> listInfoMessages = new ArrayList<>();
 

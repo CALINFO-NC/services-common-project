@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class AttributDto {
+public class AttributDto implements Dto {
 
 
     private String name;
