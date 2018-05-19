@@ -1,7 +1,6 @@
 package com.calinfo.api.common.mocks;
 
 import com.calinfo.api.common.FieldErrorStructure;
-import com.calinfo.api.common.MessageCode;
 import com.calinfo.api.common.MessageCodeValue;
 import com.calinfo.api.common.MessageStructure;
 import com.calinfo.api.common.ServiceErrorStructure;

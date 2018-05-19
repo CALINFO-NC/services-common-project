@@ -1,4 +1,6 @@
-package com.calinfo.api.common;
+package com.calinfo.api.common.mocks;
+
+import com.calinfo.api.common.MessageCodeValue;
 
 /**
  * Created by dalexis on 22/11/2017.

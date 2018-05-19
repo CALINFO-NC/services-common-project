@@ -16,5 +16,8 @@ public class DynamicListDto<R extends Resource> implements Dto {
 
     private List<R> data = new ArrayList<>();
 
+    /**
+     * Correspond soit au nombre d'élément, soit au nombre de page disponnible
+     */
     private long count;
 }
