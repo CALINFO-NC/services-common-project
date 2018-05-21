@@ -10,7 +10,7 @@ import java.util.Map;
  * Classe permettant de gérer des converter.
  * Prennez soins d'ajouter {@link org.springframework.stereotype.Component} sur la classe fille
  */
-public abstract class AbsttractConvertManager {
+public abstract class AbstractConvertManager {
 
     //Structure de la map : Map<Source, Map<Dest, Converter>>
     private Map<Class<?>, Map<Class<?>, Converter>> cache = new HashMap<>();

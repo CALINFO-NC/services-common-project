@@ -1,6 +1,8 @@
 package com.calinfo.api.common.spring;
 
 import com.calinfo.api.common.dto.ChargementInfoDto;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -9,6 +11,13 @@ import org.springframework.data.domain.Sort;
  * Classe permettant de traiter un {@link ChargementInfoDto} comme un objet Pageable de spring
  */
 public class ChargementInfoPageRequest implements Pageable {
+
+    /**
+     * Limit max à utiliser dans les chargements
+     */
+    @Getter
+    @Setter
+    private static int maxLimit = 100;
 
     /**
      * Nombre total d'éléments à charger
@@ -47,8 +56,14 @@ public class ChargementInfoPageRequest implements Pageable {
      * @param offset Début de chargement
      * @param limit  Nombre d'éléments à charger
      */
-    private ChargementInfoPageRequest(int offset, int limit) {
-        this.limit = limit;
+    private ChargementInfoPageRequest(int offset, Integer limit) {
+
+        if (limit == null || limit.intValue() > getMaxLimit()){
+            this.limit = getMaxLimit();
+        }
+        else {
+            this.limit = limit;
+        }
         this.offset = offset;
     }
 

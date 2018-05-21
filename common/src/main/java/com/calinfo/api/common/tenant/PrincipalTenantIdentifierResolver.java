@@ -1,6 +1,6 @@
 package com.calinfo.api.common.tenant;
 
-import com.calinfo.api.common.manager.PrincipalManager;
+import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;

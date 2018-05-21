@@ -2,6 +2,7 @@ package com.calinfo.api.common.manager;
 
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
+import com.calinfo.api.common.security.PrincipalManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.calinfo.api.common.manager;
+package com.calinfo.api.common.security;
 
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import org.springframework.security.core.Authentication;
