@@ -44,4 +44,77 @@ public class AbstractConvertManagerTest {
         Assert.assertEquals(src, cm.getClassConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getClassConverter().getDestConvert());
     }
+
+    @Test
+    public void callConvertSameObject(){
+
+        MockConvertManager cm = new MockConvertManager();
+        cm.postConstruct();
+
+        MockClassConverter data = new MockClassConverter();
+        MockClassConverter dataResult = cm.convert(data, data);
+
+        Assert.assertTrue(data == dataResult);
+    }
+
+    @Test
+    public void callConvertButNoConverterFound(){
+
+        MockConvertManager cm = new MockConvertManager();
+        cm.postConstruct();
+
+        String src = "123";
+        Integer dest = Integer.valueOf(123);
+
+        // Cas d'une convertion par intance
+        Assert.assertTrue(dest == cm.convert(src, dest));
+
+        try {
+            // Cas d'une convertion par typage
+            cm.convert(src, Integer.class);
+            Assert.fail();
+        }
+        catch(ConverterNotFoundException e){
+            // OK : C'est normal d'avoir cet exception
+        }
+
+    }
+
+    @Test
+    public void callConvertButNoClassConverterFound(){
+
+        MockConvertManager cm = new MockConvertManager();
+        cm.setClassConverter(new MockClassConverter());
+        cm.postConstruct();
+
+        String src = "123";
+        Integer dest = Integer.valueOf(123);
+
+        try {
+            // Pas de converteur de type instance trouvé
+            cm.convert(src, dest);
+            Assert.fail();
+        }
+        catch(ConverterNotFoundException e){
+            // OK : C'est normal d'avoir cet exception
+        }
+
+
+        cm = new MockConvertManager();
+        cm.setInstanceConverter(new MockInstanceConverter());
+        cm.postConstruct();
+
+        src = "123";
+        Class<MockClassConverter> destMockClass = MockClassConverter.class;
+
+        // Pas de converteur de type Instance trouvé
+        cm.convert(src, destMockClass);
+
+        Assert.assertEquals(src, cm.getInstanceConverter().getSourceConvert());
+        Assert.assertEquals(destMockClass, cm.getInstanceConverter().getDestConvert().getClass());
+
+
+
+
+    }
 }
