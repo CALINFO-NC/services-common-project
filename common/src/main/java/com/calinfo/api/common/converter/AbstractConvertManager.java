@@ -52,7 +52,7 @@ public abstract class AbstractConvertManager {
 
     public <T> T convert (@NotNull Object source, @NotNull Class<T> dest){
 
-        Converter converter = findConverter(source.getClass(), source.getClass(), dest.getClass());
+        Converter converter = findConverter(source.getClass(), source.getClass(), dest);
 
         if (converter == null) {
             throw new ConverterNotFoundException(String.format("No converter to convert '%s' to '%s'", source.getClass().getName(), dest.getName()));

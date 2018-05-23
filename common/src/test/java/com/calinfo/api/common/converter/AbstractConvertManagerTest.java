@@ -40,7 +40,7 @@ public class AbstractConvertManagerTest {
         cm.convert(src, dest);
 
         Assert.assertEquals(src.getClass(), cm.getClassConverter().getSourceClass());
-        Assert.assertEquals(dest.getClass(), cm.getClassConverter().getDestClass());
+        Assert.assertEquals(dest, cm.getClassConverter().getDestClass());
         Assert.assertEquals(src, cm.getClassConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getClassConverter().getDestConvert());
     }
