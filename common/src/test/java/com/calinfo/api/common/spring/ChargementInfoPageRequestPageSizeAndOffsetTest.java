@@ -24,6 +24,5 @@ public class ChargementInfoPageRequestPageSizeAndOffsetTest {
         cipr = new ChargementInfoPageRequest(ci);
 
         Assert.assertEquals(ChargementInfoPageRequest.getMaxLimit(), cipr.getPageSize());
-        Assert.assertNull(cipr.getSort());
     }
 }

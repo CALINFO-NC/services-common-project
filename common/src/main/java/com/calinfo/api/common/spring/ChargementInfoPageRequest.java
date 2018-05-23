@@ -112,7 +112,7 @@ public class ChargementInfoPageRequest implements Pageable {
 
     @Override
     public boolean hasPrevious() {
-        return this.offset > this.limit;
+        return this.offset >= this.limit;
     }
 
     @Override

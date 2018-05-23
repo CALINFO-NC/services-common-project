@@ -113,8 +113,5 @@ public class AbstractConvertManagerTest {
         Assert.assertEquals(src, cm.getInstanceConverter().getSourceConvert());
         Assert.assertEquals(destMockClass, cm.getInstanceConverter().getDestConvert().getClass());
 
-
-
-
     }
 }
