@@ -12,9 +12,7 @@ import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dalexis on 23/11/2017.
@@ -53,22 +51,17 @@ public class SecurityUtilsTest {
         JwtUser result = SecurityUtils.getUserFromJwt(token, publicKeyValue);
 
         Assert.assertEquals(result.getLogin(), login);
-        Assert.assertTrue(result.getRolesApp().isEmpty());
+        Assert.assertTrue(result.getRoles().isEmpty());
 
-
-        Map<String, List<String>> rolesApp = new HashMap<>();
-        List<String> rolesApp1 = new ArrayList<>();
-        rolesApp.put("app1", rolesApp1);
-        rolesApp1.add("app1Role1");
-        rolesApp1.add("app1Role2");
-        List<String> rolesApp2 = new ArrayList<>();
-        rolesApp.put("app2", rolesApp2);
-        rolesApp2.add("app2Role1");
-        rolesApp2.add("app2Role2");
+        List<String> rolesApp = new ArrayList<>();
+        rolesApp.add("app1Role1");
+        rolesApp.add("app1Role2");
+        rolesApp.add("app2Role1");
+        rolesApp.add("app2Role2");
 
         user = new JwtUser();
         user.setLogin(login);
-        user.setRolesApp(rolesApp);
+        user.setRoles(rolesApp);
         token = SecurityUtils.getJwtFromUser(privateKeyValue, 1000l * 60l, user);
 
         claims = Jwts.parser()
@@ -85,19 +78,11 @@ public class SecurityUtilsTest {
 
         Assert.assertEquals(result.getLogin(), login);
 
-        Assert.assertEquals(2, result.getRolesApp().size());
-        Assert.assertTrue(result.getRolesApp().containsKey("app1"));
-        Assert.assertTrue(result.getRolesApp().containsKey("app2"));
-
-        List<String> resultRoleApp = result.getRolesApp().get("app1");
-        Assert.assertEquals(2, resultRoleApp.size());
-        Assert.assertTrue(resultRoleApp.contains("app1Role1"));
-        Assert.assertTrue(resultRoleApp.contains("app1Role2"));
-
-        resultRoleApp = result.getRolesApp().get("app2");
-        Assert.assertEquals(2, resultRoleApp.size());
-        Assert.assertTrue(resultRoleApp.contains("app2Role1"));
-        Assert.assertTrue(resultRoleApp.contains("app2Role2"));
+        Assert.assertEquals(4, result.getRoles().size());
+        Assert.assertTrue(result.getRoles().contains("app1Role1"));
+        Assert.assertTrue(result.getRoles().contains("app1Role2"));
+        Assert.assertTrue(result.getRoles().contains("app2Role1"));
+        Assert.assertTrue(result.getRoles().contains("app2Role2"));
 
     }
 

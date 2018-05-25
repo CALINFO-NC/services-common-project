@@ -22,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,21 +66,15 @@ public class CommonSecurityUrlFilterEnableTest {
 
         // Vérifier que l'authentification se passe bien
         String login = "toto@gmail.com";
-        List<String> roles = new ArrayList<>();
-        roles.add("role1");
-        roles.add("role2");
 
         JwtUser user = new JwtUser();
         user.setLogin(login);
         user.setDomain(applicationProperties.getId());
-        user.getRolesApp().put(applicationProperties.getId(), roles);
-        List<String> otherRoles = new ArrayList<>();
-        otherRoles.add("app1Role1");
-        otherRoles.add("app1Role2");
-        user.getRolesApp().put(applicationProperties.getId() + "TOTO", otherRoles);
+        List<String> otherRoles = user.getRoles();
+        otherRoles.add("role1");
+        otherRoles.add("role2");
 
         String token = SecurityUtils.getJwtFromUser(PRIVATE_KEY_VALUE, 60l * 1000l, user);
-
 
         headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
@@ -90,11 +83,9 @@ public class CommonSecurityUrlFilterEnableTest {
         JsonizablePrincipal principal = MiscUtils.callRestApiService(restTemplate, uri, HttpMethod.GET, entity, JsonizablePrincipal.class);
 
         Assert.assertEquals(principal.getUsername(), login);
-        Assert.assertEquals(principal.getRoles().size(), roles.size());
-
-        for (String role : principal.getRoles()){
-            Assert.assertTrue(roles.contains(role));
-        }
+        Assert.assertEquals(2, principal.getRoles().size());
+        Assert.assertTrue(principal.getRoles().contains("role1"));
+        Assert.assertTrue(principal.getRoles().contains("role2"));
     }
 
     @Test

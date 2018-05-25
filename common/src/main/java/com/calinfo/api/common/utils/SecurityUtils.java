@@ -55,8 +55,8 @@ public class SecurityUtils {
         Map<String, Object> mapClaims = new HashMap<>();
         mapClaims.put("login", user.getLogin());
         mapClaims.put("domain", user.getDomain());
-        if (!user.getRolesApp().isEmpty()) {
-            mapClaims.put("rolesApp", user.getRolesApp());
+        if (!user.getRoles().isEmpty()) {
+            mapClaims.put("rolesApp", user.getRoles());
         }
 
 
@@ -103,10 +103,10 @@ public class SecurityUtils {
         tokenUser.setLogin(claims.get("login", String.class));
         tokenUser.setDomain(claims.get("domain", String.class));
 
-        Map<String, List<String>> rolesApp = (Map<String, List<String>>) claims.get("rolesApp", Map.class);
+        List<String> rolesApp = (List<String>) claims.get("rolesApp", List.class);
 
         if (rolesApp != null){
-            tokenUser.setRolesApp(rolesApp);
+            tokenUser.setRoles(rolesApp);
         }
 
         return tokenUser;

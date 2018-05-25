@@ -3,9 +3,8 @@ package com.calinfo.api.common.security;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Token décrypté
@@ -16,7 +15,7 @@ public class JwtUser {
 
     private String login;
 
-    private Map<String, List<String>> rolesApp = new HashMap<>();
+    private List<String> roles = new ArrayList<>();
 
     private String domain;
 }

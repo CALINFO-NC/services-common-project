@@ -154,7 +154,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             throw new ApplicationErrorException(e);
         }
 
-        List<String> lstRoles = user.getRolesApp().get(applicationProperties.getId());
+        List<String> lstRoles = user.getRoles();
         if (lstRoles == null){
             lstRoles = new ArrayList<>();
         }
