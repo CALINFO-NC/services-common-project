@@ -30,13 +30,13 @@ public class TenantDatasourceConfiguration {
     @Autowired
     private TenantProperties tenantProperties;
 
-    public static String getSchemaName(TenantProperties tenantProperties, String domainName){
+    public static String getSchemaName(String prefix, String domainName){
 
         if (domainName == null){
             throw new NullPointerException("domainName is null");
         }
 
-        return String.format("%s%s", tenantProperties.getPrefix(), domainName);
+        return String.format("%s%s", prefix, domainName);
     }
 
     @Bean(name = TENANT_DATASOURCE)

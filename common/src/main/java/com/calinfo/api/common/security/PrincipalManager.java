@@ -1,6 +1,5 @@
 package com.calinfo.api.common.security;
 
-import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -20,4 +19,6 @@ public class PrincipalManager {
 
         return (AbstractCommonPrincipal) authentication.getPrincipal();
     }
+
+
 }

@@ -27,4 +27,17 @@ public class DatabaseUtils {
             throw new ApplicationErrorException(e);
         }
     }
+
+    public static void deleteSchema(DataSource dataSource, String schemaName){
+
+        // Création de la connection
+        try (Connection con = dataSource.getConnection(); Statement statement = con.createStatement()) {
+
+            statement.executeUpdate(String.format("DROP SCHEMA %s", schemaName));
+
+
+        } catch (SQLException e) {
+            throw new ApplicationErrorException(e);
+        }
+    }
 }
