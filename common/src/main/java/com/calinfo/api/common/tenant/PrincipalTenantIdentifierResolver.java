@@ -52,7 +52,7 @@ public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifie
         String domainName = getDomainName();
 
         if (domainName != null){
-            return String.format("%s%s", tenantProperties.getPrefix(), domainName);
+            return TenantDatasourceConfiguration.getSchemaName(tenantProperties, domainName);
         }
 
         return tenantProperties.getDefaultValue();
