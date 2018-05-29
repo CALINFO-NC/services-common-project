@@ -8,6 +8,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class TenantName {
+public class RequestDomainName {
     private String value = null;
 }

@@ -11,12 +11,12 @@ import org.springframework.web.context.WebApplicationContext;
 @Configuration
 public class TenantNameConfiguration {
 
-    @Bean(name = "tenantName")
+    @Bean(name = "requestDomainName")
     @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public TenantName tenantName() {
+    public RequestDomainName domainName() {
 
-        TenantName tenantName = new TenantName();
+        RequestDomainName requestDomainName = new RequestDomainName();
 
-        return tenantName;
+        return requestDomainName;
     }
 }

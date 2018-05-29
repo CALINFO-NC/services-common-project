@@ -19,7 +19,7 @@ public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifie
     private static final Logger log = LoggerFactory.getLogger(PrincipalTenantIdentifierResolver.class);
 
     @Autowired
-    private TenantName tenantName;
+    private RequestDomainName requestDomainName;
 
     @Autowired
     private TenantProperties tenantProperties;
@@ -27,13 +27,11 @@ public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifie
     @Autowired
     private PrincipalManager principalManager;
 
-
-    @Override
-    public String resolveCurrentTenantIdentifier() {
+    private String getDomainName(){
 
         try {
-            if (tenantName != null && tenantName.getValue() != null) {
-                return tenantName.getValue();
+            if (requestDomainName != null && requestDomainName.getValue() != null) {
+                return requestDomainName.getValue();
             }
         }
         catch (BeanCreationException e){
@@ -41,13 +39,20 @@ public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifie
         }
 
         AbstractCommonPrincipal principal = principalManager.getPrincipal();
-        String tenantId = null;
-        if (principal != null && principal.getDomain() != null){
-            tenantId = String.format("%s%s", tenantProperties.getPrefix(), principal.getDomain());
+        if (principal != null && principal.getDomain() != null) {
+            return principal.getDomain();
         }
 
-        if (tenantId != null) {
-            return tenantId;
+        return null;
+    }
+
+    @Override
+    public String resolveCurrentTenantIdentifier() {
+
+        String domainName = getDomainName();
+
+        if (domainName != null){
+            return String.format("%s%s", tenantProperties.getPrefix(), domainName);
         }
 
         return tenantProperties.getDefaultValue();

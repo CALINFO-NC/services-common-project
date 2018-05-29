@@ -59,8 +59,8 @@ public class AllTenantWithFilterTest {
     @Autowired
     private WebApplicationContext context;
 
-    private String schema1 = null;
-    private String schema2 = null;
+    private String domain1 = "dom1";
+    private String domain2 = "dom2";
 
     private MockMvc mockMvc;
 
@@ -72,11 +72,8 @@ public class AllTenantWithFilterTest {
     @Before
     public void init(){
 
-        String domain1 = "dom1";
-        String domain2 = "dom2";
-
-        schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
-        schema2 = String.format("%s%s", tenantProperties.getPrefix(), domain2);
+        String schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
+        String schema2 = String.format("%s%s", tenantProperties.getPrefix(), domain2);
 
         LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
 
@@ -114,32 +111,32 @@ public class AllTenantWithFilterTest {
         JavaType type = objectMapper.getTypeFactory().constructParametricType(List.class, Long.class);
 
         // Créer une donnée dans le domain 1
-        String response = callUrl("/mock/tenant/domain/val1", HttpMethod.POST, schema1);
+        String response = callUrl("/mock/tenant/domain/val1", HttpMethod.POST, domain1);
         Long idVal1 = objectMapper.readValue(response, Long.class);
 
         // Créer une donnée dans le domain 2
-        response = callUrl("/mock/tenant/domain/val2", HttpMethod.POST, schema2);
+        response = callUrl("/mock/tenant/domain/val2", HttpMethod.POST, domain2);
         Long idVal2 = objectMapper.readValue(response, Long.class);
 
         // Vérifier que val 1 n'est pas dans domain 2 mais est bien dans domain 1
-        response = callUrl("/mock/tenant/domain/val1", HttpMethod.GET, schema2);
+        response = callUrl("/mock/tenant/domain/val1", HttpMethod.GET, domain2);
         List<Long> lstVal1 = objectMapper.readValue(response, type);
 
         Assert.assertTrue(lstVal1.isEmpty());
 
-        response = callUrl("/mock/tenant/domain/val1", HttpMethod.GET, schema1);
+        response = callUrl("/mock/tenant/domain/val1", HttpMethod.GET, domain1);
         lstVal1 = objectMapper.readValue(response, type);
 
         Assert.assertFalse(lstVal1.isEmpty());
         Assert.assertEquals(Long.valueOf(idVal1), lstVal1.get(0));
 
         // Cérifier que val 2 n'est pas dans domain 1 mais est bien dans domain 2
-        response = callUrl("/mock/tenant/domain/val2", HttpMethod.GET, schema1);
+        response = callUrl("/mock/tenant/domain/val2", HttpMethod.GET, domain1);
         List<Long> lstVal2 = objectMapper.readValue(response, type);
 
         Assert.assertTrue(lstVal2.isEmpty());
 
-        response = callUrl("/mock/tenant/domain/val2", HttpMethod.GET, schema2);
+        response = callUrl("/mock/tenant/domain/val2", HttpMethod.GET, domain2);
         lstVal2 = objectMapper.readValue(response, type);
 
         Assert.assertFalse(lstVal2.isEmpty());
@@ -160,7 +157,7 @@ public class AllTenantWithFilterTest {
         Assert.assertNull(val);
 
         // Vérifier que la donnée est tojours présente même si je change de domaine
-        response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, schema1);
+        response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, domain1);
         val = objectMapper.readValue(response, String.class);
         Assert.assertEquals("gen1", val);
     }

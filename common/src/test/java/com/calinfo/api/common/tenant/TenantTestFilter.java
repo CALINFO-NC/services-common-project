@@ -19,7 +19,7 @@ import java.io.IOException;
 public class TenantTestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private TenantName tenantName;
+    private RequestDomainName tenantName;
 
     public TenantTestFilter(){
         int t = 0;
