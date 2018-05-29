@@ -1,0 +1,22 @@
+package com.calinfo.api.common.tenant;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.web.context.WebApplicationContext;
+
+@ConditionalOnProperty("common.configuration.tenant.enable")
+@Configuration
+public class TenantNameConfiguration {
+
+    @Bean(name = "tenantName")
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    public TenantName tenantName() {
+
+        TenantName tenantName = new TenantName();
+
+        return tenantName;
+    }
+}

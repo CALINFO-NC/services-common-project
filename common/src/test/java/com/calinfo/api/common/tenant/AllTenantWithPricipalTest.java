@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
 @SpringBootTest
 @ActiveProfiles("tenant")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AllTenantTest {
+public class AllTenantWithPricipalTest {
 
 
     @Autowired
@@ -45,31 +46,37 @@ public class AllTenantTest {
     @Autowired
     private TableGenericService tableGenericService;
 
+    @Autowired
+    private WebApplicationContext context;
+
     private TenantTestPrincipal principal = null;
 
     private String domain1 = "dom1";
     private String domain2 = "dom2";
 
+
     @Before
     public void init(){
+
+
+        String schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
+        String schema2 = String.format("%s%s", tenantProperties.getPrefix(), domain2);
+
         principal = new TenantTestPrincipal();
         Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-
         LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
 
-        String schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
         DatabaseUtils.createSchema(dataSource, schema1);
         LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema1);
 
-        String schema2 = String.format("%s%s", tenantProperties.getPrefix(), domain2);
         DatabaseUtils.createSchema(dataSource, schema2);
         LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema2);
     }
 
     @Test
-    public void call(){
+    public void callWithPrincipal(){
 
         // Créer une donnée dans le domain 1
         principal.setDomain(domain1);
@@ -79,7 +86,7 @@ public class AllTenantTest {
         principal.setDomain(domain2);
         long idVal2 = tableDomainService.create("val2");
 
-        // Cérifier que val 1 n'est pas dans domain 2 mais est bien dans domain 1
+        // Vérifier que val 1 n'est pas dans domain 2 mais est bien dans domain 1
         principal.setDomain(domain2);
         List<Long> lstVal1 = tableDomainService.read("val1");
         Assert.assertTrue(lstVal1.isEmpty());
@@ -114,4 +121,5 @@ public class AllTenantTest {
         val = tableGenericService.read(id);
         Assert.assertEquals("gen1", val);
     }
+
 }
