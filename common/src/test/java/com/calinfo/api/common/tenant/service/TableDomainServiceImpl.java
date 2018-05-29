@@ -1,7 +1,7 @@
 package com.calinfo.api.common.tenant.service;
 
 import com.calinfo.api.common.tenant.entity.domain.TableDomainEntity;
-import com.calinfo.api.common.tenant.repository.domain.TableDomainRepository;
+import com.calinfo.api.common.tenant.repository.domain.TableDomainRepositoryDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class TableDomainServiceImpl implements TableDomainService{
 
     @Autowired
-    private TableDomainRepository tableDomainRepository;
+    private TableDomainRepositoryDomain tableDomainRepository;
 
     public long create(String val){
 

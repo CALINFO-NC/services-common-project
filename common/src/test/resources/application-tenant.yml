@@ -5,13 +5,9 @@ common:
       name: "common"
       version: "TEST"
     tenant:
-      enable: true
-      tenantScan:
-        entity: "com.calinfo.api.common.tenant.entity.domain"
-        repository: "com.calinfo.api.common.tenant.repository.domain"
-      defaultScan:
-        entity: "com.calinfo.api.common.tenant.entity.generic"
-        repository: "com.calinfo.api.common.tenant.repository.generic"
+      enabled: true
+      domainScanEntities: "com.calinfo.api.common.tenant.entity.domain"
+      genericScanEntities: "com.calinfo.api.common.tenant.entity.generic"
       datasource:
           url: jdbc:h2:mem:sido;MODE=PostgreSQL
       jpa:

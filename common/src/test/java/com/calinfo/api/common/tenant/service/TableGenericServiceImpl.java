@@ -1,7 +1,7 @@
 package com.calinfo.api.common.tenant.service;
 
 import com.calinfo.api.common.tenant.entity.generic.TableGenericEntity;
-import com.calinfo.api.common.tenant.repository.generic.TableGenericRepository;
+import com.calinfo.api.common.tenant.repository.generic.TableGenericRepositoryGeneric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 public class TableGenericServiceImpl implements TableGenericService{
 
     @Autowired
-    private TableGenericRepository tableGenericRepository;
+    private TableGenericRepositoryGeneric tableGenericRepository;
 
     public long create(String val){
 

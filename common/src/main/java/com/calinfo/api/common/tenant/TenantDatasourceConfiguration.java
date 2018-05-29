@@ -6,36 +6,25 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-@ConditionalOnProperty("common.configuration.tenant.enable")
-@Configuration
-@EnableTransactionManagement
-@EnableJpaRepositories(
-        entityManagerFactoryRef = "tenantEntityManagerFactory",
-        transactionManagerRef = "tenantTransactionManager",
-        basePackages = "${common.configuration.tenant.tenantScan.repository}"
-)
+
 public class TenantDatasourceConfiguration {
+
+    public static final String ENTITY_MANAGER_FACTORY_REF = "tenantEntityManagerFactory";
+    public static final String TRANSACTION_MANAGER_REF = "tenantTransactionManager";
 
     @Autowired
     private TenantProperties tenantProperties;
@@ -47,12 +36,12 @@ public class TenantDatasourceConfiguration {
     }
 
 
-    @Bean(name = "tenantTransactionManager")
-    public PlatformTransactionManager tenantTransactionManager(@Qualifier("tenantEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+    @Bean(name = TRANSACTION_MANAGER_REF)
+    public PlatformTransactionManager tenantTransactionManager(@Qualifier(ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
-    @Bean(name = "tenantEntityManagerFactory")
+    @Bean(name = ENTITY_MANAGER_FACTORY_REF)
     public LocalContainerEntityManagerFactoryBean tenantEntityManagerFactory(@SuppressWarnings("SpringJavaAutowiringInspection") @Qualifier("tenantDataSource") DataSource dataSource,
                                                                              MultiTenantConnectionProvider multiTenantConnectionProvider,
                                                                              CurrentTenantIdentifierResolver tenantIdentifierResolver) {
@@ -60,7 +49,7 @@ public class TenantDatasourceConfiguration {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
 
-        em.setPackagesToScan(tenantProperties.getTenantScan().getEntity());
+        em.setPackagesToScan(tenantProperties.getDomainScanEntities());
 
         JpaProperties jpa = tenantProperties.getJpa();
         HibernateJpaVendorAdapter vendor = new HibernateJpaVendorAdapter();

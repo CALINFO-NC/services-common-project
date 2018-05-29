@@ -58,6 +58,8 @@ public class AllTenantWithPrincipalTest {
     @Before
     public void init(){
 
+        System.setProperty("spring.profiles.active", "tenant");
+
 
         String schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
         String schema2 = String.format("%s%s", tenantProperties.getPrefix(), domain2);

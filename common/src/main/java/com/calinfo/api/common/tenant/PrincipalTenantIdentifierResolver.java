@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 
 
-@ConditionalOnProperty("common.configuration.tenant.enable")
+@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifierResolver {
 

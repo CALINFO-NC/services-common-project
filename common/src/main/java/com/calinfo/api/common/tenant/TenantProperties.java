@@ -11,12 +11,15 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Created by dalexis on 06/01/2018.
  */
-@ConditionalOnProperty("common.configuration.tenant.enable")
+@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @ConfigurationProperties(prefix = "common.configuration.tenant")
 @Configuration
 @Getter
 @Setter
 public class TenantProperties {
+
+
+    public static final String CONDITIONNAL_PROPERTY = "common.configuration.tenant.enabled";
 
     /**
      * Activer la gestion de multi schméa (un schma par demaine)
@@ -51,10 +54,10 @@ public class TenantProperties {
     /**
      * Information de scan sur le schéma du domaine
      */
-    private ScanProperties tenantScan = new ScanProperties();
+    private String[] domainScanEntities;
 
     /**
      * Information de scan sur le schéma par défaut
      */
-    private ScanProperties defaultScan = new ScanProperties();
+    private String[] genericScanEntities;
 }

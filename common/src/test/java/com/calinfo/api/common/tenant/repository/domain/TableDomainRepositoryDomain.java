@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 
-public interface TableDomainRepository extends JpaRepository<TableDomainEntity, Long> {
+public interface TableDomainRepositoryDomain extends JpaRepository<TableDomainEntity, Long>{
 
     List<TableDomainEntity> findAllByPropDomain(String propDomain);
 }

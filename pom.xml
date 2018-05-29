@@ -12,6 +12,7 @@
 
     <modules>
         <module>common-libs</module>
+        <!--<module>common-processor</module>-->
         <module>common-api</module>
         <module>common</module>
     </modules>

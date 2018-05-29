@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@ConditionalOnProperty("common.configuration.tenant.enable")
+@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionProvider {
 

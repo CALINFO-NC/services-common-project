@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.context.WebApplicationContext;
 
-@ConditionalOnProperty("common.configuration.tenant.enable")
+@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Configuration
 public class TenantNameConfiguration {
 

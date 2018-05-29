@@ -15,16 +15,11 @@ import java.io.IOException;
  * Created by dalexis on 29/05/2018.
  */
 @Component
-@ConditionalOnProperty("common.configuration.tenant.enable")
+@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 public class TenantTestFilter extends OncePerRequestFilter {
 
     @Autowired
     private RequestDomainName tenantName;
-
-    public TenantTestFilter(){
-        int t = 0;
-        t++;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {

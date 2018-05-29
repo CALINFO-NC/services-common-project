@@ -24,7 +24,7 @@ import java.sql.Statement;
 /**
  * Created by dalexis on 05/01/2018.
  */
-@ConditionalOnProperty("common.configuration.tenant.enable")
+@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TenantApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
