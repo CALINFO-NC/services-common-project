@@ -1,6 +1,7 @@
 package com.calinfo.api.common.tenant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
  * Created by dalexis on 29/05/2018.
  */
 @Component
+@ConditionalOnProperty("common.configuration.tenant.enable")
 public class TenantTestFilter extends OncePerRequestFilter {
 
     @Autowired
