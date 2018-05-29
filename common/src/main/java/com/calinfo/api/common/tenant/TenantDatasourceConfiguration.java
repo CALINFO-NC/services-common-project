@@ -25,11 +25,12 @@ public class TenantDatasourceConfiguration {
 
     public static final String ENTITY_MANAGER_FACTORY_REF = "tenantEntityManagerFactory";
     public static final String TRANSACTION_MANAGER_REF = "tenantTransactionManager";
+    public static final String TENANT_DATASOURCE = "tenantDataSource";
 
     @Autowired
     private TenantProperties tenantProperties;
 
-    @Bean(name = "tenantDataSource")
+    @Bean(name = TENANT_DATASOURCE)
     @ConfigurationProperties(prefix = "common.configuration.tenant.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
@@ -42,7 +43,7 @@ public class TenantDatasourceConfiguration {
     }
 
     @Bean(name = ENTITY_MANAGER_FACTORY_REF)
-    public LocalContainerEntityManagerFactoryBean tenantEntityManagerFactory(@SuppressWarnings("SpringJavaAutowiringInspection") @Qualifier("tenantDataSource") DataSource dataSource,
+    public LocalContainerEntityManagerFactoryBean tenantEntityManagerFactory(@SuppressWarnings("SpringJavaAutowiringInspection") @Qualifier(TENANT_DATASOURCE) DataSource dataSource,
                                                                              MultiTenantConnectionProvider multiTenantConnectionProvider,
                                                                              CurrentTenantIdentifierResolver tenantIdentifierResolver) {
 

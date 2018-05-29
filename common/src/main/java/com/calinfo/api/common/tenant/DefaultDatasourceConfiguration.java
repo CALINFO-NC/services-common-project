@@ -18,6 +18,7 @@ public class DefaultDatasourceConfiguration {
 
     public static final String ENTITY_MANAGER_FACTORY_REF = "entityManagerFactory";
     public static final String TRANSACTION_MANAGER_REF = "transactionManager";
+    public static final String TENANT_DATASOURCE = "dataSource";
 
     @Autowired
     private TenantProperties tenantProperties;
@@ -25,7 +26,7 @@ public class DefaultDatasourceConfiguration {
     // Bug IntelliJ qui ne support pas l'injection de la source de donnée
     // https://intellij-support.jetbrains.com/hc/en-us/community/posts/207338055-Autowiring-for-Bean-Class-inspection-in-Spring-Boot-project
     @Primary
-    @Bean(name = "dataSource")
+    @Bean(name = TENANT_DATASOURCE)
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
@@ -39,7 +40,7 @@ public class DefaultDatasourceConfiguration {
 
     @Primary
     @Bean(name = ENTITY_MANAGER_FACTORY_REF)
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("dataSource") DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier(TENANT_DATASOURCE) DataSource dataSource) {
 
         return builder
                 .dataSource(dataSource)
