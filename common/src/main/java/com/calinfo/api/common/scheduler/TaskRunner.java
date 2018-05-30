@@ -22,7 +22,7 @@ public class TaskRunner {
 
     public void run (String username, String domainName, String[] roles, Task task) throws Exception {
 
-        List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(r -> new SimpleGrantedAuthority(r)).collect(Collectors.toList());
+        List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
         // Mettre en place l'authentification
         AbstractCommonPrincipal principal = new CommonPrincipal(domainName, username, "", grants);
