@@ -35,7 +35,14 @@ public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifie
             }
         }
         catch (BeanCreationException e){
-            log.warn(e.getMessage(), e);
+
+            if (log.isDebugEnabled()){
+                log.debug(e.getMessage(), e);
+            }
+            else {
+                log.warn(e.getMessage());
+            }
+
         }
 
         AbstractCommonPrincipal principal = principalManager.getPrincipal();
