@@ -20,7 +20,7 @@ public class TaskRunner {
     @Autowired
     private SecurityProperties securityProperties;
 
-    public void run (String username, String domainName, String[] roles, Task task) throws Exception {
+    public void run (String username, String domainName, String[] roles, Task task) throws TaskException {
 
         List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
@@ -36,15 +36,15 @@ public class TaskRunner {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    public void run (String domainName, String[] roles, Task task) throws Exception {
+    public void run (String domainName, String[] roles, Task task) throws TaskException {
         run(securityProperties.getSystemLogin(), domainName, roles, task);
     }
 
-    public void run (String domainName, Task task) throws Exception {
+    public void run (String domainName, Task task) throws TaskException {
         run(securityProperties.getSystemLogin(), domainName, new String[]{}, task);
     }
 
-    public void run (Task task) throws Exception {
+    public void run (Task task) throws TaskException {
         run(securityProperties.getSystemLogin(), null, new String[]{}, task);
     }
 }
