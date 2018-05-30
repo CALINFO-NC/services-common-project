@@ -80,11 +80,12 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             boolean isPrivate = isPrivateUrl(httpServletRequest.getRequestURI());
 
 
+            AbstractCommonPrincipal principal = createAnonymousPrincipal();
             if (isPrivate) {
-                AbstractCommonPrincipal principal = createPrincipal(httpServletRequest);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                principal = createPrincipal(httpServletRequest);
             }
+            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }

@@ -22,6 +22,7 @@ public class DatabaseUtils {
 
             statement.executeUpdate(String.format("CREATE SCHEMA %s", schemaName));
 
+            con.commit();
 
         } catch (SQLException e) {
             throw new ApplicationErrorException(e);
@@ -35,6 +36,7 @@ public class DatabaseUtils {
 
             statement.executeUpdate(String.format("DROP SCHEMA %s", schemaName));
 
+            con.commit();
 
         } catch (SQLException e) {
             throw new ApplicationErrorException(e);

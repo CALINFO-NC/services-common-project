@@ -44,7 +44,7 @@ public class LiquibaseUtils {
 
 
             liquibase.update(new Contexts());
-
+            con.commit();
 
         } catch (SQLException | LiquibaseException e) {
             throw new ApplicationErrorException(e);

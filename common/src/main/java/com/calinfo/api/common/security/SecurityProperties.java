@@ -16,6 +16,8 @@ public class SecurityProperties {
 
     public static final String DEFAULT_ANONYMOUS_USER_LOGIN = "Anonymous";
 
+    public static final String DEFAULT_SYSTEM_USER_LOGIN = "system";
+
     /**
      * Activer la gestion de la sécurité
      */
@@ -35,4 +37,9 @@ public class SecurityProperties {
      * Lorsqu'un utilisateur n'est pas connecté, le pricipal peut renvoyer un login par défaut
      */
     private String anonymousLogin = DEFAULT_ANONYMOUS_USER_LOGIN;
+
+    /**
+     * Lorsqu'une tâche système est lancée, le pricipal peut utiliser un login par défaut
+     */
+    private String systemLogin = DEFAULT_SYSTEM_USER_LOGIN;
 }

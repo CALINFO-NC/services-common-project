@@ -44,7 +44,7 @@ public class SecurityFilterController {
     @GetMapping(value = "/api/nonversion/private/mock/security")
     public HttpEntity<?> mockSecurityPublicUrl(){
 
-        if (SecurityContextHolder.getContext().getAuthentication() != null){
+        if (SecurityContextHolder.getContext().getAuthentication() == null){
             throw new RuntimeException("Il ne devrait pas avoir d'authentification pour ce type d'URL");
         }
         else{
