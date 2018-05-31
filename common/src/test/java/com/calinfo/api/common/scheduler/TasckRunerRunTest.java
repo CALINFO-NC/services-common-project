@@ -25,6 +25,8 @@ public class TasckRunerRunTest {
     @Test
     public void runOk() throws TaskException {
 
+        Authentication oldAuth = SecurityContextHolder.getContext().getAuthentication();
+
         taskRunner.run("login", "domain", new String[]{"role1"}, () -> {
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -37,7 +39,7 @@ public class TasckRunerRunTest {
         });
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Assert.assertNull(auth);
+        Assert.assertTrue(oldAuth == auth);
     }
 
     @Test
