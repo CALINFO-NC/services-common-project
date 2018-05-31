@@ -1,6 +1,7 @@
 package com.calinfo.api.common.scheduler;
 
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
+import com.calinfo.api.common.security.SecurityProperties;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,9 @@ public class TasckRunerRunTest {
     @Autowired
     private TaskRunner taskRunner;
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     @Test
     public void runOk() throws TaskException {
 
@@ -38,8 +42,39 @@ public class TasckRunerRunTest {
             Assert.assertEquals("role1", principal.getAuthorities().iterator().next().getAuthority());
         });
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Assert.assertTrue(oldAuth == auth);
+        taskRunner.run( "domain", new String[]{"role1"}, () -> {
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal();
+
+            Assert.assertEquals(securityProperties.getSystemLogin(), principal.getUsername());
+            Assert.assertEquals("domain", principal.getDomain());
+            Assert.assertTrue(principal.getAuthorities().size() == 1);
+            Assert.assertEquals("role1", principal.getAuthorities().iterator().next().getAuthority());
+        });
+
+        taskRunner.run( "domain", () -> {
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal();
+
+            Assert.assertEquals(securityProperties.getSystemLogin(), principal.getUsername());
+            Assert.assertEquals("domain", principal.getDomain());
+            Assert.assertTrue(principal.getAuthorities().size() == 0);
+        });
+
+        taskRunner.run( () -> {
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal();
+
+            Assert.assertEquals(securityProperties.getSystemLogin(), principal.getUsername());
+            Assert.assertNull(principal.getDomain());
+            Assert.assertTrue(principal.getAuthorities().size() == 0);
+        });
+
+        Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
+        Assert.assertTrue(oldAuth == newAuth);
     }
 
     @Test
