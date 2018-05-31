@@ -1,11 +1,6 @@
 package com.calinfo.api.common.tenant;
 
-import com.calinfo.api.common.security.AbstractCommonPrincipal;
-import com.calinfo.api.common.security.PrincipalManager;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -16,47 +11,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifierResolver {
 
-    private static final Logger log = LoggerFactory.getLogger(PrincipalTenantIdentifierResolver.class);
-
-    @Autowired
-    private RequestDomainName requestDomainName;
-
     @Autowired
     private TenantProperties tenantProperties;
 
     @Autowired
-    private PrincipalManager principalManager;
+    private DomainNameResolver domainNameResolver;
 
-    private String getDomainName(){
-
-        try {
-            if (requestDomainName != null && requestDomainName.getValue() != null) {
-                return requestDomainName.getValue();
-            }
-        }
-        catch (BeanCreationException e){
-
-            if (log.isDebugEnabled()){
-                log.debug(e.getMessage(), e);
-            }
-            else {
-                log.warn(e.getMessage());
-            }
-
-        }
-
-        AbstractCommonPrincipal principal = principalManager.getPrincipal();
-        if (principal != null && principal.getDomain() != null) {
-            return principal.getDomain();
-        }
-
-        return null;
-    }
 
     @Override
     public String resolveCurrentTenantIdentifier() {
 
-        String domainName = getDomainName();
+        String domainName = domainNameResolver.getDomainName();
 
         if (domainName != null){
             return TenantDatasourceConfiguration.getSchemaName(tenantProperties.getPrefix(), domainName);
