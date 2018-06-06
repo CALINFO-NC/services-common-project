@@ -1,6 +1,5 @@
 package com.calinfo.api.common.dto;
 
-import com.calinfo.api.common.resource.Resource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class DynamicListDto<R extends Resource> implements Dto {
+public class DynamicListDto<R extends Dto> implements Dto {
 
     private List<R> data = new ArrayList<>();
 
