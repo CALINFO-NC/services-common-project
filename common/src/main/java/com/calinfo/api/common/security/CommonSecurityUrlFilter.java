@@ -44,7 +44,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     /**
      * Nom du header contenant le token d'authentification
      */
-    private static final String HEADER_AUTHORIZATION_NAME = "Authorization";
+    public static final String HEADER_AUTHORIZATION_NAME = "Authorization";
 
     /**
      * Préfixe du token de sécurité
@@ -121,7 +121,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
         // Récupérer le token d'identification
         String token = httpServletRequest.getHeader(HEADER_AUTHORIZATION_NAME);
 
-        if (!StringUtils.isBlank(token)){
+        if (isPrivate && !StringUtils.isBlank(token)){
             return createAuthentifiedPrincipal(token);
         }
         else if (StringUtils.isBlank(token) && !isPrivate){
