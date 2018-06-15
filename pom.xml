@@ -10,6 +10,16 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Chemin de répertoire du site maven pour ce module. Propriété surchargé dans les modules -->
+        <maven.site.path></maven.site.path>
+    </properties>
+
+
+    <url>https://calinfo-nc.github.io/libs-sencha-project/${project.version}${maven.site.path}</url>
+
     <modules>
         <module>common-libs</module>
         <module>common-api</module>
