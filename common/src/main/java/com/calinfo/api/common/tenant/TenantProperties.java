@@ -24,15 +24,15 @@ public class TenantProperties {
     /**
      * Activer la gestion de multi schméa (un schma par demaine)
      */
-    private boolean enable = false;
+    private boolean enabled = false;
 
     /**
-     * Nom du schéma par défaut de l'application
+     * Nom du schéma par défaut (ou générique) de l'application
      */
     private String defaultValue = "public";
 
     /**
-     * Préfixe des noms de schémas, le sufixe est le domaine
+     * Préfixe des noms de schémas représentant chaque domaine. Le sufixe est le nom du domaine lui même
      */
     private String prefix = "domain_";
 

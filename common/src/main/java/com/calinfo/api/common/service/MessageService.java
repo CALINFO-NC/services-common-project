@@ -2,6 +2,7 @@ package com.calinfo.api.common.service;
 
 import com.calinfo.api.common.MessageCodeValue;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
@@ -11,5 +12,9 @@ import java.util.Locale;
 public interface MessageService {
 
 
-    String translate(Locale locale, MessageCodeValue codeMessage, Object... params);
+    String translate(Locale locale, MessageCodeValue codeMessage, Serializable... params);
+
+    default String translate(MessageCodeValue codeMessage, Serializable... params){
+        return translate(Locale.getDefault(), codeMessage, params);
+    }
 }

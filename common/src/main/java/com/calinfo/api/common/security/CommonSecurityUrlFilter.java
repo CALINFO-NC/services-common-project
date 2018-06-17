@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 /**
  * Filtre de sécurité sur les URLs
  */
-@ConditionalOnProperty("common.configuration.security.enable")
+@ConditionalOnProperty("common.configuration.security.enabled")
 @Component
 public class CommonSecurityUrlFilter extends OncePerRequestFilter {
 

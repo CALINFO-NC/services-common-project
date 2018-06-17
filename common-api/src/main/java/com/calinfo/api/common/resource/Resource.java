@@ -1,6 +1,7 @@
 package com.calinfo.api.common.resource;
 
 import com.calinfo.api.common.dto.Dto;
+import com.calinfo.api.common.dto.MessageInfoAndWarningInterface;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class Resource implements Dto {
+public class Resource implements Dto, MessageInfoAndWarningInterface {
 
     private List<String> listInfoMessages = new ArrayList<>();
 

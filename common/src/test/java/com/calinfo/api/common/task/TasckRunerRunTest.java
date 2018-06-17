@@ -1,4 +1,4 @@
-package com.calinfo.api.common.scheduler;
+package com.calinfo.api.common.task;
 
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.SecurityProperties;

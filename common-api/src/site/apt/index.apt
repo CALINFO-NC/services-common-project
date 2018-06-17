@@ -1,0 +1,54 @@
+Les services
+
+ Lors d'opération de type CRUD, les opérations au niveau des services sont toujours les mêmes.
+ <Create>, <Read>, <Update> et <Delete>.
+
+ Suivant les projets les termes peuvent varier. Par exemple, pour un <Read>, tantôt nous pouvoir le développeur utiliser
+ <read>, tantôt, le développeur peut utiliser <load> (ou tout autres termes...
+
+ Afin d'armoniser les verbe utiliser, le common apporte les interfaces suivantes dans le package <com.calinfo.api.common.service>
+
+ * CreateService
+
+ * ReadService
+
+ * UpdateService
+
+ * DeleteService
+
+ []
+
+Les DTOs
+
+ Un DTO (Data Transfert Object), est un objet sérialisable utilisé comme paramètres aux services, ou encore comme attribut d'autre DTO.
+ Un DTO implémente l'interface <com.calinfo.api.common.dto.Dto>.
+
+ Le package <com.calinfo.api.common.dto> offre un ensemble de DTO utilitaires. Parmis eux, vous trouverez, entres autres :
+
+ * MediaDto : Représente un média (ex : Une image, une vidéo, un document, etc...)
+
+ * ChargementInfoDto : Ce DTO représente les paramètres de chargement dynamique d'une liste.
+ Par exemple, il est fortement déconseillé dans un service de renvoyer une list sur laquelle le développeur n'a pas de
+ maitrise sur la volumétrie des informations renvoyés. Si le développeur veut garder cette maitrise, il devra à minima ajouter
+ dans les paramètres de sont services renvoyant la liste, le <départ> et la <limite> (le nombre d'élément retournés.
+
+ * DynamicListDto : Dans le même esprit que <ChargementListDto>, si l'appelant du service renseigne les éléments à charger (<départ> et <limit>),
+ ce même appelant doit avoir en retour, la liste demandé ainsi que le nombre total d'éléments que pourrait avoir cette liste.
+
+Les Ressources
+
+ Une ressource est la spécialisation d'un DTO. De ce fait une ressource hérite du DTO.
+ La ressource représente une données expososée par un service (par exemple CRUD).
+
+ Pour représenter une ressource dans vos applications, il est important que chaque classe représentant la ressource
+ hérite de <com.calinfo.api.common.resource.Resource>.
+
+ Dans le package <com.calinfo.api.common.resource>, vous trouverez d'autre type de resources vous aidant à hamoniser
+ les services REST dans l'ensemble de vos projets.
+
+L'API de validation
+
+ L'api <javax.validation> offre la possibilité d'utiliser les <groups> dans chacune des annotations proposées par cette même api.
+
+ Le package <com.calinfo.api.common.validation> offre des interfaces, tel que <Create>, ou encore <Update>,
+ pouvant être utilisées par les attributs <groups> d'annotations de validation.

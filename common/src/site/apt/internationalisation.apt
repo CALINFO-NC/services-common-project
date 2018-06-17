@@ -1,0 +1,76 @@
+Description
+
+ Le common impose un mécanisme d'internationalisation. En d'autre terme, une application ne doit <<JAMAIS>>
+ avoir en sont seins des phrases dans une langue humaine.
+
+ Exemple : lorsqu'un paramètre est obligatoire, le développeur ne doit pas envoyer l'erreur "Paramètre obligatoire".
+ La bonne pratique indique, que le développeur doit envoyer un code correspondant à l'erreur (PARAM_MADATORY par exemple)
+
+ pour cela le common impose l'implémentation du service <com.calinfo.api.common.service.MessageService> ayant une méthode
+ <translate> elle même ayant pour paramètre, la <Local>, le code de l'erreur, et les paramètre associés aux codes. Cette méthode
+ à pour objectif de transformer le code erreur avec ses paramètres éventuels en laguage humain correspondant à la langue définie par le <Local>
+
+Comment envoyer un message au front depuis le back.
+
+ Il existe plusieurs type de message.
+
+ * Les informations
+
+ * Les <warnings>
+
+ * Les erreurs
+
+ []
+
+ Les informations est les <warnings>  ne provoque pas l'arrêt du traitement en cours, c'est pour
+ cela qu'elle sont représentées comme des propriétés de la classe résultat. Dans les resources ces
+ propriétés sont :
+
+ * listWarningMessages
+
+ * listInfoMessages
+
+ []
+
+ Afin d'harmoniser le code, si vous souhaitez renvoyer des messages de types information ou <warning> via un DTO, faite hériter ce DTO par
+ <com.calinfo.api.common.dto.MessageInfoAndWarningInterface>.
+
+ Les erreurs en revanche provoque l'arrêt du traitement en cours. C'est pour cela qu'elles sont déclenché
+ en levant une exception. Lorsque le développeur souhaite remonter une erreur à l'utilisateur, il peut remonter
+ une erreur soit sur un champs particulié de la ressource, soit une erreur globale
+
+ <<Exemple : Une erreur globale>>
+
++------------------------------------------+
+ServiceErrorStructure serviceErrorStructure = new ServiceErrorStructure();
+serviceErrorStructure.getGlobalErrors().add(new MessageStructure(MessageCode.CODE_ERREUR_GLOBAL1), new MessageStructure(MessageCode.CODE_ERREUR_GLOBAL2));
+throw new MessageException(serviceErrorStructure);
++------------------------------------------+
+
+ <<Exemple : Une erreur sur un champ particulié>>
+
++------------------------------------------+
+FieldErrorStructure fieldError = new FieldErrorStructure();
+fieldError.put("resource.captcha.value", new MessageStructure(MessageCode.CODE_ERREUR_FIELD1), new MessageStructure(MessageCode.CODE_ERREUR_FIELD2));
+fieldError.put("resource.captcha.key", new MessageStructure(MessageCode.CODE_ERREUR_FIELD3), new MessageStructure(MessageCode.CODE_ERREUR_FIELD4));
+ServiceErrorStructure serviceErrorStructure = new ServiceErrorStructure();
+serviceErrorStructure.setFieldsErrors(fieldError);
+throw new MessageException(serviceErrorStructure);
++------------------------------------------+
+
+ <<Exemple : Une erreur sur un champ particulié + une erreur globale>>
+
++------------------------------------------+
+ServiceErrorStructure serviceErrorStructure = new ServiceErrorStructure();
+
+FieldErrorStructure fieldError = new FieldErrorStructure();
+fieldError.put("resource.captcha.value", new MessageStructure(MessageCode.CODE_ERREUR_FIELD));
+serviceErrorStructure.setFieldsErrors(fieldError);
+
+serviceErrorStructure.getGlobalErrors().add(new MessageStructure(MessageCode.CODE_ERREUR_GLOBAL));
+
+throw new MessageException(serviceErrorStructure);
++------------------------------------------+
+
+
+

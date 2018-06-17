@@ -1,4 +1,4 @@
-package com.calinfo.api.common.scheduler;
+package com.calinfo.api.common.task;
 
 
 @FunctionalInterface

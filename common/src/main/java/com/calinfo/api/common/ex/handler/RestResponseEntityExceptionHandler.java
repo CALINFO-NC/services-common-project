@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -118,7 +119,7 @@ public class RestResponseEntityExceptionHandler {
 
         BadResponseResource result = new BadResponseResource();
         for (MessageStructure ms: ex.getErrors().getGlobalErrors()){
-            result.getListErrorMessages().add(messageService.translate(locale, ms.getMessageCode(), ms.getParameters()));
+            result.getListErrorMessages().add(messageService.translate(locale, ms.getMessageCode(), ms.getParameters().stream().toArray(size -> new Serializable[size])));
         }
 
         for (Map.Entry<String, List<MessageStructure>> entry : ex.getErrors().getFieldsErrors().entrySet()){
@@ -126,7 +127,7 @@ public class RestResponseEntityExceptionHandler {
             List<String> lstMsg = new ArrayList<>();
 
             for (MessageStructure ms: value){
-                String msg = messageService.translate(locale, ms.getMessageCode(), ms.getParameters());
+                String msg = messageService.translate(locale, ms.getMessageCode(), ms.getParameters().stream().toArray(size -> new Serializable[size]));
                 lstMsg.add(msg);
             }
 

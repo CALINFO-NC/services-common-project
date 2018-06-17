@@ -16,12 +16,12 @@ public class SecurityProperties {
 
     public static final String DEFAULT_ANONYMOUS_USER_LOGIN = "Anonymous";
 
-    public static final String DEFAULT_SYSTEM_USER_LOGIN = "system";
+    public static final String DEFAULT_SYSTEM_USER_LOGIN = "System";
 
     /**
      * Activer la gestion de la sécurité
      */
-    private boolean enable = false;
+    private boolean enabled = false;
 
     /**
      * Valeur de la clé public permettant de décrypter le jeton JWT
