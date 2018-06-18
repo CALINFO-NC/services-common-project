@@ -14,10 +14,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <version.lombok>1.16.16</version.lombok>
+        <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
 
         <spring.version>1.5.6.RELEASE</spring.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <maven.site.path>/${artifactId}</maven.site.path>
     </properties>
 
     <build>

@@ -1,1 +1,1 @@
-# services-common-project
+La documentation de ce projet est disponnible ici : https://calinfo-nc.github.io/services-common-project/{version}

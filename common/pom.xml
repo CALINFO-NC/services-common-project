@@ -23,6 +23,10 @@
         <version.commons-lang3>3.5</version.commons-lang3>
         <version.jjwt>0.9.0</version.jjwt>
         <version.commons-lang>2.6</version.commons-lang>
+        <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
+        <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
+
+        <maven.site.path>/${artifactId}</maven.site.path>
     </properties>
 
     <dependencies>
@@ -119,6 +123,22 @@
 
 
     </dependencies>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${version.maven-javadoc-plugin}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${version.maven-jxr-plugin}</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
 
 </project>

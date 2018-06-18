@@ -4,8 +4,8 @@ import com.calinfo.api.common.tenant.entity.generic.TableGenericEntity;
 import com.calinfo.api.common.tenant.repository.generic.TableGenericRepositoryGeneric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 /**
  * Created by dalexis on 11/05/2018.
