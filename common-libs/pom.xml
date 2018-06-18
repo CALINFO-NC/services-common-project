@@ -34,6 +34,29 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+
+            <!-- Publication du maven site lors de la génération du site -->
+            <plugin>
+                <!-- Deploy the web site -->
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Creating site for ${project.version}</message>
+                    <path>${project.version}${maven.site.path}</path>
+                    <repositoryName>services-common-project</repositoryName>
+                    <repositoryOwner>CALINFO-NC</repositoryOwner>
+                    <merge>true</merge>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
