@@ -1,9 +1,9 @@
 Introduction
 
- Le common est un module créer spécialement pour les application de type <service>.
- Il apporte un certain nombre de fonctionnalité et de librairie décrit dans chacun des modules.
+ Le <common> est un module créé spécialement pour les applications de type <service>.
+ Il apporte un certain nombre de fonctionnalités et de librairies décritent dans chacun des modules.
 
- Pour utiliser le common dans une application de type service, il suffit d'hériter de
+ Pour utiliser le common dans une application de type <service>, il suffit d'hériter de :
 
 +------------------------------------------+
 <parent>
@@ -13,8 +13,8 @@ Introduction
 </parent>
 +------------------------------------------+
 
- Dans votre projet vous pouvez tirer une dépendance :
+ Dans votre projet, vous pouvez tirer une dépendance :
 
- * Sur le common-api : pour le projet contenant les ressources REST
+ * Sur le <common-api> : pour le projet contenant les ressources REST
 
- * Sur le common : pour le projet implémentant les règles métiers
+ * Sur le <common> : pour le projet implémentant les règles métier

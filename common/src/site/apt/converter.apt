@@ -4,7 +4,7 @@ Description
 
 Usage
 
- * Création d'un premier <converter> permettant de convertir une classe <A> en une class <B> et inversement
+ * Création d'un premier <converter> permettant de convertir une classe <A> en une classe <B> et inversement
 
 +------------------------------------------+
 import com.calinfo.api.common.converter.InstanceConverter;
@@ -50,7 +50,7 @@ public class AtoBConverter implements InstanceConverter {
 }
 +------------------------------------------+
 
- * Création d'un second <converter> permettant de convertir un Integer en Long et inversement.
+ * Création d'un second <converter> permettant de convertir un <Integer> en <Long> et inversement.
 
 +------------------------------------------+
 import com.calinfo.api.common.converter.ClassConverter;

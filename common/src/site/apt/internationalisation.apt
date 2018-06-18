@@ -1,18 +1,18 @@
 Description
 
- Le common impose un mécanisme d'internationalisation. En d'autre terme, une application ne doit <<JAMAIS>>
- avoir en sont seins des phrases dans une langue humaine.
+ Le <common> impose un mécanisme d'internationalisation. En d'autres termes, une application ne doit <<JAMAIS>>
+ avoir en son sein des phrases dans une langue humaine.
 
  Exemple : lorsqu'un paramètre est obligatoire, le développeur ne doit pas envoyer l'erreur "Paramètre obligatoire".
- La bonne pratique indique, que le développeur doit envoyer un code correspondant à l'erreur (PARAM_MADATORY par exemple)
+ La bonne pratique indique, que le développeur doit envoyer un code correspondant à l'erreur ("PARAM_MADATORY" par exemple)
 
- pour cela le common impose l'implémentation du service <com.calinfo.api.common.service.MessageService> ayant une méthode
- <translate> elle même ayant pour paramètre, la <Local>, le code de l'erreur, et les paramètre associés aux codes. Cette méthode
- à pour objectif de transformer le code erreur avec ses paramètres éventuels en laguage humain correspondant à la langue définie par le <Local>
+ Pour cela le <common> impose l'implémentation du service <com.calinfo.api.common.service.MessageService> ayant une méthode
+ <translate>. <translate> a pour paramètre la <Local>, le code de l'erreur et les paramètres associés aux codes. Cette méthode
+ a pour objectif de transformer le code erreur avec ses paramètres éventuels en laguage humain correspondant à la langue définie par la <Local>
 
-Comment envoyer un message au front depuis le back.
+Comment envoyer un message au <front> depuis le <back> ?
 
- Il existe plusieurs type de message.
+ Il existe plusieurs types de messages.
 
  * Les informations
 
@@ -22,8 +22,8 @@ Comment envoyer un message au front depuis le back.
 
  []
 
- Les informations est les <warnings>  ne provoque pas l'arrêt du traitement en cours, c'est pour
- cela qu'elle sont représentées comme des propriétés de la classe résultat. Dans les resources ces
+ Les informations et les <warnings>  ne provoquent pas l'arrêt du traitement en cours. C'est pour
+ cela qu'elles sont représentées comme des propriétés de la classe résultat. Dans le cas de resources, ces
  propriétés sont :
 
  * listWarningMessages
@@ -32,12 +32,12 @@ Comment envoyer un message au front depuis le back.
 
  []
 
- Afin d'harmoniser le code, si vous souhaitez renvoyer des messages de types information ou <warning> via un DTO, faite hériter ce DTO par
+ Afin d'harmoniser le code, si vous souhaitez renvoyer des messages de type information ou <warning> via un DTO, faites hériter ce DTO par
  <com.calinfo.api.common.dto.MessageInfoAndWarningInterface>.
 
- Les erreurs en revanche provoque l'arrêt du traitement en cours. C'est pour cela qu'elles sont déclenché
- en levant une exception. Lorsque le développeur souhaite remonter une erreur à l'utilisateur, il peut remonter
- une erreur soit sur un champs particulié de la ressource, soit une erreur globale
+ Les erreurs, en revanche, provoquent l'arrêt du traitement en cours. C'est pour cela, qu'elles sont déclenchées
+ en levant une exception. Les erreurs remontées au <front> sont soit des erreurs sur un champ particulier de la ressource,
+ soit des erreurs globales.
 
  <<Exemple : Une erreur globale>>
 
@@ -47,7 +47,7 @@ serviceErrorStructure.getGlobalErrors().add(new MessageStructure(MessageCode.COD
 throw new MessageException(serviceErrorStructure);
 +------------------------------------------+
 
- <<Exemple : Une erreur sur un champ particulié>>
+ <<Exemple : Une erreur sur un champ particulier>>
 
 +------------------------------------------+
 FieldErrorStructure fieldError = new FieldErrorStructure();
@@ -58,7 +58,7 @@ serviceErrorStructure.setFieldsErrors(fieldError);
 throw new MessageException(serviceErrorStructure);
 +------------------------------------------+
 
- <<Exemple : Une erreur sur un champ particulié + une erreur globale>>
+ <<Exemple : Une erreur sur un champ particulier + une erreur globale>>
 
 +------------------------------------------+
 ServiceErrorStructure serviceErrorStructure = new ServiceErrorStructure();

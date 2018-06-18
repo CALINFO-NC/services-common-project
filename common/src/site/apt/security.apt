@@ -1,16 +1,16 @@
 Description
 
- Lors de l'appel d'une URL d'un service, le common tentera de déterminer l'identité de l'utilisateur ayant appelé cette URL.
- Si le common ne parvient pas à identifier l'utilisateur, ce dernier sera par défaut <securityProperties.getAnonymousLogin()> dans le cas d'une URL publique,
- ou cela généra une exception dans le cas d'une url privée (Voir configuration sur la sécurité pour plus de détail).
+ Lors de l'appel d'une requête HTTP d'un service, le <common> tentera de déterminer l'identité de l'utilisateur ayant appelé cette requête.
+ Si le <common> ne parvient pas à identifier l'utilisateur, ce dernier sera par défaut <securityProperties.getAnonymousLogin()> dans le cas d'une requête publique,
+ ou cela génèrera une exception dans le cas d'une requête privée (Voir configuration sur la sécurité pour plus de détails).
 
- Le common détermine l'utilisateur appelant une URL en décryptant la valeur du token JWT préfixé par "<Bearer >" (avec l'espace) du <Header "Authorization">.
+ Le <common> détermine l'utilisateur appelant une requête en décryptant la valeur du <token> JWT préfixé par "<Bearer >" (avec l'espace) du <Header "Authorization">.
 
- La forme décrypté du token est représenté par la class <com.calinfo.api.common.security.JwtUser>.
+ La forme décryptée du <token> est représentée par la classe <com.calinfo.api.common.security.JwtUser>.
 
- Le common apporte aussi des outils via la classe utilitaire <com.calinfo.api.common.utils.SecurityUtils> permettant de crypter ou décrypter un token.
+ Le <common> apporte aussi des outils via la classe utilitaire <com.calinfo.api.common.utils.SecurityUtils> permettant de crypter ou décrypter un <token>.
 
- Dans le reste de l'application, il est possible de récupérer l'utilisateur connecté
+ Dans le reste de l'application, il est possible de récupérer l'utilisateur connecté :
 
  * Soit par injection :
 
@@ -23,7 +23,7 @@ private PrincipalManager principalManager;
 AbstractCommonPrincipal principal = principalManager.getPrincipal();
 +------------------------------------------+
 
- * Soit programatiquement
+ * Soit par programme
 
 +------------------------------------------+
 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -34,5 +34,5 @@ AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal()
 
 Configuration
 
- La configuration de la sécurité se fait dans le fichier <yaml> dans la sous config <common.configuration.security>.
- Toutes les propriétés de cette sous config sont décritent dans la JavaDoc de la classe <com.calinfo.api.common.security.SecurityProperties>
+ La configuration de la sécurité se fait dans la sous configuration <common.configuration.security> du fichier <yaml> .
+ Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe <com.calinfo.api.common.security.SecurityProperties>
