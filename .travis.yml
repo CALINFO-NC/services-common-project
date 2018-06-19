@@ -18,5 +18,4 @@ before_install:
   - chmod +x .travis/deploy.sh
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-  - travis_wait 90
-  - .travis/deploy.sh
+  - travis_wait 90 .travis/deploy.sh
