@@ -49,7 +49,7 @@ public class SecurityUtils {
         // Signature JWT utilisé pour encoder le jeton
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS512;
 
-        long nowMillis = System.currentTimeMillis();
+        long nowMillis = DateUtils.now().toInstant().toEpochMilli();
         Date now = new Date(nowMillis);
 
         Map<String, Object> mapClaims = new HashMap<>();

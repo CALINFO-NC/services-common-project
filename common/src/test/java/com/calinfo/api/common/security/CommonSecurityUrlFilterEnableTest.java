@@ -2,7 +2,10 @@ package com.calinfo.api.common.security;
 
 import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.ex.MessageStatusException;
+import com.calinfo.api.common.manager.ApiKeyManager;
 import com.calinfo.api.common.mocks.JsonizablePrincipal;
+import com.calinfo.api.common.mocks.MockApiKeyManager;
+import com.calinfo.api.common.utils.DateUtils;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.utils.SecurityUtils;
 import org.junit.Assert;
@@ -15,6 +18,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,7 +33,7 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("enableSecurity")
+@ActiveProfiles({"enableSecurity", "apiKeyManager"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CommonSecurityUrlFilterEnableTest {
 
@@ -37,8 +41,10 @@ public class CommonSecurityUrlFilterEnableTest {
     private int port;
 
     @Autowired
-    ApplicationProperties applicationProperties;
+    private ApplicationProperties applicationProperties;
 
+    @Autowired
+    private ApiKeyManager apiKeyManager;
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -77,7 +83,7 @@ public class CommonSecurityUrlFilterEnableTest {
         String token = SecurityUtils.getJwtFromUser(PRIVATE_KEY_VALUE, 60l * 1000l, user);
 
         headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
+        headers.add(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX + token);
         entity = new HttpEntity<>("", headers);
 
         JsonizablePrincipal principal = MiscUtils.callRestApiService(restTemplate, uri, HttpMethod.GET, entity, JsonizablePrincipal.class);
@@ -103,5 +109,52 @@ public class CommonSecurityUrlFilterEnableTest {
     private UriComponentsBuilder getUri(String suffix){
 
         return UriComponentsBuilder.fromHttpUrl(String.format("http://localhost:%s%s", port, suffix));
+    }
+
+    @Test
+    public void callPublicUrlAndVerifyTokenResponse() throws Exception{
+
+        URI uri = getUri("/api/v1/private/mock/security").build().encode().toUri();
+
+        String login = "toto@gmail.com";
+
+        JwtUser user = new JwtUser();
+        user.setLogin(login);
+        user.setDomain(applicationProperties.getId());
+
+        String token = SecurityUtils.getJwtFromUser(PRIVATE_KEY_VALUE, 60l * 1000l, user);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX + token);
+        HttpEntity entity = new HttpEntity<>("", headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+
+        Assert.assertTrue(response.getHeaders().get(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME).size() == 1);
+        Assert.assertEquals(String.format("%s%s", CommonSecurityUrlFilter.BEARER_PREFIX, token), response.getHeaders().get(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME).get(0));
+
+
+        // Creation d'un token périmé
+        MockApiKeyManager mockApiKeyManager = (MockApiKeyManager)apiKeyManager;
+        System.setProperty(DateUtils.SYSTEM_PROPERTIE_DATE_SYSTEM, "1990-04-01T13:38:09-08:00");
+        token = SecurityUtils.getJwtFromUser(PRIVATE_KEY_VALUE, 60l * 1000l, user);
+        System.clearProperty(DateUtils.SYSTEM_PROPERTIE_DATE_SYSTEM);
+
+        // Mise en place du nouveau token qui remplacera le token périmé
+        String newToken = SecurityUtils.getJwtFromUser(PRIVATE_KEY_VALUE, 60l * 1000l, user);
+        mockApiKeyManager.setNewToken(newToken);
+
+        // Création d'une clé permettant de replacer le nouveau token
+        String apiKey = SecurityUtils.getJwtFromUser(PRIVATE_KEY_VALUE, 60l * 1000l, user);
+
+        headers = new HttpHeaders();
+        headers.add(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX + token);
+        headers.add(CommonSecurityUrlFilter.HEADER_API_KEY, apiKey);
+        entity = new HttpEntity<>("", headers);
+
+        response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+
+        Assert.assertTrue(response.getHeaders().get(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME).size() == 1);
+        Assert.assertNotEquals(String.format("%s%s", CommonSecurityUrlFilter.BEARER_PREFIX, token), response.getHeaders().get(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME).get(0));
     }
 }

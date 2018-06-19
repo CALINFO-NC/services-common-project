@@ -1,9 +1,9 @@
 package com.calinfo.api.common.security;
 
 import com.calinfo.api.common.config.ApplicationProperties;
-import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.ex.handler.ResponseEntityExceptionHandler;
+import com.calinfo.api.common.manager.ApiKeyManager;
 import com.calinfo.api.common.utils.SecurityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +25,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -47,9 +48,14 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     public static final String HEADER_AUTHORIZATION_NAME = "Authorization";
 
     /**
+     * Nom du header contenant le token d'authentification
+     */
+    public static final String HEADER_API_KEY = "X-ApiKey";
+
+    /**
      * Préfixe du token de sécurité
      */
-    private static final String BEARER_PREFIX = "Bearer ";
+    public static final String BEARER_PREFIX = "Bearer ";
 
     /**
      * Propriété de sécurité
@@ -70,23 +76,24 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     private ResponseEntityExceptionHandler responseEntityExceptionHandler;
 
     /**
+     * Lorsq'un token n'est plus valide, le filtre peux demander un rafraichissement de celui-ci
+     */
+    @Autowired(required = false)
+    private ApiKeyManager apiKeyManager;
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-        try {
-            // Vérifier que l'URL est privée
-            boolean isPrivate = isPrivateUrl(httpServletRequest.getRequestURI());
-
-
-            AbstractCommonPrincipal principal = createAnonymousPrincipal();
-            if (isPrivate) {
-                principal = createPrincipal(httpServletRequest);
+        try{
+            try {
+                initPrincipal(httpServletRequest, httpServletResponse);
             }
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            catch(ExpiredJwtException e){
+                throw new MessageStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+            }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         catch(MessageStatusException e){
@@ -107,29 +114,60 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
         }
     }
 
-    /**
-     * Permet de récupérer un principal en fonction des données de l'URL
-     * @param httpServletRequest
-     */
-    protected AbstractCommonPrincipal createPrincipal(HttpServletRequest httpServletRequest) {
+    private void initPrincipal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ExpiredJwtException{
 
-
-        // Définir que l'URL est privée
+        // Vérifier que l'URL est privée
         boolean isPrivate = isPrivateUrl(httpServletRequest.getRequestURI());
 
+        AbstractCommonPrincipal principal = createAnonymousPrincipal();
 
         // Récupérer le token d'identification
         String token = httpServletRequest.getHeader(HEADER_AUTHORIZATION_NAME);
 
-        if (isPrivate && !StringUtils.isBlank(token)){
-            return createAuthentifiedPrincipal(token);
+        if (isPrivate) {
+
+            if (StringUtils.isBlank(token)){
+                throw new MessageStatusException(HttpStatus.FORBIDDEN, "Token required");
+            }
+
+            try {
+                principal = createAuthentifiedPrincipal(token);
+            }
+            catch (ExpiredJwtException e){
+
+                log.info(e.getMessage());
+
+                token = refreshToken(httpServletRequest.getHeader(HEADER_API_KEY));
+
+                if (token != null){
+                    token = String.format("%s%s", BEARER_PREFIX, token);
+                    principal = createAuthentifiedPrincipal(token);
+                }
+                else{
+                    log.info("Impossible to refresh token");
+                    throw e;
+                }
+            }
+
+            httpServletResponse.setHeader(HEADER_AUTHORIZATION_NAME, token);
         }
-        else if (StringUtils.isBlank(token) && !isPrivate){
-            return createAnonymousPrincipal();
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    /**
+     * Permet de rafraichir le token
+     * @param apiKey
+     * @return
+     */
+    private String refreshToken(String apiKey) {
+
+        if (apiKey == null){
+            return null;
         }
-        else{
-            throw new MessageStatusException(HttpStatus.FORBIDDEN, "JWT empty");
-        }
+
+        return apiKeyManager.refreshToken(apiKey);
     }
 
     /**
@@ -137,7 +175,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
      * @param token
      * @return
      */
-    protected AbstractCommonPrincipal createAuthentifiedPrincipal(String token){
+    protected AbstractCommonPrincipal createAuthentifiedPrincipal(@NotNull String token) throws ExpiredJwtException{
 
         if (!token.startsWith(BEARER_PREFIX)){
             throw new MessageStatusException(HttpStatus.FORBIDDEN, String.format("JWT '%s' prefix not found", BEARER_PREFIX));
@@ -149,10 +187,8 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
         try{
             user = SecurityUtils.getUserFromJwt(token, securityProperties.getPublicKeyValue());
         }
-        catch(ExpiredJwtException e){
-            throw new MessageStatusException(HttpStatus.FORBIDDEN, "JWT Expired");
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new ApplicationErrorException(e);
+        catch(InvalidKeySpecException | NoSuchAlgorithmException e){
+            throw new MessageStatusException(HttpStatus.FORBIDDEN, "JWT Expired or invalid");
         }
 
         List<String> lstRoles = user.getRoles();
