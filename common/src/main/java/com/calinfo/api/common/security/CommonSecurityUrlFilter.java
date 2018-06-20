@@ -88,24 +88,14 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         try{
-            try {
-                initPrincipal(httpServletRequest, httpServletResponse);
-            }
-            catch(ExpiredJwtException e){
-                throw new MessageStatusException(HttpStatus.FORBIDDEN, e.getMessage());
-            }
+            initPrincipal(httpServletRequest, httpServletResponse);
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
+        catch(ExpiredJwtException e){
+            catchMessageStatusException(new MessageStatusException(HttpStatus.FORBIDDEN, e.getMessage()), httpServletResponse);
+        }
         catch(MessageStatusException e){
-
-            if (e.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR) {
-                log.error(e.getMessage(), e);
-            }
-            else{
-                log.info(e.getMessage());
-            }
-            ResponseEntity<String> response = responseEntityExceptionHandler.messageStatusException(e);
-            httpServletResponse.sendError(response.getStatusCodeValue(), response.getBody());
+            catchMessageStatusException(e, httpServletResponse);
         }
         catch (Exception e){
             log.error(e.getMessage(), e);
@@ -114,7 +104,19 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
         }
     }
 
-    private void initPrincipal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ExpiredJwtException{
+    private void catchMessageStatusException(MessageStatusException e, HttpServletResponse httpServletResponse) throws IOException {
+
+        if (e.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR) {
+            log.error(e.getMessage(), e);
+        }
+        else{
+            log.info(e.getMessage());
+        }
+        ResponseEntity<String> response = responseEntityExceptionHandler.messageStatusException(e);
+        httpServletResponse.sendError(response.getStatusCodeValue(), response.getBody());
+    }
+
+    private void initPrincipal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
         // Vérifier que l'URL est privée
         boolean isPrivate = isPrivateUrl(httpServletRequest.getRequestURI());
@@ -175,7 +177,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
      * @param token
      * @return
      */
-    protected AbstractCommonPrincipal createAuthentifiedPrincipal(@NotNull String token) throws ExpiredJwtException{
+    protected AbstractCommonPrincipal createAuthentifiedPrincipal(@NotNull String token) {
 
         if (!token.startsWith(BEARER_PREFIX)){
             throw new MessageStatusException(HttpStatus.FORBIDDEN, String.format("JWT '%s' prefix not found", BEARER_PREFIX));
