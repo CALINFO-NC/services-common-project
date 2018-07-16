@@ -20,7 +20,7 @@
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
 
-        <maven.site.path>/${project.artifactId}</maven.site.path>
+        <maven.site.path></maven.site.path>
     </properties>
 
     <dependencies>
