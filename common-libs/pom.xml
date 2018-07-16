@@ -34,13 +34,6 @@
             <build>
                 <plugins>
 
-                    <!-- Plugin de génération de site maven -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <version>3.4</version>
-                    </plugin>
-
 
                     <!-- Permet d'ingorer l'absence du fichier web.xml géré par springboot -->
                     <plugin>
