@@ -12,5 +12,5 @@ artifactory_deploy $TRAVIS_BUILD_DIR/common-libs pom.xml
 isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
 if [ "$TRAVIS_PULL_REQUEST" != "false" ] || [ "$isSnapshot" == "false" ] || [ "$TRAVIS_BRANCH" == "master" ]
 then
-    sudo mvn site -B
+    mvn site -B
 fi
