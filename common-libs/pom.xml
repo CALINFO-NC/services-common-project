@@ -33,6 +33,15 @@
             <id>github-profile</id>
             <build>
                 <plugins>
+
+                    <!-- Plugin de génération de site maven -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.7.1</version>
+                    </plugin>
+
+
                     <!-- Permet d'ingorer l'absence du fichier web.xml géré par springboot -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -99,22 +108,6 @@
 
 
     </dependencies>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven-javadoc-plugin}</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>${version.maven-jxr-plugin}</version>
-            </plugin>
-        </plugins>
-    </reporting>
 
 
 </project>
