@@ -22,6 +22,8 @@
 
         <maven.site.path>/${artifactId}</maven.site.path>
     </properties>
+    
+    <url>https://calinfo-nc.github.io/services-common-project/${project.version}${maven.site.path}</url>
 
     <build>
         <plugins>
