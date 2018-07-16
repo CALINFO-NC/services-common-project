@@ -20,7 +20,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <maven.site.path>/${artifactId}</maven.site.path>
+        <maven.site.path>/${project.artifactId}</maven.site.path>
     </properties>
 
     <url>https://calinfo-nc.github.io/services-common-project/${project.version}${maven.site.path}</url>
@@ -62,13 +62,6 @@
                             <phase>site</phase>
                         </execution>
                     </executions>
-                </plugin>
-
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
                 </plugin>
             </plugins>
         </build>
