@@ -34,17 +34,6 @@
             <build>
                 <plugins>
 
-
-                    <!-- Permet d'ingorer l'absence du fichier web.xml géré par springboot -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>3.2.2</version>
-                        <configuration>
-                            <failOnMissingWebXml>false</failOnMissingWebXml>
-                        </configuration>
-                    </plugin>
-
                     <!-- Publication du maven site lors de la génération du site -->
                     <plugin>
                         <!-- Deploy the web site -->
@@ -72,6 +61,22 @@
             </build>
         </profile>
     </profiles>
+
+    <build>
+        <plugins>
+
+            <!-- Permet d'ingorer l'absence du fichier web.xml géré par springboot -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 
 
     <dependencyManagement>
