@@ -23,7 +23,7 @@ public class ChargementInfoPageRequestNextPreviousFirstTest {
         Assert.assertTrue(ciprNext.getOffset() == cipr.getOffset() + cipr.getPageSize());
         Assert.assertTrue(ciprNext.getPageSize() == cipr.getPageSize());
 
-        ChargementInfoPageRequest ciprPrev = (ChargementInfoPageRequest) ciprNext.previous();
+        ChargementInfoPageRequest ciprPrev = (ChargementInfoPageRequest) ciprNext.previousOrFirst();
         Assert.assertFalse(ciprPrev.hasPrevious());
 
         Assert.assertTrue(ciprPrev.getOffset() == cipr.getOffset());

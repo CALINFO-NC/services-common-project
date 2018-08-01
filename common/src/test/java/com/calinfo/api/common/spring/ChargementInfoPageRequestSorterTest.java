@@ -17,15 +17,12 @@ public class ChargementInfoPageRequestSorterTest {
     public void call(){
 
         ChargementInfoDto ci = new ChargementInfoDto(1, 50);
-        ChargementInfoPageRequest cipr = new ChargementInfoPageRequest(ci);
-
-        Assert.assertNull(cipr.getSort());
 
         ArrayList<Sort.Order> lst = new ArrayList<>();
         lst.add(new Sort.Order(Sort.Direction.ASC, "prop"));
 
-        Sort sort = new Sort(lst);
-        cipr.setSort(sort);
+        Sort sort = Sort.by(lst);
+        ChargementInfoPageRequest cipr = new ChargementInfoPageRequest(ci, sort);
 
         Assert.assertTrue(sort == cipr.getSort());
     }

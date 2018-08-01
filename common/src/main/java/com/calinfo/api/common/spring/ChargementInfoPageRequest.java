@@ -3,7 +3,7 @@ package com.calinfo.api.common.spring;
 import com.calinfo.api.common.dto.ChargementInfoDto;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -19,16 +19,8 @@ public class ChargementInfoPageRequest implements Pageable {
     @Setter
     private static int maxLimit = 100;
 
-    /**
-     * Nombre total d'éléments à charger
-     */
-    private int limit;
+    private Pageable pageable;
 
-    /**
-     * Index de début de chargement
-     */
-    private long offset;
-    private Sort sort;
 
     /**
      * Constructeur par défaut.
@@ -36,88 +28,55 @@ public class ChargementInfoPageRequest implements Pageable {
      * @param ci Information de chargement
      */
     public ChargementInfoPageRequest(ChargementInfoDto ci) {
-        this(ci.getStart(), ci.getLimit());
+        pageable = PageRequest.of(ci.getStart(), Math.max(ci.getLimit() == null ? maxLimit : ci.getLimit(), maxLimit));
     }
 
-    /**
-     * Constructeur par défaut avec sort.
-     *
-     * @param ci   Information de chargement
-     * @param sort
-     */
+    private ChargementInfoPageRequest(Pageable pageable) {
+        this.pageable = pageable;
+    }
+
     public ChargementInfoPageRequest(ChargementInfoDto ci, Sort sort) {
-        this(ci.getStart(), ci.getLimit());
-        this.sort = sort;
-    }
-
-    /**
-     * Constructeur interne
-     *
-     * @param offset Début de chargement
-     * @param limit  Nombre d'éléments à charger
-     */
-    private ChargementInfoPageRequest(long offset, Integer limit) {
-
-        if (limit == null || limit.intValue() > getMaxLimit()){
-            this.limit = getMaxLimit();
-        }
-        else {
-            this.limit = limit;
-        }
-        this.offset = offset;
+        pageable = PageRequest.of(ci.getStart(), Math.max(ci.getLimit(), maxLimit), sort);
     }
 
     @Override
     public int getPageNumber() {
-        return 1;
+        return pageable.getPageNumber();
     }
 
     @Override
     public int getPageSize() {
-        return this.limit;
+        return pageable.getPageSize();
     }
 
     @Override
     public long getOffset() {
-        return this.offset;
+        return pageable.getOffset();
     }
 
     @Override
     public Sort getSort() {
-        return this.sort;
-    }
-
-    public void setSort(Sort sort) {
-        this.sort = sort;
+        return pageable.getSort();
     }
 
     @Override
     public Pageable next() {
-        return new ChargementInfoPageRequest(getOffset() + getPageSize(), getPageSize());
-    }
-
-    public ChargementInfoPageRequest previous() {
-        return hasPrevious() ? new ChargementInfoPageRequest(getOffset() - getPageSize(), getPageSize()) : this;
+        return new ChargementInfoPageRequest(pageable.next());
     }
 
     @Override
     public Pageable previousOrFirst() {
-        return hasPrevious() ? previous() : first();
+        return new ChargementInfoPageRequest(pageable.previousOrFirst());
     }
 
     @Override
     public Pageable first() {
-        return new ChargementInfoPageRequest(0, getPageSize());
+        return new ChargementInfoPageRequest(pageable.first());
     }
 
     @Override
     public boolean hasPrevious() {
-        return this.offset >= this.limit;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("limit", this.limit).append("offset", this.offset).toString();
+        return pageable.hasPrevious();
     }
 }
 
