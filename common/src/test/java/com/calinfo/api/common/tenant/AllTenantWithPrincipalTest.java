@@ -53,7 +53,7 @@ public class AllTenantWithPrincipalTest {
 
     private TenantTestPrincipal principal = null;
 
-    private int nbDomain = 100;
+    private int nbDomain = 10;
 
 
     @Before

@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * Created by dalexis on 21/05/2018.
  */
-public class ChargementInfoPageRequestPageSizeAndOffsetTest {
+public class ChargementInfoPageRequestPageSizeAndPageNumberTest {
 
 
     @Test
@@ -16,7 +16,7 @@ public class ChargementInfoPageRequestPageSizeAndOffsetTest {
         ChargementInfoDto ci = new ChargementInfoDto(1, 50);
         ChargementInfoPageRequest cipr = new ChargementInfoPageRequest(ci);
 
-        Assert.assertEquals(ci.getStart(), cipr.getOffset());
+        Assert.assertEquals(ci.getStart() , cipr.getPageNumber());
         Assert.assertEquals(ci.getLimit().intValue(), cipr.getPageSize());
 
         ChargementInfoPageRequest.setMaxLimit(50);

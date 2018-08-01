@@ -28,7 +28,7 @@ public class ChargementInfoPageRequest implements Pageable {
      * @param ci Information de chargement
      */
     public ChargementInfoPageRequest(ChargementInfoDto ci) {
-        pageable = PageRequest.of(ci.getStart(), Math.max(ci.getLimit() == null ? maxLimit : ci.getLimit(), maxLimit));
+        this(ci, Sort.unsorted());
     }
 
     private ChargementInfoPageRequest(Pageable pageable) {
@@ -36,7 +36,9 @@ public class ChargementInfoPageRequest implements Pageable {
     }
 
     public ChargementInfoPageRequest(ChargementInfoDto ci, Sort sort) {
-        pageable = PageRequest.of(ci.getStart(), Math.max(ci.getLimit(), maxLimit), sort);
+
+        int limit = Math.min(ci.getLimit() == null ? maxLimit : ci.getLimit(), maxLimit);
+        pageable = PageRequest.of(ci.getStart(), limit, sort);
     }
 
     @Override
