@@ -22,7 +22,9 @@ public class DatabaseUtils {
 
             statement.executeUpdate(String.format("CREATE SCHEMA %s", schemaName));
 
-            con.commit();
+            if (!con.getAutoCommit()) {
+                con.commit();
+            }
 
         } catch (SQLException e) {
             throw new ApplicationErrorException(e);

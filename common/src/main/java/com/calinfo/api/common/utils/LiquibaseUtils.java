@@ -42,7 +42,6 @@ public class LiquibaseUtils {
             Liquibase liquibase = new Liquibase(changelogName,
                     new ClassLoaderResourceAccessor(), database);
 
-
             liquibase.update(new Contexts());
 
         } catch (SQLException | LiquibaseException e) {
