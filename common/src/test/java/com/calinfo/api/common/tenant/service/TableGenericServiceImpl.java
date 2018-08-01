@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 /**
  * Created by dalexis on 11/05/2018.
@@ -28,11 +30,11 @@ public class TableGenericServiceImpl implements TableGenericService{
 
     public String read(Long id){
 
-        TableGenericEntity tableGenericEntity = tableGenericRepository.findOne(id);
-        if (tableGenericEntity == null)
+        Optional<TableGenericEntity> optionalTableGenericEntity = tableGenericRepository.findById(id);
+        if (!optionalTableGenericEntity.isPresent())
             return null;
 
-        return tableGenericEntity.getPropGeneric();
+        return optionalTableGenericEntity.get().getPropGeneric();
     }
 
 

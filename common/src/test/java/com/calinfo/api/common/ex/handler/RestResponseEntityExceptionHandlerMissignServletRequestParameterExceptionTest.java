@@ -116,7 +116,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
         valueTester.getListErrorMessages().add(dto);
         dto.setName("prm.prop1");
         dto.setType(TypeAttribut.RESOURCE);
-        dto.getListMessages().add("may not be null");
+        dto.getListMessages().add("must not be null");
 
         dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
@@ -128,7 +128,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
         valueTester.getListErrorMessages().add(dto);
         dto.setName("prm.prop3.prop1");
         dto.setType(TypeAttribut.RESOURCE);
-        dto.getListMessages().add("may not be null");
+        dto.getListMessages().add("must not be null");
 
         ObjectMapper objectMapper = MiscUtils.getObjectMapper();
 
@@ -157,21 +157,21 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
         BadRequestParameterResource valueTester = new BadRequestParameterResource();
         AttributDto dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
-        dto.setName("mockDtoContrainteViolation.prop1");
-        dto.setType(TypeAttribut.RESOURCE);
-        dto.getListMessages().add("may not be null");
-
-        dto = new AttributDto();
-        valueTester.getListErrorMessages().add(dto);
         dto.setName("mockDtoContrainteViolation.prop2");
         dto.setType(TypeAttribut.RESOURCE);
         dto.getListMessages().add("must be null");
 
         dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
+        dto.setName("mockDtoContrainteViolation.prop1");
+        dto.setType(TypeAttribut.RESOURCE);
+        dto.getListMessages().add("must not be null");
+
+        dto = new AttributDto();
+        valueTester.getListErrorMessages().add(dto);
         dto.setName("mockDtoContrainteViolation.prop3.prop1");
         dto.setType(TypeAttribut.RESOURCE);
-        dto.getListMessages().add("may not be null");
+        dto.getListMessages().add("must not be null");
 
         this.mockMvc.perform(httpRequest)
                 .andExpect(status().isBadRequest())

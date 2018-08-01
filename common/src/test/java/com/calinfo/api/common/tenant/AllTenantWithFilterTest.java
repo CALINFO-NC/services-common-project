@@ -14,8 +14,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -149,7 +149,7 @@ public class AllTenantWithFilterTest {
 
         // Lire la donnée dans la table générique
         response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, null);
-        String val = objectMapper.readValue(response, String.class);
+        String val = response;
         Assert.assertEquals("gen1", val);
 
         // Lire une données inexistante
@@ -158,7 +158,7 @@ public class AllTenantWithFilterTest {
 
         // Vérifier que la donnée est tojours présente même si je change de domaine
         response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, domain1);
-        val = objectMapper.readValue(response, String.class);
+        val =  response;
         Assert.assertEquals("gen1", val);
     }
 }

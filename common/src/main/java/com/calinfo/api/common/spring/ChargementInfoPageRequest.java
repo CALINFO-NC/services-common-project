@@ -27,7 +27,7 @@ public class ChargementInfoPageRequest implements Pageable {
     /**
      * Index de début de chargement
      */
-    private int offset;
+    private long offset;
     private Sort sort;
 
     /**
@@ -56,7 +56,7 @@ public class ChargementInfoPageRequest implements Pageable {
      * @param offset Début de chargement
      * @param limit  Nombre d'éléments à charger
      */
-    private ChargementInfoPageRequest(int offset, Integer limit) {
+    private ChargementInfoPageRequest(long offset, Integer limit) {
 
         if (limit == null || limit.intValue() > getMaxLimit()){
             this.limit = getMaxLimit();
@@ -78,7 +78,7 @@ public class ChargementInfoPageRequest implements Pageable {
     }
 
     @Override
-    public int getOffset() {
+    public long getOffset() {
         return this.offset;
     }
 

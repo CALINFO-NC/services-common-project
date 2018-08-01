@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class LiquibaseUtilsUpdateSchemaTest {
 
-    @Value("${liquibase.change-log}")
+    @Value("${spring.liquibase.change-log}")
     private String changelogFileConf;
 
     // Bug IntelliJ qui ne support pas l'injection de la source de donnée

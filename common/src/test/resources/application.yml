@@ -6,11 +6,11 @@ common:
       name: "common"
       version: "TEST"
 
-liquibase:
-  change-log: classpath:liquibase/changelog-master.xml
-  enabled: false
 
 spring:
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.xml
+    enabled: false
   datasource:
     url: jdbc:h2:mem:sido;MODE=PostgreSQL
   jpa:
