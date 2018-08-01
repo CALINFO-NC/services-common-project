@@ -36,7 +36,7 @@ public class DatabaseUtils {
         // Création de la connection
         try (Connection con = dataSource.getConnection(); Statement statement = con.createStatement()) {
 
-            statement.executeUpdate(String.format("DROP SCHEMA %s", schemaName));
+            statement.executeUpdate(String.format("DROP SCHEMA %s CASCADE", schemaName));
 
             con.commit();
 
