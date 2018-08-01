@@ -6,6 +6,7 @@ import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.util.Map;
 /**
  * Created by dalexis on 10/05/2018.
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("tenant")
