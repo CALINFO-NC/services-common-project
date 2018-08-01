@@ -1,5 +1,6 @@
 package com.calinfo.api.common.tenant;
 
+import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.utils.LiquibaseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,9 @@ public class TenantApplicationStartup implements ApplicationListener<Application
     @Qualifier("tenantDataSource")
     private DataSource dataSource;
 
+    @Autowired
+    private ApplicationProperties applicationProperties;
+
     @Transactional
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -67,7 +71,7 @@ public class TenantApplicationStartup implements ApplicationListener<Application
 
             ConfigurableApplicationContext ctx = applicationReadyEvent.getApplicationContext();
             if (log.isInfoEnabled()) {
-                log.info(ctx.getApplicationName().concat(" : Système démarré"));
+                log.info(ctx.getApplicationName().concat(" : ").concat(applicationProperties.getName()).concat(" : Système démarré"));
             }
 
         }
