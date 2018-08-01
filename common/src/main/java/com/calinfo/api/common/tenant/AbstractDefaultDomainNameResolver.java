@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 public abstract class AbstractDefaultDomainNameResolver implements DomainNameResolver {
 
@@ -13,13 +14,15 @@ public abstract class AbstractDefaultDomainNameResolver implements DomainNameRes
     private static final Logger log = LoggerFactory.getLogger(AbstractDefaultDomainNameResolver.class);
 
     @Autowired
-    private RequestDomainName requestDomainName;
+    private ApplicationContext applicationContext;
 
     @Autowired
     private PrincipalManager principalManager;
 
     @Override
     public String getDomainName(){
+
+        RequestDomainName requestDomainName = applicationContext.getBean(RequestDomainName.class);
 
         String requestDomain = null;
         String securityPrincipalDomain = null;
