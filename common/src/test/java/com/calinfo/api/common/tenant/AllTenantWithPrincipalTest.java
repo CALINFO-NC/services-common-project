@@ -21,7 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dalexis on 10/05/2018.
@@ -51,8 +53,7 @@ public class AllTenantWithPrincipalTest {
 
     private TenantTestPrincipal principal = null;
 
-    private String domain1 = "dom1";
-    private String domain2 = "dom2";
+    private int nbDomain = 100;
 
 
     @Before
@@ -61,52 +62,64 @@ public class AllTenantWithPrincipalTest {
         System.setProperty("spring.profiles.active", "tenant");
 
 
-        String schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
-        String schema2 = String.format("%s%s", tenantProperties.getPrefix(), domain2);
+        LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
+
+        for (int i = 0; i < nbDomain; i++){
+            String dom = String.format("dom%s", i);
+            String schema = String.format("%s%s", tenantProperties.getPrefix(), dom);
+
+            DatabaseUtils.createSchema(dataSource, schema);
+            LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema);
+        }
+
+
 
         principal = new TenantTestPrincipal();
         Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
-
-        DatabaseUtils.createSchema(dataSource, schema1);
-        LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema1);
-
-        DatabaseUtils.createSchema(dataSource, schema2);
-        LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema2);
     }
 
     @Test
     public void callWithPrincipal(){
 
-        // Créer une donnée dans le domain 1
-        principal.setDomain(domain1);
-        long idVal1 = tableDomainService.create("val1");
+        Map<String, Long> mapId = new HashMap<>();
+        for (int i = 0; i < nbDomain; i++){
+            String dom = String.format("dom%s", i);
+            String val = String.format("val%s", i);
 
-        // Créer une donnée dans le domain 2
-        principal.setDomain(domain2);
-        long idVal2 = tableDomainService.create("val2");
+            // Créer une donnée dans le domain i
+            principal.setDomain(dom);
+            long idVal = tableDomainService.create(val);
+            mapId.put(val, idVal);
+        }
 
-        // Vérifier que val 1 n'est pas dans domain 2 mais est bien dans domain 1
-        principal.setDomain(domain2);
-        List<Long> lstVal1 = tableDomainService.read("val1");
-        Assert.assertTrue(lstVal1.isEmpty());
-        principal.setDomain(domain1);
-        lstVal1 = tableDomainService.read("val1");
-        Assert.assertFalse(lstVal1.isEmpty());
-        Assert.assertEquals(Long.valueOf(idVal1), lstVal1.get(0));
+        for (int i = 0; i < nbDomain; i++){
 
-        // Cérifier que val 2 n'est pas dans domain 1 mais est bien dans domain 2
-        principal.setDomain(domain1);
-        List<Long> lstVal2 = tableDomainService.read("val2");
-        Assert.assertTrue(lstVal2.isEmpty());
-        principal.setDomain(domain2);
-        lstVal2 = tableDomainService.read("val2");
-        Assert.assertFalse(lstVal2.isEmpty());
-        Assert.assertEquals(Long.valueOf(idVal2), lstVal2.get(0));
+            String dom = String.format("dom%s", i);
+            String val = String.format("val%s", i);
+
+            principal.setDomain(dom);
+            List<Long> lstVal = tableDomainService.read(val);
+            Assert.assertFalse(lstVal.isEmpty());
+            Assert.assertEquals(Long.valueOf(mapId.get(val)), lstVal.get(0));
+
+            for (int j = 0; j < nbDomain; j++){
+
+                if (i == j){
+                    continue;
+                }
+
+                dom = String.format("dom%s", j);
+
+                principal.setDomain(dom);
+                lstVal = tableDomainService.read(val);
+                Assert.assertTrue(lstVal.isEmpty());
+
+            }
+        }
 
         // Créer une donnée dans la table générique
+        principal.setDomain("dom0");
         Long id = tableGenericService.create("gen1");
         Assert.assertNotNull(id);
 
@@ -119,7 +132,7 @@ public class AllTenantWithPrincipalTest {
         Assert.assertNull(val);
 
         // Vérifier que la donnée est tojours présente même si je change de domaine
-        principal.setDomain(domain1);
+        principal.setDomain("dom1");
         val = tableGenericService.read(id);
         Assert.assertEquals("gen1", val);
     }
