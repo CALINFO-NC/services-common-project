@@ -29,6 +29,7 @@ import java.util.Map;
 /**
  * Created by dalexis on 10/05/2018.
  */
+// TODO : Ce test ne passe pas tout le temp sur travis. Pourquoi...
 @Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
