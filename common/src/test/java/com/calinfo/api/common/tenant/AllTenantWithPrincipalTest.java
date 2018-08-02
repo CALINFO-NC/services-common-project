@@ -65,7 +65,7 @@ public class AllTenantWithPrincipalTest {
         LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
 
         for (int i = 0; i < nbDomain; i++){
-            String dom = String.format("dom%s", i);
+            String dom = String.format("mydom%s", i);
             String schema = String.format("%s%s", tenantProperties.getPrefix(), dom);
 
             DatabaseUtils.createSchema(dataSource, schema);
@@ -84,7 +84,7 @@ public class AllTenantWithPrincipalTest {
 
         Map<String, Long> mapId = new HashMap<>();
         for (int i = 0; i < nbDomain; i++){
-            String dom = String.format("dom%s", i);
+            String dom = String.format("mydom%s", i);
             String val = String.format("val%s", i);
 
             // Créer une donnée dans le domain i
@@ -95,7 +95,7 @@ public class AllTenantWithPrincipalTest {
 
         for (int i = 0; i < nbDomain; i++){
 
-            String dom = String.format("dom%s", i);
+            String dom = String.format("mydom%s", i);
             String val = String.format("val%s", i);
 
             principal.setDomain(dom);
@@ -109,7 +109,7 @@ public class AllTenantWithPrincipalTest {
                     continue;
                 }
 
-                dom = String.format("dom%s", j);
+                dom = String.format("mydom%s", j);
 
                 principal.setDomain(dom);
                 lstVal = tableDomainService.read(val);
@@ -119,7 +119,7 @@ public class AllTenantWithPrincipalTest {
         }
 
         // Créer une donnée dans la table générique
-        principal.setDomain("dom0");
+        principal.setDomain("mydom0");
         Long id = tableGenericService.create("gen1");
         Assert.assertNotNull(id);
 
@@ -132,7 +132,7 @@ public class AllTenantWithPrincipalTest {
         Assert.assertNull(val);
 
         // Vérifier que la donnée est tojours présente même si je change de domaine
-        principal.setDomain("dom1");
+        principal.setDomain("mydom1");
         val = tableGenericService.read(id);
         Assert.assertEquals("gen1", val);
     }
