@@ -66,6 +66,10 @@ public class MiscUtils {
         try {
             if (response.getStatusCode() == HttpStatus.OK) {
 
+                if (response.getBody() == null){
+                    return null;
+                }
+
                 return objectMapper.readValue(response.getBody(), clazz);
             }
             else if (response.getStatusCode() == HttpStatus.NOT_IMPLEMENTED && convertor != null){
@@ -85,7 +89,7 @@ public class MiscUtils {
                 throw new MessageStatusException(response.getStatusCode(), response.getBody());
             }
         } catch (IOException e) {
-                throw new ApplicationErrorException(e);
+            throw new ApplicationErrorException(e);
         }
     }
 
