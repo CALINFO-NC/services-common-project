@@ -63,21 +63,13 @@ public class MiscUtils {
         ResponseEntity<String> response = getResponse(restTemplate, uri, httpMethod, entity);
         ObjectMapper objectMapper = MiscUtils.getObjectMapper();
 
-        if (response.getStatusCode() == HttpStatus.OK){
+        try {
+            if (response.getStatusCode() == HttpStatus.OK) {
 
-            if (response.getBody() == null) {
-                return null;
-            }
-
-            try {
                 return objectMapper.readValue(response.getBody(), clazz);
-            } catch (IOException e) {
-                throw new ApplicationErrorException(e);
             }
-        }
-        else if (response.getStatusCode() == HttpStatus.NOT_IMPLEMENTED && convertor != null){
+            else if (response.getStatusCode() == HttpStatus.NOT_IMPLEMENTED && convertor != null){
 
-            try {
                 BadResponseResource result = new BadResponseResource();
                 BadResponseResource resp = objectMapper.readValue(response.getBody(), BadResponseResource.class);
                 result.setListErrorMessages(resp.getListErrorMessages());
@@ -87,12 +79,13 @@ public class MiscUtils {
                 }
 
                 throw new MessageStatusException(response.getStatusCode(), objectMapper.writeValueAsString(result));
-            } catch (IOException e) {
-                throw new ApplicationErrorException(e);
-            }
 
-        } else {
-            throw new MessageStatusException(response.getStatusCode(), response.getBody());
+
+            } else {
+                throw new MessageStatusException(response.getStatusCode(), response.getBody());
+            }
+        } catch (IOException e) {
+                throw new ApplicationErrorException(e);
         }
     }
 
