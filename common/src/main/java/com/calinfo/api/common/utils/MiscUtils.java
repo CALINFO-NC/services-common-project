@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -66,7 +67,7 @@ public class MiscUtils {
         try {
             if (response.getStatusCode() == HttpStatus.OK) {
 
-                if (response.getBody() == null){
+                if (StringUtils.isBlank(response.getBody())){
                     return null;
                 }
 

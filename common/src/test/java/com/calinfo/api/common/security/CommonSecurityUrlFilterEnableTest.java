@@ -99,10 +99,7 @@ public class CommonSecurityUrlFilterEnableTest {
 
         URI uri = getUri("/api/nonversion/private/mock/security").build().encode().toUri();
 
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<>("", headers);
-
-        MiscUtils.callRestApiService(restTemplate, uri, HttpMethod.GET, entity, String.class);
+        MiscUtils.callRestApiService(restTemplate, uri, HttpMethod.GET, HttpEntity.EMPTY, String.class);
 
     }
 
