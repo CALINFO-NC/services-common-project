@@ -3,6 +3,8 @@ package com.calinfo.api.common.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.springframework.data.domain.Pageable;
+
 /**
  * Created by dalexis on 18/11/2017.
  */
@@ -15,6 +17,10 @@ public class ChargementInfoDto implements Dto {
     private Integer limit;
 
     public ChargementInfoDto(){
+    }
+
+    public ChargementInfoDto(Pageable page){
+        this(page.getPageNumber(), page.getPageSize());
     }
 
     public ChargementInfoDto(int start){
