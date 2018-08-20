@@ -29,6 +29,6 @@ public class ChargementInfoDto implements Dto {
 
     public ChargementInfoDto(int start, Integer limit){
         this.start = start;
-        this.limit = limit;
+        this.limit = limit; 
     }
 }
