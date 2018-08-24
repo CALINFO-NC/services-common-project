@@ -3,6 +3,7 @@ package com.calinfo.api.common.converter;
 import com.calinfo.api.common.mocks.MockClassConverter;
 import com.calinfo.api.common.mocks.MockConvertManager;
 import com.calinfo.api.common.mocks.MockInstanceConverter;
+import com.calinfo.api.common.mocks.StringIntegerClassConverter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,6 +44,21 @@ public class AbstractConvertManagerTest {
         Assert.assertEquals(dest, cm.getClassConverter().getDestClass());
         Assert.assertEquals(src, cm.getClassConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getClassConverter().getDestConvert());
+    }
+
+    @Test
+    public void callConvertWithFunction(){
+
+        MockConvertManager cm = new MockConvertManager();
+        cm.setAnonymClassConverter(new StringIntegerClassConverter());
+        cm.postConstruct();
+
+        String src = "123";
+        Integer dest = Integer.valueOf(123);
+
+        // Cas d'une convertion par intance
+        Assert.assertEquals(dest, cm.toFunction(Integer.class).apply(src));
+
     }
 
     @Test
