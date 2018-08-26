@@ -94,6 +94,7 @@ public class CommonSecurityUrlFilterEnableTest {
         Assert.assertTrue(principal.getRoles().contains("role2"));
     }
 
+
     @Test
     public void callPublicUrl(){
 

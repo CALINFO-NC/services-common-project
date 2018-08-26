@@ -4,6 +4,7 @@ import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.ex.handler.ResponseEntityExceptionHandler;
 import com.calinfo.api.common.manager.ApiKeyManager;
+import com.calinfo.api.common.matching.MatchingUrlFilter;
 import com.calinfo.api.common.utils.SecurityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang.StringUtils;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
 @Order(CommonSecurityUrlFilter.ORDER_FILTER)
 public class CommonSecurityUrlFilter extends OncePerRequestFilter {
 
-    public static final int ORDER_FILTER = 1000;
+    public static final int ORDER_FILTER = MatchingUrlFilter.ORDER_FILTER + 10;
 
     private static final Logger log = LoggerFactory.getLogger(CommonSecurityUrlFilter.class);
 

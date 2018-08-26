@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Classe permettant de gérer des converter.
@@ -95,5 +96,9 @@ public abstract class AbstractConvertManager {
         }
 
         return findConverter(sourceRoot, source.getSuperclass(), dest);
+    }
+
+    public <A, B> Function<A, B> toFunction (@NotNull Class<B> classB){
+        return new FunctionConverter<>(this, classB);
     }
 }

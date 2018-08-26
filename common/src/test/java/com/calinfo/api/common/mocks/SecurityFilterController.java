@@ -62,4 +62,11 @@ public class SecurityFilterController {
             return new HttpEntity<>("");
         }
     }
+
+
+
+    @GetMapping(value = "/api/v1/public/mock")
+    public HttpEntity<?> mockPublicUrl(){
+        return new HttpEntity<>("");
+    }
 }
