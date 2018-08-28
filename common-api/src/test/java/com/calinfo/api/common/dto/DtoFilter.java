@@ -12,6 +12,7 @@ public class DtoFilter implements PojoClassFilter {
 
     @Override
     public boolean include(PojoClass pojoClass) {
-        return PACKAGE_SCAN.equals(pojoClass.getPackage().getName());
+
+        return PACKAGE_SCAN.equals(pojoClass.getPackage().getName()) && !pojoClass.getName().endsWith("Test") && !pojoClass.isNestedClass();
     }
 }
