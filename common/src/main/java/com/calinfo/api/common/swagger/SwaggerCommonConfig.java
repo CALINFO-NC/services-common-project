@@ -16,7 +16,7 @@ public class SwaggerCommonConfig implements BeanPostProcessor {
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName){
 
-        if (bean.getClass().getName().equals(Docket.class.getName())) {
+        if (bean.getClass().isAssignableFrom(Docket.class)){
             Docket docket = (Docket) bean;
 
 

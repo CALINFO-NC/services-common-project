@@ -151,14 +151,19 @@ public class ReadOnlyPropertyGenericResource implements ModelPropertyBuilderPlug
 
             List<?> lstGroup = Arrays.asList(groups);
 
+            String propValue = "";
+            if (propertyValue != null){
+                propValue = propertyValue.toString();
+            }
+
             if (lstGroup.contains(Create.class)){
-                description = concatTextDescrption(description, String.format("%s: %s (on create)", propertyName, propertyValue.toString()));
+                description = concatTextDescrption(description, String.format("%s: %s (on create)", propertyName, propValue));
             }
             else if (lstGroup.contains(Update.class)){
-                description = concatTextDescrption(description, String.format("%s: %s (on update)", propertyName, propertyValue.toString()));
+                description = concatTextDescrption(description, String.format("%s: %s (on update)", propertyName, propValue));
             }
             else {
-                description = concatTextDescrption(description, String.format("%s: %s", propertyName, propertyValue.toString()));
+                description = concatTextDescrption(description, String.format("%s: %s", propertyName, propValue));
             }
 
             return String.format("<span style=\"color:gray;\">%s</span>", description);

@@ -1,4 +1,4 @@
-package com.calinfo.api.common.matching;
+package com.calinfo.api.common.swagger;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -13,34 +13,32 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- * Created by dalexis on 06/01/2018.
- */
+import java.io.IOException;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class MatchingUrlFilterEnableTest {
+public class SwaggerCallApiTest {
+
 
     @LocalServerPort
     private int port;
 
     @Test
-    public void callPublicUrl() throws Exception{
+    public void callUrl(){
 
-        String url = String.format("http://localhost:%s/api/v1//public/mock", port);
+        String url = String.format("http://localhost:%s/swagger-ui.html", port);
 
         HttpClient client = HttpClientBuilder.create().build();
-        HttpResponse response = client.execute(new HttpGet(url));
-
-        Assert.assertTrue(response.getStatusLine().getStatusCode() == HttpStatus.NOT_FOUND.value());
-
-        url = String.format("http://localhost:%s/api/v1/public/mock", port);
-
-        client = HttpClientBuilder.create().build();
-        response = client.execute(new HttpGet(url));
+        HttpResponse response = null;
+        try {
+            response = client.execute(new HttpGet(url));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
 
         Assert.assertTrue(response.getStatusLine().getStatusCode() == HttpStatus.OK.value());
 
     }
-
 }
