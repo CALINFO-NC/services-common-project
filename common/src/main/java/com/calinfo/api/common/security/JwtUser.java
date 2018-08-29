@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-    public class JwtUser {
+public class JwtUser {
 
     private String login;
 
