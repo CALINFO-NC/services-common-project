@@ -21,6 +21,10 @@
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
     </properties>
 
+    <build>
+        <finalName>common-api</finalName>
+    </build>
+
     <dependencies>
 
         <dependency>

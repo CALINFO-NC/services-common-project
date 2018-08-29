@@ -29,6 +29,10 @@
         <version.swagger>2.9.2</version.swagger>
     </properties>
 
+    <build>
+        <finalName>common</finalName>
+    </build>
+
     <dependencies>
 
         <!-- Bibl Srping boot -->
