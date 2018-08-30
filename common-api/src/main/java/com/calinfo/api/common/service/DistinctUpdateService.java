@@ -10,7 +10,7 @@ import com.calinfo.api.common.resource.Resource;
  * @param <O> type du paramètre de sortie de la fonction {@link #update(Object, Dto )}
  * @param <ID> identifiant de la resource
  */
-public interface DistinctUpdateService<O extends Resource, I extends Dto, ID> {
+public interface DistinctUpdateService<I extends Resource, O extends Dto, ID> {
 
     O update(ID id, I dto);
 }
