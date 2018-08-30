@@ -12,5 +12,5 @@ import com.calinfo.api.common.resource.Resource;
  */
 public interface DistinctUpdateService<O extends Resource, I extends Dto, Id> {
 
-    O update(I dto, Id id);
+    O update(Id id, I dto);
 }
