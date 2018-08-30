@@ -9,7 +9,7 @@ import com.calinfo.api.common.resource.Resource;
  * @param <I> type du paramètre d'entrée de la fonction {@link #create(Resource)}
  * @param <O> type du paramètre de sortie de la fonction {@link #create(Resource)}
  */
-public interface DistinctCreateService<I extends Resource, O extends Resource> {
+public interface CreateProjectionService<I extends Resource, O extends Resource> {
 
-    O create(I i);
+    O create(I id);
 }
