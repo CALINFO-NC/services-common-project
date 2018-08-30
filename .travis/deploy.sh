@@ -11,9 +11,10 @@ then
     artifactory_deploy $TRAVIS_BUILD_DIR/common-libs pom.xml
 fi
 
+#  La publicaion sur le maven sit est trop long, et plante une foie sur trois. Voir comment faire autrement
 # Publier le site si nécessaire
-isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
-if [ "$TRAVIS_BRANCH" == "master" ]
-then
-    mvn site -B
-fi
+# isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
+# if [ "$TRAVIS_BRANCH" == "master" ]
+# then
+#     mvn site -B
+# fi
