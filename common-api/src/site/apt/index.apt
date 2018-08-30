@@ -8,11 +8,11 @@ Les services
 
  Afin d'harmoniser les verbes utilisés, le <common> apporte les interfaces suivantes dans le package <com.calinfo.api.common.service>
 
- * <CreateService>
+ * <CreateService> ou <CreateProjectionService>
 
  * <ReadService>
 
- * <UpdateService>
+ * <UpdateService> ou <UpdateProjectionService>
 
  * <DeleteService>
 

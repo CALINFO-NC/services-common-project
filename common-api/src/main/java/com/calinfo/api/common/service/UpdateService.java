@@ -8,5 +8,4 @@ import com.calinfo.api.common.resource.Resource;
  */
 public interface UpdateService<T extends Resource, I> extends UpdateProjectionService<T, T, I> {
 
-    T update(I id, T resource);
 }
