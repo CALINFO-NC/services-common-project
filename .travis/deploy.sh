@@ -13,7 +13,7 @@ fi
 
 # Publier le site si nécessaire
 isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
-if [ "$isSnapshot" == "false" ] || [ "$TRAVIS_BRANCH" == "master" ]
+if [ "$TRAVIS_BRANCH" == "master" ]
 then
     mvn site -B
 fi
