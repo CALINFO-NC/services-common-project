@@ -1,4 +1,5 @@
 common:
+  kafka.url: true
   configuration:
 
     matching:
@@ -12,6 +13,7 @@ common:
 
 
 spring:
+  application.name: common
   liquibase:
     change-log: classpath:liquibase/changelog-master.xml
     enabled: false
