@@ -14,8 +14,10 @@ import springfox.documentation.swagger.common.SwaggerPluginSupport;
  * Created by dalexis on 08/06/2018.
  */
 @Component
-@Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 100)
-public class DefaultNicknameOperation implements OperationBuilderPlugin {
+@Order(DefaultNicknameOperationBuilder.ORDER)
+public class DefaultNicknameOperationBuilder implements OperationBuilderPlugin {
+
+    public static final int ORDER = SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 100;
 
     @Override
     public void apply(OperationContext operationContext) {
@@ -30,6 +32,7 @@ public class DefaultNicknameOperation implements OperationBuilderPlugin {
             nickname = operationContext.getName();
             operationContext.operationBuilder().codegenMethodNameStem(nickname);
         }
+
     }
 
     @Override
