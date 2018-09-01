@@ -18,6 +18,10 @@ public abstract class AbstractDefaultDomainNameResolver implements DomainNameRes
     @Autowired
     private PrincipalManager principalManager;
 
+
+    @Autowired
+    private TenantApplicationState applicationState;
+
     @Override
     public String getDomainName(){
 
@@ -31,13 +35,11 @@ public abstract class AbstractDefaultDomainNameResolver implements DomainNameRes
         }
         catch (BeanCreationException e){
 
-            String msg = "warn not important before application startup : ".concat(e.getMessage());
-
-            if (log.isDebugEnabled()) {
-                log.debug(msg, e);
+            if (applicationState.isStarted() && log.isErrorEnabled()){
+                log.error(e.getMessage(), e);
             }
-            else{
-                log.warn(msg);
+            else if (log.isDebugEnabled()){
+                log.debug(e.getMessage(), e);
             }
 
         }

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 11)
-public class SecurityFilterSwaggerOperation implements OperationBuilderPlugin {
+public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPlugin {
 
     @Autowired
     private SecurityProperties securityProperties;
