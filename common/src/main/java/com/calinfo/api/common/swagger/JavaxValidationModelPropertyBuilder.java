@@ -27,9 +27,9 @@ import java.util.List;
  */
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 10)
-public class ReadOnlyPropertyGenericResource implements ModelPropertyBuilderPlugin {
+public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilderPlugin {
 
-    private static final Logger log = LoggerFactory.getLogger(ReadOnlyPropertyGenericResource.class);
+    private static final Logger log = LoggerFactory.getLogger(JavaxValidationModelPropertyBuilder.class);
 
 
     @Override
