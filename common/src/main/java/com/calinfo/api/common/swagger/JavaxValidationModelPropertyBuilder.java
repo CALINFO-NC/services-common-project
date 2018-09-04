@@ -58,13 +58,13 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
             description = concatTextDescrption(description, getAnnotationText("maxLength", getAnnotationValue(anno, "max"), anno));
 
             anno = field.getAnnotation(Min.class);
-            description = concatTextDescrption(description, getAnnotationText("minValue", getAnnotationValue(anno, "value"), anno));
+            description = concatTextDescrption(description, getAnnotationText("minValue", getAnnotationValue(anno), anno));
 
             anno = field.getAnnotation(Max.class);
-            description = concatTextDescrption(description, getAnnotationText("maxValue", getAnnotationValue(anno, "value"), anno));
+            description = concatTextDescrption(description, getAnnotationText("maxValue", getAnnotationValue(anno), anno));
 
             anno = field.getAnnotation(NotBlank.class);
-            description = concatTextDescrption(description, getAnnotationText("blank","false", anno));
+            description = concatTextDescrption(description, getAnnotationText("blank", "false", anno));
 
             anno = field.getAnnotation(Pattern.class);
             description = concatTextDescrption(description, getAnnotationText("pattern", getAnnotationValue(anno, "regexp"), anno));
@@ -97,10 +97,10 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
             description = concatTextDescrption(description, getAnnotationText("futureOnly", "true", anno));
 
             anno = field.getAnnotation(DecimalMin.class);
-            description = concatTextDescrption(description, getAnnotationText("minDecimalValue", getAnnotationValue(anno, "value"), anno));
+            description = concatTextDescrption(description, getAnnotationText("minDecimalValue", getAnnotationValue(anno), anno));
 
             anno = field.getAnnotation(DecimalMax.class);
-            description = concatTextDescrption(description, getAnnotationText("maxDecimalValue", getAnnotationValue(anno, "value"), anno));
+            description = concatTextDescrption(description, getAnnotationText("maxDecimalValue", getAnnotationValue(anno), anno));
 
             anno = field.getAnnotation(AssertFalse.class);
             description = concatTextDescrption(description, getAnnotationText("falseOnly", "true", anno));
@@ -122,9 +122,13 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
         return true;
     }
 
-    private Object getAnnotationValue(Object annotation, String methodName){
+    private Object getAnnotationValue(Object annotation) {
+        return getAnnotationValue(annotation, "value");
+    }
 
-        if (annotation != null){
+    private Object getAnnotationValue(Object annotation, String methodName) {
+
+        if (annotation != null) {
 
             try {
                 Method mGroups = annotation.getClass().getMethod(methodName);
@@ -140,9 +144,9 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
         return null;
     }
 
-    private String getAnnotationText(String propertyName, Object propertyValue, Object annotation){
+    private String getAnnotationText(String propertyName, Object propertyValue, Object annotation) {
 
-        if (annotation != null){
+        if (annotation != null) {
 
             Object objGroups = getAnnotationValue(annotation, "groups");
             Class<?>[] groups = (Class<?>[]) objGroups;
@@ -152,17 +156,15 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
             List<?> lstGroup = Arrays.asList(groups);
 
             String propValue = "";
-            if (propertyValue != null){
+            if (propertyValue != null) {
                 propValue = propertyValue.toString();
             }
 
-            if (lstGroup.contains(Create.class)){
+            if (lstGroup.contains(Create.class)) {
                 description = concatTextDescrption(description, String.format("%s: %s (on create)", propertyName, propValue));
-            }
-            else if (lstGroup.contains(Update.class)){
+            } else if (lstGroup.contains(Update.class)) {
                 description = concatTextDescrption(description, String.format("%s: %s (on update)", propertyName, propValue));
-            }
-            else {
+            } else {
                 description = concatTextDescrption(description, String.format("%s: %s", propertyName, propValue));
             }
 
@@ -174,24 +176,24 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
         return null;
     }
 
-    private String getFieldDescription(Field field){
+    private String getFieldDescription(Field field) {
 
         ApiModelProperty apiModelPropertyAno = field.getAnnotation(ApiModelProperty.class);
 
-        if (apiModelPropertyAno == null || StringUtils.isBlank(apiModelPropertyAno.value())){
+        if (apiModelPropertyAno == null || StringUtils.isBlank(apiModelPropertyAno.value())) {
             return null;
         }
 
         return apiModelPropertyAno.value();
     }
 
-    private String concatTextDescrption(String base, String newDesc){
+    private String concatTextDescrption(String base, String newDesc) {
 
-        if (StringUtils.isBlank(newDesc)){
+        if (StringUtils.isBlank(newDesc)) {
             return base;
         }
 
-        if (StringUtils.isBlank(base)){
+        if (StringUtils.isBlank(base)) {
             return newDesc;
         }
 

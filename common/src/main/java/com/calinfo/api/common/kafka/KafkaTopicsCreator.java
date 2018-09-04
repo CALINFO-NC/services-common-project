@@ -59,55 +59,62 @@ public class KafkaTopicsCreator implements ApplicationListener<ContextRefreshedE
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
-        AdminClient client = AdminClient.create(kafkaAdmin.getConfig());
+        try (AdminClient client = AdminClient.create(kafkaAdmin.getConfig())) {
 
-        Set<String> existingTopics;
+            Set<String> existingTopics;
 
-        try {
+            try {
 
-            existingTopics = client.listTopics().names().get();
+                existingTopics = client.listTopics().names().get();
 
-            logger.info("Existing kafka topics : {} ", existingTopics);
+                logger.info("Existing kafka topics : {} ", existingTopics);
 
-        } catch (InterruptedException | ExecutionException e) {
-            logger.error("Impossible de récupérer la liste des topics kafka existants", e);
-            throw new KafkaCreateTopicsException();
+            } catch (ExecutionException e) {
+
+                logger.error("Impossible de récupérer la liste des topics kafka existants", e);
+                throw new KafkaCreateTopicsException();
+
+            } catch (InterruptedException e) {
+
+                Thread.currentThread().interrupt();
+                logger.error("Impossible de récupérer la liste des topics kafka existants", e);
+                throw new KafkaCreateTopicsException();
+            }
+
+            Set<NewTopic> newTopics = requestMappingHandlerMapping
+                    .getHandlerMethods()
+                    // Récupère tous les handlers des controllers de l'application context
+                    .entrySet()
+                    .stream()
+                    // Filtre par méthode http, la méthode déclarée doit exister dans publishingMethods
+                    .filter(entry ->
+                            !entry.getKey()
+                                    .getMethodsCondition()
+                                    .getMethods()
+                                    .stream()
+                                    .filter(publishingMethods::contains)
+                                    .collect(Collectors.toSet())
+                                    .isEmpty()
+                    )
+                    // Récupération du nom du topic kafka
+                    // Et Enregistrement du mapping entre le nom classe + méthode et topic kafka
+                    .flatMap(entry -> kafkaTopicNameResolver.resolve(
+                            entry.getKey().getPatternsCondition().getPatterns(),
+                            entry.getValue().getBeanType().getName(),
+                            entry.getValue().getMethod().getName())
+                            .stream())
+                    // Si le topic n'existe pas
+                    .filter(topicName -> !existingTopics.contains(topicName))
+                    // Suppression des doublons
+                    .distinct()
+                    .map(topicName -> new NewTopic(topicName, partitions, replicas))
+                    .collect(Collectors.toSet());
+
+
+            this.kafkaCreateTopicWrapper.createTopics(client, newTopics);
+
+            client.close();
         }
-
-        Set<NewTopic> newTopics = requestMappingHandlerMapping
-                .getHandlerMethods()
-                // Récupère tous les handlers des controllers de l'application context
-                .entrySet()
-                .stream()
-                // Filtre par méthode http, la méthode déclarée doit exister dans publishingMethods
-                .filter(entry ->
-                        !entry.getKey()
-                                .getMethodsCondition()
-                                .getMethods()
-                                .stream()
-                                .filter(publishingMethods::contains)
-                                .collect(Collectors.toSet())
-                                .isEmpty()
-                )
-                // Récupération du nom du topic kafka
-                // Et Enregistrement du mapping entre le nom classe + méthode et topic kafka
-                .flatMap(entry -> kafkaTopicNameResolver.resolve(
-                        entry.getKey().getPatternsCondition().getPatterns(),
-                        entry.getValue().getBeanType().getName(),
-                        entry.getValue().getMethod().getName())
-                        .stream())
-                // Si le topic n'existe pas
-                .filter(topicName -> !existingTopics.contains(topicName))
-                // Suppression des doublons
-                .distinct()
-                .map(topicName -> new NewTopic(topicName, partitions, replicas))
-                .collect(Collectors.toSet());
-
-
-        this.kafkaCreateTopicWrapper.createTopics(client, newTopics);
-
-        client.close();
-
     }
 
 }

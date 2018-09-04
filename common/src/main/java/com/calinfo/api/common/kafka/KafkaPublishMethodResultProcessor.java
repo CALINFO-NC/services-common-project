@@ -1,19 +1,15 @@
 package com.calinfo.api.common.kafka;
 
 import com.calinfo.api.common.resource.Resource;
-import com.calinfo.api.common.swagger.SwaggerItemCollector;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.annotation.Order;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 
 /**

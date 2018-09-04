@@ -22,7 +22,7 @@ public class KafkaConfig {
 
     @Bean
     public <T extends Resource> KafkaTemplate<String, T> kafkaTemplate() {
-        return new KafkaTemplate<String, T>(producerFactory());
+        return new KafkaTemplate(producerFactory());
     }
 
     @Bean

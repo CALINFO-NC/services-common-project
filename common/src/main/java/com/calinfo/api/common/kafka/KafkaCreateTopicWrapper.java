@@ -33,11 +33,20 @@ public class KafkaCreateTopicWrapper {
 
             logger.info("New kafka topics : {} ", newTopics);
 
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (ExecutionException e) {
 
             logger.error("Echec de la création des nouveaux topics kafka", e);
 
             throw new KafkaCreateTopicsException();
+
+        } catch (InterruptedException e) {
+
+            Thread.currentThread().interrupt();
+
+            logger.error("Echec de la création des nouveaux topics kafka", e);
+
+            throw new KafkaCreateTopicsException();
+
 
         }
 
