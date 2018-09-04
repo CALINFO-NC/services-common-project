@@ -1,4 +1,10 @@
 common:
+  kafka.enabled: true
+  kafka.url: localhost:9092
+  kafka.publishEventsOnMethods: POST, PUT, DELETE
+  kafka.topics.partitions: 1
+  kafka.topics.replicas: 1
+
   configuration:
 
     matching:

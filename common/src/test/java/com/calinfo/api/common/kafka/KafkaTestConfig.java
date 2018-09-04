@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.kafka.test.context.EmbeddedKafka;
@@ -21,34 +24,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaProducerConfig {
+@EmbeddedKafka
+@Primary
+@EnableKafka
+@Profile("kafka")
+public class KafkaTestConfig {
 
-    private static KafkaEmbedded embeddedKafka = new KafkaEmbedded(2, false);
-
-    static {
-        try {
-            embeddedKafka.before();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static KafkaEmbedded getEmbeddedKafka() {
-        return embeddedKafka;
-    }
+    @Autowired(required = false)
+    private KafkaEmbedded kafkaEmbedded;
 
     @Bean
-    public <T extends Resource> ProducerFactory<String, T> producerFactory() {
-
-        Map<String, Object> config = KafkaTestUtils.producerProps(embeddedKafka);
-
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
-        return new DefaultKafkaProducerFactory<String, T>(config);
+    public KafkaAdmin kafkaAdmin() {
+        return new KafkaAdmin(KafkaTestUtils.producerProps(kafkaEmbedded));
     }
 
-    @Bean
-    public KafkaAdmin admin() {
-        return new KafkaAdmin(KafkaTestUtils.producerProps(embeddedKafka));
-    }
 }
