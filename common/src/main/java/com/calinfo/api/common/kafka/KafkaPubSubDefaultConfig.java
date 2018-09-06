@@ -16,17 +16,11 @@ import java.util.Map;
 @ConditionalOnProperty("common.kafka.enabled")
 public class KafkaPubSubDefaultConfig implements KafkaPubSubConfig {
 
-    private KafkaProperties kafkaProperties;
-
     @Value("${common.kafka.url}")
     private String kafkaUrl;
 
     @Value("${common.kafka.deserialisation.trustedPackages}")
     private String trustedPackages;
-
-    public KafkaPubSubDefaultConfig(KafkaProperties kafkaProperties) {
-        this.kafkaProperties = kafkaProperties;
-    }
 
     public Map<String, Object> producerConfigs() {
 

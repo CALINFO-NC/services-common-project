@@ -21,9 +21,6 @@ import org.springframework.util.ClassUtils;
 class KafkaPublishMethodResultProcessor {
 
 
-    private final Logger logger = LoggerFactory.getLogger(KafkaPublishMethodResultProcessor.class);
-
-
     private final KafkaTopicNameResolver kafkaTopicNameResolver;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
