@@ -1,3 +1,4 @@
 common:
   kafka.enabled: true
   kafka.url: localhost:9092
+  kafka.deserialisation.trustedPackages: com.calinfo.api.common.kafka
