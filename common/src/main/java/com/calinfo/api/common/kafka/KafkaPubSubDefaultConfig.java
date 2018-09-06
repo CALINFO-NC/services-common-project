@@ -5,6 +5,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,17 @@ import java.util.Map;
 @ConditionalOnProperty("common.kafka.enabled")
 public class KafkaPubSubDefaultConfig implements KafkaPubSubConfig {
 
+    private KafkaProperties kafkaProperties;
+
     @Value("${common.kafka.url}")
     private String kafkaUrl;
+
+    @Value("${common.kafka.deserialisation.trustedPackages}")
+    private String trustedPackages;
+
+    public KafkaPubSubDefaultConfig(KafkaProperties kafkaProperties) {
+        this.kafkaProperties = kafkaProperties;
+    }
 
     public Map<String, Object> producerConfigs() {
 
@@ -35,7 +45,9 @@ public class KafkaPubSubDefaultConfig implements KafkaPubSubConfig {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        config.put(JsonDeserializer.TRUSTED_PACKAGES, trustedPackages);
 
         return config;
     }
