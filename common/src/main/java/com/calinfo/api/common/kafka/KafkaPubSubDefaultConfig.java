@@ -20,7 +20,7 @@ public class KafkaPubSubDefaultConfig implements KafkaPubSubConfig {
     @Value("${common.kafka.url}")
     private String kafkaUrl;
 
-    @Value("${common.kafka.deserialisation.trustedPackages}")
+    @Value("${common.kafka.deserialisation.trustedPackages:}")
     private String trustedPackages;
 
     public Map<String, Object> producerConfigs() {
