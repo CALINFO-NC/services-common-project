@@ -47,11 +47,11 @@ public class KakfaAnnotationTest {
 
     private MockMvc mockMvc;
 
-    private Consumer<String, KakfaRequestMessage<TestResource>> consumer;
+    private Consumer<String, KakfaRequestMessage<?>> consumer;
 
     private ObjectMapper objectMapper;
 
-    DefaultKafkaConsumerFactory<String, KakfaRequestMessage<TestResource>> defaultKafkaConsumerFactory;
+    DefaultKafkaConsumerFactory<String, KakfaRequestMessage<?>> defaultKafkaConsumerFactory;
 
     @Before
     public void before() throws Exception {
@@ -84,7 +84,7 @@ public class KakfaAnnotationTest {
                         .content(new ObjectMapper().writeValueAsString(new TestResource("test")))
         );
 
-        ConsumerRecords<String, KakfaRequestMessage<TestResource>> records = KafkaTestUtils.getRecords(consumer);
+        ConsumerRecords<String, KakfaRequestMessage<?>> records = KafkaTestUtils.getRecords(consumer);
 
         Assert.assertEquals(1, records.count());
 
@@ -107,7 +107,7 @@ public class KakfaAnnotationTest {
                         .content(new ObjectMapper().writeValueAsString(new TestResource("test")))
         );
 
-        ConsumerRecords<String, KakfaRequestMessage<TestResource>> records = KafkaTestUtils.getRecords(consumer);
+        ConsumerRecords<String, KakfaRequestMessage<?>> records = KafkaTestUtils.getRecords(consumer);
 
         Assert.assertEquals(1, records.count());
 
@@ -119,6 +119,41 @@ public class KakfaAnnotationTest {
 
     }
 
+
+    @Test
+    public void testVoidReturn() throws Exception {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .put("/api/v1/test/voidReturn")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(new TestResource("test")))
+        );
+
+        ConsumerRecords<String, KakfaRequestMessage<?>> records = KafkaTestUtils.getRecords(consumer);
+
+        Assert.assertEquals(1, records.count());
+
+        Assert.assertNull(records.iterator().next().value().getResult());
+
+        consumer.close();
+
+    }
+
+
+    @Test
+    public void ignorePublishing() throws Exception {
+
+        // L'url test est ignorée par le publishing kafka
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/test"));
+        // L'url publishingGet est publiée mais le paramètre est ignoré
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/test/publishingGet"));
+
+        ConsumerRecords<String, KakfaRequestMessage<?>> records = KafkaTestUtils.getRecords(consumer);
+
+        Assert.assertEquals(1, records.count());
+
+    }
 
 
     public static class TestResource extends Resource {

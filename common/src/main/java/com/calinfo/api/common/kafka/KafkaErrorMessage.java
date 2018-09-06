@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @Setter
 @AllArgsConstructor
-public class KafkaErrorMessage {
+class KafkaErrorMessage {
 
     private String message;
     private HttpStatus status;
