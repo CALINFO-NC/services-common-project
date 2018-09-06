@@ -1,6 +1,6 @@
 package com.calinfo.api.common.kafka;
 
-import com.calinfo.api.common.resource.Resource;
+import com.calinfo.api.common.ex.MessageStatusException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,14 +20,16 @@ import org.springframework.util.ClassUtils;
 @ConditionalOnProperty("common.kafka.enabled")
 class KafkaPublishMethodResultProcessor {
 
+
     private final Logger logger = LoggerFactory.getLogger(KafkaPublishMethodResultProcessor.class);
 
+
     private final KafkaTopicNameResolver kafkaTopicNameResolver;
-    private final KafkaTemplate<String, Resource> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
 
     public KafkaPublishMethodResultProcessor(
-            KafkaTemplate<String, Resource> kafkaTemplate,
+            KafkaTemplate<String, Object> kafkaTemplate,
             KafkaTopicNameResolver kafkaTopicNameResolver) {
 
         this.kafkaTemplate = kafkaTemplate;
@@ -35,25 +37,37 @@ class KafkaPublishMethodResultProcessor {
     }
 
 
-    @Around("@annotation(KafkaPublishMethodResult)")
+    @Around("@within(org.springframework.web.bind.annotation.RestController)")
     public Object publishToKafka(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        Object result = joinPoint.proceed();
+        Class<?> clazz = ClassUtils.getUserClass(joinPoint.getThis());
+        String topic = kafkaTopicNameResolver.getTopic(clazz.getName(), joinPoint.getSignature().getName());
 
-        if (!Resource.class.isAssignableFrom(result.getClass())) {
-
-            logger.warn(
-                    "La méthode {} de la classe {} ne peut pas être annotée avec CUDKaftaPublisher car son type de retour n'étend pas Resource"
-                    , joinPoint.getSignature()
-                    , joinPoint.getThis().getClass());
-
-            return result;
-
+        if (null == topic) {
+            return joinPoint.proceed();
         }
 
-        Class<?> clazz = ClassUtils.getUserClass(joinPoint.getThis());
+        try {
 
-        kafkaTemplate.send(kafkaTopicNameResolver.getTopic(clazz.getName(), joinPoint.getSignature().getName()), (Resource) result);
+            return sendToKafka(topic, joinPoint.getArgs(), joinPoint.proceed());
+
+        } catch (MessageStatusException msg) {
+
+            sendToKafka(topic, joinPoint.getArgs(), new KafkaErrorMessage(msg.getMessage(), msg.getStatus()));
+
+            throw msg;
+
+        }
+    }
+
+    private <T> T sendToKafka(String topic, Object[] args, T result) {
+
+        KakfaRequestMessage kakfaRequestMessage = new KakfaRequestMessage();
+        kakfaRequestMessage.setParams(args);
+        kakfaRequestMessage.setResult(result);
+        kakfaRequestMessage.setResultType(result.getClass().getName());
+
+        kafkaTemplate.send(topic, kakfaRequestMessage);
 
         return result;
     }

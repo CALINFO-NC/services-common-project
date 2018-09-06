@@ -16,7 +16,7 @@ import java.util.Map;
 @EmbeddedKafka
 @Profile("kafka")
 @Component
-public class KafkaTestProducerConfig implements IKafkaProducerConfig {
+public class KafkaTestPubSubConfig implements KafkaPubSubConfig {
 
     @Autowired
     private KafkaEmbedded kafkaEmbedded;
@@ -24,6 +24,16 @@ public class KafkaTestProducerConfig implements IKafkaProducerConfig {
     public Map<String, Object> producerConfigs() {
 
         Map<String, Object> config = KafkaTestUtils.producerProps(kafkaEmbedded);
+
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        return config;
+    }
+
+    @Override
+    public Map<String, Object> consumerConfigs() {
+
+        Map<String, Object> config = KafkaTestUtils.consumerProps("testT", "false", kafkaEmbedded);
 
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 

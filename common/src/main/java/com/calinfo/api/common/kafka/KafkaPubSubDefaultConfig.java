@@ -1,5 +1,6 @@
 package com.calinfo.api.common.kafka;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 @Component
 @ConditionalOnProperty("common.kafka.enabled")
-public class KafkaProducerConfig implements IKafkaProducerConfig {
+public class KafkaPubSubDefaultConfig implements KafkaPubSubConfig {
 
     @Value("${common.kafka.url}")
     private String kafkaUrl;
@@ -24,6 +25,17 @@ public class KafkaProducerConfig implements IKafkaProducerConfig {
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        return config;
+    }
+
+    @Override
+    public Map<String, Object> consumerConfigs() {
+
+        Map<String, Object> config = new HashMap<>();
+
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         return config;
     }

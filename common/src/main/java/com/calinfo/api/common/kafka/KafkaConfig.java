@@ -2,32 +2,36 @@ package com.calinfo.api.common.kafka;
 
 import com.calinfo.api.common.resource.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.core.*;
 
 @Configuration
 @ConditionalOnProperty("common.kafka.enabled")
 @EnableKafka
 public class KafkaConfig {
 
-    private final IKafkaProducerConfig kafkaProducerConfig;
+    private final KafkaPubSubConfig kafkaProducerConfig;
 
-    public KafkaConfig(IKafkaProducerConfig kafkaProducerConfig) {
+    public KafkaConfig(KafkaPubSubConfig kafkaProducerConfig) {
         this.kafkaProducerConfig = kafkaProducerConfig;
     }
 
     @Bean
-    public <T extends Resource> KafkaTemplate<String, T> kafkaTemplate() {
+    public <T> KafkaTemplate<String, T> kafkaTemplate() {
         return new KafkaTemplate(producerFactory());
     }
 
     @Bean
-    public <T extends Resource> ProducerFactory<String, T> producerFactory() {
+    public <T> ProducerFactory<String, T> producerFactory() {
         return new DefaultKafkaProducerFactory<>(kafkaProducerConfig.producerConfigs());
+    }
+
+    @Bean
+    public <T> ConsumerFactory<String, T> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(kafkaProducerConfig.consumerConfigs());
     }
 
 }
