@@ -29,6 +29,7 @@
             <item name="Sécirité" href="security.html"/>
             <item name="Tâches" href="task.html"/>
             <item name="Internationalisation" href="internationalisation.html"/>
+            <item name="Kafka" href="kafka.html"/>
         </menu>
 
         <menu name="Rapports">

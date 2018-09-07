@@ -1,0 +1,89 @@
+Description
+
+ Le <common> propose une intégration d'apache Kafka  {{ https://kafka.apache.org/ }}
+
+ L'intégration est basée sur {{ https://spring.io/projects/spring-kafka }}
+
+ L'intégration installe des écouteurs sur les urls déclarées dans les controleurs via AOP: {{ https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html }}
+
+ Classe KafkaPublishParamAndResultAspect :
+
++------------------------------------------+
+ @Around("@within(org.springframework.web.bind.annotation.RestController) && !@annotation(com.calinfo.api.common.kafka.KafkaIgnore)")
++------------------------------------------+
+
+ Ces écouteurs diffusent les paramètres et le résultat de l'éxécution de la méthode du controleur sur des "Topics" Kafka.
+
+ Les Topics Kafka proposés par une application sont publiées dans la documentation de l'api, disponible sur (http://application/api)
+
+Activation de kafka pour une application
+
+ Ajouter les propriétés suivantes à la configuration :
+
++------------------------------------------+
+ common:
+   kafka.url: ${KAFKA_URL:localhost:9092}
+   kafka.enabled: ${KAFKA_ENABLED:true}
++------------------------------------------+
+
+ * Cela entraîne la publication sur kafka des actions effectuées sur les contrôleurs
+
+ * Cela permet d'écouter les évenements kafka résultants.
+
+ * Les messages publiés sont de type KakfaRequestMessage, se reporter à la classe pour plus de détails.
+
+ * Une configuration des publisher et subscriber est proposée par la classe KafkaPubSubDefaultConfig
+
+ * Si KafkaPubSubDefaultConfig est utilisée il faut préciser les "trusted packages", pour que kafka accepte de désérializer une classe, il faut que celle ci appartiennent au trusted packages. En cas d'oubli, une erreur explicite est envoyée par spring-kafka.
+
+Utilisation, publication/souscription au messages
+
+ * Le common fourni une classe de configuration des producteurs et consomateur qui lit les propriétés depuis la classe KafkaPubSubDefaultConfig, libre à l'utilisateur de surcharger au besoin.
+
+ * La classe de configuration est KafkaConfig, elle configure le ProducerFactory, le ConsumerFactory, et un kafkaTemplate permettant de publier des messages.
+
+ * Pour complémenter, on renvoi à la documentation spring : {{ https://spring.io/projects/spring-kafka }}
+
+ Un example de publication :
+
++------------------------------------------+
+
+ // Le kafka template est injecté
+ private final KafkaTemplate<String, Object> kafkaTemplate;
+
+ public void publishingMethod(String topic, ParamType param) {
+    kafkaTemplate.send(topic, param);
+ }
+
++------------------------------------------+
+
+ Un exemple de souscription :
+
++------------------------------------------+
+
+ @KafkaListener(topics = {"DOMAIN.v1.v1.Domain.create"}, groupId = "files-cloud")
+ public void listen(KafkaRequestMessage<?> message) {
+
+    log.info("Received new domain: $message")
+
+    // L'objet KakfaRequestMessage contient le type du résultat
+    if (message.getResultType().equals(DomainResource.class.getName())) {
+        domaineService.newDomain(objectMapper.convertValue(message.result, DomainResource.class).getName())
+    }
+
+ }
+
++------------------------------------------+
+
+Environnement de développement :
+
+ Pour avoir un kafka en développement, deux solutions : suivre le manuel d'installation de {{ https://kafka.apache.org/ }}
+
+ Utiliser docker-compose avec {{ https://github.com/wurstmeister/kafka-docker }} :
+
+ * Cloner le repository
+
+ * Installer docker-compose
+
+ * Puis dans le répertoire :  docker-compose -f docker-compose-single-broker.yml up -d
+
