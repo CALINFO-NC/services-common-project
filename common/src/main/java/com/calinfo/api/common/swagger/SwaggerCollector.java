@@ -10,15 +10,25 @@ import java.util.Map;
 @Component
 public class SwaggerCollector {
 
-    private Map<String, List<SwaggerItemCollector>> mapItempCollector = new HashMap<>();
+    private Map<String, List<SwaggerItemCollector>> mapItemCollector = new HashMap<>();
 
     public void add(SwaggerItemCollector item){
-        mapItempCollector.computeIfAbsent(item.getUri(), k -> new ArrayList<SwaggerItemCollector>()).add(item);
+        mapItemCollector.computeIfAbsent(item.getUri(), k -> new ArrayList<SwaggerItemCollector>()).add(item);
     }
 
     public List<SwaggerItemCollector> getSwaggerItemByUri(String uri){
-        List<SwaggerItemCollector> result = mapItempCollector.get(uri);
+        List<SwaggerItemCollector> result = mapItemCollector.get(uri);
 
         return result == null ? new ArrayList<>() : result;
+    }
+
+    public List<SwaggerItemCollector> getAll(){
+
+        List<SwaggerItemCollector> result = new ArrayList<>();
+        for (Map.Entry<String, List<SwaggerItemCollector>> entry: mapItemCollector.entrySet()){
+            result.addAll(entry.getValue());
+        }
+
+        return result;
     }
 }

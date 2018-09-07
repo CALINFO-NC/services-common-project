@@ -49,6 +49,7 @@ Utilisation, publication/souscription au messages
 +------------------------------------------+
 
  // Le kafka template est injecté
+ @Autowired
  private final KafkaTemplate<String, Object> kafkaTemplate;
 
  public void publishingMethod(String topic, ParamType param) {
@@ -61,7 +62,7 @@ Utilisation, publication/souscription au messages
 
 +------------------------------------------+
 
- @KafkaListener(topics = {"DOMAIN.v1.v1.Domain.create"}, groupId = "files-cloud")
+ @KafkaListener(topics = {"DOMAIN.default.v1.Domain.create"}, groupId = "files-cloud")
  public void listen(KafkaRequestMessage<?> message) {
 
     log.info("Received new domain: $message")

@@ -4,8 +4,6 @@ import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -19,8 +17,8 @@ import java.util.concurrent.ExecutionException;
  * <p>
  * Ce bean est "mocké" dans les tests, c'est son utilité et l'explication de l'absence de couverture de tests dessus.
  */
-@Component
-@ConditionalOnProperty("common.kafka.enabled")
+//@Component
+//@ConditionalOnProperty("common.configuration.kafka.enabled")
 public class KafkaCreateTopicWrapper {
 
     private final Logger logger = LoggerFactory.getLogger(KafkaCreateTopicWrapper.class);
@@ -37,7 +35,7 @@ public class KafkaCreateTopicWrapper {
 
             logger.error("Echec de la création des nouveaux topics kafka", e);
 
-            throw new KafkaCreateTopicsException();
+            throw new KafkaCreateTopicsException(e);
 
         } catch (InterruptedException e) {
 
@@ -45,7 +43,7 @@ public class KafkaCreateTopicWrapper {
 
             logger.error("Echec de la création des nouveaux topics kafka", e);
 
-            throw new KafkaCreateTopicsException();
+            throw new KafkaCreateTopicsException(e);
 
 
         }
