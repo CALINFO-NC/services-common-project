@@ -11,6 +11,7 @@ import java.util.Map;
 @Setter
 class KafkaRequest implements Serializable {
 
+    private String uri;
     private String method;
     private Map<String, String> headers = new HashMap<>();
     private Map<String, String[]> parameters = new HashMap<>();

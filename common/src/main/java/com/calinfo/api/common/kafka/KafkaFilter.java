@@ -71,8 +71,10 @@ public class KafkaFilter extends OncePerRequestFilter {
         if (sendKafkaMessage){
 
             KafkaRequest kafkaRequest = new KafkaRequest();
+            String uri = request.getRequestURI();
 
             Enumeration<String> headersReq = request.getHeaderNames();
+            kafkaRequest.setUri(uri);
             kafkaRequest.setHeaders(copyHeader(headersReq, request::getHeader));
             kafkaRequest.setParameters(request.getParameterMap());
             kafkaRequest.setMethod(request.getMethod());
@@ -86,7 +88,6 @@ public class KafkaFilter extends OncePerRequestFilter {
             kafkaResponse.setHeaders(copyHeader(Collections.enumeration(headersResp), response::getHeader));
 
 
-            String uri = request.getRequestURI();
             for (SwaggerItemCollector itemCollector: swaggerCollector.getAll()){
 
                 if (!matcher.match(itemCollector.getUri(), uri)){
