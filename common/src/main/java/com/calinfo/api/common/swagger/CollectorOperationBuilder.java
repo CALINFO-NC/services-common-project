@@ -1,8 +1,10 @@
 package com.calinfo.api.common.swagger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
 import springfox.documentation.spi.service.contexts.OperationContext;
@@ -12,6 +14,7 @@ import springfox.documentation.spi.service.contexts.OperationContext;
  */
 @Component
 @Order(CollectorOperationBuilder.ORDER)
+@ConditionalOnClass({ApiInfo.class})
 public class CollectorOperationBuilder implements OperationBuilderPlugin {
 
     public static final int ORDER = DefaultNicknameOperationBuilder.ORDER + 1;

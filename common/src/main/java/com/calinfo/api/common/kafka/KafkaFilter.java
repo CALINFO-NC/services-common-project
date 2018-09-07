@@ -8,6 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -22,7 +23,7 @@ import java.util.*;
 import java.util.function.Function;
 
 
-@ConditionalOnProperty("common.configuration.kafka.enabled")
+@ConditionalOnProperty(value = "common.configuration.kafka-event.enabled", matchIfMissing = true)
 @Component
 @Order(KafkaFilter.ORDER_FILTER)
 public class KafkaFilter extends OncePerRequestFilter {
@@ -42,9 +43,9 @@ public class KafkaFilter extends OncePerRequestFilter {
     @Autowired
     private KafkaTopicNameResolver kafkaTopicNameResolver;
 
-    /*@Qualifier("kafkaEventTemplate")
     @Autowired
-    private KafkaTemplate<String, KafkaEvent> kafkaTemplate;*/
+    PathMatcher matcher;
+
     @Autowired
     private KafkaTemplate<String, KafkaEvent> kafkaTemplate;
 
@@ -59,12 +60,11 @@ public class KafkaFilter extends OncePerRequestFilter {
         }
         finally {
             afterRequest(request, response);
-            response.copyBodyToResponse();
         }
     }
 
 
-    private void afterRequest(ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) throws UnsupportedEncodingException {
+    private void afterRequest(ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) throws IOException {
 
         MediaType mediaType = MediaType.valueOf(response.getContentType());
         boolean sendKafkaMessage = RESPONSPE_MEDIA_TYPE.stream().anyMatch(visibleType -> visibleType.includes(mediaType));
@@ -72,19 +72,26 @@ public class KafkaFilter extends OncePerRequestFilter {
 
             KafkaRequest kafkaRequest = new KafkaRequest();
 
-            Enumeration<String> headers = request.getHeaderNames();
-            kafkaRequest.setHeaders(copyHeader(headers, request::getHeader));
+            Enumeration<String> headersReq = request.getHeaderNames();
+            kafkaRequest.setHeaders(copyHeader(headersReq, request::getHeader));
             kafkaRequest.setParameters(request.getParameterMap());
             kafkaRequest.setMethod(request.getMethod());
             kafkaRequest.setBody(contentToString(request.getContentAsByteArray(), request.getCharacterEncoding()));
 
             KafkaResponse kafkaResponse = new KafkaResponse();
             kafkaResponse.setStatus(response.getStatus());
-            kafkaResponse.setHeaders(copyHeader(headers, response::getHeader));
-            kafkaRequest.setBody(contentToString(response.getContentAsByteArray(), response.getCharacterEncoding()));
+            kafkaResponse.setBody(contentToString(response.getContentAsByteArray(), response.getCharacterEncoding()));
+            response.copyBodyToResponse(); // Il faut effectuer la copy du Body avant de lire le header
+            Collection<String> headersResp = response.getHeaderNames();
+            kafkaResponse.setHeaders(copyHeader(Collections.enumeration(headersResp), response::getHeader));
+
 
             String uri = request.getRequestURI();
-            for (SwaggerItemCollector itemCollector: swaggerCollector.getSwaggerItemByUri(uri)){
+            for (SwaggerItemCollector itemCollector: swaggerCollector.getAll()){
+
+                if (!matcher.match(itemCollector.getUri(), uri)){
+                    continue;
+                }
 
                 KafkaEvent kafkaEvent = new KafkaEvent();
                 kafkaEvent.setRequest(kafkaRequest);

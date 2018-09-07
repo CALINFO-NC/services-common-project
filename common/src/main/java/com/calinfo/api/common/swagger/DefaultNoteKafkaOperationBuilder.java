@@ -1,9 +1,13 @@
 package com.calinfo.api.common.swagger;
 
+import com.calinfo.api.common.kafka.KafkaTopicNameResolver;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
 import springfox.documentation.spi.service.contexts.OperationContext;
@@ -13,10 +17,15 @@ import springfox.documentation.spi.service.contexts.OperationContext;
  */
 @Component
 @Order(CollectorOperationBuilder.ORDER)
-public class DefaultNoteOperationBuilder implements OperationBuilderPlugin {
+@ConditionalOnClass({ApiInfo.class})
+@ConditionalOnProperty(value = "common.configuration.kafka-event.enabled", matchIfMissing = true)
+public class DefaultNoteKafkaOperationBuilder implements OperationBuilderPlugin {
 
     @Autowired
-    public SwaggerCollector collector;
+    private SwaggerCollector collector;
+
+    @Autowired
+    private KafkaTopicNameResolver kafkaTopicNameResolver;
 
     @Override
     public void apply(OperationContext operationContext) {
@@ -29,28 +38,15 @@ public class DefaultNoteOperationBuilder implements OperationBuilderPlugin {
             newNote.append("<br/>");
         }
 
-        String sep = ".";
         boolean first = true;
         for (SwaggerItemCollector itemCollector : collector.getSwaggerItemByUri(operationContext.requestMappingPattern())){
 
             if (first) {
-                newNote.append("<br/>");
-                newNote.append(String.format("Kafka group : %s", itemCollector.getTitle().toLowerCase()));
-                newNote.append("<ul>");
+                newNote.append("<br/>Kafka topics :<ul>");
                 first = false;
             }
             newNote.append("<li>");
-            newNote.append("topic : common");
-            newNote.append(sep);
-            newNote.append(itemCollector.getVersion());
-            newNote.append(sep);
-            newNote.append(itemCollector.getGroup());
-            newNote.append(sep);
-            newNote.append(itemCollector.getHttpMethod().toString().toLowerCase());
-            newNote.append(sep);
-            newNote.append(itemCollector.getResourceName());
-            newNote.append(sep);
-            newNote.append(itemCollector.getOperationName());
+            newNote.append(kafkaTopicNameResolver.getTopicName(itemCollector));
             newNote.append("</li>");
         }
 

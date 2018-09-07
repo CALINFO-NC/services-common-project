@@ -1,9 +1,11 @@
 package com.calinfo.api.common.swagger;
 
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@ConditionalOnClass({ApiInfo.class})
 public class SwaggerCommonConfig implements BeanPostProcessor {
 
     @Override

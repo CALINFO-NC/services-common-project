@@ -3,10 +3,12 @@ package com.calinfo.api.common.swagger;
 import com.calinfo.api.common.security.CommonSecurityUrlFilter;
 import com.calinfo.api.common.security.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 11)
+@ConditionalOnClass({ApiInfo.class})
 public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPlugin {
 
     @Autowired

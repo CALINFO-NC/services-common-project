@@ -7,9 +7,11 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ModelPropertyBuilder;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.schema.ModelPropertyBuilderPlugin;
 import springfox.documentation.spi.schema.contexts.ModelPropertyContext;
@@ -27,6 +29,7 @@ import java.util.List;
  */
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 10)
+@ConditionalOnClass({ApiInfo.class})
 public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilderPlugin {
 
     private static final Logger log = LoggerFactory.getLogger(JavaxValidationModelPropertyBuilder.class);
