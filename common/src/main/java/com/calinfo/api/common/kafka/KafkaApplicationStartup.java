@@ -62,6 +62,7 @@ public class KafkaApplicationStartup implements ApplicationListener<ContextRefre
             if (!lstTopic.stream().anyMatch(nt -> nt.name().equals(topicName)) && !existingTopics.stream().anyMatch(n -> n.equals(topicName))){
                 NewTopic newTopic = new NewTopic(topicName, TOPIC_PARTITION, TOPIC_REPLICA);
                 lstTopic.add(newTopic);
+                logger.info("New topic kafka added : {} ", topicName);
             }
         }
 
