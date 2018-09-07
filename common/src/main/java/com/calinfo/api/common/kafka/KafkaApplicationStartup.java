@@ -46,7 +46,11 @@ public class KafkaApplicationStartup implements ApplicationListener<ContextRefre
             try {
                 Set<String> existingTopics = client.listTopics().names().get();
                 logger.info("Existing kafka topics : {} ", existingTopics);
-                client.createTopics(getTopicList(existingTopics)).all().get();
+                Set<NewTopic> topics = getTopicList(existingTopics);
+
+                if (!topics.isEmpty()){
+                    client.createTopics(topics);
+                }
             } catch (InterruptedException | ExecutionException e) {
                 throw new KafkaCreateTopicsException("Echec de la création des nouveaux topics kafka", e);
             }
