@@ -1,29 +1,10 @@
 package com.calinfo.api.common.kafka;
 
-import com.calinfo.api.common.kafka.mock.KafkaService;
-import com.calinfo.api.common.kafka.mock.Receiver;
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
 
 
 public class KafkaObjectGetTest {
-
-
-    @Autowired
-    private Receiver receiver;
-
-    @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true);
-
-    @Autowired
-    private KafkaService kafkaService;
-
-    @LocalServerPort
-    private int port;
 
     @Test
     public void callOk() {
