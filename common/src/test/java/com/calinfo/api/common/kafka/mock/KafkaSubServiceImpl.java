@@ -18,7 +18,7 @@ public class KafkaSubServiceImpl implements KafkaSubService {
     }
 
     @Override
-    @KafkaTopic(value = "topicA", prefixTopicNameWithApplicationName = false)
+    @KafkaTopic(value = "topicB", prefixTopicNameWithApplicationName = false)
     public void topicAWithoutException() {
 
     }
