@@ -1,5 +1,6 @@
 package com.calinfo.api.common.kafka;
 
+import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.security.SecurityProperties;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -29,6 +31,9 @@ public class KafkaTopicAspect {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
+    private ApplicationProperties applicationProperties;
 
     @Autowired(required = false)
     private PrincipalManager principalManager;
@@ -56,8 +61,13 @@ public class KafkaTopicAspect {
         }
 
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);
-        kafkaEvent.setTopic(kafkaTopic.value());
-        kafkaEvent.setTopic(kafkaTopic.value());
+
+        String topicName = kafkaTopic.value();
+        if (kafkaTopic.prefixTopicNameWithApplicationName()){
+            topicName = String.format("%s.%s", applicationProperties.getName(), kafkaTopic.value());
+        }
+
+        kafkaEvent.setTopic(topicName);
         kafkaEvent.setFullQualifiedServiceClassName(method.getDeclaringClass().getName());
         kafkaEvent.setMethodServiceName(method.getName());
 
@@ -111,7 +121,7 @@ public class KafkaTopicAspect {
 
             kafkaUser = new KafkaUser();
             kafkaUser.setLogin(login);
-            kafkaUser.setRoles(principal.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.toList()));
+            kafkaUser.setRoles(principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
             kafkaUser.setSystemUser(false);
             if (securityProperties.getSystemLogin().equals(login)){

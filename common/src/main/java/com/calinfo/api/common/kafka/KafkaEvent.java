@@ -33,7 +33,7 @@ public class KafkaEvent {
         return (T)getResult().get();
     }
 
-    private void throwException() throws KafkaException {
+    private void throwException() {
 
         KafkaException ex;
         try {

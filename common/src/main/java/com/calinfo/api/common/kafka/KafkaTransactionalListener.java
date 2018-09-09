@@ -50,8 +50,11 @@ public class KafkaTransactionalListener {
 
             kafkaTemplate.send(topicName, kafkaEvent);
 
-        } catch (ExecutionException | InterruptedException e) {
+        } catch (ExecutionException e) {
             log.error(e.getMessage(), e);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
     }
 

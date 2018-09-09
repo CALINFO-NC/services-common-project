@@ -5,10 +5,10 @@ import lombok.Getter;
 public class KafkaException extends RuntimeException {
 
     @Getter
-    private String originalCauseClassName;
+    private final String originalCauseClassName;
 
     @Getter
-    private boolean originalCauseException;
+    private final boolean originalCauseException;
 
     public KafkaException(String message, Throwable cause, boolean originalCauseException) {
         super(message, cause);
