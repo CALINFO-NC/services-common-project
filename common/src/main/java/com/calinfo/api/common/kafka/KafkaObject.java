@@ -9,4 +9,8 @@ class KafkaObject {
 
     private String fullQualifiedClassName;
     private Object value;
+
+    public <T> T get(){
+        return (T)value;
+    }
 }

@@ -1,5 +1,6 @@
 package com.calinfo.api.common.kafka;
 
+import com.calinfo.api.common.utils.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -64,10 +65,9 @@ public class KafkaTopicAspect {
 
             KafkaObject result = new KafkaObject();
             kafkaEvent.setResult(result);
-            result.setFullQualifiedClassName(method.getReturnType().getName());
+            result.setValue(ExceptionUtils.getPrintValue(e));
+            result.setFullQualifiedClassName(e.getClass().getName());
             kafkaEvent.setResultException(true);
-
-            // TODO : Mettre le resultat de l'exception dans result.setValue
 
             throw e;
         }finally {
