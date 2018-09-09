@@ -12,25 +12,40 @@ import java.util.concurrent.TimeUnit;
 @Profile("kafka")
 public class Receiver {
 
-    public static final String TOPIC =  "COMMON.default.v1.kakfa-test-controller.GET.read";
+    private static final long AWAIT = 3_000;
 
-    private KafkaEvent kafkaEvent = null;
+    private KafkaEvent kafkaEventTopic1 = null;
+    private CountDownLatch latch1 = null;
 
-    private CountDownLatch latch = null;
+    private KafkaEvent kafkaEventTopicA = null;
+    private CountDownLatch latchA = null;
 
-    @KafkaListener(topics = Receiver.TOPIC)
-    public void receive(KafkaEvent kafkaEvent) {
-        latch.countDown();
-        this.kafkaEvent = kafkaEvent;
+    @KafkaListener(topics = "topic1")
+    public void receiveTopic1(KafkaEvent kafkaEvent) {
+        latch1.countDown();
+        this.kafkaEventTopic1 = kafkaEvent;
     }
 
-    public KafkaEvent getKafkaEvent() throws InterruptedException {
-        latch.await(10000, TimeUnit.MILLISECONDS);
-        return kafkaEvent;
+    @KafkaListener(topics = "topicA")
+    public void receiveTopicA(KafkaEvent kafkaEvent) {
+        latchA.countDown();
+        this.kafkaEventTopicA = kafkaEvent;
+    }
+
+    public KafkaEvent getKafkaEventTopic1() throws InterruptedException {
+        latch1.await(AWAIT, TimeUnit.MILLISECONDS);
+        return kafkaEventTopic1;
+    }
+
+    public KafkaEvent getKafkaEventTopicA() throws InterruptedException {
+        latchA.await(AWAIT, TimeUnit.MILLISECONDS);
+        return kafkaEventTopicA;
     }
 
     public void clearKafkaEvent(){
-        latch = new CountDownLatch(1);
-        kafkaEvent = null;
+        latch1 = new CountDownLatch(1);
+        kafkaEventTopic1 = null;
+        latchA = new CountDownLatch(1);
+        kafkaEventTopicA = null;
     }
 }
