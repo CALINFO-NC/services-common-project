@@ -24,10 +24,10 @@ public class Config {
         Contact contact = new Contact("CALINFO", null, "calinfo@calinfo-nc.com");
 
         // Ajout des informations de l'API
-        ApiInfo apiInfo = new ApiInfo("DOMAIN", "Voir aussi la documentation suivante : https://calinfo.atlassian.net/wiki/spaces/SER/pages/164954113/Connexion+par+REST+API", "v1", null, contact, null, null, new ArrayList<>());
+        ApiInfo apiInfo = new ApiInfo("COMMON", "Voir aussi la documentation suivante : https://calinfo.atlassian.net/wiki/spaces/SER/pages/164954113/Connexion+par+REST+API", "v1", null, contact, null, null, new ArrayList<>());
 
         Docket result = new Docket(DocumentationType.SWAGGER_2)
-                .groupName("v1")
+                .groupName("default")
                 .apiInfo(apiInfo).select()
                 .paths(PathSelectors.regex("\\/api\\/.*"))
                 .build()

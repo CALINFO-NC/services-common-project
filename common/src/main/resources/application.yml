@@ -6,3 +6,5 @@ common:
     security: # Propriété de la classe SecurityProperties
 
     application: # Propriété de la classe ApplicationProperties
+
+    kafka: # Propriété de la classe KafkaProperties

@@ -27,6 +27,7 @@
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.swagger>2.9.2</version.swagger>
+        <version.spring-kafka>2.1.9.RELEASE</version.spring-kafka>
     </properties>
 
     <build>
@@ -40,6 +41,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>${version.spring-kafka}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+            <version>${version.spring-kafka}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
