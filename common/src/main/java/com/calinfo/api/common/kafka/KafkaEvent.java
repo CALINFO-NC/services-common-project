@@ -12,7 +12,8 @@ import java.util.Set;
 @Setter
 public class KafkaEvent {
 
-    // TODO : Domain et utilsiateur courant
+    private String domain;
+    private KafkaUser user;
 
     private String topic;
     private String fullQualifiedServiceClassName;

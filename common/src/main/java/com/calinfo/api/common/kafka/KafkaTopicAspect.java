@@ -1,5 +1,9 @@
 package com.calinfo.api.common.kafka;
 
+import com.calinfo.api.common.security.AbstractCommonPrincipal;
+import com.calinfo.api.common.security.PrincipalManager;
+import com.calinfo.api.common.security.SecurityProperties;
+import com.calinfo.api.common.tenant.DomainNameResolver;
 import com.calinfo.api.common.utils.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,20 +14,30 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.stream.Collectors;
 
 @Aspect
-@Configuration
-@ConditionalOnProperty(value = "common.configuration.kafka-event.enabled", matchIfMissing = true)
+@Component
+@ConditionalOnProperty(value = "common.configuration.kafka-event.enabled")
 public class KafkaTopicAspect {
 
     private static final Logger log = LoggerFactory.getLogger(KafkaTopicAspect.class);
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired(required = false)
+    private PrincipalManager principalManager;
+
+    @Autowired(required = false)
+    private SecurityProperties securityProperties;
+
+    @Autowired(required = false)
+    private DomainNameResolver domainNameResolver;
 
     @Around("execution(public * *(..)) && @annotation(com.calinfo.api.common.kafka.KafkaTopic)")
     public Object publishToKafka(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -34,6 +48,12 @@ public class KafkaTopicAspect {
         Method method = signature.getMethod();
 
         KafkaEvent kafkaEvent = new KafkaEvent();
+        kafkaEvent.setUser(getKafkaUser());
+
+        kafkaEvent.setDomain(null);
+        if (domainNameResolver != null){
+            kafkaEvent.setDomain(domainNameResolver.getDomainName());
+        }
 
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);
         kafkaEvent.setTopic(kafkaTopic.value());
@@ -75,5 +95,35 @@ public class KafkaTopicAspect {
             applicationEventPublisher.publishEvent(kafkaEvent);
 
         }
+    }
+
+    private KafkaUser getKafkaUser(){
+
+        KafkaUser kafkaUser = null;
+
+        if (principalManager == null){
+            return kafkaUser;
+        }
+
+        AbstractCommonPrincipal principal = principalManager.getPrincipal();
+        if (principal != null){
+            String login = principal.getUsername();
+
+            kafkaUser = new KafkaUser();
+            kafkaUser.setLogin(login);
+            kafkaUser.setRoles(principal.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.toList()));
+
+            kafkaUser.setSystemUser(false);
+            if (securityProperties.getSystemLogin().equals(login)){
+                kafkaUser.setSystemUser(true);
+            }
+
+            kafkaUser.setAnonymousUser(false);
+            if (securityProperties.getAnonymousLogin().equals(login)){
+                kafkaUser.setAnonymousUser(true);
+            }
+        }
+
+        return kafkaUser;
     }
 }

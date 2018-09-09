@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 @Component
-@ConditionalOnProperty(value = "common.configuration.kafka-event.enabled", matchIfMissing = true)
+@ConditionalOnProperty(value = "common.configuration.kafka-event.enabled")
 public class KafkaTransactionalListener {
 
     private static final Logger log = LoggerFactory.getLogger(KafkaTransactionalListener.class);

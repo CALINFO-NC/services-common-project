@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 @Profile("kafka")
 public class Receiver {
 
-    private static final long AWAIT = 7_000;
+    private static final long AWAIT = 3_000;
 
     private KafkaEvent kafkaEventTopic1 = null;
     private CountDownLatch latch1 = null;
