@@ -65,9 +65,13 @@ public class KafkaTransactionalListener {
                 existingTopics.addAll(clientTopics);
             }
 
-            existingTopics.add(topicName);
-            NewTopic newTopic = new NewTopic(topicName, TOPIC_PARTITION, TOPIC_REPLICA);
-            client.createTopics(Collections.singleton(newTopic));
+            if (!existingTopics.contains(topicName)) {
+                log.info("Register topic '{}' in Kafka", topicName);
+
+                existingTopics.add(topicName);
+                NewTopic newTopic = new NewTopic(topicName, TOPIC_PARTITION, TOPIC_REPLICA);
+                client.createTopics(Collections.singleton(newTopic));
+            }
         }
     }
 
