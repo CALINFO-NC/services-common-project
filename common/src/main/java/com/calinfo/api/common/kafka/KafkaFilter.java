@@ -51,7 +51,12 @@ public class KafkaFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        doFilterWrapped(wrapRequest(request), wrapResponse(response), filterChain);
+
+        if (request.getRequestURI().contains("/api")) {
+            doFilterWrapped(wrapRequest(request), wrapResponse(response), filterChain);
+        } else {
+            filterChain.doFilter(request, response);
+        }
     }
 
     private void doFilterWrapped(ContentCachingRequestWrapper request, ContentCachingResponseWrapper response, FilterChain filterChain) throws ServletException, IOException {
@@ -65,6 +70,10 @@ public class KafkaFilter extends OncePerRequestFilter {
 
 
     private void afterRequest(ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) throws IOException {
+
+        if (response.getContentType() == null || response.getContentType().isEmpty()) {
+            return;
+        }
 
         MediaType mediaType = MediaType.valueOf(response.getContentType());
         boolean sendKafkaMessage = RESPONSPE_MEDIA_TYPE.stream().anyMatch(visibleType -> visibleType.includes(mediaType));

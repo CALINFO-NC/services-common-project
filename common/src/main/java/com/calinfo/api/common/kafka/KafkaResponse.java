@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-class KafkaResponse implements Serializable {
+public class KafkaResponse implements Serializable {
 
     Integer status;
     private Map<String, String> headers = new HashMap<>();

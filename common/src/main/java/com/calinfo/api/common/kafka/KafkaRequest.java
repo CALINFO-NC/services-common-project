@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-class KafkaRequest implements Serializable {
+public class KafkaRequest implements Serializable {
 
     private String uri;
     private String method;
