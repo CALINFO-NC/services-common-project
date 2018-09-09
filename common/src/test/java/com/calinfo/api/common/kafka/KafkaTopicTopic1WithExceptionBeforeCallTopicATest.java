@@ -25,7 +25,7 @@ public class KafkaTopicTopic1WithExceptionBeforeCallTopicATest {
     private Receiver receiver;
 
     @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true);
+    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1);
 
     @Autowired
     private KafkaService kafkaService;
