@@ -23,7 +23,7 @@ public class KafkaTopicTopic1WithoutExceptionAndWithExceptionTopicATest {
     private Receiver receiver;
 
     @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1);
+    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true);
 
     @Autowired
     private KafkaService kafkaService;

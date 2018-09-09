@@ -63,10 +63,6 @@ public class KafkaTopicAspect {
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);
 
         String topicName = kafkaTopic.value();
-        if (kafkaTopic.prefixTopicNameWithApplicationName()){
-            topicName = String.format("%s.%s", applicationProperties.getName(), kafkaTopic.value());
-        }
-
         kafkaEvent.setTopic(topicName);
         kafkaEvent.setFullQualifiedServiceClassName(method.getDeclaringClass().getName());
         kafkaEvent.setMethodServiceName(method.getName());

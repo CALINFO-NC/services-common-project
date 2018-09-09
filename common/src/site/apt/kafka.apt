@@ -9,7 +9,7 @@ Description
 Comment envoyer un topic à Kafka avec comme objet <KafkaEvent> ?
 
 +------------------------------------------+
- @KafkaTopic("monTopic")
+ @KafkaTopic("${common.configuration.application.name}.nomTopic")
  public MyResource myMethod(...){
     ...
  }
@@ -18,7 +18,7 @@ Comment envoyer un topic à Kafka avec comme objet <KafkaEvent> ?
 Comment écouter un topic à Kafka avec comme objet <KafkaEvent> ?
 
 +------------------------------------------+
- @KafkaListener(topics = "monTopic")
+ @KafkaListener(topics = "nomApplicationEmetteurTopic.nomTopic")
  public void receiveTopic(KafkaEvent kafkaEvent) {
     ...
  }

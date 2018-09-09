@@ -20,13 +20,13 @@ public class Receiver {
     private KafkaEvent kafkaEventTopicA = null;
     private CountDownLatch latchA = null;
 
-    @KafkaListener(topics = "topic1")
+    @KafkaListener(topics = "common.topic1")
     public void receiveTopic1(KafkaEvent kafkaEvent) {
         latch1.countDown();
         this.kafkaEventTopic1 = kafkaEvent;
     }
 
-    @KafkaListener(topics = "topicA")
+    @KafkaListener(topics = "common.topicA")
     public void receiveTopicA(KafkaEvent kafkaEvent) {
         latchA.countDown();
         this.kafkaEventTopicA = kafkaEvent;
