@@ -12,13 +12,13 @@ public class KafkaSubServiceImpl implements KafkaSubService {
 
 
     @Override
-    @KafkaTopic(value = "${common.configuration.application.name}.topicA")
+    @KafkaTopic(value = "topicA", prefixTopicNameWithApplicationName = false)
     public void topicAWithException() {
         throw new MessageStatusException(HttpStatus.BAD_REQUEST, "bad");
     }
 
     @Override
-    @KafkaTopic(value = "${common.configuration.application.name}.topicA")
+    @KafkaTopic(value = "topicA", prefixTopicNameWithApplicationName = false)
     public void topicAWithoutException() {
 
     }

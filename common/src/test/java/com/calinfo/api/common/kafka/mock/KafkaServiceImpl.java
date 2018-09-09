@@ -16,20 +16,20 @@ public class KafkaServiceImpl implements KafkaService {
 
 
     @Override
-    @KafkaTopic(value = "${common.configuration.application.name}.topic1")
+    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationName = false)
     public void topic1WithoutExceptionAndWithoutExceptionTopicA() {
 
         kafkaSubService.topicAWithoutException();
     }
 
     @Override
-    @KafkaTopic(value = "${common.configuration.application.name}.topic1")
+    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationName = false)
     public void topic1WithoutExceptionAndWithExceptionTopicA() {
         kafkaSubService.topicAWithException();
     }
 
     @Override
-    @KafkaTopic(value = "${common.configuration.application.name}.topic1")
+    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationName = false)
     public void topic1WithExceptionBeforeCallTopicA() {
 
         launchException();
@@ -38,7 +38,7 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    @KafkaTopic(value = "${common.configuration.application.name}.topic1")
+    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationName = false)
     public void topic1WithExceptionAfterCallTopicA() {
 
         kafkaSubService.topicAWithoutException();
