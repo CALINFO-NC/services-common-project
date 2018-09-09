@@ -7,6 +7,7 @@ public class KafkaException extends RuntimeException {
     @Getter
     private String originalCauseClassName;
 
+    @Getter
     private boolean originalCauseException;
 
     public KafkaException(String message, Throwable cause, boolean originalCauseException) {
