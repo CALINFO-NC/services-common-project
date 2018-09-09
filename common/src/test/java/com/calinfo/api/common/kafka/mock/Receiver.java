@@ -1,36 +1,48 @@
 package com.calinfo.api.common.kafka.mock;
 
 import com.calinfo.api.common.kafka.KafkaEvent;
+import lombok.Getter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Profile("kafka")
 public class Receiver {
 
-    public static final String TOPIC =  "COMMON.default.v1.kakfa-test-controller.GET.read";
+    @Getter
+    private List<KafkaEvent> lstKafkaEvent = new ArrayList<>();
 
-    private KafkaEvent kafkaEvent = null;
-
-    private CountDownLatch latch = null;
-
-    @KafkaListener(topics = Receiver.TOPIC)
-    public void receive(KafkaEvent kafkaEvent) {
-        latch.countDown();
-        this.kafkaEvent = kafkaEvent;
+    @KafkaListener(topics = "topic1")
+    public void receiveTopic1(KafkaEvent kafkaEvent) {
     }
 
-    public KafkaEvent getKafkaEvent() throws InterruptedException {
-        latch.await(10000, TimeUnit.MILLISECONDS);
-        return kafkaEvent;
+    @KafkaListener(topics = "topic2")
+    public void receiveTopic2(KafkaEvent kafkaEvent) {
+        lstKafkaEvent.add(kafkaEvent);
     }
 
-    public void clearKafkaEvent(){
-        latch = new CountDownLatch(1);
-        kafkaEvent = null;
+    @KafkaListener(topics = "topic3")
+    public void receiveTopic3(KafkaEvent kafkaEvent) {
+        lstKafkaEvent.add(kafkaEvent);
     }
+
+    @KafkaListener(topics = "topic4")
+    public void receiveTopic4(KafkaEvent kafkaEvent) {
+        lstKafkaEvent.add(kafkaEvent);
+    }
+
+    @KafkaListener(topics = "topicA")
+    public void receiveTopicA(KafkaEvent kafkaEvent) {
+        lstKafkaEvent.add(kafkaEvent);
+    }
+
+    @KafkaListener(topics = "topicB")
+    public void receiveTopicB(KafkaEvent kafkaEvent) {
+        lstKafkaEvent.add(kafkaEvent);
+    }
+
 }

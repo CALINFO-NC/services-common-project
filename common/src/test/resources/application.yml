@@ -1,9 +1,6 @@
 common:
   configuration:
 
-    kafka-event:
-      enabled: false
-
     matching:
       filter:
         enabled: true

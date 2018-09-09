@@ -4,87 +4,78 @@ Description
 
  L'intégration est basée sur {{ https://spring.io/projects/spring-kafka }}
 
- L'intégration installe des écouteurs sur les urls déclarées dans les controleurs via AOP: {{ https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html }}
+ L'integration de Kafka au seins du common consiste à transférer en tant que message Kafka, une instance de la classe <com.calinfo.api.common.kafka.KafkaEvent>
 
- Classe KafkaPublishParamAndResultAspect :
-
-+------------------------------------------+
- @Around("@within(org.springframework.web.bind.annotation.RestController) && !@annotation(com.calinfo.api.common.kafka.KafkaIgnore)")
-+------------------------------------------+
-
- Ces écouteurs diffusent les paramètres et le résultat de l'éxécution de la méthode du controleur sur des "Topics" Kafka.
-
- Les Topics Kafka proposés par une application sont publiées dans la documentation de l'api, disponible sur (http://application/api)
-
-Activation de kafka pour une application
-
- Ajouter les propriétés suivantes à la configuration :
+Comment envoyer un topic à Kafka avec comme objet <KafkaEvent> ?
 
 +------------------------------------------+
- common:
-   kafka.url: ${KAFKA_URL:localhost:9092}
-   kafka.enabled: ${KAFKA_ENABLED:true}
-+------------------------------------------+
-
- * Cela entraîne la publication sur kafka des actions effectuées sur les contrôleurs
-
- * Cela permet d'écouter les évenements kafka résultants.
-
- * Les messages publiés sont de type KakfaRequestMessage, se reporter à la classe pour plus de détails.
-
- * Une configuration des publisher et subscriber est proposée par la classe KafkaPubSubDefaultConfig
-
- * Si KafkaPubSubDefaultConfig est utilisée il faut préciser les "trusted packages", pour que kafka accepte de désérializer une classe, il faut que celle ci appartiennent au trusted packages. En cas d'oubli, une erreur explicite est envoyée par spring-kafka.
-
-Utilisation, publication/souscription au messages
-
- * Le common fourni une classe de configuration des producteurs et consomateur qui lit les propriétés depuis la classe KafkaPubSubDefaultConfig, libre à l'utilisateur de surcharger au besoin.
-
- * La classe de configuration est KafkaConfig, elle configure le ProducerFactory, le ConsumerFactory, et un kafkaTemplate permettant de publier des messages.
-
- * Pour complémenter, on renvoi à la documentation spring : {{ https://spring.io/projects/spring-kafka }}
-
- Un example de publication :
-
-+------------------------------------------+
-
- // Le kafka template est injecté
- @Autowired
- private final KafkaTemplate<String, Object> kafkaTemplate;
-
- public void publishingMethod(String topic, ParamType param) {
-    kafkaTemplate.send(topic, param);
+ @KafkaTopic("nomTopic")
+ public MyResource myMethod(...){
+    ...
  }
-
 +------------------------------------------+
 
- Un exemple de souscription :
+Comment écouter un topic à Kafka avec comme objet <KafkaEvent> ?
 
 +------------------------------------------+
-
- @KafkaListener(topics = {"DOMAIN.default.v1.Domain.create"}, groupId = "files-cloud")
- public void listen(KafkaRequestMessage<?> message) {
-
-    log.info("Received new domain: $message")
-
-    // L'objet KakfaRequestMessage contient le type du résultat
-    if (message.getResultType().equals(DomainResource.class.getName())) {
-        domaineService.newDomain(objectMapper.convertValue(message.result, DomainResource.class).getName())
-    }
-
+ @KafkaListener(topics = "nomApplicationEmetteurTopic.nomTopic")
+ public void receiveTopic(KafkaEvent kafkaEvent) {
+    ...
  }
-
 +------------------------------------------+
 
-Environnement de développement :
+Comment utiliser <KafkaEvent> ?
 
- Pour avoir un kafka en développement, deux solutions : suivre le manuel d'installation de {{ https://kafka.apache.org/ }}
+ La méthode <get> de <KafkaEvent> vous permet de récupérer une instance du retour de la méthode
+ sur laquelle <@KafkaTopic> a été posée. Dans l'exemple ci-dessus, la méthode <KafkaEvent.get> retournerait
+ une intance de <MyResource>.
 
- Utiliser docker-compose avec {{ https://github.com/wurstmeister/kafka-docker }} :
+ Dans le cas ou la méthode sur laquelle  <@KafkaTopic> a été apposée retourne une exception sans
+ de Rollback alors <KafkaEvent.get> lève une <KafkaException> dont la cause est
 
- * Cloner le repository
+ * Soit l'exception levée par la méthode sur laquelle <@KafkaTopic> a été posée.
 
- * Installer docker-compose
+ * Soit un ClassNotFoundException. Si tel est le cas, il est possible de récupérer sous forme de
+ chaine de caractère le nom de la classe d'exception d'origine, grâce à <KafkaException.getOriginalCauseClassName>
 
- * Puis dans le répertoire :  docker-compose -f docker-compose-single-broker.yml up -d
+ Pour connaitre dans laquelle des deux situations nous nous trouvons, il est possible d'utiliser la méthode
+ <KafkaException.isOriginalCauseException>
 
+[]
+
+ Dans le cas ou la méthode sur laquelle  <@KafkaTopic> a été apposée retourne une exception
+ faisant un Rollback alors aucun message Kafka est envoyé
+
+Configuration
+
+ Par défaut l'annotation <@KafkaTopic> n'est pas activé. Il est possible de l'activer en ajoutant dans le fichier de
+ configuration <application.yml> les lignes suivantes :
+
++------------------------------------------+
+common:
+  configuration:
+    kafka-event:
+      enabled: true
++------------------------------------------+
+
+ Le reste de la configuration est de la configuration standar kafka-spring.
+ Ci-dessous un exemple de configuration
+
++------------------------------------------+
+spring:
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers}
+    consumer:
+      auto-offset-reset: earliest
+      group-id: ${common.configuration.application.name}
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.calinfo.api.common.kafka
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
++------------------------------------------+
+
+ Notez le <JsonDeserializer> et le <JsonSerializer>
+
+ ATTENTION : Dans le cas ou vous utilisez l'annotation <@KafkaTopic> il est fortement conseillé d'activer l'exécution
+ des méthodes asynchrones, via l'annotation spring <@EnableAsync(mode = AdviceMode.ASPECTJ)> (sur une configuration par exemple).
