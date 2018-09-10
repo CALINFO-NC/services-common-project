@@ -4,5 +4,5 @@ public interface KafkaSubService {
 
     void topicAWithException();
 
-    void topicAWithoutException();
+    TestResource topicAWithoutException(String id, TestResource resource);
 }

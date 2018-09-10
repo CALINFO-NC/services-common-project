@@ -77,7 +77,7 @@ public class KafkaTopicAspect {
             KafkaObject kafkaParameter = new KafkaObject();
             kafkaEvent.getParameters().add(kafkaParameter);
             kafkaParameter.setFullQualifiedClassName(parameter.getType().getName());
-            kafkaParameter.setValue(joinPoint.getArgs()[index]);
+            kafkaParameter.set(joinPoint.getArgs()[index]);
         }
 
         try {
@@ -87,7 +87,7 @@ public class KafkaTopicAspect {
             kafkaEvent.setResult(result);
             result.setFullQualifiedClassName(method.getReturnType().getName());
             kafkaEvent.setResultException(false);
-            result.setValue(val);
+            result.set(val);
 
             return val;
         }
@@ -95,7 +95,7 @@ public class KafkaTopicAspect {
 
             KafkaObject result = new KafkaObject();
             kafkaEvent.setResult(result);
-            result.setValue(ExceptionUtils.getPrintValue(e));
+            result.set(ExceptionUtils.getPrintValue(e));
             result.setFullQualifiedClassName(e.getClass().getName());
             kafkaEvent.setResultException(true);
 

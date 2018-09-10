@@ -19,7 +19,10 @@ public class KafkaSubServiceImpl implements KafkaSubService {
 
     @Override
     @KafkaTopic(value = "topicB", prefixTopicNameWithApplicationName = false)
-    public void topicAWithoutException() {
+    public TestResource topicAWithoutException(String id, TestResource resource) {
 
+        TestResource result = new TestResource();
+        result.setProp1("Propppp");
+        return result;
     }
 }

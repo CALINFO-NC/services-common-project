@@ -7,13 +7,13 @@ import org.junit.Test;
 public class KafkaObjectGetTest {
 
     @Test
-    public void callOk() {
+    public void callOk() throws Exception {
 
         String src = "AA";
 
         KafkaObject kafkaObject = new KafkaObject();
         kafkaObject.setFullQualifiedClassName(String.class.getName());
-        kafkaObject.setValue(src);
+        kafkaObject.set(src);
 
         String cible = kafkaObject.get();
 
@@ -21,11 +21,11 @@ public class KafkaObjectGetTest {
     }
 
     @Test
-    public void callKo() {
+    public void callKo() throws Exception {
 
         KafkaObject kafkaObject = new KafkaObject();
         kafkaObject.setFullQualifiedClassName(String.class.getName());
-        kafkaObject.setValue("AA");
+        kafkaObject.set("AA");
 
         try {
             int cible = kafkaObject.get();
