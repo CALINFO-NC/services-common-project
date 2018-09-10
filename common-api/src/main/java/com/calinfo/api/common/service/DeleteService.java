@@ -2,7 +2,7 @@ package com.calinfo.api.common.service;
 
 /**
  * Use {@link DestroyService}
- * @deprecated 
+ * @deprecated
  */
 @Deprecated
 public interface DeleteService<I> {
