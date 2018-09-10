@@ -63,11 +63,11 @@ public class KafkaEvent {
             Class<?> clazz = Class.forName(result.getFullQualifiedClassName());
             Constructor<?> constructor = clazz.getConstructor(String.class);
             Exception cause = (Exception)constructor.newInstance(result.getStrValue());
-            cache = new KafkaException(result.getFullQualifiedClassName(), cause, true);
+            cache = new KafkaInvocationException(result.getFullQualifiedClassName(), cause);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             String msg = getResult().get();
             ClassNotFoundException cause = new ClassNotFoundException(msg, e);
-            cache = new KafkaException(result.getFullQualifiedClassName(), cause, false);
+            cache = new KafkaRestitutionException(result.getFullQualifiedClassName(), cause);
         }
 
         throw cache;

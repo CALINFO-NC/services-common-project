@@ -34,7 +34,7 @@ public class KafkaObject {
                 Class<?> clazz = Class.forName(fullQualifiedClassName);
                 cache = objectMapper.readValue(strValue, clazz);
             } catch (ClassNotFoundException | IOException e) {
-                throw new KafkaException(fullQualifiedClassName, e, false);
+                throw new KafkaRestitutionException(fullQualifiedClassName, e);
             }
         }
 

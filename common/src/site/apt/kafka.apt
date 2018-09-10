@@ -33,15 +33,16 @@ Comment utiliser <KafkaEvent> ?
  Dans le cas ou la méthode sur laquelle  <@KafkaTopic> a été apposée retourne une exception sans
  de Rollback alors <KafkaEvent.get> lève une <KafkaException> dont la cause est
 
- * Soit l'exception levée par la méthode sur laquelle <@KafkaTopic> a été posée.
+ * Soit l'exception levée par la méthode sur laquelle <@KafkaTopic> a été posée. Dans ce cas l'exception levée est
+ <KafkaInvocationException> qui est une sous classe de <KafkaException>
 
- * Soit un ClassNotFoundException. Si tel est le cas, il est possible de récupérer sous forme de
- chaine de caractère le nom de la classe d'exception d'origine, grâce à <KafkaException.getOriginalCauseClassName>
+ * Soit la cause original n'ayant pas permis de reconsituer l'exception sur laquelle <@KafkaTopic> a été posée.
+ Dans ce cas l'exception levée est <KafkaRestitutionException> qui est une sous classe de <KafkaException>
 
- Pour connaitre dans laquelle des deux situations nous nous trouvons, il est possible d'utiliser la méthode
- <KafkaException.isOriginalCauseException>
+ []
 
-[]
+ Dans les deux cas, il est possible de récupérer le nom original de l'exception levée par la méthode sur laquelle <@KafkaTopic>
+ a été posée en utilisant la méthode <KafkaException.getOriginalCauseClassName>
 
  Dans le cas ou la méthode sur laquelle  <@KafkaTopic> a été apposée retourne une exception
  faisant un Rollback alors aucun message Kafka est envoyé
