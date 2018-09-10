@@ -1,8 +1,10 @@
 package com.calinfo.api.common.service;
 
 /**
- * Created by dalexis on 04/04/2018.
+ * Use {@link DestroyService}
+ * @deprecated
  */
+@Deprecated
 public interface DeleteService<I> {
 
     void delete(I id);
