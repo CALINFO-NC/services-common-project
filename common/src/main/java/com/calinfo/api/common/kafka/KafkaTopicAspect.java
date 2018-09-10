@@ -75,7 +75,7 @@ public class KafkaTopicAspect {
         for (int index = 0; index < parameters.length; index++){
             Parameter parameter = parameters[index];
             KafkaObject kafkaParameter = new KafkaObject();
-            kafkaEvent.getParameters().add(kafkaParameter);
+            kafkaEvent.getParameters().put(index, kafkaParameter);
             kafkaParameter.setFullQualifiedClassName(parameter.getType().getName());
             kafkaParameter.set(joinPoint.getArgs()[index]);
         }

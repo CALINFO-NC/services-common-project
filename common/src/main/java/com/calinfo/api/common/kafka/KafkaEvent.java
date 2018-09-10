@@ -5,8 +5,8 @@ import lombok.Setter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class KafkaEvent {
@@ -33,7 +33,7 @@ public class KafkaEvent {
 
     @Getter
     @Setter
-    private Set<KafkaObject> parameters = new HashSet<>();
+    private Map<Integer, KafkaObject> parameters = new HashMap<>();
 
     @Getter
     private KafkaObject result;
