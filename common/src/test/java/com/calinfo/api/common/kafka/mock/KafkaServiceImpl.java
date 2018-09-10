@@ -19,7 +19,9 @@ public class KafkaServiceImpl implements KafkaService {
     @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationName = false)
     public void topic1WithoutExceptionAndWithoutExceptionTopicA() {
 
-        kafkaSubService.topicAWithoutException();
+        TestResource res = new TestResource();
+        res.setProp1("123");
+        kafkaSubService.topicAWithoutException("A12", res);
     }
 
     @Override
@@ -33,7 +35,10 @@ public class KafkaServiceImpl implements KafkaService {
     public void topic3WithExceptionBeforeCallTopicA() {
 
         launchException();
-        kafkaSubService.topicAWithoutException();
+
+        TestResource res = new TestResource();
+        res.setProp1("123");
+        kafkaSubService.topicAWithoutException("A12", res);
 
     }
 
@@ -41,7 +46,9 @@ public class KafkaServiceImpl implements KafkaService {
     @KafkaTopic(value = "topic4", prefixTopicNameWithApplicationName = false)
     public void topic4WithExceptionAfterCallTopicA() {
 
-        kafkaSubService.topicAWithoutException();
+        TestResource res = new TestResource();
+        res.setProp1("123");
+        kafkaSubService.topicAWithoutException("A12", res);
         launchException();
     }
 

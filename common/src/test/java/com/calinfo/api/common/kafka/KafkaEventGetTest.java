@@ -7,7 +7,7 @@ import org.junit.Test;
 public class KafkaEventGetTest {
 
     @Test
-    public void callOkWithoutException() {
+    public void callOkWithoutException() throws Exception {
 
         KafkaEvent kafkaEvent = new KafkaEvent();
         kafkaEvent.setResultException(false);
@@ -15,7 +15,7 @@ public class KafkaEventGetTest {
         KafkaObject kafkaObject = new KafkaObject();
         kafkaEvent.setResult(kafkaObject);
         kafkaObject.setFullQualifiedClassName(String.class.getName());
-        kafkaObject.setValue("AA");
+        kafkaObject.set("AA");
 
 
         try {
