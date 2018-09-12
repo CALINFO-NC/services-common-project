@@ -14,7 +14,7 @@ Les services
 
  * <UpdateService> ou <UpdateProjectionService>
 
- * <DeleteService>
+ * <DestroyService> ou <DestroyService>
 
  []
 

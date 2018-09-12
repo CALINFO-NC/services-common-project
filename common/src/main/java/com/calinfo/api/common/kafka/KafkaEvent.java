@@ -5,24 +5,44 @@ import lombok.Setter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
-@Getter
-@Setter
+
 public class KafkaEvent {
 
+    @Getter
+    @Setter
     private String domain;
+
+    @Getter
+    @Setter
     private KafkaUser user;
 
+    @Getter
+    @Setter
     private String topic;
+
+    @Getter
+    @Setter
     private String fullQualifiedServiceClassName;
+
+    @Getter
+    @Setter
     private String methodServiceName;
 
-    private Set<KafkaObject> parameters = new HashSet<>();
+    @Getter
+    @Setter
+    private Map<Integer, KafkaObject> parameters = new HashMap<>();
+
+    @Getter
     private KafkaObject result;
 
+    @Getter
+    @Setter
     private boolean resultException;
+
+    private KafkaException cache;
 
     public <T> T get() {
 
@@ -35,18 +55,26 @@ public class KafkaEvent {
 
     private void throwException() {
 
-        KafkaException ex;
+        if (cache != null){
+            throw cache;
+        }
+
         try {
             Class<?> clazz = Class.forName(result.getFullQualifiedClassName());
             Constructor<?> constructor = clazz.getConstructor(String.class);
-            Exception cause = (Exception)constructor.newInstance(result.getValue());
-            ex = new KafkaException(result.getFullQualifiedClassName(), cause, true);
+            Exception cause = (Exception)constructor.newInstance(result.getStrValue());
+            cache = new KafkaInvocationException(result.getFullQualifiedClassName(), cause);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             String msg = getResult().get();
             ClassNotFoundException cause = new ClassNotFoundException(msg, e);
-            ex = new KafkaException(result.getFullQualifiedClassName(), cause, false);
+            cache = new KafkaRestitutionException(result.getFullQualifiedClassName(), cause);
         }
 
-        throw ex;
+        throw cache;
+    }
+
+    public void setResult(KafkaObject result){
+        this.result = result;
+        cache = null;
     }
 }
