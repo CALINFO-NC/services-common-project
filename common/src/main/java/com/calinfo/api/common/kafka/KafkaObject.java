@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class KafkaObject {
+class KafkaObject {
 
     private String fullQualifiedClassName;
     private Object value;
