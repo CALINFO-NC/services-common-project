@@ -30,6 +30,7 @@
             <item name="Tâches" href="task.html"/>
             <item name="Internationalisation" href="internationalisation.html"/>
             <item name="Kafka" href="kafka.html"/>
+            <item name="Logger" href="logger.html"/>
         </menu>
 
         <menu name="Rapports">
