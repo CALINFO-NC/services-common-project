@@ -73,7 +73,9 @@ public class KafkaTransactionalListener {
 
                 existingTopics.add(topicName);
                 NewTopic newTopic = new NewTopic(topicName, TOPIC_PARTITION, TOPIC_REPLICA);
-                client.createTopics(Collections.singleton(newTopic));
+                // le .all.get sont la pour attendre la création du topic
+                // FIXME Il faudrait le faire en asynchrone, avec dans le "then" ajouter la publication de l'évenement ?
+                client.createTopics(Collections.singleton(newTopic)).all().get();
             }
         }
     }
