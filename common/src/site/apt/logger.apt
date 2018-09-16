@@ -17,18 +17,20 @@ Description
         ...
     </springProfile>
 
-    <!-- Use shutdownHook so that we can close gracefully and finish the log drain -->
-    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
-    <appender name="LOGZIO" class="io.logz.logback.LogzioLogbackAppender">
-        <token>${LOGZIO_API_KEY}</token>
-        <logzioUrl>${LOGZIO_URL}</logzioUrl>
-        <logzioType>java</logzioType>
-        <additionalFields>applicationName=<<NomApplication>>;environment=${ENVIRONMENT}</additionalFields>
-        <addHostname>true</addHostname>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-    </appender>
+    <springProfile name="heroku">
+        <!-- Use shutdownHook so that we can close gracefully and finish the log drain -->
+        <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+        <appender name="LOGZIO" class="io.logz.logback.LogzioLogbackAppender">
+            <token>${LOGZIO_API_KEY}</token>
+            <logzioUrl>${LOGZIO_URL}</logzioUrl>
+            <logzioType>java</logzioType>
+            <additionalFields>applicationName=<<NomApplication>>;environment=${ENVIRONMENT}</additionalFields>
+            <addHostname>true</addHostname>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>INFO</level>
+            </filter>
+        </appender>
+    </springProfile>
 
     <root level="${LOG_LEVEL_ROOT}">
         <appender-ref ref="${appender}" />

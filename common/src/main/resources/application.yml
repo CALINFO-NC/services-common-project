@@ -7,4 +7,4 @@ common:
 
     application: # Propriété de la classe ApplicationProperties
 
-    kafka: # Propriété de la classe KafkaProperties
+    kafka-event: # Propriété de la classe KafkaProperties

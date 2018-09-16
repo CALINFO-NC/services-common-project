@@ -56,14 +56,14 @@ public class KafkaTopicAspect {
         kafkaEvent.setUser(getKafkaUser());
 
         kafkaEvent.setDomain(null);
-        if (domainNameResolver != null){
+        if (domainNameResolver != null) {
             kafkaEvent.setDomain(domainNameResolver.getDomainName());
         }
 
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);
 
         String topicName = kafkaTopic.value();
-        if (kafkaTopic.prefixTopicNameWithApplicationName()){
+        if (kafkaTopic.prefixTopicNameWithApplicationName()) {
             topicName = String.format("%s.%s", applicationProperties.getName(), kafkaTopic.value());
         }
 
@@ -72,7 +72,7 @@ public class KafkaTopicAspect {
         kafkaEvent.setMethodServiceName(method.getName());
 
         Parameter[] parameters = method.getParameters();
-        for (int index = 0; index < parameters.length; index++){
+        for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
             KafkaObject kafkaParameter = new KafkaObject();
             kafkaEvent.getParameters().put(index, kafkaParameter);
@@ -90,8 +90,7 @@ public class KafkaTopicAspect {
             result.set(val);
 
             return val;
-        }
-        catch(Throwable e){
+        } catch (Throwable e) {
 
             KafkaObject result = new KafkaObject();
             kafkaEvent.setResult(result);
@@ -100,23 +99,23 @@ public class KafkaTopicAspect {
             kafkaEvent.setResultException(true);
 
             throw e;
-        }finally {
+        } finally {
 
             applicationEventPublisher.publishEvent(kafkaEvent);
 
         }
     }
 
-    private KafkaUser getKafkaUser(){
+    private KafkaUser getKafkaUser() {
 
         KafkaUser kafkaUser = null;
 
-        if (principalManager == null){
+        if (principalManager == null) {
             return kafkaUser;
         }
 
         AbstractCommonPrincipal principal = principalManager.getPrincipal();
-        if (principal != null){
+        if (principal != null) {
             String login = principal.getUsername();
 
             kafkaUser = new KafkaUser();
@@ -124,12 +123,12 @@ public class KafkaTopicAspect {
             kafkaUser.setRoles(principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
             kafkaUser.setSystemUser(false);
-            if (securityProperties.getSystemLogin().equals(login)){
+            if (securityProperties.getSystemLogin().equals(login)) {
                 kafkaUser.setSystemUser(true);
             }
 
             kafkaUser.setAnonymousUser(false);
-            if (securityProperties.getAnonymousLogin().equals(login)){
+            if (securityProperties.getAnonymousLogin().equals(login)) {
                 kafkaUser.setAnonymousUser(true);
             }
         }
