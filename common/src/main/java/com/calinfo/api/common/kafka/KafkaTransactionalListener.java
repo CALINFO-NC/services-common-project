@@ -45,7 +45,7 @@ public class KafkaTransactionalListener {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    @Async("monoThreadPool")
+    @Async("kafkaMonoThreadPool")
     @EventListener
     public void createTopicEvent(
             final CreateTopicEvent createTopicEvent) throws ExecutionException, InterruptedException {

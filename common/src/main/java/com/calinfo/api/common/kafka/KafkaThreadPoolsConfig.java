@@ -17,8 +17,8 @@ public class KafkaThreadPoolsConfig {
         this.kafkaProperties = kafkaProperties;
     }
 
-    @Bean(name = {"monoThreadPool"})
-    public Executor monoThreadPool() {
+    @Bean(name = {"kafkaMonoThreadPool"})
+    public Executor getKafkaMonoThreadPool() {
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
