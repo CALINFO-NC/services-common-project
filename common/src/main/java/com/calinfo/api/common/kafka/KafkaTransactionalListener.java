@@ -82,7 +82,7 @@ public class KafkaTransactionalListener {
     }
 
 
-    @Async("kafkaEventsSender")
+    @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT, fallbackExecution = true)
     public void call(KafkaEvent kafkaEvent) {
 

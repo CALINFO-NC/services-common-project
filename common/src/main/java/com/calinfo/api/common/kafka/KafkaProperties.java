@@ -32,9 +32,4 @@ public class KafkaProperties {
      */
     private String threadNamePrefix = "common-kafka-";
 
-
-    private Integer corePoolSize = 1;
-
-
-    private Integer maxPoolSize = 5;
 }

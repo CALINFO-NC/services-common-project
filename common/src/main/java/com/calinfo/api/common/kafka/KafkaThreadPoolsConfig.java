@@ -1,6 +1,5 @@
 package com.calinfo.api.common.kafka;
 
-import lombok.val;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,24 +20,10 @@ public class KafkaThreadPoolsConfig {
     @Bean(name = {"monoThreadPool"})
     public Executor monoThreadPool() {
 
-        val executor = new ThreadPoolTaskExecutor();
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
         executor.setCorePoolSize(1);
         executor.setMaxPoolSize(1);
-
-        executor.initialize();
-
-        return executor;
-    }
-
-
-    @Bean(name = {"kafkaEventsSender"})
-    public Executor kafkaEventsSender() {
-
-        val executor = new ThreadPoolTaskExecutor();
-
-        executor.setCorePoolSize(kafkaProperties.getCorePoolSize());
-        executor.setMaxPoolSize(kafkaProperties.getMaxPoolSize());
 
         executor.setQueueCapacity(kafkaProperties.getPoolCapacity());
         executor.setKeepAliveSeconds(kafkaProperties.getTimoutInSecond());
