@@ -15,9 +15,10 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ExecutionException;
+
 
 @Component
 @ConditionalOnProperty(value = "common.configuration.kafka-event.enabled")
@@ -28,7 +29,7 @@ public class KafkaTransactionalListener {
     private static final int TOPIC_PARTITION = 1;
     private static final short TOPIC_REPLICA = 1;
 
-    private final Set<String> existingTopics = new ConcurrentSkipListSet<>();
+    private final Set<String> existingTopics = new HashSet<>();
 
     private final ApplicationEventPublisher applicationEventPublisher;
     private final KafkaTemplate<String, Object> kafkaTemplate;
@@ -43,7 +44,6 @@ public class KafkaTransactionalListener {
         this.kafkaAdmin = kafkaAdmin;
         this.kafkaTemplate = kafkaTemplate;
     }
-
 
     @Async("monoThreadPool")
     @EventListener
@@ -86,11 +86,12 @@ public class KafkaTransactionalListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT, fallbackExecution = true)
     public void call(KafkaEvent kafkaEvent) {
 
+        log.info("Prepare topic '{}' to send", kafkaEvent.getTopic());
+
         String topicName = kafkaEvent.getTopic();
 
-        log.info("Prepare topic '{}' to send", topicName);
-
         if (existingTopics.contains(topicName)) {
+
 
             kafkaTemplate.send(topicName, kafkaEvent);
 

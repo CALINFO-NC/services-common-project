@@ -1,7 +1,6 @@
 package com.calinfo.api.common.kafka;
 
 import lombok.val;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +12,11 @@ import java.util.concurrent.Executor;
 @Configuration
 public class KafkaThreadPoolsConfig {
 
-    @Value("${common.configuration.kafka-event.sender.threadPool.corePoolSize:1}")
-    private Integer corePoolSize;
+    private final KafkaProperties kafkaProperties;
 
-    @Value("${common.configuration.kafka-event.sender.threadPool.maxPoolSize:5}")
-    private Integer maxPoolSize;
-
+    public KafkaThreadPoolsConfig(KafkaProperties kafkaProperties) {
+        this.kafkaProperties = kafkaProperties;
+    }
 
     @Bean(name = {"monoThreadPool"})
     public Executor monoThreadPool() {
@@ -39,11 +37,16 @@ public class KafkaThreadPoolsConfig {
 
         val executor = new ThreadPoolTaskExecutor();
 
-        executor.setCorePoolSize(corePoolSize);
-        executor.setMaxPoolSize(maxPoolSize);
+        executor.setCorePoolSize(kafkaProperties.getCorePoolSize());
+        executor.setMaxPoolSize(kafkaProperties.getMaxPoolSize());
+
+        executor.setQueueCapacity(kafkaProperties.getPoolCapacity());
+        executor.setKeepAliveSeconds(kafkaProperties.getTimoutInSecond());
+        executor.setThreadNamePrefix(kafkaProperties.getThreadNamePrefix());
 
         executor.initialize();
 
         return executor;
     }
+
 }
