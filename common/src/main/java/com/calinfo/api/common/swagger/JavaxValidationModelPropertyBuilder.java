@@ -171,7 +171,7 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
                 description = concatTextDescrption(description, String.format("%s: %s", propertyName, propValue));
             }
 
-            return String.format("<span style=\"color:gray;\">%s</span>", description);
+            return String.format("<span style=\"color:red;\">%s</span>", description);
 
 
         }
