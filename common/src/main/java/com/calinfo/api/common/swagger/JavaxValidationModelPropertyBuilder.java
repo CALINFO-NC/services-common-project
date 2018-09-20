@@ -136,7 +136,7 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
             String getterName = String.format("%s%s", getterPrefix, StringUtils.capitalize(field.getName()));
 
             try {
-                Method m = field.getDeclaringClass().getMethod(getterName, field.getType());
+                Method m = field.getDeclaringClass().getMethod(getterName);
                 result = m.getAnnotation(clazz);
             } catch (NoSuchMethodException e) {
                 log.info(e.getMessage(), e);
@@ -148,7 +148,7 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
             String setterName = String.format("set%s", StringUtils.capitalize(field.getName()));
 
             try {
-                Method m = field.getDeclaringClass().getMethod(setterName);
+                Method m = field.getDeclaringClass().getMethod(setterName, field.getType());
                 result = m.getAnnotation(clazz);
             } catch (NoSuchMethodException e) {
                 log.info(e.getMessage(), e);
