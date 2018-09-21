@@ -20,4 +20,4 @@ script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true sonar:sonar
   - travis_wait 90 .travis/deploy.sh
 notifications:
-    slack: calinfo-nc:xiw9XrUwovVTx24yk1sgNyO6
+    slack: calinfo-nc:xiw9XrUwovVTx24yk1sgNyO6#projet-common
