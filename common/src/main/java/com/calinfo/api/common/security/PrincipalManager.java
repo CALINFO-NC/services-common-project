@@ -1,5 +1,6 @@
 package com.calinfo.api.common.security;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by dalexis on 05/04/2018.
  */
+@Lazy
 @Component
 public class PrincipalManager {
 

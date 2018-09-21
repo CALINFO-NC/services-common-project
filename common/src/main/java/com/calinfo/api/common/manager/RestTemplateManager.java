@@ -1,5 +1,6 @@
 package com.calinfo.api.common.manager;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -8,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by dalexis on 05/01/2018.
  */
+@Lazy
 @Component
 public class RestTemplateManager {
 

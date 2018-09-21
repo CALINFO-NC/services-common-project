@@ -6,6 +6,7 @@ import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.ResponseMessageBuilder;
@@ -17,6 +18,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.ArrayList;
 import java.util.List;
 
+@Lazy
 @Component
 @ConditionalOnClass({ApiInfo.class})
 public class SwaggerCommonConfig implements BeanPostProcessor {
