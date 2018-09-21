@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.stream.Collectors;
 
-@Lazy
+
 @Aspect
 @Component
 @ConditionalOnProperty(value = "common.configuration.kafka-event.enabled")

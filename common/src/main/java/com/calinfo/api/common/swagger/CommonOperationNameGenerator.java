@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import springfox.documentation.OperationNameGenerator;
 import springfox.documentation.service.ApiInfo;
 
-@Lazy
+
 @Component
 @Primary
 @ConditionalOnClass({ApiInfo.class})

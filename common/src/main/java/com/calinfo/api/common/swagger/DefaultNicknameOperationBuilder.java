@@ -16,7 +16,7 @@ import springfox.documentation.swagger.common.SwaggerPluginSupport;
 /**
  * Created by dalexis on 08/06/2018.
  */
-@Lazy
+
 @Component
 @Order(DefaultNicknameOperationBuilder.ORDER)
 @ConditionalOnClass({ApiInfo.class})

@@ -26,7 +26,7 @@ import java.sql.Statement;
 /**
  * Created by dalexis on 05/01/2018.
  */
-@Lazy
+
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)

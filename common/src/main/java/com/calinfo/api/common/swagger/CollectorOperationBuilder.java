@@ -13,7 +13,7 @@ import springfox.documentation.spi.service.contexts.OperationContext;
 /**
  * Created by dalexis on 08/06/2018.
  */
-@Lazy
+
 @Component
 @Order(CollectorOperationBuilder.ORDER)
 @ConditionalOnClass({ApiInfo.class})

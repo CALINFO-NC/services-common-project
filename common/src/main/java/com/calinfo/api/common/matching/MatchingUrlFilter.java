@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * Filtre de sécurité sur les URLs
  */
-@Lazy
+
 @ConditionalOnProperty(value = "common.configuration.matching.filter.enabled", matchIfMissing = true)
 @Component
 @Order(MatchingUrlFilter.ORDER_FILTER)

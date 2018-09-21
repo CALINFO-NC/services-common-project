@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 
-@Lazy
+
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifierResolver {

@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-@Lazy
+
 @Component
 @ConditionalOnProperty(value = "common.configuration.kafka-event.enabled")
 public class KafkaTransactionalListener {

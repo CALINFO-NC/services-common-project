@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by dalexis on 05/04/2018.
  */
-@Lazy
+
 @Component
 public class PrincipalManager {
 

@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by dalexis on 05/01/2018.
  */
-@Lazy
+
 @Component
 public class RestTemplateManager {
 

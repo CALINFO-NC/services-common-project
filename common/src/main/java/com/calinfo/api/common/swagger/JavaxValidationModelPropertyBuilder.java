@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by dalexis on 08/06/2018.
  */
-@Lazy
+
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 10)
 @ConditionalOnClass({ApiInfo.class})
