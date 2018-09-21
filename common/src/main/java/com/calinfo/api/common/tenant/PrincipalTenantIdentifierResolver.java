@@ -3,10 +3,11 @@ package com.calinfo.api.common.tenant;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 
-
+@Lazy
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifierResolver {

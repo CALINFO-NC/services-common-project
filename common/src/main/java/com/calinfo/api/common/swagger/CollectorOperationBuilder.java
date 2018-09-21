@@ -2,6 +2,7 @@ package com.calinfo.api.common.swagger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import springfox.documentation.service.ApiInfo;
@@ -12,6 +13,7 @@ import springfox.documentation.spi.service.contexts.OperationContext;
 /**
  * Created by dalexis on 08/06/2018.
  */
+@Lazy
 @Component
 @Order(CollectorOperationBuilder.ORDER)
 @ConditionalOnClass({ApiInfo.class})

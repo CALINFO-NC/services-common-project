@@ -1,5 +1,6 @@
 package com.calinfo.api.common.swagger;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Lazy
 @Component
 public class SwaggerCollector {
 

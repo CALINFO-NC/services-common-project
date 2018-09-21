@@ -3,6 +3,7 @@ package com.calinfo.api.common.matching;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.io.IOException;
 /**
  * Filtre de sécurité sur les URLs
  */
+@Lazy
 @ConditionalOnProperty(value = "common.configuration.matching.filter.enabled", matchIfMissing = true)
 @Component
 @Order(MatchingUrlFilter.ORDER_FILTER)

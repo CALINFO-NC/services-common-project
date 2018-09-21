@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ import java.sql.Statement;
 /**
  * Created by dalexis on 05/01/2018.
  */
+@Lazy
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
