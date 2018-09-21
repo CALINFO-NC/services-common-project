@@ -19,6 +19,7 @@
         <version.openpojo>0.8.6</version.openpojo>
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
+        <version.validation-api>2.0.1.Final</version.validation-api>
     </properties>
 
     <build>
@@ -37,6 +38,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- API de validation java -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${version.validation-api}</version>
+        </dependency>
+
 
         <!-- Test des POJO -->
         <dependency>
