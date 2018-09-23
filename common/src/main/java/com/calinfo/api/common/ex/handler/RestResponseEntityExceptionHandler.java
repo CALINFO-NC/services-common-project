@@ -2,6 +2,7 @@ package com.calinfo.api.common.ex.handler;
 
 import com.calinfo.api.common.MessageStructure;
 import com.calinfo.api.common.dto.AttributDto;
+import com.calinfo.api.common.ex.BadRequestParameterException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.resource.BadRequestParameterResource;
 import com.calinfo.api.common.resource.BadResponseResource;
@@ -98,6 +99,15 @@ public class RestResponseEntityExceptionHandler {
 
 
         return result;
+    }
+
+    @ExceptionHandler(BadRequestParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public BadRequestParameterResource badRequestParameterException(BadRequestParameterException ex) {
+
+        log.info(ex.getMessage(), ex);
+
+        return ex.getBadRequestParameterResource();
     }
 
     @ExceptionHandler(MessageException.class)
