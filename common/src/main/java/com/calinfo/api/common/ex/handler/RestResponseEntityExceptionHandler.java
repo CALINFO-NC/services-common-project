@@ -3,6 +3,7 @@ package com.calinfo.api.common.ex.handler;
 import com.calinfo.api.common.MessageStructure;
 import com.calinfo.api.common.dto.AttributDto;
 import com.calinfo.api.common.ex.BadRequestParameterException;
+import com.calinfo.api.common.ex.CommonConstraintViolationException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.resource.BadRequestParameterResource;
 import com.calinfo.api.common.resource.BadResponseResource;
@@ -71,7 +72,19 @@ public class RestResponseEntityExceptionHandler {
             AttributDto attribut = new AttributDto();
             result.getListErrorMessages().add(attribut);
             attribut.setType(TypeAttribut.RESOURCE);
-            attribut.setName(contraintes.getPropertyPath().toString().substring("validation.".length()));
+
+            String name = contraintes.getPropertyPath().toString();
+
+            if (contraintes.getPropertyPath().toString().startsWith("validation.")) {
+                name = contraintes.getPropertyPath().toString().substring("validation.".length());
+            }
+
+            if (ex instanceof CommonConstraintViolationException){
+                CommonConstraintViolationException cex = (CommonConstraintViolationException)ex;
+                name = String.format("%s%s", cex.getPropertyPrefix(), name);
+            }
+
+            attribut.setName(name);
             attribut.getListMessages().add(contraintes.getMessage());
         }
 
