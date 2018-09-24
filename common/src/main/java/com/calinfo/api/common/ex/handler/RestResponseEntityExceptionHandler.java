@@ -5,8 +5,8 @@ import com.calinfo.api.common.dto.AttributDto;
 import com.calinfo.api.common.ex.BadRequestParameterException;
 import com.calinfo.api.common.ex.CommonConstraintViolationException;
 import com.calinfo.api.common.ex.MessageException;
-import com.calinfo.api.common.resource.BadRequestParameterResource;
-import com.calinfo.api.common.resource.BadResponseResource;
+import com.calinfo.api.common.response.BadRequestParameterResponse;
+import com.calinfo.api.common.response.BadResponseResponse;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.type.TypeAttribut;
 import org.slf4j.Logger;
@@ -42,11 +42,11 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BadRequestParameterResource missingServletRequestParameterException(MissingServletRequestParameterException ex) {
+    public BadRequestParameterResponse missingServletRequestParameterException(MissingServletRequestParameterException ex) {
 
         log.info(ex.getMessage(), ex);
 
-        BadRequestParameterResource result = new BadRequestParameterResource();
+        BadRequestParameterResponse result = new BadRequestParameterResponse();
 
         AttributDto attribut = new AttributDto();
         result.getListErrorMessages().add(attribut);
@@ -59,11 +59,11 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BadRequestParameterResource constraintViolationException(ConstraintViolationException ex) {
+    public BadRequestParameterResponse constraintViolationException(ConstraintViolationException ex) {
 
         log.info(ex.getMessage(), ex);
 
-        BadRequestParameterResource result = new BadRequestParameterResource();
+        BadRequestParameterResponse result = new BadRequestParameterResponse();
 
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
 
@@ -93,11 +93,11 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BadRequestParameterResource methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public BadRequestParameterResponse methodArgumentNotValidException(MethodArgumentNotValidException ex) {
 
         log.info(ex.getMessage(), ex);
 
-        BadRequestParameterResource result = new BadRequestParameterResource();
+        BadRequestParameterResponse result = new BadRequestParameterResponse();
 
         for (ObjectError error : ex.getBindingResult().getAllErrors()){
 
@@ -116,7 +116,7 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BadRequestParameterResource badRequestParameterException(BadRequestParameterException ex) {
+    public BadRequestParameterResponse badRequestParameterException(BadRequestParameterException ex) {
 
         log.info(ex.getMessage(), ex);
 
@@ -125,7 +125,7 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(MessageException.class)
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public BadResponseResource messageException(HttpServletRequest request, MessageException ex) {
+    public BadResponseResponse messageException(HttpServletRequest request, MessageException ex) {
 
         log.info(ex.getMessage(), ex);
 
@@ -136,7 +136,7 @@ public class RestResponseEntityExceptionHandler {
         }
 
 
-        BadResponseResource result = new BadResponseResource();
+        BadResponseResponse result = new BadResponseResponse();
         for (MessageStructure ms: ex.getErrors().getGlobalErrors()){
             result.getListErrorMessages().add(messageService.translate(locale, ms.getMessageCode(), ms.getParameters().stream().toArray(size -> new Serializable[size])));
         }

@@ -4,8 +4,8 @@ import com.calinfo.api.common.dto.AttributDto;
 import com.calinfo.api.common.mocks.MockDtoContrainteViolation;
 import com.calinfo.api.common.mocks.MockDtoInerContrainteViolation;
 import com.calinfo.api.common.mocks.MockMessageCode;
-import com.calinfo.api.common.resource.BadRequestParameterResource;
-import com.calinfo.api.common.resource.BadResponseResource;
+import com.calinfo.api.common.response.BadRequestParameterResponse;
+import com.calinfo.api.common.response.BadResponseResponse;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.type.TypeAttribut;
 import com.calinfo.api.common.utils.MiscUtils;
@@ -64,7 +64,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
 
 
         // Construction du résultat attendue
-        BadRequestParameterResource valueTester = new BadRequestParameterResource();
+        BadRequestParameterResponse valueTester = new BadRequestParameterResponse();
         AttributDto dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
         dto.setName("prmName");
@@ -86,7 +86,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
                 .header("language", "fr");
 
         // Construction du résultat attendue
-        BadResponseResource valueTester = new BadResponseResource();
+        BadResponseResponse valueTester = new BadResponseResponse();
         List<String> lstMsg = new ArrayList<>();
         lstMsg.add(messageService.translate(Locale.FRANCE, MockMessageCode.INVALID_CAPTCHA_VALUE));
         lstMsg.add(messageService.translate(Locale.FRANCE, MockMessageCode.LOGIN_ALL_READY_EXIST));
@@ -110,7 +110,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
 
         // Construction du résultat attendue
         AttributDto dto;
-        BadRequestParameterResource valueTester = new BadRequestParameterResource();
+        BadRequestParameterResponse valueTester = new BadRequestParameterResponse();
 
         dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
@@ -154,7 +154,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
                 .content(objectMapper.writeValueAsString(dtoConstrainte));
 
         // Construction du résultat attendue
-        BadRequestParameterResource valueTester = new BadRequestParameterResource();
+        BadRequestParameterResponse valueTester = new BadRequestParameterResponse();
         AttributDto dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
         dto.setName("mockDtoContrainteViolation.prop2");
