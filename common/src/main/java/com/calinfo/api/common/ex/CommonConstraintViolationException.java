@@ -14,7 +14,7 @@ import java.util.Set;
 public class CommonConstraintViolationException extends ConstraintViolationException {
 
     @Getter
-    private String propertyPrefix;
+    private final String propertyPrefix;
 
     public CommonConstraintViolationException(String propertyPrefix, String message, Set<? extends ConstraintViolation<?>> constraintViolations) {
         super(message, constraintViolations);
