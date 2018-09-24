@@ -43,7 +43,7 @@ public class SwaggerCommonConfig implements BeanPostProcessor {
             lstDefaultResponse.add(
                     new ResponseMessageBuilder()
                             .code(400)
-                            .responseModel(new ModelRef("#/definitions/BadRequestParameterResource"))
+                            .responseModel(new ModelRef(String.format("#/definitions/%s", BadRequestParameterDto.class.getSimpleName())))
                             .message("Bad parameters request.").build());
             lstDefaultResponse.add(
                     new ResponseMessageBuilder()
@@ -52,7 +52,7 @@ public class SwaggerCommonConfig implements BeanPostProcessor {
             lstDefaultResponse.add(
                     new ResponseMessageBuilder()
                             .code(501)
-                            .responseModel(new ModelRef("#/definitions/BadResponseResource"))
+                            .responseModel(new ModelRef(String.format("#/definitions/%s", BadResponseDto.class.getSimpleName())))
                             .message("Bad use case.").build());
             lstDefaultResponse.add(
                     new ResponseMessageBuilder()
