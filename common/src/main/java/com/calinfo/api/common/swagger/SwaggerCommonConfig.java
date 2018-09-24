@@ -1,7 +1,7 @@
 package com.calinfo.api.common.swagger;
 
-import com.calinfo.api.common.response.BadRequestParameterResponse;
-import com.calinfo.api.common.response.BadResponseResponse;
+import com.calinfo.api.common.dto.BadRequestParameterDto;
+import com.calinfo.api.common.dto.BadResponseDto;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -29,8 +29,8 @@ public class SwaggerCommonConfig implements BeanPostProcessor {
             Docket docket = (Docket) bean;
 
             TypeResolver typeResolver = new TypeResolver();
-            ResolvedType badRequestParameterResourceType = typeResolver.resolve(BadRequestParameterResponse.class); // 400
-            ResolvedType badResponseResourceType = typeResolver.resolve(BadResponseResponse.class); // 501
+            ResolvedType badRequestParameterResourceType = typeResolver.resolve(BadRequestParameterDto.class); // 400
+            ResolvedType badResponseResourceType = typeResolver.resolve(BadResponseDto.class); // 501
 
             docket.additionalModels(badRequestParameterResourceType);
             docket.additionalModels(badResponseResourceType);

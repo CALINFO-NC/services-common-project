@@ -1,6 +1,5 @@
-package com.calinfo.api.common.response;
+package com.calinfo.api.common.dto;
 
-import com.calinfo.api.common.dto.AttributDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class BadRequestParameterResponse implements Serializable {
+public class BadRequestParameterDto implements Serializable {
 
     private List<AttributDto> listErrorMessages = new ArrayList<>();
 }

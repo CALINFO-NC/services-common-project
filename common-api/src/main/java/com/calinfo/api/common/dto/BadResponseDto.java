@@ -1,4 +1,4 @@
-package com.calinfo.api.common.response;
+package com.calinfo.api.common.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class BadResponseResponse implements Serializable {
+public class BadResponseDto implements Serializable {
 
     private Map<String, List<String>> mapErrorMessagesFields = new HashMap<>();
 

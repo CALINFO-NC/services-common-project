@@ -3,7 +3,7 @@ package com.calinfo.api.common.utils;
 import com.calinfo.api.common.ErrorMessageFieldConvertor;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.ex.MessageStatusException;
-import com.calinfo.api.common.response.BadResponseResponse;
+import com.calinfo.api.common.dto.BadResponseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -75,8 +75,8 @@ public class MiscUtils {
             }
             else if (response.getStatusCode() == HttpStatus.NOT_IMPLEMENTED && convertor != null){
 
-                BadResponseResponse result = new BadResponseResponse();
-                BadResponseResponse resp = objectMapper.readValue(response.getBody(), BadResponseResponse.class);
+                BadResponseDto result = new BadResponseDto();
+                BadResponseDto resp = objectMapper.readValue(response.getBody(), BadResponseDto.class);
                 result.setListErrorMessages(resp.getListErrorMessages());
 
                 for (Map.Entry<String, List<String>> item : resp.getMapErrorMessagesFields().entrySet()){

@@ -1,7 +1,7 @@
 package com.calinfo.api.common.ex;
 
 import com.calinfo.api.common.dto.AttributDto;
-import com.calinfo.api.common.response.BadRequestParameterResponse;
+import com.calinfo.api.common.dto.BadRequestParameterDto;
 import lombok.Getter;
 
 /**
@@ -10,15 +10,15 @@ import lombok.Getter;
 public class BadRequestParameterException extends RuntimeException{
 
     @Getter
-    private final BadRequestParameterResponse badRequestParameterResource;
+    private final BadRequestParameterDto badRequestParameterResource;
 
-    public BadRequestParameterException(BadRequestParameterResponse badRequestParameterResource){
+    public BadRequestParameterException(BadRequestParameterDto badRequestParameterResource){
         super(constructMessage(badRequestParameterResource));
         this.badRequestParameterResource = badRequestParameterResource;
     }
 
 
-    private static String constructMessage(BadRequestParameterResponse badRequestParameterResource){
+    private static String constructMessage(BadRequestParameterDto badRequestParameterResource){
 
         StringBuilder msg = new StringBuilder();
 

@@ -1,7 +1,5 @@
-package com.calinfo.api.common.response;
+package com.calinfo.api.common.dto;
 
-import com.calinfo.api.common.dto.Dto;
-import com.calinfo.api.common.dto.MessageInfoAndWarningInterface;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class EmptyResponse implements Dto, MessageInfoAndWarningInterface {
+public class EmptyResponseDto implements Dto, MessageInfoAndWarningInterface {
 
     @Size(min = 0, max = 0)
     private List<String> listInfoMessages = new ArrayList<>();
