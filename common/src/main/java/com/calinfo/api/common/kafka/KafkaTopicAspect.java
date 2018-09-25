@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -56,6 +55,7 @@ public class KafkaTopicAspect {
 
         KafkaEvent kafkaEvent = new KafkaEvent();
         kafkaEvent.setUser(getKafkaUser());
+        kafkaEvent.setApplication(getKafkaApplication());
 
         kafkaEvent.setDomain(null);
         if (domainNameResolver != null) {
@@ -106,6 +106,16 @@ public class KafkaTopicAspect {
             applicationEventPublisher.publishEvent(kafkaEvent);
 
         }
+    }
+
+    private KafkaApplication getKafkaApplication(){
+
+        KafkaApplication result = new KafkaApplication();
+        result.setId(applicationProperties.getId());
+        result.setName(applicationProperties.getName());
+        result.setVersion(applicationProperties.getVersion());
+
+        return result;
     }
 
     private KafkaUser getKafkaUser() {

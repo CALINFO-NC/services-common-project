@@ -21,6 +21,10 @@ public class KafkaEvent {
 
     @Getter
     @Setter
+    private KafkaApplication application;
+
+    @Getter
+    @Setter
     private String topic;
 
     @Getter
