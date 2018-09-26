@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -16,7 +17,7 @@ import java.util.function.Function;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DynamicListDto<R extends Dto> implements Dto, MessageInfoAndWarningInterface {
+public class DynamicListDto<R extends Serializable> implements Dto, MessageInfoAndWarningInterface {
 
 
     @Size(min = 0, max = 0)
