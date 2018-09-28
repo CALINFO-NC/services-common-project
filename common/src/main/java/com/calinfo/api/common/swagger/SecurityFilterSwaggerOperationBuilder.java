@@ -4,7 +4,6 @@ import com.calinfo.api.common.security.CommonSecurityUrlFilter;
 import com.calinfo.api.common.security.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ParameterBuilder;
@@ -42,6 +41,15 @@ public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPl
             Parameter parameter = new ParameterBuilder()
                     .name(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME)
                     .description(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME)
+                    .modelRef(new ModelRef("string"))
+                    .parameterType("header")
+                    .required(true)
+                    .build();
+            parameters.add(parameter);
+
+            parameter = new ParameterBuilder()
+                    .name(CommonSecurityUrlFilter.HEADER_API_KEY)
+                    .description(CommonSecurityUrlFilter.HEADER_API_KEY)
                     .modelRef(new ModelRef("string"))
                     .parameterType("header")
                     .required(true)
