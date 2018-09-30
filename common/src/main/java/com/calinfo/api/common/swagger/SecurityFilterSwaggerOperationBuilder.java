@@ -9,14 +9,15 @@ import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Header;
 import springfox.documentation.service.Parameter;
+import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
 import springfox.documentation.spi.service.contexts.OperationContext;
 import springfox.documentation.swagger.common.SwaggerPluginSupport;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by dalexis on 08/06/2018.
@@ -34,13 +35,14 @@ public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPl
     public void apply(OperationContext operationContext) {
 
         final List<Parameter> parameters = new LinkedList<>();
+        Set<ResponseMessage> responseMessage = operationContext.operationBuilder().build().getResponseMessages();
 
         // Uniquement sur les URL privée
-        if (operationContext.requestMappingPattern().matches(securityProperties.getPrivateUrlRegex())){
+        if (securityProperties.isEnabled() && operationContext.requestMappingPattern().matches(securityProperties.getPrivateUrlRegex())){
 
             Parameter parameter = new ParameterBuilder()
                     .name(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME)
-                    .description(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME)
+                    .description(String.format("%s prefixed by '%s'", CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX))
                     .modelRef(new ModelRef("string"))
                     .parameterType("header")
                     .required(true)
@@ -55,10 +57,25 @@ public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPl
                     .required(true)
                     .build();
             parameters.add(parameter);
+
+            // Ajout de l'API Key en réponse sur le 200
+            Iterator<ResponseMessage> it = responseMessage.iterator();
+            while (it.hasNext()){
+                ResponseMessage rm = it.next();
+
+                if (rm.getCode() == 500){
+                    continue;
+                }
+
+                Map<String, Header> headers = rm.getHeaders();
+                Header header = new Header(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, String.format("New %s token prefixed by '%s'", CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX), new ModelRef("string"));
+                headers.put(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, header);
+            }
         }
 
 
         operationContext.operationBuilder().parameters(parameters);
+        operationContext.operationBuilder().responseMessages(responseMessage);
     }
 
     @Override
