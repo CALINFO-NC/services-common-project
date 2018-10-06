@@ -1,6 +1,5 @@
 package com.calinfo.api.common.security;
 
-import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.ex.handler.ResponseEntityExceptionHandler;
 import com.calinfo.api.common.manager.ApiKeyManager;
@@ -70,12 +69,6 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     private SecurityProperties securityProperties;
 
     /**
-     * Propriété de l'application
-     */
-    @Autowired
-    private ApplicationProperties applicationProperties;
-
-    /**
      * Classe chargé du traitement des exceptions
      */
     @Autowired
@@ -131,6 +124,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
 
         // Récupérer le token d'identification
         String token = httpServletRequest.getHeader(HEADER_AUTHORIZATION_NAME);
+        String apiKey = httpServletRequest.getHeader(HEADER_API_KEY);
 
         if (isPrivate) {
 
@@ -139,17 +133,17 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             }
 
             try {
-                principal = createAuthentifiedPrincipal(token);
+                principal = createAuthentifiedPrincipal(apiKey, token);
             }
             catch (ExpiredJwtException e){
 
                 log.info(e.getMessage());
 
-                token = refreshToken(httpServletRequest.getHeader(HEADER_API_KEY));
+                token = refreshToken(apiKey);
 
                 if (token != null){
                     token = String.format("%s%s", BEARER_PREFIX, token);
-                    principal = createAuthentifiedPrincipal(token);
+                    principal = createAuthentifiedPrincipal(apiKey, token);
                 }
                 else{
                     log.info("Impossible to refresh token");
@@ -183,7 +177,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
      * @param token
      * @return
      */
-    protected AbstractCommonPrincipal createAuthentifiedPrincipal(@NotNull String token) {
+    protected AbstractCommonPrincipal createAuthentifiedPrincipal(@NotNull String apiKey, @NotNull String token) {
 
         if (!token.startsWith(BEARER_PREFIX)){
             throw new MessageStatusException(HttpStatus.FORBIDDEN, String.format("JWT '%s' prefix not found", BEARER_PREFIX));
@@ -206,7 +200,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
         List<? extends GrantedAuthority> authorities = lstRoles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
         // Création du principal
-        return new CommonPrincipal(user.getDomain(), user.getLogin(), "", authorities);
+        return new CommonPrincipal(apiKey, token, user.getDomain(), user.getLogin(), "", authorities);
     }
 
     /**
@@ -214,7 +208,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
      * @return
      */
     protected AbstractCommonPrincipal createAnonymousPrincipal(){
-        return new CommonPrincipal(null, securityProperties.getAnonymousLogin(), "", new ArrayList<>());
+        return new CommonPrincipal(null, null,null, securityProperties.getAnonymousLogin(), "", new ArrayList<>());
     }
 
     /**

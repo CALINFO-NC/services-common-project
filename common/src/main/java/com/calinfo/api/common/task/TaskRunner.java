@@ -4,7 +4,6 @@ import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +26,7 @@ public class TaskRunner {
         List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
         // Mettre en place l'authentification
-        AbstractCommonPrincipal principal = new CommonPrincipal(domainName, username, "", grants);
+        AbstractCommonPrincipal principal = new CommonPrincipal(null, null, domainName, username, "", grants);
         Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(authentication);

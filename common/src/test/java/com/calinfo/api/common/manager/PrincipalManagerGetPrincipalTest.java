@@ -33,7 +33,7 @@ public class PrincipalManagerGetPrincipalTest {
     @Before
     public void before(){
 
-        principalAjouteAuContext = new CommonPrincipal("domain", "username", "password", new ArrayList<>());
+        principalAjouteAuContext = new CommonPrincipal(null, null,"domain", "username", "password", new ArrayList<>());
         Authentication authentication = new UsernamePasswordAuthenticationToken(principalAjouteAuContext, "", principalAjouteAuContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
