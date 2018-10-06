@@ -34,6 +34,9 @@ public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPl
     @Override
     public void apply(OperationContext operationContext) {
 
+        ModelRef tokenModel = new ModelRef("string");
+        String tokenParameterType = "header";
+
         final List<Parameter> parameters = new LinkedList<>();
         Set<ResponseMessage> responseMessage = operationContext.operationBuilder().build().getResponseMessages();
 
@@ -43,8 +46,8 @@ public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPl
             Parameter parameter = new ParameterBuilder()
                     .name(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME)
                     .description(String.format("%s prefixed by '%s'", CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX))
-                    .modelRef(new ModelRef("string"))
-                    .parameterType("header")
+                    .modelRef(tokenModel)
+                    .parameterType(tokenParameterType)
                     .required(true)
                     .build();
             parameters.add(parameter);
@@ -52,8 +55,8 @@ public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPl
             parameter = new ParameterBuilder()
                     .name(CommonSecurityUrlFilter.HEADER_API_KEY)
                     .description(CommonSecurityUrlFilter.HEADER_API_KEY)
-                    .modelRef(new ModelRef("string"))
-                    .parameterType("header")
+                    .modelRef(tokenModel)
+                    .parameterType(tokenParameterType)
                     .required(true)
                     .build();
             parameters.add(parameter);
@@ -68,7 +71,7 @@ public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPl
                 }
 
                 Map<String, Header> headers = rm.getHeaders();
-                Header header = new Header(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, String.format("New %s token prefixed by '%s'", CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX), new ModelRef("string"));
+                Header header = new Header(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, String.format("New %s token prefixed by '%s'", CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, CommonSecurityUrlFilter.BEARER_PREFIX), tokenModel);
                 headers.put(CommonSecurityUrlFilter.HEADER_AUTHORIZATION_NAME, header);
             }
         }
