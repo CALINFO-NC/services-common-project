@@ -10,4 +10,8 @@ public class ApplicationErrorException extends MessageStatusException{
     public ApplicationErrorException(Throwable e){
         super(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
     }
+
+    public ApplicationErrorException(String message){
+        super(HttpStatus.INTERNAL_SERVER_ERROR, message);
+    }
 }
