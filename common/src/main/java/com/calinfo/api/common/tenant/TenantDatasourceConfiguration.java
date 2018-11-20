@@ -57,8 +57,10 @@ public class TenantDatasourceConfiguration {
                                                                              CurrentTenantIdentifierResolver tenantIdentifierResolver) {
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+
         em.setDataSource(dataSource);
 
+        em.setPersistenceUnitName(tenantProperties.getPersistenceName());
         em.setPackagesToScan(tenantProperties.getDomainScanEntities());
 
         JpaProperties jpa = tenantProperties.getJpa();
