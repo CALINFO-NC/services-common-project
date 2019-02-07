@@ -48,7 +48,6 @@ public class SwaggerCommonConfig implements BeanPostProcessor {
             lstDefaultResponse.add(
                     new ResponseMessageBuilder()
                             .code(401)
-                            .responseModel(new ModelRef(String.format("#/definitions/%s")))
                             .message("Unauthorized request.").build());
             lstDefaultResponse.add(
                     new ResponseMessageBuilder()
