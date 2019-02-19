@@ -1,17 +1,18 @@
 package com.calinfo.api.common.ex.handler;
 
-import com.calinfo.api.common.MessageStructure;
 import com.calinfo.api.common.dto.AttributDto;
+import com.calinfo.api.common.dto.BadRequestParameterDto;
+import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.ex.BadRequestParameterException;
 import com.calinfo.api.common.ex.CommonConstraintViolationException;
 import com.calinfo.api.common.ex.MessageException;
-import com.calinfo.api.common.dto.BadRequestParameterDto;
-import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.type.TypeAttribut;
+import com.calinfo.api.common.utils.MiscUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.io.Serializable;
-import java.util.*;
+import java.util.Locale;
+import java.util.Set;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -125,35 +125,13 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(MessageException.class)
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public BadResponseDto messageException(HttpServletRequest request, MessageException ex) {
+    public BadResponseDto messageException(MessageException ex) {
 
         log.info(ex.getMessage(), ex);
 
-        String language = request.getHeader("language");
-        Locale locale = Locale.ENGLISH;
-        if (language != null){
-            locale = new Locale(language);
-        }
+        Locale locale = LocaleContextHolder.getLocale();
 
-
-        BadResponseDto result = new BadResponseDto();
-        for (MessageStructure ms: ex.getErrors().getGlobalErrors()){
-            result.getListErrorMessages().add(messageService.translate(locale, ms.getMessageCode(), ms.getParameters().stream().toArray(size -> new Serializable[size])));
-        }
-
-        for (Map.Entry<String, List<MessageStructure>> entry : ex.getErrors().getFieldsErrors().entrySet()){
-            List<MessageStructure> value = entry.getValue();
-            List<String> lstMsg = new ArrayList<>();
-
-            for (MessageStructure ms: value){
-                String msg = messageService.translate(locale, ms.getMessageCode(), ms.getParameters().stream().toArray(size -> new Serializable[size]));
-                lstMsg.add(msg);
-            }
-
-            result.getMapErrorMessagesFields().put(entry.getKey(), lstMsg);
-        }
-
-        return result;
+        return MiscUtils.messageExceptionToBadResponseDto(ex, messageService, locale);
     }
 
 }

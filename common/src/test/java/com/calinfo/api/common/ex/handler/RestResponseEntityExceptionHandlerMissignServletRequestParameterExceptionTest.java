@@ -82,8 +82,8 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
     @Test
     public void testLaunchMessageException() throws Exception{
 
-        MockHttpServletRequestBuilder httpRequest = get("/mock/controller/launchMessageException")
-                .header("language", "fr");
+        MockHttpServletRequestBuilder httpRequest = get("/mock/controller/launchMessageException");
+        httpRequest.locale(Locale.FRANCE);
 
         // Construction du résultat attendue
         BadResponseDto valueTester = new BadResponseDto();
