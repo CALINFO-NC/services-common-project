@@ -6,6 +6,7 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -72,7 +73,11 @@ public class TenantDatasourceConfiguration {
         jpaProperties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
 
         jpaProperties.put(Environment.FORMAT_SQL, jpa.isShowSql());
-        jpaProperties.put(Environment.HBM2DDL_AUTO, jpa.getHibernate().getDdlAuto());
+
+        HibernateProperties hibernate = tenantProperties.getHibernate();
+        if (hibernate != null) {
+            jpaProperties.put(Environment.HBM2DDL_AUTO, hibernate.getDdlAuto());
+        }
 
         em.setJpaPropertyMap(jpaProperties);
 

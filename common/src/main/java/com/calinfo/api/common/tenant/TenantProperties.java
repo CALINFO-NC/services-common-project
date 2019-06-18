@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +51,11 @@ public class TenantProperties {
      * Configuration JPA
      */
     private JpaProperties jpa = null;
+
+    /**
+     * Configuration Hiobernate
+     */
+    private HibernateProperties hibernate = null;
 
     /**
      * Information de scan sur le schéma du domaine
