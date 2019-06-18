@@ -1,6 +1,7 @@
 package com.calinfo.api.common.converter;
 
 import javax.validation.constraints.NotNull;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,10 +65,10 @@ public abstract class AbstractConvertManager {
             // Tentative de créer une instance de a class dest
             try {
 
-                T t = dest.newInstance();
+                T t = dest.getDeclaredConstructor().newInstance();
                 return ((InstanceConverter)converter).convert(source, t);
 
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                 throw new ConverterNotFoundException(String.format("No class converter to convert '%s' to '%s'", source.getClass().getName(), dest.getClass().getName()));
             }
         }
