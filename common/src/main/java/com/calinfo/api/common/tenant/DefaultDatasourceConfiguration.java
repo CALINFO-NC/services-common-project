@@ -44,7 +44,7 @@ public class DefaultDatasourceConfiguration {
 
         return builder
                 .dataSource(dataSource)
-                .persistenceUnit(tenantProperties.getPersistenceName())
+                .persistenceUnit("default")
                 .packages(tenantProperties.getGenericScanEntities())
                 .build();
     }
