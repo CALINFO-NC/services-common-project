@@ -28,6 +28,8 @@
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.swagger>2.9.2</version.swagger>
         <version.spring-kafka>2.1.9.RELEASE</version.spring-kafka>
+        <version.jaxb>2.4.0-b180830.0359</version.jaxb>
+        <version.javassist>3.25.0-GA</version.javassist>
     </properties>
 
     <build>
@@ -35,6 +37,7 @@
     </build>
 
     <dependencies>
+
 
         <!-- Bibl Srping boot -->
         <dependency>
@@ -164,6 +167,20 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${version.swagger}</version>
+        </dependency>
+
+
+        <!-- Bibl nécessaire pour la compilation en java8 avec la JDK Java11 -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${version.jaxb}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${version.javassist}</version>
         </dependency>
 
 

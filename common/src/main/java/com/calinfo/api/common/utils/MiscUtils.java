@@ -1,9 +1,12 @@
 package com.calinfo.api.common.utils;
 
 import com.calinfo.api.common.ErrorMessageFieldConvertor;
-import com.calinfo.api.common.ex.ApplicationErrorException;
-import com.calinfo.api.common.ex.MessageStatusException;
+import com.calinfo.api.common.MessageStructure;
 import com.calinfo.api.common.dto.BadResponseDto;
+import com.calinfo.api.common.ex.ApplicationErrorException;
+import com.calinfo.api.common.ex.MessageException;
+import com.calinfo.api.common.ex.MessageStatusException;
+import com.calinfo.api.common.service.MessageService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -17,8 +20,11 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -96,5 +102,27 @@ public class MiscUtils {
 
     public static <T> T callRestApiService(RestTemplate restTemplate, URI uri, HttpMethod httpMethod, HttpEntity<?> entity, Class<T> clazz){
         return callRestApiService(restTemplate, uri, httpMethod, entity, clazz, null);
+    }
+
+    public static BadResponseDto messageExceptionToBadResponseDto(MessageException ex, MessageService messageService, Locale locale){
+
+        BadResponseDto result = new BadResponseDto();
+        for (MessageStructure ms: ex.getErrors().getGlobalErrors()){
+            result.getListErrorMessages().add(messageService.translate(locale, ms.getMessageCode(), ms.getParameters().stream().toArray(size -> new Serializable[size])));
+        }
+
+        for (Map.Entry<String, List<MessageStructure>> entry : ex.getErrors().getFieldsErrors().entrySet()){
+            List<MessageStructure> value = entry.getValue();
+            List<String> lstMsg = new ArrayList<>();
+
+            for (MessageStructure ms: value){
+                String msg = messageService.translate(locale, ms.getMessageCode(), ms.getParameters().stream().toArray(size -> new Serializable[size]));
+                lstMsg.add(msg);
+            }
+
+            result.getMapErrorMessagesFields().put(entry.getKey(), lstMsg);
+        }
+
+        return result;
     }
 }

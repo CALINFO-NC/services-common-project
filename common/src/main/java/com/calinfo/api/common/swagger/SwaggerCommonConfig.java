@@ -47,6 +47,10 @@ public class SwaggerCommonConfig implements BeanPostProcessor {
                             .message("Bad parameters request.").build());
             lstDefaultResponse.add(
                     new ResponseMessageBuilder()
+                            .code(401)
+                            .message("Unauthorized request.").build());
+            lstDefaultResponse.add(
+                    new ResponseMessageBuilder()
                             .code(500)
                             .message("Internal server error.").build());
             lstDefaultResponse.add(

@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.lombok>1.16.16</version.lombok>
+        <version.lombok>1.18.8</version.lombok>
         <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
