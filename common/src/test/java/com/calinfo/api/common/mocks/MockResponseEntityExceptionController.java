@@ -5,7 +5,9 @@ import com.calinfo.api.common.MessageCodeValue;
 import com.calinfo.api.common.MessageStructure;
 import com.calinfo.api.common.ServiceErrorStructure;
 import com.calinfo.api.common.ex.MessageException;
+import com.calinfo.api.common.ex.MessageStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
@@ -89,5 +91,10 @@ public class MockResponseEntityExceptionController {
     @GetMapping(value = "/launchThrowable", produces = MediaType.APPLICATION_JSON_VALUE)
     public void launchThrowable() throws Throwable {
         throw new Throwable("Message");
+    }
+
+    @GetMapping(value = "/launchMessageStatusForbidenException", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void launchMessageStatusForbidenException() throws Throwable {
+        throw new MessageStatusException(HttpStatus.FORBIDDEN, "Message");
     }
 }

@@ -186,6 +186,18 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
 
         this.mockMvc.perform(httpRequest)
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
+    }
+
+
+
+    @Test
+    public void testLaunchMessageStatusForbidenException() throws Exception{
+
+        MockHttpServletRequestBuilder httpRequest = get("/mock/controller/launchMessageStatusForbidenException");
+
+        this.mockMvc.perform(httpRequest)
+                .andExpect(status().isForbidden())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
     }
 }
