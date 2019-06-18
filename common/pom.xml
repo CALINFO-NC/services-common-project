@@ -29,6 +29,7 @@
         <version.swagger>2.9.2</version.swagger>
         <version.spring-kafka>2.1.9.RELEASE</version.spring-kafka>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
+        <version.javassist>3.25.0-GA</version.javassist>
     </properties>
 
     <build>
@@ -169,11 +170,17 @@
         </dependency>
 
 
-        <!-- Bibl nécessaire pour le bind XML, utilisé pricipalement pour SecurityUtils -->
+        <!-- Bibl nécessaire pour la compilation en java8 avec la JDK Java11 -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>${version.jaxb}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${version.javassist}</version>
         </dependency>
 
 
