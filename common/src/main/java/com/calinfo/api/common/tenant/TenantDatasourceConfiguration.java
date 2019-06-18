@@ -71,9 +71,6 @@ public class TenantDatasourceConfiguration {
         jpaProperties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         jpaProperties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
 
-        jpaProperties.put(Environment.FORMAT_SQL, jpa.isShowSql());
-        jpaProperties.put(Environment.HBM2DDL_AUTO, jpa.getHibernate().getDdlAuto());
-
         em.setJpaPropertyMap(jpaProperties);
 
         return em;

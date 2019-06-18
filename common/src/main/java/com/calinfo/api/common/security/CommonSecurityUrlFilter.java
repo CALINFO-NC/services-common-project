@@ -4,7 +4,7 @@ import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.ex.handler.ResponseEntityExceptionHandler;
 import com.calinfo.api.common.matching.MatchingUrlFilter;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
