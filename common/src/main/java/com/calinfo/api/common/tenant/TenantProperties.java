@@ -6,14 +6,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by dalexis on 06/01/2018.
  */
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @ConfigurationProperties(prefix = "common.configuration.tenant")
-@Configuration
+@Component  // Ici on utilise pas @Configuration (voir https://stackoverflow.com/questions/53484529/inspection-info-verifies-configurationproperties-setup-new-in-2018-3-intellij)
 @Getter
 @Setter
 public class TenantProperties {
@@ -60,4 +60,5 @@ public class TenantProperties {
      * Information de scan sur le schéma par défaut
      */
     private String[] genericScanEntities;
+
 }

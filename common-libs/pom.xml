@@ -18,9 +18,9 @@
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
 
-        <version.spring>2.0.4.RELEASE</version.spring>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <version.spring>2.1.5.RELEASE</version.spring>
+        <maven.compiler.source>1.11</maven.compiler.source>
+        <maven.compiler.target>1.11</maven.compiler.target>
 
         <maven.site.path>/${project.artifactId}</maven.site.path>
     </properties>
@@ -72,6 +72,16 @@
                 <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <!-- On précise -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>11</release>
                 </configuration>
             </plugin>
 
