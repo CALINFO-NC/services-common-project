@@ -3,13 +3,13 @@ package com.calinfo.api.common.security;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * Propriété de configuration de la sécurité
  */
 @ConfigurationProperties(prefix = "common.configuration.security")
-@Configuration
+@Component // Ici on utilise pas @Configuration (voir https://stackoverflow.com/questions/53484529/inspection-info-verifies-configurationproperties-setup-new-in-2018-3-intellij)
 @Getter
 @Setter
 public class SecurityProperties {
