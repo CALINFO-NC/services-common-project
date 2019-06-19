@@ -65,7 +65,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
      * Classe permettant de gérer le principal dse trouvant dans le context
      */
     @Autowired
-    private PrincipalManager principalManager;
+    private PrincipalFactory principalFactory;
 
     /**
      * {@inheritDoc}
@@ -122,13 +122,13 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             }
 
             token = token.substring(BEARER_PREFIX.length());
-            token = principalManager.setPrincipalInContextFromToken(token, apiKey);
+            token = principalFactory.setPrincipalInContextFromToken(token, apiKey);
             token = String.format("%s%s", BEARER_PREFIX, token);
 
             httpServletResponse.setHeader(HEADER_AUTHORIZATION_NAME, token);
         }
         else{
-            principalManager.setAnonymousPrincipalInContext();
+            principalFactory.setAnonymousPrincipalInContext();
         }
     }
 
