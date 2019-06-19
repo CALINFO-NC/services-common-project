@@ -1,6 +1,5 @@
 package com.calinfo.api.common.manager;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
