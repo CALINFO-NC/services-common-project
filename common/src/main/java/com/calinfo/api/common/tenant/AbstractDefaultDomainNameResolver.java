@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
 
 public abstract class AbstractDefaultDomainNameResolver implements DomainNameResolver {
 
@@ -17,10 +18,6 @@ public abstract class AbstractDefaultDomainNameResolver implements DomainNameRes
 
     @Autowired
     private PrincipalManager principalManager;
-
-
-    @Autowired
-    private TenantApplicationState applicationState;
 
     @Override
     public String getDomainName(){
@@ -35,8 +32,10 @@ public abstract class AbstractDefaultDomainNameResolver implements DomainNameRes
         }
         catch (BeanCreationException e){
 
-            if (applicationState.isStarted() && log.isErrorEnabled()){
-                log.error(e.getMessage(), e);
+            // On vérifie que l'on est dans le cas d'une requête
+            // Si c'est le cas, alors RequestContextHolder.getRequestAttributes() devrait être différent de null
+            if (RequestContextHolder.getRequestAttributes() != null){
+                throw e;
             }
             else if (log.isDebugEnabled()){
                 log.debug(e.getMessage(), e);

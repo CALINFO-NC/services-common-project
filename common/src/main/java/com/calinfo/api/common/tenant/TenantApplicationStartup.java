@@ -43,9 +43,6 @@ public class TenantApplicationStartup implements ApplicationListener<Application
     @Autowired
     private ApplicationProperties applicationProperties;
 
-    @Autowired
-    private TenantApplicationState applicationState;
-
     @Transactional
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -77,8 +74,6 @@ public class TenantApplicationStartup implements ApplicationListener<Application
             if (log.isInfoEnabled()) {
                 log.info(ctx.getApplicationName().concat(" : ").concat(applicationProperties.getName()).concat(" : Système démarré"));
             }
-
-            applicationState.setStarted(true);
 
         }
         catch(Exception e){
