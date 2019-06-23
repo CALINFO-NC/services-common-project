@@ -38,7 +38,9 @@ public class DatabaseUtils {
 
             statement.executeUpdate(String.format("DROP SCHEMA %s CASCADE", schemaName));
 
-            con.commit();
+            if (!con.getAutoCommit()) {
+                con.commit();
+            }
 
         } catch (SQLException e) {
             throw new ApplicationErrorException(e);
