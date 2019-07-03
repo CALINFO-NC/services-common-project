@@ -13,11 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.DatatypeConverter;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -36,6 +37,70 @@ public class SecurityUtils {
     }
 
     /**
+     * Retourne une instance de clé public via la chaine de caractère
+     *
+     * @param publicKeyValue Clé public sous forme de chaine de caractère
+     * @return Instance de clé public
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    public static PublicKey getPublicKeyFromString(String publicKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(DatatypeConverter.parseBase64Binary(publicKeyValue));
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePublic(spec);
+    }
+
+    /**
+     * Retourne une instance de clé privée via la chaine de caractère
+     *
+     * @param privateKeyValue Clé privée sous forme de chaine de caractère
+     * @return Instance de clé privée
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    public static PrivateKey getPrivateKeyFromString(String privateKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKeyValue));
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePrivate(spec);
+    }
+
+    /**
+     * Permet de crypter une donnée
+     *
+     * @param data Donnée à crypter
+     * @param privateKey Clé privée
+     * @return Donnée crypté
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws InvalidKeyException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    public static byte[] rsaEncryption(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+        return cipher.doFinal(data);
+    }
+
+    /**
+     * Permet de décrypter une donnée
+     *
+     * @param data Donnée à décrypter
+     * @param publicKey Clé public
+     * @return Donnée décrypté
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws InvalidKeyException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    public static byte[] rsaDecryption(byte[] data, PublicKey publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, publicKey);
+        return cipher.doFinal(data);
+    }
+
+    /**
      * Permet de créer un token JWT
      *
      * @param privateKeyValue Valeur de la clée privée permettant de crypter le token
@@ -45,9 +110,7 @@ public class SecurityUtils {
      */
     public static String getJwtFromUser(String privateKeyValue, Long durationMillis, JwtUser user) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKeyValue));
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PrivateKey privateKey = keyFactory.generatePrivate(spec);
+        PrivateKey privateKey = getPrivateKeyFromString(privateKeyValue);
 
         // Signature JWT utilisé pour encoder le jeton
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS512;
@@ -95,9 +158,7 @@ public class SecurityUtils {
      */
     public static JwtUser getUserFromJwt(String token, String publicKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(DatatypeConverter.parseBase64Binary(publicKeyValue));
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PublicKey publicKey = keyFactory.generatePublic(spec);
+        PublicKey publicKey = getPublicKeyFromString(publicKeyValue);
 
         Claims claims = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
 
