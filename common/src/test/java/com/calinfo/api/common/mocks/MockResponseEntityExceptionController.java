@@ -9,6 +9,8 @@ import com.calinfo.api.common.ex.MessageStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,5 +98,15 @@ public class MockResponseEntityExceptionController {
     @GetMapping(value = "/launchMessageStatusForbidenException", produces = MediaType.APPLICATION_JSON_VALUE)
     public void launchMessageStatusForbidenException() throws Throwable {
         throw new MessageStatusException(HttpStatus.FORBIDDEN, "Message");
+    }
+
+    @GetMapping(value = "/launchAccessDeniedException", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void launchAccessDeniedException() throws Throwable {
+        throw new AccessDeniedException("Message");
+    }
+
+    @PreAuthorize("hasRole('ROLE_ARBITRAIRE')")
+    @GetMapping(value = "/launchAccessDeniedExceptionWithAnnotation", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void launchAccessDeniedExceptionWithAnnotation() throws Throwable {
     }
 }
