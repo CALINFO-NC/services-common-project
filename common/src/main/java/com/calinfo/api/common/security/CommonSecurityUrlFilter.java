@@ -78,7 +78,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         catch(ExpiredJwtException e){
-            catchMessageStatusException(new MessageStatusException(HttpStatus.FORBIDDEN, e.getMessage()), httpServletResponse);
+            catchMessageStatusException(new MessageStatusException(HttpStatus.UNAUTHORIZED, e.getMessage()), httpServletResponse);
         }
         catch(MessageStatusException e){
             catchMessageStatusException(e, httpServletResponse);
@@ -115,11 +115,11 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
         if (isPrivate) {
 
             if (StringUtils.isBlank(token)){
-                throw new MessageStatusException(HttpStatus.FORBIDDEN, "Token required");
+                throw new MessageStatusException(HttpStatus.UNAUTHORIZED, "Token required");
             }
 
             if (!token.startsWith(BEARER_PREFIX)){
-                throw new MessageStatusException(HttpStatus.FORBIDDEN, String.format("JWT '%s' prefix not found", BEARER_PREFIX));
+                throw new MessageStatusException(HttpStatus.UNAUTHORIZED, String.format("JWT '%s' prefix not found", BEARER_PREFIX));
             }
 
             token = token.substring(BEARER_PREFIX.length());

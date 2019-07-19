@@ -191,7 +191,7 @@ public class SecurityUtils {
             user = SecurityUtils.getUserFromJwt(token, publicKey);
         }
         catch(InvalidKeySpecException | NoSuchAlgorithmException e){
-            throw new MessageStatusException(HttpStatus.FORBIDDEN, "JWT Expired or invalid");
+            throw new MessageStatusException(HttpStatus.UNAUTHORIZED, "JWT Expired or invalid");
         }
 
         List<String> lstRoles = user.getRoles();
