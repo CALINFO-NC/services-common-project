@@ -42,7 +42,7 @@ public class ResponseEntityExceptionHandler {
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.TEXT_PLAIN);
 
-        return new ResponseEntity<>(ex.getMessage(), header, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(ex.getMessage(), header, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Throwable.class)

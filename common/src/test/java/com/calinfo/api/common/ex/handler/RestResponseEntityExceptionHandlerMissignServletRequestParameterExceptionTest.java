@@ -214,7 +214,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
         MockHttpServletRequestBuilder httpRequest = get("/mock/controller/launchAccessDeniedException");
 
         this.mockMvc.perform(httpRequest)
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isForbidden())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
 
 
@@ -227,7 +227,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
         httpRequest = get("/mock/controller/launchAccessDeniedExceptionWithAnnotation");
 
         this.mockMvc.perform(httpRequest)
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isForbidden())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
     }
 }
