@@ -6,6 +6,8 @@ import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.mocks.MockDtoContrainteViolation;
 import com.calinfo.api.common.mocks.MockDtoInerContrainteViolation;
 import com.calinfo.api.common.mocks.MockMessageCode;
+import com.calinfo.api.common.security.AbstractCommonPrincipal;
+import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.type.TypeAttribut;
 import com.calinfo.api.common.utils.MiscUtils;
@@ -17,6 +19,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -195,6 +200,31 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
     public void testLaunchMessageStatusForbidenException() throws Exception{
 
         MockHttpServletRequestBuilder httpRequest = get("/mock/controller/launchMessageStatusForbidenException");
+
+        this.mockMvc.perform(httpRequest)
+                .andExpect(status().isForbidden())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
+    }
+
+
+
+    @Test
+    public void testLaunchAccessDeniedException() throws Exception{
+
+        MockHttpServletRequestBuilder httpRequest = get("/mock/controller/launchAccessDeniedException");
+
+        this.mockMvc.perform(httpRequest)
+                .andExpect(status().isForbidden())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
+
+
+        // Mettre en place l'authentification
+        AbstractCommonPrincipal principal = new CommonPrincipal(null, null, null, "toto", "", new ArrayList<>());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        httpRequest = get("/mock/controller/launchAccessDeniedExceptionWithAnnotation");
 
         this.mockMvc.perform(httpRequest)
                 .andExpect(status().isForbidden())

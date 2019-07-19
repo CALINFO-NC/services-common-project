@@ -61,7 +61,7 @@ public class CommonSecurityUrlFilterEnableTest {
         }
         catch(MessageStatusException e){
 
-            if (e.getStatus() != HttpStatus.FORBIDDEN)
+            if (e.getStatus() != HttpStatus.UNAUTHORIZED)
                 Assert.fail(e.getMessage());
         }
 
