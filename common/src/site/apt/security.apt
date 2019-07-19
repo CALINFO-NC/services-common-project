@@ -62,3 +62,11 @@ Configuration
 
  La configuration de la sécurité se fait dans la sous configuration <common.configuration.security> du fichier <yaml> .
  Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe <com.calinfo.api.common.security.SecurityProperties>
+ De plus, le common base sa sécurité sur un filtre, donc, si vous activé la sécurité, il faudra ajouter l'annotation SpringBootApplication comme précisé dans l'exemple ci-dessous
+
++------------------------------------------+
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+public class MocksApplication {
+    ...
+}
++------------------------------------------+
