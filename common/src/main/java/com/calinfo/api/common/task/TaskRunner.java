@@ -3,6 +3,7 @@ package com.calinfo.api.common.task;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.SecurityProperties;
+import com.calinfo.api.common.tenant.DomainContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,18 +24,27 @@ public class TaskRunner {
 
     public void run (String username, String domainName, String[] roles, Task task) throws TaskException {
 
-        List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        String actualDomain = DomainContext.getDomain();
 
-        // Mettre en place l'authentification
-        AbstractCommonPrincipal principal = new CommonPrincipal(null, null, domainName, username, "", grants);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            DomainContext.setDomain(domainName);
 
-        // Exécuter la tâche
-        task.run();
+            List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
-        SecurityContextHolder.getContext().setAuthentication(auth);
+            // Mettre en place l'authentification
+            AbstractCommonPrincipal principal = new CommonPrincipal(null, null, domainName, username, "", grants);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Exécuter la tâche
+            task.run();
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+        finally {
+            DomainContext.setDomain(actualDomain);
+        }
     }
 
     public void run (String domainName, String[] roles, Task task) throws TaskException {

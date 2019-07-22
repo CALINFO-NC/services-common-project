@@ -4,7 +4,7 @@ import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.security.SecurityProperties;
-import com.calinfo.api.common.tenant.DomainNameResolver;
+import com.calinfo.api.common.tenant.DomainContext;
 import com.calinfo.api.common.utils.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -42,9 +42,6 @@ public class KafkaTopicAspect {
     @Autowired(required = false)
     private SecurityProperties securityProperties;
 
-    @Autowired(required = false)
-    private DomainNameResolver domainNameResolver;
-
     @Around("execution(public * *(..)) && @annotation(com.calinfo.api.common.kafka.KafkaTopic)")
     public Object publishToKafka(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -58,8 +55,8 @@ public class KafkaTopicAspect {
         kafkaEvent.setApplication(getKafkaApplication());
 
         kafkaEvent.setDomain(null);
-        if (domainNameResolver != null) {
-            kafkaEvent.setDomain(domainNameResolver.getDomainName());
+        if (DomainContext.isDomainInitialized()) {
+            kafkaEvent.setDomain(DomainContext.getDomain());
         }
 
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);

@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -32,7 +29,7 @@ import java.util.Map;
 @SpringBootTest
 @ActiveProfiles("tenant")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AllTenantWithPrincipalTest {
+public class AllTenantWithDomainContextTest {
 
 
     @Autowired
@@ -50,8 +47,6 @@ public class AllTenantWithPrincipalTest {
 
     @Autowired
     private WebApplicationContext context;
-
-    private TenantTestPrincipal principal = null;
 
     private int nbDomain = 10;
 
@@ -71,12 +66,6 @@ public class AllTenantWithPrincipalTest {
             DatabaseUtils.createSchema(dataSource, schema);
             LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema);
         }
-
-
-
-        principal = new TenantTestPrincipal();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     @Test
@@ -88,7 +77,7 @@ public class AllTenantWithPrincipalTest {
             String val = String.format("val%s", i);
 
             // Créer une donnée dans le domain i
-            principal.setDomain(dom);
+            DomainContext.setDomain(dom);
             long idVal = tableDomainService.create(val);
             mapId.put(val, idVal);
         }
@@ -98,7 +87,7 @@ public class AllTenantWithPrincipalTest {
             String dom = String.format("mydom%s", i);
             String val = String.format("val%s", i);
 
-            principal.setDomain(dom);
+            DomainContext.setDomain(dom);
             List<Long> lstVal = tableDomainService.read(val);
             Assert.assertFalse(lstVal.isEmpty());
             Assert.assertEquals(Long.valueOf(mapId.get(val)), lstVal.get(0));
@@ -111,7 +100,7 @@ public class AllTenantWithPrincipalTest {
 
                 dom = String.format("mydom%s", j);
 
-                principal.setDomain(dom);
+                DomainContext.setDomain(dom);
                 lstVal = tableDomainService.read(val);
                 Assert.assertTrue(lstVal.isEmpty());
 
@@ -119,7 +108,7 @@ public class AllTenantWithPrincipalTest {
         }
 
         // Créer une donnée dans la table générique
-        principal.setDomain("mydom0");
+        DomainContext.setDomain("mydom0");
         Long id = tableGenericService.create("gen1");
         Assert.assertNotNull(id);
 
@@ -132,7 +121,7 @@ public class AllTenantWithPrincipalTest {
         Assert.assertNull(val);
 
         // Vérifier que la donnée est tojours présente même si je change de domaine
-        principal.setDomain("mydom1");
+        DomainContext.setDomain("mydom1");
         val = tableGenericService.read(id);
         Assert.assertEquals("gen1", val);
     }

@@ -1,5 +1,6 @@
 package com.calinfo.api.common.tenant;
 
+import com.calinfo.api.common.security.PrincipalManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -19,13 +20,13 @@ import java.io.IOException;
 public class TenantTestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private RequestDomainName tenantName;
+    private PrincipalManager principalManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         String tenant = httpServletRequest.getHeader("tenant");
-        tenantName.setValue(tenant);
+        DomainContext.setDomain(tenant);
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

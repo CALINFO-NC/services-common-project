@@ -14,14 +14,10 @@ public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifie
     @Autowired
     private TenantProperties tenantProperties;
 
-    @Autowired
-    private DomainNameResolver domainNameResolver;
-
-
     @Override
     public String resolveCurrentTenantIdentifier() {
 
-        String domainName = domainNameResolver.getDomainName();
+        String domainName = DomainContext.getDomain();
 
         if (domainName != null){
             return TenantDatasourceConfiguration.getSchemaName(tenantProperties.getPrefix(), domainName);
