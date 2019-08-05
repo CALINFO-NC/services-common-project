@@ -25,6 +25,7 @@ public class TaskRunner {
     public void run (String username, String domainName, String[] roles, Task task) throws TaskException {
 
         String actualDomain = DomainContext.getDomain();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         try {
             DomainContext.setDomain(domainName);
@@ -34,15 +35,14 @@ public class TaskRunner {
             // Mettre en place l'authentification
             AbstractCommonPrincipal principal = new CommonPrincipal(null, null, domainName, username, "", grants);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Exécuter la tâche
             task.run();
 
-            SecurityContextHolder.getContext().setAuthentication(auth);
         }
         finally {
+            SecurityContextHolder.getContext().setAuthentication(auth);
             DomainContext.setDomain(actualDomain);
         }
     }
