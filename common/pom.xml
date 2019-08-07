@@ -28,6 +28,9 @@
         <version.spring-kafka>2.2.7.RELEASE</version.spring-kafka>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
         <version.javassist>3.25.0-GA</version.javassist>
+        <version.auto-service>1.0-rc2</version.auto-service>
+        <version.compile-testing>0.13</version.compile-testing>
+        <version.truth>0.40</version.truth>
     </properties>
 
     <build>
@@ -178,6 +181,28 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${version.javassist}</version>
+        </dependency>
+
+        <!-- Processeur -->
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>${version.auto-service}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.testing.compile</groupId>
+            <artifactId>compile-testing</artifactId>
+            <version>${version.compile-testing}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.truth</groupId>
+            <artifactId>truth</artifactId>
+            <version>${version.truth}</version>
+            <scope>test</scope>
         </dependency>
 
 

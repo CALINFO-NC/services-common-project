@@ -6,6 +6,7 @@ import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.security.SecurityProperties;
 import com.calinfo.api.common.tenant.DomainContext;
 import com.calinfo.api.common.utils.ExceptionUtils;
+import com.calinfo.api.common.utils.MiscUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -61,10 +62,7 @@ public class KafkaTopicAspect {
 
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);
 
-        String topicName = kafkaTopic.value();
-        if (kafkaTopic.prefixTopicNameWithApplicationName()) {
-            topicName = String.format("%s.%s", applicationProperties.getName(), kafkaTopic.value());
-        }
+        String topicName = MiscUtils.getTopicFullName(applicationProperties.getId(), kafkaTopic);
 
         kafkaEvent.setTopic(topicName);
         kafkaEvent.setFullQualifiedServiceClassName(method.getDeclaringClass().getName());
