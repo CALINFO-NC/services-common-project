@@ -18,7 +18,7 @@ Comment envoyer un topic à Kafka avec comme objet <KafkaEvent> ?
 Comment écouter un topic à Kafka avec comme objet <KafkaEvent> ?
 
 +------------------------------------------+
- @KafkaListener(topics = "nomApplicationEmetteurTopic.nomTopic")
+ @KafkaListener(topics = "idApplicationEmetteurTopic.nomTopic")
  public void receiveTopic(KafkaEvent kafkaEvent) {
     ...
  }
@@ -59,7 +59,7 @@ common:
       enabled: true
 +------------------------------------------+
 
- Le reste de la configuration est de la configuration standar kafka-spring.
+ Le reste de la configuration est de la configuration standard kafka-spring.
  Ci-dessous un exemple de configuration
 
 +------------------------------------------+

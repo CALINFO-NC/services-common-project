@@ -14,6 +14,14 @@ public class KafkaServiceImpl implements KafkaService {
     @Autowired
     private KafkaSubService kafkaSubService;
 
+    @Override
+    @KafkaTopic(value = "topic0", prefixTopicNameWithApplicationName = true)
+    public void topic0WithPrefix() {
+
+        TestResource res = new TestResource();
+        res.setProp1("123");
+        kafkaSubService.topicAWithoutException("A12", res);
+    }
 
     @Override
     @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationName = false)

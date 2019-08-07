@@ -6,6 +6,7 @@ import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.ex.MessageStatusException;
+import com.calinfo.api.common.kafka.KafkaTopic;
 import com.calinfo.api.common.service.MessageService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -121,6 +122,20 @@ public class MiscUtils {
             }
 
             result.getMapErrorMessagesFields().put(entry.getKey(), lstMsg);
+        }
+
+        return result;
+    }
+
+    public static String getTopicFullName(String applicationId, KafkaTopic kafkaTopic){
+        return getTopicFullName(applicationId, kafkaTopic.value(), kafkaTopic.prefixTopicNameWithApplicationName());
+    }
+
+    public static String getTopicFullName(String applicationId, String topicName, boolean prefixTopicNameWithApplicationName){
+
+        String result = topicName;
+        if (prefixTopicNameWithApplicationName) {
+            result = String.format("%s.%s", applicationId, topicName);
         }
 
         return result;

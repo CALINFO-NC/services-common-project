@@ -23,6 +23,10 @@ public class KafkaObject {
     private Object cache = null;
 
     public <T> T get(){
+        return get(fullQualifiedClassName);
+    }
+
+    public <T> T get(String fullQualifiedClassName){
 
         if (strValue == null){
             return null;
