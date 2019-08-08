@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 /**
  * Created by dalexis on 31/05/2018.
  */
@@ -40,6 +42,8 @@ public class TasckRunerRunTest {
             Assert.assertEquals("domain", principal.getDomain());
             Assert.assertTrue(principal.getAuthorities().size() == 1);
             Assert.assertEquals("role1", principal.getAuthorities().iterator().next().getAuthority());
+
+            return Optional.<Void>empty();
         });
 
         taskRunner.run( "domain", new String[]{"role1"}, () -> {
@@ -51,6 +55,8 @@ public class TasckRunerRunTest {
             Assert.assertEquals("domain", principal.getDomain());
             Assert.assertTrue(principal.getAuthorities().size() == 1);
             Assert.assertEquals("role1", principal.getAuthorities().iterator().next().getAuthority());
+
+            return Optional.<Void>empty();
         });
 
         taskRunner.run( "domain", () -> {
@@ -61,6 +67,8 @@ public class TasckRunerRunTest {
             Assert.assertEquals(securityProperties.getSystemLogin(), principal.getUsername());
             Assert.assertEquals("domain", principal.getDomain());
             Assert.assertTrue(principal.getAuthorities().size() == 0);
+
+            return Optional.<Void>empty();
         });
 
         taskRunner.run( () -> {
@@ -71,10 +79,17 @@ public class TasckRunerRunTest {
             Assert.assertEquals(securityProperties.getSystemLogin(), principal.getUsername());
             Assert.assertNull(principal.getDomain());
             Assert.assertTrue(principal.getAuthorities().size() == 0);
+
+            return Optional.<Void>empty();
         });
 
         Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
         Assert.assertTrue(oldAuth == newAuth);
+
+        Optional<String> res = taskRunner.run( () -> Optional.of("arbitraire"));
+
+        Assert.assertTrue(res.isPresent());
+        Assert.assertEquals(res.get(), "arbitraire");
     }
 
     @Test
