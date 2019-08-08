@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -22,7 +23,7 @@ public class TaskRunner {
     @Autowired
     private SecurityProperties securityProperties;
 
-    public void run (String username, String domainName, String[] roles, Task task) throws TaskException {
+    public <T> Optional<T> run (String username, String domainName, String[] roles, Task<T> task) throws TaskException {
 
         String actualDomain = DomainContext.getDomain();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -38,7 +39,7 @@ public class TaskRunner {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Exécuter la tâche
-            task.run();
+            return task.run();
 
         }
         finally {
@@ -47,15 +48,15 @@ public class TaskRunner {
         }
     }
 
-    public void run (String domainName, String[] roles, Task task) throws TaskException {
-        run(securityProperties.getSystemLogin(), domainName, roles, task);
+    public <T> Optional<T> run (String domainName, String[] roles, Task<T> task) throws TaskException {
+        return run(securityProperties.getSystemLogin(), domainName, roles, task);
     }
 
-    public void run (String domainName, Task task) throws TaskException {
-        run(securityProperties.getSystemLogin(), domainName, new String[]{}, task);
+    public <T> Optional<T> run (String domainName, Task<T> task) throws TaskException {
+        return run(securityProperties.getSystemLogin(), domainName, new String[]{}, task);
     }
 
-    public void run (Task task) throws TaskException {
-        run(securityProperties.getSystemLogin(), null, new String[]{}, task);
+    public <T> Optional<T> run (Task<T> task) throws TaskException {
+        return run(securityProperties.getSystemLogin(), null, new String[]{}, task);
     }
 }

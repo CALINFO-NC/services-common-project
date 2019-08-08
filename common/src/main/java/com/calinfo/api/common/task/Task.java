@@ -1,7 +1,9 @@
 package com.calinfo.api.common.task;
 
 
+import java.util.Optional;
+
 @FunctionalInterface
-public interface Task {
-    void run() throws TaskException;
+public interface Task<T> {
+    Optional<T> run() throws TaskException;
 }
