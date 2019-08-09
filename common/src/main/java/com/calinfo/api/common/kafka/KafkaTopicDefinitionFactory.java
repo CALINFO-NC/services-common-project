@@ -19,7 +19,7 @@ public class KafkaTopicDefinitionFactory {
 
     public static Map<String, KafkaTopicDefinition> getDefinition(String applicationId) throws IOException {
 
-        Map<String, KafkaTopicDefinition> result = cache.computeIfAbsent(applicationId, (key) -> new HashMap<>());
+        Map<String, KafkaTopicDefinition> result = cache.computeIfAbsent(applicationId, key -> new HashMap<>());
 
         if (result.isEmpty()){
 

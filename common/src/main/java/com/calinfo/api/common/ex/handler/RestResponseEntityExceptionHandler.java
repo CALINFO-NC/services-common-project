@@ -6,8 +6,6 @@ import com.calinfo.api.common.ex.BadRequestParameterException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.utils.HandlerUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -23,8 +21,6 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RestResponseEntityExceptionHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
     @Autowired
     private MessageService messageService;

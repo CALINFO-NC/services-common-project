@@ -86,10 +86,11 @@ public class TasckRunerRunTest {
         Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
         Assert.assertTrue(oldAuth == newAuth);
 
-        Optional<String> res = taskRunner.run( () -> Optional.of("arbitraire"));
+        String strArbitraire = "arbitraire";
+        Optional<String> res = taskRunner.run( () -> Optional.of(strArbitraire));
 
         Assert.assertTrue(res.isPresent());
-        Assert.assertEquals(res.get(), "arbitraire");
+        Assert.assertEquals(res.get(), strArbitraire);
     }
 
     @Test
