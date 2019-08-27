@@ -1,8 +1,6 @@
 package com.calinfo.api.common.swagger;
 
-import com.google.common.base.Optional;
-import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
+import com.calinfo.api.common.utils.MiscUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,18 +23,7 @@ public class DefaultNicknameOperationBuilder implements OperationBuilderPlugin {
 
     @Override
     public void apply(OperationContext operationContext) {
-
-        String nickname = "";
-        Optional<ApiOperation> apiOperation = operationContext.findAnnotation(ApiOperation.class);
-        if (apiOperation.isPresent()){
-            nickname = apiOperation.get().nickname();
-        }
-
-        if (StringUtils.isBlank(nickname)) {
-            nickname = operationContext.getName();
-            operationContext.operationBuilder().codegenMethodNameStem(nickname);
-        }
-
+        operationContext.operationBuilder().codegenMethodNameStem(MiscUtils.getNickNameSwagger(operationContext));
     }
 
     @Override
