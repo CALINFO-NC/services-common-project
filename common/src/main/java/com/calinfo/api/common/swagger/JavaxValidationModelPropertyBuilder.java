@@ -238,6 +238,8 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
 
             suffixe = String.format(" (%s)", suffixeBuilder.toString());
         }
+
+        return suffixe;
     }
 
     private String getFieldDescription(Field field) {
