@@ -1,7 +1,6 @@
 package com.calinfo.api.common.swagger;
 
-import com.calinfo.api.common.validation.Create;
-import com.calinfo.api.common.validation.Update;
+import com.calinfo.api.common.validation.SwaggerDocumentation;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +17,7 @@ import springfox.documentation.spi.schema.contexts.ModelPropertyContext;
 import springfox.documentation.swagger.common.SwaggerPluginSupport;
 
 import javax.validation.constraints.*;
+import javax.validation.groups.Default;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -190,20 +190,45 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
 
             String description = null;
 
-            List<?> lstGroup = Arrays.asList(groups);
+            List<Class<?>> lstGroup = Arrays.asList(groups);
 
             String propValue = "";
             if (propertyValue != null) {
                 propValue = propertyValue.toString();
             }
 
-            if (lstGroup.contains(Create.class)) {
-                description = concatTextDescrption(description, String.format("%s: %s (on create)", propertyName, propValue));
-            } else if (lstGroup.contains(Update.class)) {
-                description = concatTextDescrption(description, String.format("%s: %s (on update)", propertyName, propValue));
-            } else {
-                description = concatTextDescrption(description, String.format("%s: %s", propertyName, propValue));
+            StringBuilder suffixeBuilder = new StringBuilder();
+            boolean isDefault = false;
+            for (Class<?> grpClass : lstGroup){
+
+                if (lstGroup.contains(Default.class)){
+                    isDefault = true;
+                }
+
+                SwaggerDocumentation ano = grpClass.getAnnotation(SwaggerDocumentation.class);
+
+                if (ano != null){
+                    continue;
+                }
+
+                if (suffixeBuilder.length() > 0){
+                    suffixeBuilder.append(", ");
+                }
+
+                suffixeBuilder.append(ano.value());
             }
+
+            String suffixe = "";
+            if (suffixeBuilder.length() > 0){
+
+                if (isDefault){
+                    suffixeBuilder.append(", by default");
+                }
+
+                suffixe = String.format(" (%s)", suffixeBuilder.toString());
+            }
+
+            description = concatTextDescrption(description, String.format("%s: %s%s", propertyName, propValue, suffixe));
 
             return String.format("<span style=\"color:gray;\">%s</span>", description);
 
