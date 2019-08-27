@@ -207,7 +207,7 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
 
                 SwaggerDocumentation ano = grpClass.getAnnotation(SwaggerDocumentation.class);
 
-                if (ano != null){
+                if (ano == null){
                     continue;
                 }
 
