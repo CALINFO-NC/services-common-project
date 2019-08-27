@@ -15,7 +15,6 @@ import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
 import springfox.documentation.spi.service.contexts.OperationContext;
-import springfox.documentation.swagger.common.SwaggerPluginSupport;
 
 import java.util.*;
 
@@ -24,12 +23,17 @@ import java.util.*;
  */
 
 @Component
-@Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 11)
+@Order(SecurityFilterSwaggerOperationBuilder.ORDER)
 @ConditionalOnClass({ApiInfo.class})
 public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPlugin {
 
+    public static final int ORDER = CollectorOperationBuilder.ORDER + 100;
+
     @Autowired
     private SecurityProperties securityProperties;
+
+    @Autowired
+    private SwaggerCollector swaggerCollector;
 
     @Override
     public void apply(OperationContext operationContext) {

@@ -1,5 +1,6 @@
 package com.calinfo.api.common.swagger;
 
+import com.calinfo.api.common.utils.MiscUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
@@ -18,7 +19,7 @@ import springfox.documentation.spi.service.contexts.OperationContext;
 @ConditionalOnClass({ApiInfo.class})
 public class CollectorOperationBuilder implements OperationBuilderPlugin {
 
-    public static final int ORDER = DefaultNicknameOperationBuilder.ORDER + 1;
+    public static final int ORDER = DefaultNicknameOperationBuilder.ORDER + 100;
 
     @Autowired
     private SwaggerCollector collector;
@@ -28,7 +29,7 @@ public class CollectorOperationBuilder implements OperationBuilderPlugin {
 
         for (String tag : operationContext.operationBuilder().build().getTags()) {
             SwaggerItemCollector itemCollector = new SwaggerItemCollector();
-            itemCollector.setOperationName(operationContext.getName());
+            itemCollector.setOperationName(MiscUtils.getNickNameSwagger(operationContext));
             itemCollector.setResourceName(tag);
             itemCollector.setUri(operationContext.requestMappingPattern());
             itemCollector.setGroup(operationContext.getDocumentationContext().getGroupName());
