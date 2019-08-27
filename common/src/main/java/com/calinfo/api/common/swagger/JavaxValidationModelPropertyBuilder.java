@@ -185,50 +185,16 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
 
         if (annotation != null) {
 
-            Object objGroups = getAnnotationValue(annotation, "groups");
-            Class<?>[] groups = (Class<?>[]) objGroups;
-
-            String description = null;
-
-            List<Class<?>> lstGroup = Arrays.asList(groups);
 
             String propValue = "";
             if (propertyValue != null) {
                 propValue = propertyValue.toString();
             }
 
-            StringBuilder suffixeBuilder = new StringBuilder();
-            boolean isDefault = false;
-            for (Class<?> grpClass : lstGroup){
-
-                if (lstGroup.contains(Default.class)){
-                    isDefault = true;
-                }
-
-                SwaggerDocumentation ano = grpClass.getAnnotation(SwaggerDocumentation.class);
-
-                if (ano == null){
-                    continue;
-                }
-
-                if (suffixeBuilder.length() > 0){
-                    suffixeBuilder.append(", ");
-                }
-
-                suffixeBuilder.append(ano.value());
-            }
-
-            String suffixe = "";
-            if (suffixeBuilder.length() > 0){
-
-                if (isDefault){
-                    suffixeBuilder.append(", by default");
-                }
-
-                suffixe = String.format(" (%s)", suffixeBuilder.toString());
-            }
-
-            description = concatTextDescrption(description, String.format("%s: %s%s", propertyName, propValue, suffixe));
+            Object objGroups = getAnnotationValue(annotation, "groups");
+            Class<?>[] groups = (Class<?>[]) objGroups;
+            String suffixe = getSuffixeDescription(groups);
+            String description = concatTextDescrption(null, String.format("%s: %s%s", propertyName, propValue, suffixe));
 
             return String.format("<span style=\"color:gray;\">%s</span>", description);
 
@@ -236,6 +202,42 @@ public class JavaxValidationModelPropertyBuilder implements ModelPropertyBuilder
         }
 
         return null;
+    }
+
+    private String getSuffixeDescription(Class<?>[] groups){
+
+        List<Class<?>> lstGroup = Arrays.asList(groups);
+
+        StringBuilder suffixeBuilder = new StringBuilder();
+        boolean isDefault = false;
+        for (Class<?> grpClass : lstGroup){
+
+            if (lstGroup.contains(Default.class)){
+                isDefault = true;
+            }
+
+            SwaggerDocumentation ano = grpClass.getAnnotation(SwaggerDocumentation.class);
+
+            if (ano == null){
+                continue;
+            }
+
+            if (suffixeBuilder.length() > 0){
+                suffixeBuilder.append(", ");
+            }
+
+            suffixeBuilder.append(ano.value());
+        }
+
+        String suffixe = "";
+        if (suffixeBuilder.length() > 0){
+
+            if (isDefault){
+                suffixeBuilder.append(", by default");
+            }
+
+            suffixe = String.format(" (%s)", suffixeBuilder.toString());
+        }
     }
 
     private String getFieldDescription(Field field) {
