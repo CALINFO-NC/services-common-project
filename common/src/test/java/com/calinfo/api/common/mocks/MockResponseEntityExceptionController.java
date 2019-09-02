@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by dalexis on 20/11/2017.
@@ -98,6 +99,11 @@ public class MockResponseEntityExceptionController {
     @GetMapping(value = "/launchMessageStatusForbidenException", produces = MediaType.APPLICATION_JSON_VALUE)
     public void launchMessageStatusForbidenException() throws Throwable {
         throw new MessageStatusException(HttpStatus.FORBIDDEN, "Message");
+    }
+
+    @GetMapping(value = "/launchNoSuchElementException", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void launchNoSuchElementException() throws Throwable {
+        throw new NoSuchElementException("Message");
     }
 
     @GetMapping(value = "/launchAccessDeniedException", produces = MediaType.APPLICATION_JSON_VALUE)

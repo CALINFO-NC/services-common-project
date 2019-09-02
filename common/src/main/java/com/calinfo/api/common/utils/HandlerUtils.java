@@ -28,6 +28,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -43,6 +44,16 @@ public class HandlerUtils {
         header.setContentType(MediaType.TEXT_PLAIN);
 
         return new ResponseEntity<>(ex.getMessage(), header, ex.getStatus());
+    }
+
+    public static ResponseEntity<String> noSuchElementException(NoSuchElementException ex) {
+
+        log.info(ex.getMessage(), ex);
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.TEXT_PLAIN);
+
+        return new ResponseEntity<>(ex.getMessage(), header, HttpStatus.NOT_FOUND);
     }
 
 

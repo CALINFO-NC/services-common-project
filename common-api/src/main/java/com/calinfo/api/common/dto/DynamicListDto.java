@@ -41,4 +41,22 @@ public class DynamicListDto<R extends Serializable> implements Dto, MessageInfoA
             data.add(r);
         }
     }
+
+    public DynamicListDto(List<R> globalList, int start, int limit){
+
+        int first = start * limit;
+
+        if (first < globalList.size()){
+
+            int offset = first + limit - 1;
+
+            int max = Math.min(offset, globalList.size() - 1);
+
+            for (int i = first; i <= max; i++){
+                data.add(globalList.get(i));
+            }
+        }
+
+        count = globalList.size();
+    }
 }
