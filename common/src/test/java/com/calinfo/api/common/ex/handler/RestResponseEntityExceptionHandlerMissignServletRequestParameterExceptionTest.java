@@ -206,6 +206,18 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
     }
 
+    @Test
+    public void testLaunchNoSuchElementException() throws Exception{
+
+        MockHttpServletRequestBuilder httpRequest = get("/mock/controller/launchNoSuchElementException");
+
+        this.mockMvc.perform(httpRequest)
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
+    }
+
+
+
 
 
     @Test

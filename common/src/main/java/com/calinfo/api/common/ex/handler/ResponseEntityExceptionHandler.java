@@ -9,6 +9,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
@@ -19,6 +21,10 @@ public class ResponseEntityExceptionHandler {
         return HandlerUtils.messageStatusException(ex);
     }
 
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> noSuchElementException(NoSuchElementException ex) {
+        return HandlerUtils.noSuchElementException(ex);
+    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<String> messageAccessDeniedException(AccessDeniedException ex) {
