@@ -43,8 +43,8 @@ public class TaskRunner {
 
         }
         finally {
-            SecurityContextHolder.getContext().setAuthentication(auth);
             DomainContext.setDomain(actualDomain);
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
     }
 
