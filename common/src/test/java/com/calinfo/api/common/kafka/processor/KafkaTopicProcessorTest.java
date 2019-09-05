@@ -29,7 +29,7 @@ public class KafkaTopicProcessorTest {
         String applicationId = "arbitraire";
         Map<String, KafkaTopicDefinition> def = KafkaTopicDefinitionFactory.getDefinition(applicationId);
         Assert.assertFalse(def.isEmpty());
-        Assert.assertNotNull(def.get(MiscUtils.getTopicFullName(applicationId, "topic0", true)));
+        Assert.assertNotNull(def.get(MiscUtils.getTopicFullName(applicationId, "topic0", true, true)));
 
     }
 }

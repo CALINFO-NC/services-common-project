@@ -15,7 +15,7 @@ public class KafkaServiceImpl implements KafkaService {
     private KafkaSubService kafkaSubService;
 
     @Override
-    @KafkaTopic(value = "topic0", prefixTopicNameWithApplicationName = true)
+    @KafkaTopic(value = "topic0", prefixTopicNameWithApplicationId = true)
     public void topic0WithPrefix() {
 
         TestResource res = new TestResource();
@@ -24,7 +24,7 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationName = false)
+    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
     public void topic1WithoutExceptionAndWithoutExceptionTopicA() {
 
         TestResource res = new TestResource();
@@ -33,13 +33,13 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    @KafkaTopic(value = "topic2", prefixTopicNameWithApplicationName = false)
+    @KafkaTopic(value = "topic2", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
     public void topic2WithoutExceptionAndWithExceptionTopicB() {
         kafkaSubService.topicAWithException();
     }
 
     @Override
-    @KafkaTopic(value = "topic3", prefixTopicNameWithApplicationName = false)
+    @KafkaTopic(value = "topic3", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
     public void topic3WithExceptionBeforeCallTopicA() {
 
         launchException();
@@ -51,7 +51,7 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    @KafkaTopic(value = "topic4", prefixTopicNameWithApplicationName = false)
+    @KafkaTopic(value = "topic4", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
     public void topic4WithExceptionAfterCallTopicA() {
 
         TestResource res = new TestResource();

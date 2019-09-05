@@ -32,7 +32,7 @@ public class KafkaTopicDefinitionFactory {
 
                 for (Map.Entry<String, KafkaTopicDefinition> item: def.entrySet()){
 
-                    String newKey = MiscUtils.getTopicFullName(applicationId, item.getValue().getTopicName(), item.getValue().isPrefixTopicNameWithApplicationName());
+                    String newKey = MiscUtils.getTopicFullName(applicationId, item.getValue().getTopicName(), item.getValue().isPrefixTopicNameWithApplicationId(), item.getValue().isPrefixTopicNameWithDomain());
                     result.put(newKey, item.getValue());
                 }
             }
