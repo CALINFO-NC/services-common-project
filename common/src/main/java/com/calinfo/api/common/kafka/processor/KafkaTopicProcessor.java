@@ -70,7 +70,8 @@ public class KafkaTopicProcessor extends AbstractProcessor {
         String key = kafkaTopic.value();
 
         KafkaTopicDefinition kafkaTopicDefinition = new KafkaTopicDefinition();
-        kafkaTopicDefinition.setPrefixTopicNameWithApplicationName(kafkaTopic.prefixTopicNameWithApplicationName());
+        kafkaTopicDefinition.setPrefixTopicNameWithApplicationId(kafkaTopic.prefixTopicNameWithApplicationId());
+        kafkaTopicDefinition.setPrefixTopicNameWithDomain(kafkaTopic.prefixTopicNameWithDomain());
         kafkaTopicDefinition.setTopicName(kafkaTopic.value());
         kafkaTopicDefinition.setMethodServiceName(executableElement.getSimpleName().toString());
         kafkaTopicDefinition.setReturnType(executableElement.getReturnType().toString());

@@ -12,7 +12,11 @@ public class KafkaTopicDefinition {
 
     @Getter
     @Setter
-    boolean prefixTopicNameWithApplicationName;
+    boolean prefixTopicNameWithApplicationId;
+
+    @Getter
+    @Setter
+    boolean prefixTopicNameWithDomain;
 
     @Getter
     @Setter

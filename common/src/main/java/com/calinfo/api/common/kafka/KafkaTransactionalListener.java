@@ -4,7 +4,7 @@ import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaAdmin;
@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 
 
 @Component
-@ConditionalOnProperty(value = "common.configuration.kafka-event.enabled")
+@ConditionalOnExpression("${common.configuration.kafka-event.enabled:false} and ${common.configuration.kafka-event.kafka-listener-enabled:true}")
 public class KafkaTransactionalListener {
 
     private static final Logger log = LoggerFactory.getLogger(KafkaTransactionalListener.class);
@@ -80,7 +80,6 @@ public class KafkaTransactionalListener {
         }
 
     }
-
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT, fallbackExecution = true)

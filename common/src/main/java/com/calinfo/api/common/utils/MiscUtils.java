@@ -8,6 +8,7 @@ import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.kafka.KafkaTopic;
 import com.calinfo.api.common.service.MessageService;
+import com.calinfo.api.common.tenant.DomainContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -131,14 +132,22 @@ public class MiscUtils {
     }
 
     public static String getTopicFullName(String applicationId, KafkaTopic kafkaTopic){
-        return getTopicFullName(applicationId, kafkaTopic.value(), kafkaTopic.prefixTopicNameWithApplicationName());
+        return getTopicFullName(applicationId, kafkaTopic.value(), kafkaTopic.prefixTopicNameWithApplicationId(), kafkaTopic.prefixTopicNameWithDomain());
     }
 
-    public static String getTopicFullName(String applicationId, String topicName, boolean prefixTopicNameWithApplicationName){
+    public static String getTopicFullName(String applicationId, String topicName, boolean prefixTopicNameWithApplicationName, boolean prefixTopicNameWithDomain){
+
+        String domain = DomainContext.getDomain();
+        if (domain == null){
+            domain = "";
+        }
 
         String result = topicName;
+        if (prefixTopicNameWithDomain) {
+            result = String.format("%s.%s", domain, result);
+        }
         if (prefixTopicNameWithApplicationName) {
-            result = String.format("%s.%s", applicationId, topicName);
+            result = String.format("%s.%s", applicationId, result);
         }
 
         return result;

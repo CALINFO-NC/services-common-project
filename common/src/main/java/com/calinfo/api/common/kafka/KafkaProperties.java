@@ -32,4 +32,9 @@ public class KafkaProperties {
      */
     private String threadNamePrefix = "common-kafka-";
 
+    /**
+     * false pour désactiver l'enveoie des évènements à KAFKA.
+     * Passer se paramètre à false permet une gestion customisé de la recetion des évènements KAFKA
+     */
+    private boolean kafkaListenerEnabled = true;
 }

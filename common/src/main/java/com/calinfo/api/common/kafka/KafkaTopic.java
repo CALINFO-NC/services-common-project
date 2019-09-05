@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 public @interface KafkaTopic {
     String value();
 
-    boolean prefixTopicNameWithApplicationName() default true;
+    boolean prefixTopicNameWithApplicationId() default true;
+
+    boolean prefixTopicNameWithDomain() default true;
 }
