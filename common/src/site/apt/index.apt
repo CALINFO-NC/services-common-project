@@ -10,7 +10,7 @@ Description
 
  * Le <domain> peut être défini par le développeur lors de l'appel d'une requête HTTP :
  Pour cela, le développeur doit indiquer lors de l'appel d'une requête HTTP, quel est le <domain> souhaité. Pour se faire, le développeur
- doit injecter une instance de <com.calinfo.api.common.tenant.RequestDomainName> et utiliser la méthode <setValue(...)> pour préciser le <domain> souhaité.
+ indiquer dans le context via <com.calinfo.api.common.tenant.DomainContext.setDomain(...)> le domain souhaité.
 
 +------------------------------------------+
 Exemple d'implémentation :
@@ -18,22 +18,23 @@ Exemple d'implémentation :
 @Component
 public class MyFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private RequestDomainName requestDomainName;
-
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-        String domainName = httpServletRequest.getHeader("X-Domain");
+        String oldDOmain = DomainContext.getDomain();
+        try{
+            String domainName = ...;
 
-        requestDomainName.setValue(domainName);
+            DomainContext.setDomain(domainName);
 
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+        }
+        finally{
+            DomainContext.setDomain(oldDOmain);
+        }
     }
 }
 +------------------------------------------+
-
- Dans l'exemple ci-dessus, le <domain> est passé par la requête HTTP via le <Header "X-Domain">.
 
  []
 
@@ -89,35 +90,6 @@ public class GenericDatasourceConfiguration extends DefaultDatasourceConfigurati
 }
 +------------------------------------------+
 
-Comment le <common> sait-il s'il faut utiliser le <domain> défini par le développeur lors de la requête HTTP ou le <domain> défini lors de l'authentification ?
-
- Le <common> injecte une instance de <com.calinfo.api.common.tenant.DomainNameResolver> et appelle la méthode <getDomain()> de cette instance pour définir le <domain> à utiliser.
- Le développeur doit donc s'assurer qu'une telle instance peut être injectée. Le <common> propose une implémentation partielle de l'interface <com.calinfo.api.common.tenant.DomainNameResolver> via
- la classe abstraite <com.calinfo.api.common.tenant.AbstractDefaultDomainNameResolver>.
- Ci-dessous un exemple de classe pouvant être écrite par le développeur :
-
-+------------------------------------------+
-import com.calinfo.api.common.tenant.AbstractDefaultDomainNameResolver;
-import com.calinfo.api.common.tenant.TenantProperties;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-
-/**
- * Created by dalexis on 31/05/2018.
- */
-@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
-@Component
-public class DomainNameResolver extends AbstractDefaultDomainNameResolver {
-
-    @Override
-    protected String choiceDomain(String requestDomain, String securityPrincipalDomain) {
-        return StringUtils.isBlank(requestDomain) ? securityPrincipalDomain : requestDomain;
-    }
-}
-+------------------------------------------+
-
 Comment créer un <domain> par programme ?
 
  La création d'un <domain> consiste à créer un schéma de base de donnée, et éventuellement jouer les scripts <liquibase>.
@@ -165,3 +137,8 @@ Configuration
  Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe <com.calinfo.api.common.tenant.TenantProperties>
 
 
+Point d'attention
+
+ Le common récupère le <domain> à utiliser (et donc le schéma) lors de l'ouverture d'une transaction (DomainContext.getDomain()).
+ Si vous la transaction est déjà ouverte, l'utilisatiuon de DomainContext.setDomain(...) ne fonctionnera pas et peut même provoquer des bug
+ incohérents.

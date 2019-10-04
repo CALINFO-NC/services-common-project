@@ -17,9 +17,6 @@ Exemple de classe pouvant être injectée
 import com.calinfo.api.common.manager.ApiKeyManager;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by dalexis on 20/06/2018.
- */
 @Component
 public class MyApiKeyManager implements ApiKeyManager{
 
@@ -54,7 +51,7 @@ Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal();
 +------------------------------------------+
 
- Le "PrincipalManager" permet aussi d'insérer dans le context un "principal" à partir de ses tokens, ou d'insérer un "principal" annonyme.
+ Il existe aussi "PrincipalFactory" qui permet aussi d'insérer dans le context un "principal" à partir de ses tokens, ou d'insérer un "principal" annonyme.
 
  []
 
