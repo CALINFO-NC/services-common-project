@@ -5,3 +5,5 @@ Liste des modules
  * {{{./common-api}common-api}}
 
  * {{{./common-libs}common-libs}}
+
+ * {{{./common-test}common-test}}

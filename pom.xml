@@ -71,6 +71,7 @@
         <module>common-libs</module>
         <module>common-api</module>
         <module>common</module>
+        <module>common-test</module>
     </modules>
 
 
