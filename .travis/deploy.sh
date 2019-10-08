@@ -14,7 +14,7 @@ fi
 #  La publicaion sur le maven sit est trop long, et plante une foie sur trois. Voir comment faire autrement
 # Publier le site si nécessaire
 isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
-# if [ "$TRAVIS_BRANCH" == "master" ] && [ "$isSnapshot" == "false" ]
-# then
+if [ "$TRAVIS_BRANCH" == "master" ] && [ "$isSnapshot" == "false" ]
+then
     mvn site -B
-# fi
+fi
