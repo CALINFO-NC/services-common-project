@@ -1,21 +1,19 @@
 package com.calinfo.api.common.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import javax.sql.DataSource;
 
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class LiquibaseUtilsUpdateSchemaTest {
+public class LiquibaseUtilsUpdateSchemaTest extends AbstractTestNGSpringContextTests {
 
     @Value("${spring.liquibase.change-log}")
     private String changelogFileConf;

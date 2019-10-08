@@ -3,8 +3,8 @@ package com.calinfo.api.common.utils;
 import com.calinfo.api.common.security.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.KeyFactory;

@@ -3,9 +3,9 @@ package com.calinfo.api.common.kafka.processor;
 import com.calinfo.api.common.kafka.KafkaTopicDefinition;
 import com.calinfo.api.common.kafka.KafkaTopicDefinitionFactory;
 import com.calinfo.api.common.utils.MiscUtils;
-import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;

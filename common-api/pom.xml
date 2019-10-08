@@ -16,6 +16,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <version.service-common>${project.version}</version.service-common>
         <version.openpojo>0.8.12</version.openpojo>
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
@@ -36,6 +37,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dépendence sur l'API common -->
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common-test</artifactId>
+            <version>${version.service-common}</version>
             <scope>test</scope>
         </dependency>
 

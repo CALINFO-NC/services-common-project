@@ -8,18 +8,17 @@ import com.calinfo.api.common.mocks.MockApiKeyManager;
 import com.calinfo.api.common.utils.DateUtils;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.utils.SecurityUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.net.URI;
 import java.util.List;
@@ -27,11 +26,10 @@ import java.util.List;
 /**
  * Created by dalexis on 06/01/2018.
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"enableSecurity", "apiKeyManager"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CommonSecurityUrlFilterEnableTest {
+public class CommonSecurityUrlFilterEnableTest extends AbstractTestNGSpringContextTests {
 
     @LocalServerPort
     private int port;

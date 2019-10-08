@@ -4,13 +4,14 @@ import com.calinfo.api.common.mocks.MockClassConverter;
 import com.calinfo.api.common.mocks.MockConvertManager;
 import com.calinfo.api.common.mocks.MockInstanceConverter;
 import com.calinfo.api.common.mocks.StringIntegerClassConverter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * Created by dalexis on 21/05/2018.
  */
 public class AbstractConvertManagerTest {
+
 
     @Test
     public void callConvertInstance(){

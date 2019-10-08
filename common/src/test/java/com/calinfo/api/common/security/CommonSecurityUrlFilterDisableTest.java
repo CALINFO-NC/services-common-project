@@ -1,8 +1,6 @@
 package com.calinfo.api.common.security;
 
 import com.calinfo.api.common.utils.MiscUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
@@ -10,20 +8,20 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.testng.annotations.Test;
 
 import java.net.URI;
 
 /**
  * Created by dalexis on 06/01/2018.
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("disableSecurity")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CommonSecurityUrlFilterDisableTest {
+public class CommonSecurityUrlFilterDisableTest extends AbstractTestNGSpringContextTests {
 
     @LocalServerPort
     private int port;

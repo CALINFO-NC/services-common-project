@@ -3,34 +3,32 @@ package com.calinfo.api.common.manager;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
 /**
  * Created by dalexis on 08/05/2018.
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class PrincipalManagerGetPrincipalTest {
+public class PrincipalManagerGetPrincipalTest extends AbstractTestNGSpringContextTests {
 
     private AbstractCommonPrincipal principalAjouteAuContext;
 
     @Autowired
     private PrincipalManager principalManager;
 
-    @Before
+    @BeforeMethod
     public void before(){
 
         principalAjouteAuContext = new CommonPrincipal(null, null,"domain", "username", "password", new ArrayList<>());

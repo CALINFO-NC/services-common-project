@@ -12,10 +12,6 @@ import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.type.TypeAttribut;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -23,10 +19,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.context.WebApplicationContext;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExceptionTest {
+public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExceptionTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private WebApplicationContext context;
@@ -51,12 +49,12 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
 
     private MockMvc mockMvc;
 
-    @Before
+    @BeforeMethod
     public void setUp() {
         mockMvc = webAppContextSetup(this.context).build();
     }
 
-    @After
+    @AfterMethod
     public  void downUp(){
         this.mockMvc = null;
     }
