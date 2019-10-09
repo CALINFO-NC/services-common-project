@@ -23,10 +23,6 @@
         <version.validation-api>2.0.1.Final</version.validation-api>
     </properties>
 
-    <build>
-        <finalName>common-api</finalName>
-    </build>
-
     <dependencies>
 
         <dependency>
@@ -64,25 +60,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven-javadoc-plugin}</version>
-                <configuration>
-                    <show>private</show>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>${version.maven-jxr-plugin}</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
 
 </project>

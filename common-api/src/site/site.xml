@@ -20,12 +20,5 @@
         <menu name="Documentation">
             <item name="Introduction" href="index.html"/>
         </menu>
-
-        <menu name="Rapports">
-            <item name="Java doc" href="apidocs/index.html"/>
-            <item name="Java doc des tests" href="testapidocs/index.html"/>
-            <item name="Source" href="xref/index.html"/>
-            <item name="Source des tests" href="xref-test/index.html"/>
-        </menu>
     </body>
 </project>
