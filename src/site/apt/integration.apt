@@ -17,4 +17,6 @@ Introduction
 
  * Sur le <common-api> : pour le projet contenant les ressources REST
 
+ * Sur le <common-test> : pour leffectuer les tests
+
  * Sur le <common> : pour le projet implémentant les règles métier

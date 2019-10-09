@@ -12,13 +12,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Chemin de répertoire du site maven pour ce module. Propriété surchargé dans les modules -->
-        <maven.site.path></maven.site.path>
     </properties>
 
 
-    <url>https://calinfo-nc.github.io/services-common-project/${project.version}${maven.site.path}</url>
+    <url>https://calinfo-nc.github.io/services-common-project/${project.version}</url>
 
     <profiles>
 
@@ -35,7 +32,7 @@
                         <version>0.12</version>
                         <configuration>
                             <message>Creating site for ${project.version}</message>
-                            <path>${project.version}${maven.site.path}</path>
+                            <path>${project.version}</path>
                             <repositoryName>services-common-project</repositoryName>
                             <repositoryOwner>CALINFO-NC</repositoryOwner>
                             <merge>true</merge>

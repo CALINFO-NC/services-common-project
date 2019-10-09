@@ -23,7 +23,7 @@
             <item name="Connexion en utilisant l'IHM 'Login' du domaine" href="https://calinfo.atlassian.net/wiki/spaces/SER/pages/165019737/Connexion+en+utilisant+l+IHM+Login+du+domaine"/>
         </links>
 
-        <menu name="Documentation">
+        <menu name="Usage">
             <item name="Multi-tenant" href="index.html"/>
             <item name="Convertisseur" href="converter.html"/>
             <item name="Sécirité" href="security.html"/>
@@ -31,6 +31,17 @@
             <item name="Internationalisation" href="internationalisation.html"/>
             <item name="Kafka" href="kafka.html"/>
             <item name="Logger" href="logger.html"/>
+        </menu>
+
+        <menu name="Documentations projet">
+            <item name="Project summary" href="project-summary.html"/>
+            <item name="Project info" href="project-info.html"/>
+            <item name="Dependencies" href="dependencies.html"/>
+            <item name="Dependency convergence" href="dependency-convergence.html"/>
+            <item name="Dependency info" href="dependency-info.html"/>
+            <item name="Dependency management" href="dependency-management.html"/>
+            <item name="Plugin management" href="plugin-management.html"/>
+            <item name="Plugins" href="plugins.html"/>
         </menu>
     </body>
 </project>
