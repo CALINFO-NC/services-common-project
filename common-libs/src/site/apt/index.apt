@@ -1,1 +1,9 @@
-TODO
+Intégration du common dans vos projets
+
++------------------------------------------+
+    <parent>
+        <groupId>com.calinfo-nc.services</groupId>
+        <artifactId>gestock-project</artifactId>
+        <version>${version.common}</version>
+    </parent>
++------------------------------------------+
