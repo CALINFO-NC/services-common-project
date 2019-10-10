@@ -4,7 +4,7 @@
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
-        <version>1.3.0</version>
+        <version>1.8</version>
     </skin>
     <custom>
         <fluidoSkin>
@@ -24,7 +24,7 @@
         </links>
 
         <menu name="Usage">
-            <item name="Multi-tenant" href="index.html"/>
+            <item name="Multi-tenant" href="multitenant.html"/>
             <item name="Convertisseur" href="converter.html"/>
             <item name="Sécirité" href="security.html"/>
             <item name="Tâches" href="task.html"/>
@@ -33,15 +33,6 @@
             <item name="Logger" href="logger.html"/>
         </menu>
 
-        <menu name="Documentations projet">
-            <item name="Project summary" href="project-summary.html"/>
-            <item name="Project info" href="project-info.html"/>
-            <item name="Dependencies" href="dependencies.html"/>
-            <item name="Dependency convergence" href="dependency-convergence.html"/>
-            <item name="Dependency info" href="dependency-info.html"/>
-            <item name="Dependency management" href="dependency-management.html"/>
-            <item name="Plugin management" href="plugin-management.html"/>
-            <item name="Plugins" href="plugins.html"/>
-        </menu>
+        <menu ref="reports"/>
     </body>
 </project>

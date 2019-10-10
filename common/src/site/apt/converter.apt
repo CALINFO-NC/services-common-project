@@ -11,9 +11,6 @@ import com.calinfo.api.common.converter.InstanceConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by dalexis on 19/05/2018.
- */
 @Component
 public class AtoBConverter implements InstanceConverter {
 
@@ -56,9 +53,6 @@ public class AtoBConverter implements InstanceConverter {
 import com.calinfo.api.common.converter.ClassConverter;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by dalexis on 19/05/2018.
- */
 @Component
 public class InttoLongConverter implements ClassConverter {
 
@@ -95,9 +89,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-/**
- * Created by dalexis on 19/05/2018.
- */
 @Component
 public class ConvertManager extends AbstractConvertManager {
 
@@ -122,9 +113,6 @@ public class ConvertManager extends AbstractConvertManager {
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by dalexis on 19/05/2018.
- */
 @Component
 public class Example {
 

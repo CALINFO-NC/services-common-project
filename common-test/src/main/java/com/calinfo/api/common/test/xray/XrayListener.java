@@ -48,7 +48,7 @@ public class XrayListener implements IInvokedMethodListener  {
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
-
+        // Aucun traitement à effectuer après l'invocation
     }
 
 
