@@ -8,12 +8,12 @@
     <parent>
         <groupId>com.calinfo-nc.services</groupId>
         <artifactId>common-libs</artifactId>
-        <version>1.0.123456</version>
+        <version>1.0-SNAPSHOT</version>
         <relativePath>../common-libs</relativePath>
     </parent>
 
     <artifactId>common-api</artifactId>
-    <version>1.0.123456</version>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <version.service-common>${project.version}</version.service-common>
