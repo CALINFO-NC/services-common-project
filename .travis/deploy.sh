@@ -8,10 +8,13 @@ if [ "$TRAVIS_BRANCH" == "master" ]
 then
     artifactory_deploy $TRAVIS_BUILD_DIR/common common.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common common-sources.jar "" sources
+    artifactory_deploy $TRAVIS_BUILD_DIR/common common-javadoc.jar "" javadoc
     artifactory_deploy $TRAVIS_BUILD_DIR/common-api common-api.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common-api common-api-sources.jar "" sources
+    artifactory_deploy $TRAVIS_BUILD_DIR/common-api common-api-javadoc.jar "" javadoc
     artifactory_deploy $TRAVIS_BUILD_DIR/common-test common-test.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common-test common-test-sources.jar "" sources
+    artifactory_deploy $TRAVIS_BUILD_DIR/common-test common-test-javadoc.jar "" javadoc
     artifactory_deploy $TRAVIS_BUILD_DIR/common-libs pom.xml
 fi
 

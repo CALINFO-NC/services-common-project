@@ -120,6 +120,27 @@
                 </executions>
             </plugin>
 
+            <!-- Génère les .jar contenant la javadoc -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${version.maven-javadoc-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>resource-bundles</id>
+                        <phase>package</phase>
+                        <goals>
+                            <!-- produce source artifact for main project sources -->
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                            <detectOfflineLinks>false</detectOfflineLinks>
+                            <show>private</show>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Plugin necesaires pour la génération de la doc maven -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
