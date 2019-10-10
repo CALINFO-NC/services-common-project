@@ -15,7 +15,7 @@
 
         <version.lombok>1.18.8</version.lombok>
         <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
-        <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
+        <version.maven-javadoc-plugin>3.1.1</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.spring>2.1.5.RELEASE</version.spring>
         <version.testng>6.14.3</version.testng>
@@ -120,25 +120,6 @@
                 </executions>
             </plugin>
 
-            <!-- Génère les .jar contenant la javadoc -->
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven-javadoc-plugin}</version>
-                <executions>
-                    <execution>
-                        <id>resource-bundles</id>
-                        <phase>package</phase>
-                        <goals>
-                            <!-- produce source artifact for main project sources -->
-                            <goal>resource-bundle</goal>
-                        </goals>
-                        <configuration>
-                            <detectOfflineLinks>false</detectOfflineLinks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Plugin necesaires pour la génération de la doc maven -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -205,12 +186,24 @@
 
     <reporting>
         <plugins>
+            <!-- Rapport standard d'un site maven -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>${version.maven-project-info-reports-plugin}</version>
                 <configuration>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+            </plugin>
+
+            <!--Javadoc -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${version.maven-javadoc-plugin}</version>
+                <configuration>
+                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                    <detectOfflineLinks>false</detectOfflineLinks>
+                    <show>private</show>
                 </configuration>
             </plugin>
         </plugins>
