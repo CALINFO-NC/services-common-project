@@ -19,7 +19,7 @@ then
 fi
 
 # Publier le site si nécessaire
-# isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
+#isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
 # if [ "$TRAVIS_BRANCH" == "master" ] && [ "$isSnapshot" == "false" ]
 #if [ "$TRAVIS_BRANCH" == "master" ]
 #then
