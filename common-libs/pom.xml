@@ -25,9 +25,15 @@
         <version.maven-project-info-reports-plugin>3.0.0</version.maven-project-info-reports-plugin>
         <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
+        <version.plantuml-maven-plugin>7954</version.plantuml-maven-plugin>
+        <version.plantuml>8059</version.plantuml>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <plantuml.source-file-including>src/site/plantuml/**/*.txt</plantuml.source-file-including>
+        <plantuml.source-directory>${basedir}</plantuml.source-directory>
+        <plantuml.output-directory>${build.directory}/site/images/plantuml</plantuml.output-directory>
 
         <java.version>11</java.version>
 
@@ -138,6 +144,30 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${version.maven-site-plugin}</version>
+            </plugin>
+
+            <!-- Plugin necesaires pour la génération de diagramme via plantUml -->
+            <plugin>
+                <groupId>com.github.jeluard</groupId>
+                <artifactId>plantuml-maven-plugin</artifactId>
+                <version>${version.plantuml-maven-plugin}</version>
+                <configuration>
+                    <sourceFiles>
+                        <directory>${plantuml.source-directory}</directory>
+                        <includes>
+                            <include>${plantuml.source-file-including}</include>
+                        </includes>
+                    </sourceFiles>
+                    <outputDirectory>${plantuml.output-directory}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

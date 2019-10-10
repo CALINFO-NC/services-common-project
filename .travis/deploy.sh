@@ -23,5 +23,5 @@ fi
 # if [ "$TRAVIS_BRANCH" == "master" ] && [ "$isSnapshot" == "false" ]
 #if [ "$TRAVIS_BRANCH" == "master" ]
 #then
-    mvn site -B
+#    mvn site -B
 #fi

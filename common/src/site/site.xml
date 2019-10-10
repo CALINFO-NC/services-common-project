@@ -18,11 +18,6 @@
 
     <body>
 
-        <links>
-            <item name="Connexion par REST API" href="https://calinfo.atlassian.net/wiki/spaces/SER/pages/164954113/Connexion+par+REST+API"/>
-            <item name="Connexion en utilisant l'IHM 'Login' du domaine" href="https://calinfo.atlassian.net/wiki/spaces/SER/pages/165019737/Connexion+en+utilisant+l+IHM+Login+du+domaine"/>
-        </links>
-
         <menu name="Usage">
             <item name="Multi-tenant" href="multitenant.html"/>
             <item name="Convertisseur" href="converter.html"/>
@@ -31,6 +26,7 @@
             <item name="Internationalisation" href="internationalisation.html"/>
             <item name="Kafka" href="kafka.html"/>
             <item name="Logger" href="logger.html"/>
+            <item name="PlantUML" href="plantuml.html"/>
         </menu>
 
         <menu ref="reports"/>
