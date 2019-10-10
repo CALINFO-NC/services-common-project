@@ -1,9 +1,14 @@
-Intégration du common dans vos projets
+Introduction
+
+ Le <common> est un module créé spécialement pour les applications de type <service>.
+ Il apporte un certain nombre de fonctionnalités et de librairies décritent dans chacun des modules.
+
+ Pour utiliser le common dans une application de type <service>, il suffit d'hériter de :
 
 +------------------------------------------+
-    <parent>
-        <groupId>com.calinfo-nc.services</groupId>
-        <artifactId>gestock-project</artifactId>
-        <version>${version.common}</version>
-    </parent>
+<parent>
+    <groupId>com.calinfo-nc.services</groupId>
+    <artifactId>common-libs</artifactId>
+    <version>...</version>
+</parent>
 +------------------------------------------+
