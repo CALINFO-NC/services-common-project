@@ -33,7 +33,7 @@
 
         <plantuml.source-file-including>src/site/plantuml/**/*.txt</plantuml.source-file-including>
         <plantuml.source-directory>${basedir}</plantuml.source-directory>
-        <plantuml.output-directory>${build.directory}/site/images/plantuml</plantuml.output-directory>
+        <plantuml.output-directory>${project.build.directory}/site/images/plantuml</plantuml.output-directory>
 
         <java.version>11</java.version>
 
@@ -79,7 +79,7 @@
     </profiles>
 
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
 
         <plugins>
 
