@@ -1,8 +1,8 @@
 package com.calinfo.api.common.dto;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.data.domain.PageRequest;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * Created by dalexis on 21/05/2018.

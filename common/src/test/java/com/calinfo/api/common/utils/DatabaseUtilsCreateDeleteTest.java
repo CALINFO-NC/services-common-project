@@ -1,18 +1,16 @@
 package com.calinfo.api.common.utils;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import javax.sql.DataSource;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class DatabaseUtilsCreateDeleteTest {
+public class DatabaseUtilsCreateDeleteTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private DataSource dataSource;

@@ -12,65 +12,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Chemin de répertoire du site maven pour ce module. Propriété surchargé dans les modules -->
-        <maven.site.path></maven.site.path>
     </properties>
-
-
-    <url>https://calinfo-nc.github.io/services-common-project/${project.version}${maven.site.path}</url>
-
-    <profiles>
-
-        <profile>
-            <id>github-profile</id>
-            <build>
-                <plugins>
-
-                    <!-- Publication du maven site lors de la génération du site -->
-                    <plugin>
-                        <!-- Deploy the web site -->
-                        <groupId>com.github.github</groupId>
-                        <artifactId>site-maven-plugin</artifactId>
-                        <version>0.12</version>
-                        <configuration>
-                            <message>Creating site for ${project.version}</message>
-                            <path>${project.version}${maven.site.path}</path>
-                            <repositoryName>services-common-project</repositoryName>
-                            <repositoryOwner>CALINFO-NC</repositoryOwner>
-                            <merge>true</merge>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>site</goal>
-                                </goals>
-                                <phase>site</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-
-    </profiles>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
 
     <modules>
         <module>common-libs</module>
         <module>common-api</module>
         <module>common</module>
+        <module>common-test</module>
     </modules>
 
 

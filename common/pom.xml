@@ -18,7 +18,7 @@
 
 
     <properties>
-        <version.service-common>1.0-SNAPSHOT</version.service-common>
+        <version.service-common>${project.version}</version.service-common>
         <version.commons-io>2.5</version.commons-io>
         <version.commons-lang3>3.9</version.commons-lang3>
         <version.jjwt>0.9.1</version.jjwt>
@@ -120,6 +120,14 @@
             <version>${version.service-common}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common-test</artifactId>
+            <version>${version.service-common}</version>
+            <scope>test</scope>
+        </dependency>
+
+
         <!-- Liquibase -->
         <dependency>
             <groupId>org.liquibase</groupId>
@@ -207,25 +215,6 @@
 
 
     </dependencies>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven-javadoc-plugin}</version>
-                <configuration>
-                    <show>private</show>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>${version.maven-jxr-plugin}</version>
-            </plugin>
-        </plugins>
-    </reporting>
 
 
 </project>

@@ -4,18 +4,17 @@ import com.calinfo.api.common.tenant.service.TableDomainService;
 import com.calinfo.api.common.tenant.service.TableGenericService;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.web.context.WebApplicationContext;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -25,11 +24,10 @@ import java.util.Map;
 /**
  * Created by dalexis on 10/05/2018.
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("tenant")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AllTenantWithDomainContextTest {
+public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextTests {
 
 
     @Autowired
@@ -51,7 +49,7 @@ public class AllTenantWithDomainContextTest {
     private int nbDomain = 10;
 
 
-    @Before
+    @BeforeMethod
     public void init(){
 
         System.setProperty("spring.profiles.active", "tenant");

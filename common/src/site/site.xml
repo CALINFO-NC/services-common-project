@@ -4,7 +4,7 @@
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
-        <version>1.3.0</version>
+        <version>1.8</version>
     </skin>
     <custom>
         <fluidoSkin>
@@ -18,26 +18,17 @@
 
     <body>
 
-        <links>
-            <item name="Connexion par REST API" href="https://calinfo.atlassian.net/wiki/spaces/SER/pages/164954113/Connexion+par+REST+API"/>
-            <item name="Connexion en utilisant l'IHM 'Login' du domaine" href="https://calinfo.atlassian.net/wiki/spaces/SER/pages/165019737/Connexion+en+utilisant+l+IHM+Login+du+domaine"/>
-        </links>
-
-        <menu name="Documentation">
-            <item name="Multi-tenant" href="index.html"/>
+        <menu name="Usage">
+            <item name="Multi-tenant" href="multitenant.html"/>
             <item name="Convertisseur" href="converter.html"/>
             <item name="Sécirité" href="security.html"/>
             <item name="Tâches" href="task.html"/>
             <item name="Internationalisation" href="internationalisation.html"/>
             <item name="Kafka" href="kafka.html"/>
             <item name="Logger" href="logger.html"/>
+            <item name="PlantUML" href="plantuml.html"/>
         </menu>
 
-        <menu name="Rapports">
-            <item name="Java doc" href="apidocs/index.html"/>
-            <item name="Java doc des tests" href="testapidocs/index.html"/>
-            <item name="Source" href="xref/index.html"/>
-            <item name="Source des tests" href="xref-test/index.html"/>
-        </menu>
+        <menu ref="reports"/>
     </body>
 </project>

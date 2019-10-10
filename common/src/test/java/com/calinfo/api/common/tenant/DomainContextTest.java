@@ -1,7 +1,7 @@
 package com.calinfo.api.common.tenant;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class DomainContextTest {
 

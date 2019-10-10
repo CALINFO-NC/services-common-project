@@ -1,9 +1,9 @@
 package com.calinfo.api.common.spring;
 
 import com.calinfo.api.common.dto.ChargementInfoDto;
-import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.data.domain.Sort;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 

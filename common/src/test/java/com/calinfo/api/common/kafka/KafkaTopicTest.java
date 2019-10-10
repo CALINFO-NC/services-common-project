@@ -4,33 +4,28 @@ import com.calinfo.api.common.kafka.mock.KafkaService;
 import com.calinfo.api.common.kafka.mock.KafkaSubServiceImpl;
 import com.calinfo.api.common.kafka.mock.Receiver;
 import com.calinfo.api.common.kafka.mock.TestResource;
-import org.junit.Assert;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("kafka")
-public class KafkaTopicTest {
+@EmbeddedKafka
+public class KafkaTopicTest extends AbstractTestNGSpringContextTests {
 
 
     private static final long AWAIT = 1_000;
 
     @Autowired
     private Receiver receiver;
-
-    @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true);
 
     @Autowired
     private KafkaService kafkaService;

@@ -16,15 +16,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <version.service-common>${project.version}</version.service-common>
         <version.openpojo>0.8.12</version.openpojo>
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.validation-api>2.0.1.Final</version.validation-api>
     </properties>
-
-    <build>
-        <finalName>common-api</finalName>
-    </build>
 
     <dependencies>
 
@@ -36,6 +33,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dépendence sur l'API common -->
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common-test</artifactId>
+            <version>${version.service-common}</version>
             <scope>test</scope>
         </dependency>
 
@@ -55,25 +60,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven-javadoc-plugin}</version>
-                <configuration>
-                    <show>private</show>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>${version.maven-jxr-plugin}</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
 
 </project>

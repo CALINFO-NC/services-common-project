@@ -1,8 +1,8 @@
 package com.calinfo.api.common.spring;
 
 import com.calinfo.api.common.dto.ChargementInfoDto;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * Created by dalexis on 21/05/2018.

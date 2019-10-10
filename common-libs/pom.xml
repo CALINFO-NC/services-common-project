@@ -18,16 +18,30 @@
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.spring>2.1.5.RELEASE</version.spring>
+        <version.testng>6.14.3</version.testng>
+        <version.maven-source-plugin>2.1.1</version.maven-source-plugin>
+        <version.maven-javadoc-plugin>3.1.1</version.maven-javadoc-plugin>
+        <version.maven-site-plugin>3.8.2</version.maven-site-plugin>
+        <version.maven-project-info-reports-plugin>3.0.0</version.maven-project-info-reports-plugin>
+        <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
+        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
+        <version.plantuml-maven-plugin>7954</version.plantuml-maven-plugin>
+        <version.plantuml>8059</version.plantuml>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
+        <plantuml.source-file-including>src/site/plantuml/**/*.txt</plantuml.source-file-including>
+        <plantuml.source-directory>${basedir}</plantuml.source-directory>
+        <plantuml.output-directory>${build.directory}/site/images/plantuml</plantuml.output-directory>
+
         <java.version>11</java.version>
 
         <maven.site.path>/${project.artifactId}</maven.site.path>
+        <github.project.name>services-common-project</github.project.name>
     </properties>
 
-    <url>https://calinfo-nc.github.io/services-common-project/${project.version}${maven.site.path}</url>
+    <url>https://calinfo-nc.github.io/${github.project.name}/${project.version}${maven.site.path}</url>
 
     <profiles>
 
@@ -45,7 +59,7 @@
                         <configuration>
                             <message>Creating site for ${project.version}</message>
                             <path>${project.version}${maven.site.path}</path>
-                            <repositoryName>services-common-project</repositoryName>
+                            <repositoryName>${github.project.name}</repositoryName>
                             <repositoryOwner>CALINFO-NC</repositoryOwner>
                             <merge>true</merge>
                         </configuration>
@@ -65,13 +79,15 @@
     </profiles>
 
     <build>
+        <finalName>${artifactId}</finalName>
+
         <plugins>
 
             <!-- Permet d'ingorer l'absence du fichier web.xml géré par springboot -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>${version.maven-war-plugin}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -81,10 +97,77 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${version.maven-compiler-plugin}</version>
                 <configuration>
                     <release>${java.version}</release>
                 </configuration>
+            </plugin>
+
+
+            <!-- Génère les .jar contenant uniquement les sources -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${version.maven-source-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>bundle-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <!-- produce source artifact for main project sources -->
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Génère les .jar contenant la javadoc -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${version.maven-javadoc-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>resource-bundles</id>
+                        <phase>package</phase>
+                        <goals>
+                            <!-- produce source artifact for main project sources -->
+                            <goal>resource-bundle</goal>
+                        </goals>
+                        <configuration>
+                            <detectOfflineLinks>false</detectOfflineLinks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Plugin necesaires pour la génération de la doc maven -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${version.maven-site-plugin}</version>
+            </plugin>
+
+            <!-- Plugin necesaires pour la génération de diagramme via plantUml -->
+            <plugin>
+                <groupId>com.github.jeluard</groupId>
+                <artifactId>plantuml-maven-plugin</artifactId>
+                <version>${version.plantuml-maven-plugin}</version>
+                <configuration>
+                    <sourceFiles>
+                        <directory>${plantuml.source-directory}</directory>
+                        <includes>
+                            <include>${plantuml.source-file-including}</include>
+                        </includes>
+                    </sourceFiles>
+                    <outputDirectory>${plantuml.output-directory}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
@@ -125,7 +208,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
+                <version>${version.maven-project-info-reports-plugin}</version>
+                <configuration>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>

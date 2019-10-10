@@ -6,11 +6,6 @@ import com.calinfo.api.common.utils.LiquibaseUtils;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
@@ -22,11 +17,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.sql.DataSource;
 import java.net.URI;
@@ -37,11 +36,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 /**
  * Created by dalexis on 10/05/2018.
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("tenant")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AllTenantWithFilterTest {
+public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
 
     @LocalServerPort
     private int port;
@@ -64,12 +62,12 @@ public class AllTenantWithFilterTest {
 
     private MockMvc mockMvc;
 
-    @After
+    @AfterMethod
     public  void downUp(){
         this.mockMvc = null;
     }
 
-    @Before
+    @BeforeMethod
     public void init(){
 
         String schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
