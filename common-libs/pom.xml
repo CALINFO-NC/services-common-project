@@ -35,6 +35,8 @@
         <plantuml.source-directory>${basedir}</plantuml.source-directory>
         <plantuml.output-directory>${project.build.directory}/site/images/plantuml</plantuml.output-directory>
 
+        <javadoc.failOnError>true</javadoc.failOnError>
+
         <java.version>11</java.version>
 
         <maven.site.path>/${project.artifactId}</maven.site.path>
@@ -136,6 +138,7 @@
                             <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                             <detectOfflineLinks>false</detectOfflineLinks>
                             <show>private</show>
+                            <failOnError>${javadoc.failOnError}</failOnError>
                         </configuration>
                     </execution>
                 </executions>
