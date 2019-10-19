@@ -48,7 +48,7 @@ public class PrincipalFactory {
 
         AbstractCommonPrincipal principal;
         try {
-            principal = SecurityUtils.getPrincipalFromTokens(tokenForPrincipal, apiKey, securityProperties.getPublicKeyValue());
+            principal = SecurityUtils.getPrincipalFromTokens(tokenForPrincipal, apiKey, securityProperties.getPublicKeyCertificat());
         }
         catch (ExpiredJwtException e){
 
@@ -57,7 +57,7 @@ public class PrincipalFactory {
             tokenForPrincipal = refreshToken(apiKey);
 
             if (tokenForPrincipal != null){
-                principal = SecurityUtils.getPrincipalFromTokens(tokenForPrincipal, apiKey, securityProperties.getPublicKeyValue());
+                principal = SecurityUtils.getPrincipalFromTokens(tokenForPrincipal, apiKey, securityProperties.getPublicKeyCertificat());
             }
             else{
                 log.info("Impossible to refresh token");

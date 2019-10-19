@@ -26,7 +26,7 @@ public class SecurityProperties {
     /**
      * Valeur de la clé public permettant de décrypter le jeton JWT
      */
-    private String publicKeyValue = null;
+    private String publicKeyCertificat = null;
 
     /**
      * Regex des url privée
