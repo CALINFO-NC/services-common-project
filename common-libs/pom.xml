@@ -41,6 +41,10 @@
 
         <maven.site.path>/${project.artifactId}</maven.site.path>
         <github.project.name>services-common-project</github.project.name>
+
+        <license.gpl3.licenseName>gpl_v3</license.gpl3.licenseName>
+        <license.gpl3.organisationName>CALINFO</license.gpl3.organisationName>
+        <license.gpl3.inceptionYear>2019</license.gpl3.inceptionYear>
     </properties>
 
     <url>https://calinfo-nc.github.io/${github.project.name}/${project.version}${maven.site.path}</url>

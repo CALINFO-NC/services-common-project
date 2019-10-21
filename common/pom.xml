@@ -50,9 +50,9 @@
                         </goals>
                         <phase>process-sources</phase>
                         <configuration>
-                            <licenseName>gpl_v3</licenseName>
-                            <organizationName>CALINFO</organizationName>
-                            <inceptionYear>2019</inceptionYear>
+                            <licenseName>${license.gpl3.licenseName}</licenseName>
+                            <organizationName>${license.gpl3.organisationName}</organizationName>
+                            <inceptionYear>${license.gpl3.inceptionYear}</inceptionYear>
                             <canUpdateCopyright>true</canUpdateCopyright>
                             <roots>
                                 <root>src/main/java</root>
