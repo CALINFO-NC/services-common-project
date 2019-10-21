@@ -35,6 +35,34 @@
 
     <build>
         <finalName>common</finalName>
+
+        <plugins>
+
+            <!-- Passage du common en licence GNU GPL -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <licenseName>gpl_v3</licenseName>
+                            <organizationName>CALINFO</organizationName>
+                            <inceptionYear>2019</inceptionYear>
+                            <canUpdateCopyright>true</canUpdateCopyright>
+                            <roots>
+                                <root>src/main/java</root>
+                            </roots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
     </build>
 
     <dependencies>
