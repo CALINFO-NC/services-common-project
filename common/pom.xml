@@ -16,6 +16,7 @@
     <artifactId>common</artifactId>
     <packaging>jar</packaging>
 
+    <description>Bibliothèque d'outillage de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
 
     <properties>
         <version.service-common>${project.version}</version.service-common>
@@ -31,6 +32,9 @@
         <version.auto-service>1.0-rc2</version.auto-service>
         <version.compile-testing>0.13</version.compile-testing>
         <version.truth>0.40</version.truth>
+
+        <!-- Valeur à blanc -->
+        <maven.site.path></maven.site.path>
     </properties>
 
     <build>

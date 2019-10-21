@@ -21,6 +21,9 @@
         <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.validation-api>2.0.1.Final</version.validation-api>
+
+        <!-- Valeur à blanc -->
+        <maven.site.path></maven.site.path>
     </properties>
 
     <build>

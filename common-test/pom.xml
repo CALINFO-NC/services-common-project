@@ -13,6 +13,14 @@
 
     <artifactId>common-test</artifactId>
 
+    <description>Bibliothèque permettant de tester les applications. Son scope devrait être "test".</description>
+
+    <properties>
+        <!-- Valeur à blanc -->
+        <maven.site.path></maven.site.path>
+    </properties>
+
+
     <build>
         <plugins>
 
@@ -39,7 +47,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
         </plugins>
     </build>
 
