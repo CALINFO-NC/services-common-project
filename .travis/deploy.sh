@@ -3,6 +3,14 @@
 # Import des scripts travis
 source $SCRIPT_BASE_DIR/scripts/artifactory.sh
 
+
+version=$(maven_version "$TRAVIS_BUILD_DIR/pom.xml")
+isSnapshot=$(maven_is_snapshot "$version")
+if [ "$isSnapshot" == "false" ]
+then
+    export ARTIFACTORY_RELEASE_REPOSITORY=license-gpl-local
+fi
+
 # Effectuer les déploiements sur artifactory
 if [ "$TRAVIS_BRANCH" == "master" ]
 then
@@ -20,7 +28,6 @@ fi
 
 
 # Publier le site si nécessaire
-isSnapshot=$(maven_is_snapshot "$TRAVIS_BUILD_DIR/pom.xml")
 if [[ ( "$TRAVIS_BRANCH" == "master" && "$isSnapshot" == "false" ) || ( $TRAVIS_PULL_REQUEST != "false" ) ]]
 then
     mvn site -B
