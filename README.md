@@ -5,3 +5,7 @@ Listes des modules
 * common-libs
 * common-api
 * common-test
+
+Projet sous licence GNU GPL V3 : http://www.gnu.org/licenses/gpl-3.0.html
+
+Binaire disponnible dans le "repository" :  https://calinfo.jfrog.io/calinfo/license-gpl-local
