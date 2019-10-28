@@ -1,0 +1,9 @@
+common-io:
+  storage:
+    connector:
+      provider: # ce package propose uniquement le connecteur google. Si vous souhaitez l'utiliser, mettre comme valeur "google"
+      configuration: # dépend du provider. pour le provider google, voir la classe GoogleConfigProperties
+
+    scheduler:
+      enabled: # true pour activer le transfert de donnée binaire
+      delay: # Délai en mili seconde entre chaque tentative de transfert
