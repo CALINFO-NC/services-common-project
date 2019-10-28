@@ -47,35 +47,38 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
 
     @Override
     public OutputStream getOutputStream(String spaceName, String id) throws IOException {
-        WriteChannel writer = getBucket(spaceName).get(id).writer();
+        WriteChannel writer = getBucket().get(getFileName(spaceName, id)).writer();
         return Channels.newOutputStream(writer);
     }
 
     @Override
     public InputStream getInputStream(String spaceName, String id) throws IOException {
-        ReadChannel reader = getBucket(spaceName).get(id).reader();
+        ReadChannel reader = getBucket().get(getFileName(spaceName, id)).reader();
         return Channels.newInputStream(reader);
     }
 
     @Override
     public boolean delete(String spaceName, String id) throws IOException {
-        return getBucket(spaceName).get(id).delete();
+        return getBucket().get(getFileName(spaceName, id)).delete();
     }
 
     @Override
     public boolean createSpace(String spaceName) throws IOException{
-
-        try {
-            return getStorage().create(BucketInfo.of(getReelSpaceName(spaceName))) != null;
-        }
-        catch (StorageException e){
-            throw new IOException(e);
-        }
+        // Ici ilm n'y a rien à faire
+        return true;
     }
 
     @Override
     public boolean deleteSpace(String spaceName) throws IOException {
-        return getBucket(spaceName).delete();
+
+        String prefix = String.format("%s/", getReelSpaceName(spaceName));
+        getBucket().list(Storage.BlobListOption.prefix(getReelSpaceName(prefix))).iterateAll().forEach(blob -> blob.delete());
+
+        return true;
+    }
+
+    private String getFileName(String spaceName, String id){
+        return String.format("%s/%s", getReelSpaceName(spaceName), id);
     }
 
 
@@ -94,15 +97,12 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
 
     }
 
-    private Bucket getBucket(String spaceName) throws IOException{
-
-
-
-        return getStorage().get(getReelSpaceName(spaceName));
+    private Bucket getBucket() throws IOException{
+        return getStorage().get(googleConfigProperties.getBuckatName());
     }
 
     private String getReelSpaceName(String spaceName){
-        String reelSpaceName = googleConfigProperties.getDefaultBuckateName();
+        String reelSpaceName = googleConfigProperties.getDefaultSpaceName();
 
         if (!StringUtils.isBlank(spaceName)){
             reelSpaceName = String.format("%s%s", googleConfigProperties.getPrefixSpaceName(), spaceName);

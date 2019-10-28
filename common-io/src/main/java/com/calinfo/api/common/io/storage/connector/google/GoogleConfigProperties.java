@@ -40,6 +40,8 @@ public class GoogleConfigProperties {
 
     private String credentials;
 
+    private String buckatName;
+
     /**
      * Préfixe des noms d'espace dans google
      */
@@ -48,5 +50,5 @@ public class GoogleConfigProperties {
     /**
      * Nom du buckate utilisé lorsque qu'il n'est pas précisé dans le connecteur
      */
-    private String defaultBuckateName = "public";
+    private String defaultSpaceName = "public";
 }
