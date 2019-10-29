@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -49,9 +50,8 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
     @Getter
     private List<ItemSpace> dataSapce = new ArrayList<>();
 
-
     @Override
-    public OutputStream getOutputStream(String spaceName, String id) throws IOException {
+    public void upload(String spaceName, String id, InputStream in) throws IOException {
 
         ItemFile one = selectOne(spaceName, id);
 
@@ -63,7 +63,7 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
         }
         ItemFile finalOne = one;
 
-        PipedInputStream pipedIn = new PipedInputStream();
+        try(PipedInputStream pipedIn = new PipedInputStream();
         PipedOutputStream pipedOut = new PipedOutputStream(){
             @Override
             public void close() throws IOException {
@@ -71,23 +71,25 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
 
                 finalOne.setBinData(pipedIn.readAllBytes());
             }
-        };
-        pipedIn.connect(pipedOut);
+        }) {
+            pipedIn.connect(pipedOut);
 
-        return pipedOut;
+            IOUtils.copy(in, pipedOut);
+        }
     }
 
     @Override
-    public InputStream getInputStream(String spaceName, String id) throws IOException {
-
+    public void download(String spaceName, String id, OutputStream out) throws IOException {
 
         ItemFile one = selectOne(spaceName, id);
 
         if (one == null){
-            return null;
+            return;
         }
 
-        return new ByteArrayInputStream(one.getBinData());
+        try(InputStream in = new ByteArrayInputStream(one.getBinData())){
+            IOUtils.copy(in, out);
+        }
     }
 
     @Override

@@ -36,19 +36,19 @@ public interface BinaryDataConnector {
      *
      * @param spaceName Domain (ou multi tenant). Peut être à null
      * @param id Identifiant du fichier
-     * @return Un handle dans lequel écrire le fichier
+     * @param in Contenue du fichier à downloader
      * @throws IOException
      */
-    OutputStream getOutputStream(String spaceName, String id) throws IOException;
+    void upload(String spaceName, String id, InputStream in) throws IOException;
 
     /**
      *
      * @param spaceName Domain (ou multi tenant). Peut être à null
      * @param id Identifiant du fichier
-     * @return Un handle permettant de lire le contenue du fichier
+     * @param out Déversseur du fichier uploader
      * @throws IOException
      */
-    InputStream getInputStream(String spaceName, String id) throws IOException;
+    void download(String spaceName, String id, OutputStream out) throws IOException;
 
     /**
      * Permet de supprimer un fichier

@@ -24,7 +24,6 @@ package com.calinfo.api.common.io.storage.service;
 
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import com.calinfo.api.common.tenant.DomainContext;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 @Service
@@ -60,10 +58,9 @@ public class BinaryDataSchedulerService {
     @Async("binaryDataASyncTransfert")
     public void transfert(String binaryDataId){
 
-        try(InputStream in = binaryDataService.startTransfert(binaryDataId);
-            OutputStream out = binaryDataConnector.getOutputStream(DomainContext.getDomain(), binaryDataId)){
+        try(InputStream in = binaryDataService.startTransfert(binaryDataId)){
 
-            IOUtils.copy(in, out);
+            binaryDataConnector.upload(DomainContext.getDomain(), binaryDataId, in);
 
             closeTransfert(binaryDataId, true);
         } catch (IOException e) {

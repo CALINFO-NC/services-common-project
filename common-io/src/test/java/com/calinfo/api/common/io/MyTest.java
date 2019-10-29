@@ -1,7 +1,6 @@
 package com.calinfo.api.common.io;
 
 import com.calinfo.api.common.io.storage.connector.google.GoogleBinaryDataConnector;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -10,7 +9,10 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -85,28 +87,26 @@ public class MyTest extends AbstractTestNGSpringContextTests {
 
     private void upload(String spaceName, String id, String data) throws IOException {
 
-        try (OutputStream out = googleBinaryDataConnector.getOutputStream(spaceName, id);
-             InputStream in = new ByteArrayInputStream(data.getBytes())) {
-
-            IOUtils.copy(in, out);
+        try(InputStream in = new ByteArrayInputStream(data.getBytes())){
+            googleBinaryDataConnector.upload(spaceName, id, in);
         }
     }
 
-    private void print(String spaceName, String id) throws IOException{
+    private void print(String spaceName, String id){
 
-        try (InputStream in = googleBinaryDataConnector.getInputStream(spaceName, id);
-             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+        String val;
 
-            String val = null;
-            if (in != null){
-                IOUtils.copy(in, out);
+        try(ByteArrayOutputStream out = new ByteArrayOutputStream()){
 
-                val = new String(out.toByteArray());
-            }
-
-            System.out.println("-----------------------------");
-            System.out.println(val);
-            System.out.println("-----------------------------");
+            googleBinaryDataConnector.download(spaceName, id, out);
+            val = new String(out.toByteArray());
         }
+        catch (IOException e){
+            val = null;
+        }
+
+        System.out.println("-----------------------------");
+        System.out.println(val);
+        System.out.println("-----------------------------");
     }
 }

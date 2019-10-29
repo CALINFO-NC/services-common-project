@@ -30,6 +30,7 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -49,7 +50,7 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
     private GoogleConfigProperties googleConfigProperties;
 
     @Override
-    public OutputStream getOutputStream(String spaceName, String id) throws IOException {
+    public void upload(String spaceName, String id, InputStream in) throws IOException {
 
         Bucket bucket = getBucket(getStorage());
         Blob blob = bucket.get(getFileName(spaceName, id));
@@ -61,21 +62,25 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
         }
 
         WriteChannel writer = blob.writer();
-        return Channels.newOutputStream(writer);
+        try (OutputStream out = Channels.newOutputStream(writer)){
+            IOUtils.copy(in, out);
+        }
     }
 
     @Override
-    public InputStream getInputStream(String spaceName, String id) throws IOException {
+    public void download(String spaceName, String id, OutputStream out) throws IOException {
 
         Bucket bucket = getBucket(getStorage());
         Blob blob = bucket.get(getFileName(spaceName, id));
 
         if (blob == null){
-            return null;
+            throw new IOException(String.format("file with space name '%s' and id '%s' not exist", spaceName, id));
         }
 
         ReadChannel reader = blob.reader();
-        return Channels.newInputStream(reader);
+        try(InputStream in = Channels.newInputStream(reader)){
+            IOUtils.copy(in, out);
+        }
     }
 
     @Override
