@@ -68,11 +68,26 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
         <!-- Dépendence sur l'API common -->
         <dependency>
             <groupId>com.calinfo-nc.services</groupId>
             <artifactId>common</artifactId>
             <version>${version.service-common}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common-test</artifactId>
+            <version>${version.service-common}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Scheduler -->
@@ -95,6 +110,8 @@
             <artifactId>google-cloud-storage</artifactId>
             <version>${version.google-cloud-storage}</version>
         </dependency>
+
+
 
 
     </dependencies>
