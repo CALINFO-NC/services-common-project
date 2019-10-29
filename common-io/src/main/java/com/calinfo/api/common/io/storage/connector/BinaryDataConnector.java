@@ -32,8 +32,22 @@ import java.io.OutputStream;
  */
 public interface BinaryDataConnector {
 
+    /**
+     *
+     * @param spaceName Domain (ou multi tenant). Peut être à null
+     * @param id Identifiant du fichier
+     * @return Un handle dans lequel écrire le fichier
+     * @throws IOException
+     */
     OutputStream getOutputStream(String spaceName, String id) throws IOException;
 
+    /**
+     *
+     * @param spaceName Domain (ou multi tenant). Peut être à null
+     * @param id Identifiant du fichier
+     * @return Un handle permettant de lire le contenue du fichier
+     * @throws IOException
+     */
     InputStream getInputStream(String spaceName, String id) throws IOException;
 
     /**

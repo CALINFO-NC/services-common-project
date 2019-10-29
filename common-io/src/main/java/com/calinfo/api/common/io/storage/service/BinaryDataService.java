@@ -27,9 +27,23 @@ import java.util.List;
 
 public interface BinaryDataService {
 
+    /**
+     * @return Liste des identifiants des fichier à traiter. DomainCotext a été initialisé avant l'appel de cette méthode.
+     */
     List<String> listId();
 
+    /**
+     *
+     * @param id Identifiant obtenue grâce à la méthode {@link #listId()}
+     * @return Un handle sur le fichier à transférer
+     */
     InputStream startTransfert(String id);
 
+    /**
+     * Cette méthode est appelée à la fin du transfert du fichier
+     *
+     * @param id Identifiant obtenue grâce à la méthode {@link #listId()}
+     * @param success true si le transfert s'est correctement terminé. false sinon
+     */
     void finalizeTransfert(String id, boolean success);
 }
