@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.calinfo-nc.services</groupId>
+        <artifactId>common-libs</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../common-libs</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>common-io</artifactId>
+
+    <properties>
+        <version.shedlock-core>2.5.0</version.shedlock-core>
+        <version.service-common>${project.version}</version.service-common>
+        <version.commons-io>2.5</version.commons-io>
+        <version.google-cloud-storage>1.35.0</version.google-cloud-storage>
+
+        <!-- Valeur à blanc -->
+        <maven.site.path></maven.site.path>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Passage du common en licence GNU GPL -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <licenseName>${license.gpl3.licenseName}</licenseName>
+                            <organizationName>${license.gpl3.organisationName}</organizationName>
+                            <inceptionYear>${license.gpl3.inceptionYear}</inceptionYear>
+                            <canUpdateCopyright>true</canUpdateCopyright>
+                            <roots>
+                                <root>src/main/java</root>
+                            </roots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- Dépendence sur l'API common -->
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common</artifactId>
+            <version>${version.service-common}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common-test</artifactId>
+            <version>${version.service-common}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Scheduler -->
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-core</artifactId>
+            <version>${version.shedlock-core}</version>
+        </dependency>
+
+        <!-- Fonction utilitaire de apache common -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${version.commons-io}</version>
+        </dependency>
+
+        <!-- Connecteur google -->
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-storage</artifactId>
+            <version>${version.google-cloud-storage}</version>
+        </dependency>
+
+
+
+
+    </dependencies>
+
+</project>

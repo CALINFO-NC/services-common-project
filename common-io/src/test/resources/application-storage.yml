@@ -1,0 +1,5 @@
+common-io:
+  storage:
+    scheduler:
+      enabled: true
+      delay: 6000000000 # Temps très long pour effectuer le test TransfertStorageSchedulerTest
