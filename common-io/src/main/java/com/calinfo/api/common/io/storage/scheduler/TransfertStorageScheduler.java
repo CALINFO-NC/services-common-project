@@ -71,7 +71,7 @@ public class TransfertStorageScheduler {
 
 
         if (binaryDataDomainService != null){
-            binaryDataDomainService.list().stream().forEach(domain -> runTransfertBinaryDataWithDomainParameter(domain));
+            binaryDataDomainService.list().stream().forEach(this::runTransfertBinaryDataWithDomainParameter);
         }
 
         runTransfertBinaryDataWithDomainParameter(null);

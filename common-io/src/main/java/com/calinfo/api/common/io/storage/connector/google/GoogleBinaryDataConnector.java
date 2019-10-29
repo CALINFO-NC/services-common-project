@@ -118,7 +118,7 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
 
     }
 
-    private Bucket getBucket(Storage storage) throws IOException{
+    private Bucket getBucket(Storage storage){
         return storage.get(googleConfigProperties.getBuckatName());
     }
 
