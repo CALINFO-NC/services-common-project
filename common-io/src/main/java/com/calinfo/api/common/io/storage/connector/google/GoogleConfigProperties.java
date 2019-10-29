@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "common-io.connector.configuration")
+@ConfigurationProperties(prefix = "common-io.storage.connector.configuration")
 @Component
 @ConditionalOnProperty(prefix = "common-io.storage.connector", name = "provider", havingValue = "google")
 // Ici on utilise pas @Configuration (voir https://stackoverflow.com/questions/53484529/inspection-info-verifies-configurationproperties-setup-new-in-2018-3-intellij)

@@ -26,7 +26,10 @@ import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.WriteChannel;
-import com.google.cloud.storage.*;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -47,32 +50,50 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
 
     @Override
     public OutputStream getOutputStream(String spaceName, String id) throws IOException {
-        WriteChannel writer = getBucket().get(getFileName(spaceName, id)).writer();
+
+        Bucket bucket = getBucket(getStorage());
+        Blob blob = bucket.get(getFileName(spaceName, id));
+
+        // Création d'un blob vide s'il n'existe pas
+        if (blob == null){
+            Bucket.BlobTargetOption[] opt = new Bucket.BlobTargetOption [0];
+            blob = bucket.create(getFileName(spaceName, id), new byte[0], opt);
+        }
+
+        WriteChannel writer = blob.writer();
         return Channels.newOutputStream(writer);
     }
 
     @Override
     public InputStream getInputStream(String spaceName, String id) throws IOException {
-        ReadChannel reader = getBucket().get(getFileName(spaceName, id)).reader();
+
+        Bucket bucket = getBucket(getStorage());
+        Blob blob = bucket.get(getFileName(spaceName, id));
+
+        if (blob == null){
+            return null;
+        }
+
+        ReadChannel reader = blob.reader();
         return Channels.newInputStream(reader);
     }
 
     @Override
     public boolean delete(String spaceName, String id) throws IOException {
-        return getBucket().get(getFileName(spaceName, id)).delete();
+        return getBucket(getStorage()).get(getFileName(spaceName, id)).delete();
     }
 
     @Override
     public boolean createSpace(String spaceName) throws IOException{
         // Ici ilm n'y a rien à faire
-        return true;
+        return getStorage() != null;
     }
 
     @Override
     public boolean deleteSpace(String spaceName) throws IOException {
 
         String prefix = String.format("%s/", getReelSpaceName(spaceName));
-        getBucket().list(Storage.BlobListOption.prefix(getReelSpaceName(prefix))).iterateAll().forEach(blob -> blob.delete());
+        getBucket(getStorage()).list(Storage.BlobListOption.prefix(prefix)).iterateAll().forEach(Blob::delete);
 
         return true;
     }
@@ -97,8 +118,8 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
 
     }
 
-    private Bucket getBucket() throws IOException{
-        return getStorage().get(googleConfigProperties.getBuckatName());
+    private Bucket getBucket(Storage storage) throws IOException{
+        return storage.get(googleConfigProperties.getBuckatName());
     }
 
     private String getReelSpaceName(String spaceName){

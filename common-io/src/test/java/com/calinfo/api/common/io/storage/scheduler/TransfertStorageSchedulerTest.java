@@ -6,6 +6,7 @@ import com.calinfo.api.common.io.storage.mock.MockBinaryDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ActiveProfiles("storage")
 public class TransfertStorageSchedulerTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
