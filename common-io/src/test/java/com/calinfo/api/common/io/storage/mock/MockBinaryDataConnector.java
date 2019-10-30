@@ -103,7 +103,7 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
     }
 
     @Override
-    public boolean createSpace(String spaceName) throws IOException {
+    public Future<Boolean> createSpace(String spaceName) throws IOException {
 
         List<ItemSpace> one = dataSapce.stream().filter(i -> i.getSpaceName().equals(spaceName)).collect(Collectors.toList());
 
@@ -111,11 +111,11 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
             throw new IOException();
         }
 
-        return one.get(0).isCreateReturnValue();
+        return new AsyncResult<>(one.get(0).isCreateReturnValue());
     }
 
     @Override
-    public boolean deleteSpace(String spaceName) throws IOException {
+    public Future<Boolean> deleteSpace(String spaceName) throws IOException {
 
         List<ItemFile> lstOne = dataFile.stream().filter(i -> ((spaceName == null && i.getSpaceName() == null) || i.getSpaceName().equals(spaceName))).collect(Collectors.toList());
         dataFile.removeAll(lstOne);
@@ -126,7 +126,7 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
             throw new IOException();
         }
 
-        return one.get(0).isDeleteReturnValue();
+        return new AsyncResult<>(one.get(0).isDeleteReturnValue());
     }
 
     private ItemFile selectOne(String spaceName, String id){

@@ -93,18 +93,20 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
     }
 
     @Override
-    public boolean createSpace(String spaceName) throws IOException{
+    @Async("binaryDataASyncOperation")
+    public Future<Boolean> createSpace(String spaceName) throws IOException{
         // Ici ilm n'y a rien à faire
-        return getStorage() != null;
+        return new AsyncResult<>(getStorage() != null);
     }
 
     @Override
-    public boolean deleteSpace(String spaceName) throws IOException {
+    @Async("binaryDataASyncOperation")
+    public Future<Boolean> deleteSpace(String spaceName) throws IOException {
 
         String prefix = String.format("%s/", getReelSpaceName(spaceName));
         getBucket(getStorage()).list(Storage.BlobListOption.prefix(prefix)).iterateAll().forEach(Blob::delete);
 
-        return true;
+        return new AsyncResult<>(true);
     }
 
     private String getFileName(String spaceName, String id){

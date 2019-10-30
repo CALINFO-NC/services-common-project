@@ -106,6 +106,19 @@ common-io:
 
 +------------------------------------------+
 
+ Il existe aussi un connecteur déjà implémenté pour transférer les fichiers en mémoire cache de java, et ce jusqu'a ce que l'application soit éteinte.
+ Ce connecteur peut servir principalement pour lancer tests unitaires. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
+ de configuration (ex : application.yml) les éléments suivants :
+
++------------------------------------------+
+
+common-io:
+  storage:
+    connector:
+      provider: mem
+
++------------------------------------------+
+
  * Enfin la configuration nécessaire pour mettre en oeuvre de méchanisme du sous package <storage> de <common-io>
 
  Ajouter les lignes ci-dessous dans le fichier de propriété (ex : application.yml)

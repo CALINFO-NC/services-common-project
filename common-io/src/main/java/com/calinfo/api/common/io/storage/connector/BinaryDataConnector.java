@@ -63,19 +63,20 @@ public interface BinaryDataConnector {
 
     /**
      *
-     * Créé un espace de stockage.
+     * Créé un espace de stockage. Ce service doit être asynchrone
+     *
      * @param spaceName Nom de l'espace de stockage (peut être un domain)
      * @return true si l'espace à été créé
      * @throws IOException
      */
-    boolean createSpace(String spaceName) throws IOException;
+    Future<Boolean> createSpace(String spaceName) throws IOException;
 
     /**
-     * Supprime u nespace de stockage et tou son contenue
+     * Supprime u nespace de stockage et tou son contenue. Ce service doit être asynchrone
      *
      * @param spaceName Nom de l'espace de sotckage
      * @return true si supprimer false sinon
      * @throws IOException
      */
-    boolean deleteSpace(String spaceName) throws IOException;
+    Future<Boolean> deleteSpace(String spaceName) throws IOException;
 }

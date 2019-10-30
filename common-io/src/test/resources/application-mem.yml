@@ -1,0 +1,4 @@
+common-io:
+  storage:
+    connector:
+      provider: mem
