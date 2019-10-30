@@ -45,7 +45,7 @@ public class BinaryDataSchedulerService {
     private static final Logger log = LoggerFactory.getLogger(BinaryDataSchedulerService.class);
 
     @Autowired
-    private BinaryDataService binaryDataService;
+    private BinaryDataClientService binaryDataService;
 
     @Autowired
     private BinaryDataConnector binaryDataConnector;
@@ -55,7 +55,7 @@ public class BinaryDataSchedulerService {
     }
 
 
-    @Async("binaryDataASyncTransfert")
+    @Async("binaryDataASyncOperation")
     public void transfert(String binaryDataId){
 
         try(InputStream in = binaryDataService.startTransfert(binaryDataId)){

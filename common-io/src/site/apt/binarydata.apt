@@ -14,16 +14,16 @@ Cas d'utilisation
 
 Comment intégrer le méchanisme du sous package <storage> au sein de son application ?
 
- * Créer un service implémentant <BinaryDataService>
+ * Créer un service implémentant <BinaryDataClientService>
 
   Lors de l'appel de ce service, si vous souhaitez savoir dans quel domaine les méthodes de ce service sont invoquées, vous pouvez utiliser la classe <DomainContext>.
 
 +------------------------------------------+
-import com.calinfo.api.common.io.storage.service.BinaryDataService;
+import com.calinfo.api.common.io.storage.service.BinaryDataClientService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyBinaryDataService implements BinaryDataService {
+public class MyBinaryDataService implements BinaryDataClientService {
 
     ...
 }
@@ -106,6 +106,19 @@ common-io:
 
 +------------------------------------------+
 
+ Il existe aussi un connecteur déjà implémenté pour transférer les fichiers en mémoire cache de java, et ce jusqu'a ce que l'application soit éteinte.
+ Ce connecteur peut servir principalement pour lancer tests unitaires. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
+ de configuration (ex : application.yml) les éléments suivants :
+
++------------------------------------------+
+
+common-io:
+  storage:
+    connector:
+      provider: mem
+
++------------------------------------------+
+
  * Enfin la configuration nécessaire pour mettre en oeuvre de méchanisme du sous package <storage> de <common-io>
 
  Ajouter les lignes ci-dessous dans le fichier de propriété (ex : application.yml)
@@ -123,7 +136,7 @@ common-io:
  * Multi-threading
 
  ATTENTION : chaque transfert de fichier est lancé dans un thread à part. Il est fortement recommandé de maitriser le nombre de Thread
- lancé simultanément. pour cela vous devrez créer un bean nommé <"binaryDataASyncTransfert"> de type <org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor>
+ lancé simultanément. pour cela vous devrez créer un bean nommé <"binaryDataASyncOperation"> de type <org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor>
 
  Ci-dessous un exemple d'implémentation
 
@@ -141,9 +154,9 @@ public class ThreadConfig {
 
     private static final int HEURE = 60 * 60;
 
-    @Bean(name = "binaryDataASyncTransfert")
+    @Bean(name = "binaryDataASyncOperation")
     public TaskExecutor saveEsActionThreadPoolExecutor() {
-        return createExecutor(1, 12 * HEURE, "binaryDataASyncTransfert_");
+        return createExecutor(1, 12 * HEURE, "binaryDataASyncOperation_");
     }
 
     private TaskExecutor createExecutor(int corePoolSize, int keepAliveSeconds, String threadNamePrefix) {

@@ -25,6 +25,7 @@ package com.calinfo.api.common.io.storage.connector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.Future;
 
 /**
  * Cette interface doit pouvoir être injecté. Donc la classe implémentant cette interface
@@ -51,30 +52,31 @@ public interface BinaryDataConnector {
     void download(String spaceName, String id, OutputStream out) throws IOException;
 
     /**
-     * Permet de supprimer un fichier
+     * Permet de supprimer un fichier. Ce service doit être asynchrone
      *
      * @param spaceName Domain (ou multi tenant). Peut être à null
      * @param id Identifiant du fichier
      * @return true si le fichier à été supprimer, false sinon.
      * @throws IOException
      */
-    boolean delete(String spaceName, String id) throws IOException;
+    Future<Boolean> delete(String spaceName, String id) throws IOException;
 
     /**
      *
-     * Créé un espace de stockage.
+     * Créé un espace de stockage. Ce service doit être asynchrone
+     *
      * @param spaceName Nom de l'espace de stockage (peut être un domain)
      * @return true si l'espace à été créé
      * @throws IOException
      */
-    boolean createSpace(String spaceName) throws IOException;
+    Future<Boolean> createSpace(String spaceName) throws IOException;
 
     /**
-     * Supprime u nespace de stockage et tou son contenue
+     * Supprime u nespace de stockage et tou son contenue. Ce service doit être asynchrone
      *
      * @param spaceName Nom de l'espace de sotckage
      * @return true si supprimer false sinon
      * @throws IOException
      */
-    boolean deleteSpace(String spaceName) throws IOException;
+    Future<Boolean> deleteSpace(String spaceName) throws IOException;
 }
