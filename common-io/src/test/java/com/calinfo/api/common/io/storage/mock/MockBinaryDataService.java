@@ -1,6 +1,6 @@
 package com.calinfo.api.common.io.storage.mock;
 
-import com.calinfo.api.common.io.storage.service.BinaryDataService;
+import com.calinfo.api.common.io.storage.service.BinaryDataClientService;
 import com.calinfo.api.common.tenant.DomainContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class MockBinaryDataService implements BinaryDataService {
+public class MockBinaryDataService implements BinaryDataClientService {
 
     @AllArgsConstructor
     @NoArgsConstructor

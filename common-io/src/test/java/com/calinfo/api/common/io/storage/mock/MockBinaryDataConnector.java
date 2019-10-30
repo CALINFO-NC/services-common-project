@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Component
@@ -93,11 +95,11 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
     }
 
     @Override
-    public boolean delete(String spaceName, String id) throws IOException {
+    public Future<Boolean> delete(String spaceName, String id) {
 
         ItemFile one = selectOne(spaceName, id);
 
-        return one == null ? false : dataFile.remove(one);
+        return new AsyncResult<>(one == null ? false : dataFile.remove(one));
     }
 
     @Override

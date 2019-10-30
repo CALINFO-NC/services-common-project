@@ -25,7 +25,7 @@ package com.calinfo.api.common.io.storage.service;
 import java.io.InputStream;
 import java.util.List;
 
-public interface BinaryDataService {
+public interface BinaryDataClientService {
 
     /**
      * @return Liste des identifiants des fichier à traiter. DomainCotext a été initialisé avant l'appel de cette méthode.

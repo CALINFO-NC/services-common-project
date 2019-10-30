@@ -34,6 +34,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
@@ -41,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
+import java.util.concurrent.Future;
 
 @Component
 @ConditionalOnProperty(prefix = "common-io.storage.connector", name = "provider", havingValue = "google")
@@ -84,8 +87,9 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
     }
 
     @Override
-    public boolean delete(String spaceName, String id) throws IOException {
-        return getBucket(getStorage()).get(getFileName(spaceName, id)).delete();
+    @Async("binaryDataASyncOperation")
+    public Future<Boolean> delete(String spaceName, String id) throws IOException {
+        return new AsyncResult<>(getBucket(getStorage()).get(getFileName(spaceName, id)).delete());
     }
 
     @Override
