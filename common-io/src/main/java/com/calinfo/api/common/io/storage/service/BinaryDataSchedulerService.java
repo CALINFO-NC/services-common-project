@@ -56,26 +56,34 @@ public class BinaryDataSchedulerService {
 
 
     @Async("binaryDataASyncOperation")
-    public void transfert(String binaryDataId){
+    public void transfert(String domainName, String binaryDataId){
 
-        try(InputStream in = binaryDataService.startTransfert(binaryDataId)){
+        String oldDomain = DomainContext.getDomain(); // On est dans une méthode asynchrone, on a donc pas le domaine qui est ThreadSafe
+        DomainContext.setDomain(domainName);
+
+        try(TransfertData trData = binaryDataService.startTransfert(binaryDataId)){
+
+            InputStream in = trData.getInputStream();
 
             binaryDataConnector.upload(DomainContext.getDomain(), binaryDataId, in);
 
-            closeTransfert(binaryDataId, true);
+            closeTransfert(binaryDataId, trData.getVersion(), true);
         } catch (IOException e) {
 
-            closeTransfert(binaryDataId, false);
+            closeTransfert(binaryDataId, null, false);
 
             log.error(e.getMessage(), e);
         }
+        finally {
+            DomainContext.setDomain(oldDomain);
+        }
     }
 
-    private void closeTransfert(String binaryDataId, boolean success){
+    private void closeTransfert(String binaryDataId, Long version, boolean success){
 
         try{
 
-            binaryDataService.finalizeTransfert(binaryDataId, success);
+            binaryDataService.finalizeTransfert(binaryDataId, version, success);
 
         }catch (RuntimeException e){
             log.warn(e.getMessage(), e);
