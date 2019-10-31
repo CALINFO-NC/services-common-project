@@ -95,7 +95,7 @@ public class TransfertStorageScheduler {
                     }
 
                     // On effectue le transfert
-                    binaryDataSchedulerService.transfert(id);
+                    binaryDataSchedulerService.transfert(domain, id);
                 }
 
                 return Optional.empty();

@@ -56,7 +56,10 @@ public class BinaryDataSchedulerService {
 
 
     @Async("binaryDataASyncOperation")
-    public void transfert(String binaryDataId){
+    public void transfert(String domainName, String binaryDataId){
+
+        String oldDomain = DomainContext.getDomain(); // On est dans une méthode asynchrone, on a donc pas le domaine qui est ThreadSafe
+        DomainContext.setDomain(domainName);
 
         try(TransfertData trData = binaryDataService.startTransfert(binaryDataId)){
 
@@ -70,6 +73,9 @@ public class BinaryDataSchedulerService {
             closeTransfert(binaryDataId, null, false);
 
             log.error(e.getMessage(), e);
+        }
+        finally {
+            DomainContext.setDomain(oldDomain);
         }
     }
 
