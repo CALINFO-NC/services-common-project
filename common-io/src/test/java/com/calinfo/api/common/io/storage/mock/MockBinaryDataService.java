@@ -1,6 +1,7 @@
 package com.calinfo.api.common.io.storage.mock;
 
 import com.calinfo.api.common.io.storage.service.BinaryDataClientService;
+import com.calinfo.api.common.io.storage.service.TransfertData;
 import com.calinfo.api.common.tenant.DomainContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,13 +41,13 @@ public class MockBinaryDataService implements BinaryDataClientService {
     }
 
     @Override
-    public InputStream startTransfert(String id) {
+    public TransfertData startTransfert(String id) {
         List<Item> one = data.stream().filter(i -> i.getId().equals(id) && ((i.getDomain() == null && DomainContext.getDomain() == null) || (i.getDomain() != null && i.getDomain().equals(DomainContext.getDomain())))).collect(Collectors.toList());
-        return one.isEmpty() ? null : one.get(0).getStartInputStream();
+        return one.isEmpty() ? null : new TransfertData(one.get(0).getStartInputStream(), null);
     }
 
     @Override
-    public void finalizeTransfert(String id, boolean success) {
+    public void finalizeTransfert(String id, Long version, boolean success) {
         List<Item> one = data.stream().filter(i -> i.getId().equals(id) && ((i.getDomain() == null && DomainContext.getDomain() == null) || (i.getDomain() != null && i.getDomain().equals(DomainContext.getDomain())))).collect(Collectors.toList());
 
         if (!one.isEmpty()){

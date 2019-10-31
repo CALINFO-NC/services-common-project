@@ -22,7 +22,7 @@ package com.calinfo.api.common.io.storage.service;
  * #L%
  */
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.List;
 
 public interface BinaryDataClientService {
@@ -35,15 +35,17 @@ public interface BinaryDataClientService {
     /**
      *
      * @param id Identifiant obtenue grâce à la méthode {@link #listId()}
-     * @return Un handle sur le fichier à transférer
+     * @return Un handle sur le fichier à transférer avec la version transférée
+     * @throws java.io.IOException
      */
-    InputStream startTransfert(String id);
+    TransfertData startTransfert(String id) throws IOException;
 
     /**
      * Cette méthode est appelée à la fin du transfert du fichier
      *
      * @param id Identifiant obtenue grâce à la méthode {@link #listId()}
+     * @param version Version du fichier tranférer (ou null si success = false)
      * @param success true si le transfert s'est correctement terminé. false sinon
      */
-    void finalizeTransfert(String id, boolean success);
+    void finalizeTransfert(String id, Long version, boolean success);
 }
