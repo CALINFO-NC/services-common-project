@@ -12,6 +12,9 @@ public class AbstractBinaryDataConnector extends AbstractTestNGSpringContextTest
 
     public void call(BinaryDataConnector binaryDataConnector) throws Exception{
 
+        binaryDataConnector.createSpace("toto");
+        binaryDataConnector.createSpace(null);
+
         upload(binaryDataConnector, "toto", "id1", "AZERT");
         upload(binaryDataConnector, "toto", "id2", "1234");
         upload(binaryDataConnector, "toto", "id3", "1234AZERT");
@@ -45,11 +48,6 @@ public class AbstractBinaryDataConnector extends AbstractTestNGSpringContextTest
         assertValue(binaryDataConnector, null, "id1", null);
         assertValue(binaryDataConnector, null, "id2", null);
         assertValue(binaryDataConnector, null, "id3", null);
-
-
-        binaryDataConnector.createSpace("toto");
-        binaryDataConnector.createSpace(null);
-
     }
 
     private void upload(BinaryDataConnector binaryDataConnector, String spaceName, String id, String data) throws IOException {

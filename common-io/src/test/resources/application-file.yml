@@ -1,0 +1,6 @@
+common-io:
+  storage:
+    connector:
+      provider: file
+      configuration:
+        path: "/Users/dalexis/Downloads/testconnecteur"

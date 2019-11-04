@@ -1,8 +1,8 @@
 common-io:
   storage:
     connector:
-      provider: # ce package propose uniquement le connecteur google. Si vous souhaitez l'utiliser, mettre comme valeur "google"
-      configuration: # dépend du provider. pour le provider google, voir la classe GoogleConfigProperties
+      provider: # ce package propose plusieurs provider (google, mem, file)
+      configuration: # dépend du provider. pour le provider google, voir la classe GoogleConfigProperties. Pour le provider file voir la classe FileConfigProperties. mem voir MemConfigProperties. etc...
 
     scheduler:
       enabled: # true pour activer le transfert de donnée binaire
