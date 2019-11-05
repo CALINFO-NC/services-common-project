@@ -55,7 +55,8 @@ public class FileBinaryDataConnector implements BinaryDataConnector {
     public Future<Boolean> delete(String spaceName, String id) throws IOException {
 
         File file = getFile(spaceName, id);
-        return new AsyncResult<>(file.delete());
+        FileUtils.forceDelete(file);
+        return new AsyncResult<>(true);
     }
 
     @Override
