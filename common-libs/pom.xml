@@ -57,7 +57,7 @@
         <license.gpl3.inceptionYear>2019</license.gpl3.inceptionYear>
     </properties>
 
-    <url>https://calinfo-nc.github.io/${github.project.name}/${project.version}${maven.site.path}</url>
+    <url>https://calinfo-nc.github.io/${github.project.name}/${project.version}</url>
 
     <licenses>
         <license>

@@ -18,9 +18,6 @@
         <version.service-common>${project.version}</version.service-common>
         <version.commons-io>2.5</version.commons-io>
         <version.google-cloud-storage>1.35.0</version.google-cloud-storage>
-
-        <!-- Valeur à blanc -->
-        <maven.site.path></maven.site.path>
     </properties>
 
     <build>

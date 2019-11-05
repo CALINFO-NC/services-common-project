@@ -32,9 +32,6 @@
         <version.auto-service>1.0-rc2</version.auto-service>
         <version.compile-testing>0.13</version.compile-testing>
         <version.truth>0.40</version.truth>
-
-        <!-- Valeur à blanc -->
-        <maven.site.path></maven.site.path>
     </properties>
 
     <build>
