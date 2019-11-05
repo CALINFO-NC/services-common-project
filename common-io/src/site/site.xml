@@ -20,6 +20,7 @@
 
         <menu name="Usage">
             <item name="Binary data" href="binarydata.html"/>
+            <item name="Connecteur" href="connector.html"/>
         </menu>
 
         <menu ref="reports"/>
