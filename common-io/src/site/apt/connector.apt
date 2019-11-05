@@ -3,17 +3,17 @@ Description
  Les connecteurs sont des classe permettant de faire des opération (comme downloader ou uplooader) sur des support externe.
  Pour que le sous package <storage> du <common-io> sache écrire sur un support externe, il vous faudra implémenter le composant <BinaryDataConnector>.
 
- +------------------------------------------+
- import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
- import org.springframework.stereotype.Component;
++------------------------------------------+
+import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
+import org.springframework.stereotype.Component;
 
- @Component
- public class MyBinaryDataConnector implements BinaryDataConnector {
+@Component
+public class MyBinaryDataConnector implements BinaryDataConnector {
 
-     ...
- }
+ ...
+}
 
- +------------------------------------------+
++------------------------------------------+
 
  NB : La classe <BinaryDataConnector> possède deux autres méthodes <createSpace> et <deleteSpace> permettant de crééer ou de supprimer un espace de stockage.
  On peu voir un espace de stockage un peu comme un schéma de base de données.
