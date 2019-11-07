@@ -189,4 +189,8 @@ public class MiscUtils {
 
         return nickname;
     }
+
+    public static String getActualMethodName(){
+        return new Throwable().getStackTrace()[1].getMethodName();
+    }
 }
