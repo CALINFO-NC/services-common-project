@@ -1,10 +1,14 @@
 package com.calinfo.api.common.security;
 
+import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.manager.ApiKeyManager;
 import com.calinfo.api.common.mocks.JsonizablePrincipal;
 import com.calinfo.api.common.mocks.MockApiKeyManager;
+import com.calinfo.api.common.swagger.mock.SwaggerConfig;
+import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
+import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import com.calinfo.api.common.utils.DateUtils;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.utils.SecurityUtils;
@@ -26,7 +30,7 @@ import java.util.List;
 /**
  * Created by dalexis on 06/01/2018.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"enableSecurity", "apiKeyManager"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CommonSecurityUrlFilterEnableTest extends AbstractTestNGSpringContextTests {

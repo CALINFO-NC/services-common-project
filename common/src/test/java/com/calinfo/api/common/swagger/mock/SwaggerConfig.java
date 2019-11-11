@@ -1,8 +1,8 @@
 package com.calinfo.api.common.swagger.mock;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -12,10 +12,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
-@Component
+@TestConfiguration
 @ConditionalOnClass({ApiInfo.class})
 @EnableSwagger2
-public class Config {
+public class SwaggerConfig {
 
     @Bean
     public Docket swaggerDocket() {

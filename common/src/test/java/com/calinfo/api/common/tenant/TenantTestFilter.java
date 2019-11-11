@@ -2,8 +2,6 @@ package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.security.PrincipalManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -15,8 +13,6 @@ import java.io.IOException;
 /**
  * Created by dalexis on 29/05/2018.
  */
-@Component
-@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 public class TenantTestFilter extends OncePerRequestFilter {
 
     @Autowired

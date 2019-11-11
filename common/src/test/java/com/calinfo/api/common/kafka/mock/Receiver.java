@@ -2,15 +2,11 @@ package com.calinfo.api.common.kafka.mock;
 
 import com.calinfo.api.common.kafka.KafkaEvent;
 import lombok.Getter;
-import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@Profile("kafka")
 public class Receiver {
 
     @Getter
