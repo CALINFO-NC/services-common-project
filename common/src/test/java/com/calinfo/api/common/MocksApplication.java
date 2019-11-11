@@ -7,6 +7,7 @@ import org.springframework.context.annotation.AdviceMode;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
+
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @EnableAsync(mode = AdviceMode.ASPECTJ)
 @EnableGlobalMethodSecurity(prePostEnabled = true)

@@ -1,6 +1,8 @@
 package com.calinfo.api.common.tenant;
 
+import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.manager.RestTemplateManager;
+import com.calinfo.api.common.swagger.mock.SwaggerConfig;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
 import com.calinfo.api.common.utils.MiscUtils;
@@ -36,7 +38,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 /**
  * Created by dalexis on 10/05/2018.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("tenant")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {

@@ -3,7 +3,6 @@ package com.calinfo.api.common.tenant.service;
 import com.calinfo.api.common.tenant.entity.domain.TableDomainEntity;
 import com.calinfo.api.common.tenant.repository.domain.TableDomainRepositoryDomain;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.List;
 /**
  * Created by dalexis on 11/05/2018.
  */
-@Service
 @Transactional
 public class TableDomainServiceImpl implements TableDomainService{
 

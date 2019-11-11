@@ -1,5 +1,6 @@
 package com.calinfo.api.common.ex.handler;
 
+import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.dto.AttributDto;
 import com.calinfo.api.common.dto.BadRequestParameterDto;
 import com.calinfo.api.common.dto.BadResponseDto;
@@ -9,6 +10,9 @@ import com.calinfo.api.common.mocks.MockMessageCode;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.service.MessageService;
+import com.calinfo.api.common.swagger.mock.SwaggerConfig;
+import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
+import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import com.calinfo.api.common.type.TypeAttribut;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@SpringBootTest
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExceptionTest extends AbstractTestNGSpringContextTests {
 

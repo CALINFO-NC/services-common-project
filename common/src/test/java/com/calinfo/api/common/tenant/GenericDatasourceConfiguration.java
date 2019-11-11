@@ -1,12 +1,12 @@
 package com.calinfo.api.common.tenant;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
-@Configuration
+@TestConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = DefaultDatasourceConfiguration.ENTITY_MANAGER_FACTORY_REF,
