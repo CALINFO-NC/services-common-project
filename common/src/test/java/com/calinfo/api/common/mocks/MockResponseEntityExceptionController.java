@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -111,8 +111,10 @@ public class MockResponseEntityExceptionController {
         throw new AccessDeniedException("Message");
     }
 
-    @PreAuthorize("hasRole('ROLE_ARBITRAIRE')")
     @GetMapping(value = "/launchAccessDeniedExceptionWithAnnotation", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void launchAccessDeniedExceptionWithAnnotation() throws Throwable {
+    public void launchAccessDeniedExceptionWithAnnotation(HttpServletRequest request) throws Throwable {
+        if (!request.isUserInRole("ROLE_ARBITRAIRE")) {
+            throw new AccessDeniedException("");
+        }
     }
 }

@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
-import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,8 +14,6 @@ import java.util.List;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-@Component
-@Profile("storage")
 public class MockBinaryDataConnector implements BinaryDataConnector {
 
     @NoArgsConstructor

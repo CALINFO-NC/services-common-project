@@ -1,5 +1,6 @@
 package com.calinfo.api.common.io.storage.scheduler;
 
+import com.calinfo.api.common.io.AutowiredConfig;
 import com.calinfo.api.common.io.storage.mock.MockBinaryDataConnector;
 import com.calinfo.api.common.io.storage.mock.MockBinaryDataDomainService;
 import com.calinfo.api.common.io.storage.mock.MockBinaryDataService;
@@ -15,7 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SpringBootTest
+@SpringBootTest(classes = {AutowiredConfig.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("storage")
 public class TransfertStorageSchedulerTest extends AbstractTestNGSpringContextTests {
