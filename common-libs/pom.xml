@@ -23,6 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <version.service-common>${project.version}</version.service-common>
         <version.lombok>1.18.8</version.lombok>
         <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
         <version.maven-javadoc-plugin>3.1.1</version.maven-javadoc-plugin>
