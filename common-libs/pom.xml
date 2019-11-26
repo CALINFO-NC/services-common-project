@@ -38,6 +38,7 @@
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.plantuml-maven-plugin>7954</version.plantuml-maven-plugin>
         <version.plantuml>8059</version.plantuml>
+        <version.common-net>3.6</version.common-net>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
