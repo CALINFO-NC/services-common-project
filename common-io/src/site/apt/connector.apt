@@ -91,3 +91,47 @@ common-io:
       configuration: # Voir les propriétés de la classe FileConfigProperties
 
 +------------------------------------------+
+
+ Voici un exemple de configuration
+
++------------------------------------------+
+
+common-io:
+  storage:
+    connector:
+      provider: file
+      configuration: "/foo/bar"
+
++------------------------------------------+
+
+Connecteur <Ftp>
+
+ Ce connecteur permet de stocker les données binaires sur un FTP (non sécurisé). Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
+ de configuration (ex : application.yml) les éléments suivants :
+
++------------------------------------------+
+
+common-io:
+  storage:
+    connector:
+      provider: ftp
+      configuration: # Voir les propriétés de la classe FtpConfigProperties
+
++------------------------------------------+
+
+ Voici un exemple de configuration
+
++------------------------------------------+
+
+common-io:
+  storage:
+    connector:
+      provider: ftp
+      configuration:
+        host: "localhost"
+        port: 21
+        username: "admin"
+        password: "password"
+        path: "/test"
+
++------------------------------------------+

@@ -1,0 +1,10 @@
+common-io:
+  storage:
+    connector:
+      provider: ftp
+      configuration:
+        host: "localhost"
+        port: 21
+        username: "admin"
+        password: "password"
+        path: "/test"
