@@ -91,3 +91,15 @@ common-io:
       configuration: # Voir les propriétés de la classe FileConfigProperties
 
 +------------------------------------------+
+
+ Voici un exemple de configuration
+
++------------------------------------------+
+
+common-io:
+  storage:
+    connector:
+      provider: file
+      configuration: "/foo/bar"
+
++------------------------------------------+
