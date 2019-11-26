@@ -49,9 +49,4 @@ public class FtpConfigProperties {
      */
     private String defaultSpaceName = "public";
 
-    /**
-     * Activer ou non le mode passif
-     */
-    private boolean passivMode = true;
-
 }

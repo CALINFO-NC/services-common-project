@@ -166,13 +166,7 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
 
         ftp.login(ftpConfigProperties.getUsername(), ftpConfigProperties.getPassword());
         ftp.setFileType(FTP.BINARY_FILE_TYPE);
-
-        if (ftpConfigProperties.isPassivMode()) {
-            ftp.enterLocalPassiveMode();
-        }
-        else{
-            ftp.enterLocalActiveMode();
-        }
+        ftp.enterLocalPassiveMode();
 
         return ftp;
 
