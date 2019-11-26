@@ -31,34 +31,33 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
     @Override
     public void upload(String spaceName, String id, InputStream in) throws IOException {
 
-
+        FTPClient ftpClient = new FTPClient();
         try(ByteArrayOutputStream outLog = new ByteArrayOutputStream()){
 
             try {
-                FTPClient ftpClient = connectFtp(outLog);
+                connectFtp(ftpClient, outLog);
                 ftpClient.changeWorkingDirectory(getPath(spaceName));
                 ftpClient.storeFile(id, in);
-
-                logoutFtp(ftpClient);
-                disconnectFtp(ftpClient);
             }
             catch (Exception e){
                 String ftpLog = new String(outLog.toByteArray());
                 throw new IOException(ftpLog, e);
             }
-
-            String ftpLog = new String(outLog.toByteArray());
-            log.error(ftpLog);
+            finally {
+                logoutFtp(ftpClient);
+                disconnectFtp(ftpClient);
+            }
         }
     }
 
     @Override
     public void download(String spaceName, String id, OutputStream out) throws IOException {
 
+        FTPClient ftpClient = new FTPClient();
         try(ByteArrayOutputStream outLog = new ByteArrayOutputStream()){
 
             try {
-                FTPClient ftpClient = connectFtp(outLog);
+                connectFtp(ftpClient, outLog);
                 ftpClient.changeWorkingDirectory(getPath(spaceName));
 
                 if (!ftpClient.retrieveFile(id, out)){
@@ -69,6 +68,10 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
                 String ftpLog = new String(outLog.toByteArray());
                 throw new IOException(ftpLog, e);
             }
+            finally {
+                logoutFtp(ftpClient);
+                disconnectFtp(ftpClient);
+            }
         }
     }
 
@@ -76,19 +79,22 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
     @Async("binaryDataASyncOperation")
     public Future<Boolean> delete(String spaceName, String id) throws IOException {
 
+        FTPClient ftpClient = new FTPClient();
         boolean result = false;
         try(ByteArrayOutputStream outLog = new ByteArrayOutputStream()){
 
             try {
-                FTPClient ftpClient = connectFtp(outLog);
+                connectFtp(ftpClient, outLog);
                 ftpClient.changeWorkingDirectory(getPath(spaceName));
                 result = ftpClient.deleteFile(id);
-                
-
             }
             catch (Exception e){
                 String ftpLog = new String(outLog.toByteArray());
                 throw new IOException(ftpLog, e);
+            }
+            finally {
+                logoutFtp(ftpClient);
+                disconnectFtp(ftpClient);
             }
         }
 
@@ -99,17 +105,22 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
     @Async("binaryDataASyncOperation")
     public Future<Boolean> createSpace(String spaceName) throws IOException{
 
+        FTPClient ftpClient = new FTPClient();
         boolean result = false;
         try(ByteArrayOutputStream outLog = new ByteArrayOutputStream()){
 
             try {
-                FTPClient ftpClient = connectFtp(outLog);
+                connectFtp(ftpClient, outLog);
                 result = ftpClient.makeDirectory(getPath(spaceName));
 
             }
             catch (Exception e){
                 String ftpLog = new String(outLog.toByteArray());
                 throw new IOException(ftpLog, e);
+            }
+            finally {
+                logoutFtp(ftpClient);
+                disconnectFtp(ftpClient);
             }
         }
 
@@ -120,11 +131,12 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
     @Async("binaryDataASyncOperation")
     public Future<Boolean> deleteSpace(String spaceName) throws IOException {
 
+        FTPClient ftpClient = new FTPClient();
         boolean result = false;
         try(ByteArrayOutputStream outLog = new ByteArrayOutputStream()){
 
             try {
-                FTPClient ftpClient = connectFtp(outLog);
+                connectFtp(ftpClient, outLog);
                 ftpClient.changeWorkingDirectory(getPath(spaceName));
 
                 FTPFile[] lstFile = ftpClient.listFiles();
@@ -137,6 +149,10 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
             catch (Exception e){
                 String ftpLog = new String(outLog.toByteArray());
                 throw new IOException(ftpLog, e);
+            }
+            finally {
+                logoutFtp(ftpClient);
+                disconnectFtp(ftpClient);
             }
         }
 
@@ -151,9 +167,8 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
     }
 
 
-    private FTPClient connectFtp (OutputStream outLog) throws IOException {
+    private void connectFtp (FTPClient ftp, OutputStream outLog) throws IOException {
 
-        FTPClient ftp = new FTPClient();
         ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(outLog)));
 
         ftp.connect(ftpConfigProperties.getHost(), ftpConfigProperties.getPort());
@@ -168,7 +183,6 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
         ftp.setFileType(FTP.BINARY_FILE_TYPE);
         ftp.enterLocalPassiveMode();
 
-        return ftp;
 
     }
 
