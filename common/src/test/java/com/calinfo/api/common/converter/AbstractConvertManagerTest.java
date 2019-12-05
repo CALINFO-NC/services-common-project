@@ -20,14 +20,17 @@ public class AbstractConvertManagerTest {
         cm.setInstanceConverter(new MockInstanceConverter());
         cm.postConstruct();
 
+        ContextConverter contextConverter = new ContextConverter() {};
         String src = "123";
         Integer dest = Integer.valueOf(123);
-        cm.convert(src, dest);
+        cm.convert(src, dest, contextConverter);
 
         Assert.assertEquals(src.getClass(), cm.getInstanceConverter().getSourceClass());
         Assert.assertEquals(dest.getClass(), cm.getInstanceConverter().getDestClass());
         Assert.assertEquals(src, cm.getInstanceConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getInstanceConverter().getDestConvert());
+        Assert.assertEquals(dest, cm.getInstanceConverter().getDestConvert());
+        Assert.assertEquals(contextConverter, cm.getInstanceConverter().getContextConverter());
     }
 
     @Test
@@ -37,6 +40,7 @@ public class AbstractConvertManagerTest {
         cm.setClassConverter(new MockClassConverter());
         cm.postConstruct();
 
+        ContextConverter contextConverter = new ContextConverter() {};
         String src = "123";
         Class<Integer> dest = Integer.class;
         cm.convert(src, dest);
@@ -45,6 +49,7 @@ public class AbstractConvertManagerTest {
         Assert.assertEquals(dest, cm.getClassConverter().getDestClass());
         Assert.assertEquals(src, cm.getClassConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getClassConverter().getDestConvert());
+        Assert.assertEquals(contextConverter, cm.getInstanceConverter().getContextConverter());
     }
 
     @Test
