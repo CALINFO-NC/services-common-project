@@ -23,10 +23,8 @@ package com.calinfo.api.common.converter;
  */
 
 /**
- * Created by dalexis on 19/05/2018.
+ * Marqueyur sémentique permettant d'indiquer qu'il s'agit d'un context de convertion
  */
-public interface Converter {
-
-    boolean accept(Class<?> source, Class<?> dest, ContextConverter contextConverter);
+public interface ContextConverter {
 
 }

@@ -57,11 +57,15 @@ public abstract class AbstractConvertManager {
     }
 
     public <T> T convert (@NotNull Object source, @NotNull T dest){
+        return convert(source, dest, null);
+    }
+
+    public <T> T convert (@NotNull Object source, @NotNull T dest, ContextConverter contextConverter){
 
         if (dest == source)
             return dest;
 
-        Converter converter = findConverter(source.getClass(), source.getClass(), dest.getClass());
+        Converter converter = findConverter(source.getClass(), source.getClass(), dest.getClass(), contextConverter);
 
         if (converter == null) {
             return dest;
@@ -71,12 +75,16 @@ public abstract class AbstractConvertManager {
             throw new ConverterNotFoundException(String.format("No instance converter to convert '%s' to '%s'", source.getClass().getName(), dest.getClass().getName()));
         }
 
-        return ((InstanceConverter)converter).convert(source, dest);
+        return ((InstanceConverter)converter).convert(source, dest, contextConverter);
     }
 
     public <T> T convert (@NotNull Object source, @NotNull Class<T> dest){
+        return convert(source, dest, null);
+    }
 
-        Converter converter = findConverter(source.getClass(), source.getClass(), dest);
+    public <T> T convert (@NotNull Object source, @NotNull Class<T> dest, ContextConverter contextConverter){
+
+        Converter converter = findConverter(source.getClass(), source.getClass(), dest, contextConverter);
 
         if (converter == null) {
             throw new ConverterNotFoundException(String.format("No converter to convert '%s' to '%s'", source.getClass().getName(), dest.getName()));
@@ -88,23 +96,23 @@ public abstract class AbstractConvertManager {
             try {
 
                 T t = dest.getDeclaredConstructor().newInstance();
-                return ((InstanceConverter)converter).convert(source, t);
+                return ((InstanceConverter)converter).convert(source, t, contextConverter);
 
             } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                 throw new ConverterNotFoundException(String.format("No class converter to convert '%s' to '%s'", source.getClass().getName(), dest.getClass().getName()));
             }
         }
 
-        return ((ClassConverter)converter).convert(source, dest);
+        return ((ClassConverter)converter).convert(source, dest, contextConverter);
     }
 
-    private Converter findConverter(Class<?> sourceRoot, Class<?> source, Class<?> dest){
+    private Converter findConverter(Class<?> sourceRoot, Class<?> source, Class<?> dest, ContextConverter contextConverter){
 
         if (source == null && dest == null)
             return null;
 
         if (source == null)
-            return findConverter(sourceRoot, sourceRoot, dest.getSuperclass());
+            return findConverter(sourceRoot, sourceRoot, dest.getSuperclass(), contextConverter);
 
         Map<Class<?>, Converter> map = cache.computeIfAbsent(source, k -> new HashMap<>());
         if (map.containsKey(dest))
@@ -112,13 +120,13 @@ public abstract class AbstractConvertManager {
 
         for (Converter item : converterStore){
 
-            if (item.accept(source, dest)) {
+            if (item.accept(source, dest, contextConverter)) {
                 map.put(dest, item);
                 return item;
             }
         }
 
-        return findConverter(sourceRoot, source.getSuperclass(), dest);
+        return findConverter(sourceRoot, source.getSuperclass(), dest, contextConverter);
     }
 
     public <A, B> Function<A, B> toFunction (@NotNull Class<B> classB){

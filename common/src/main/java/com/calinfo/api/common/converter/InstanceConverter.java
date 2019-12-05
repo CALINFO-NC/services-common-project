@@ -27,5 +27,13 @@ package com.calinfo.api.common.converter;
  */
 public interface InstanceConverter extends Converter {
 
-    <T> T convert(Object source, T dest);
+    /**
+     * @param source Source de donnée à convertir
+     * @param dest Instance de destinatation dans laquel faire la convertion
+     * @param contextConverter Context de convertion (peut être null). C'est le context passé à la méthode {@link com.calinfo.api.common.converter.AbstractConvertManager#convert(Object, Object, ContextConverter)} lors d'une convertion.
+     *                         Si vous appelez la méthode {@link com.calinfo.api.common.converter.AbstractConvertManager#convert(Object, Object)}, alors cette valeur sera à null
+     * @param <T> Type de la donnée de destionation à convertir
+     * @return Donnée convertie.
+     */
+    <T> T convert(Object source, T dest, ContextConverter contextConverter);
 }
