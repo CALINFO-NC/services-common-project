@@ -11,7 +11,7 @@ public class StringIntegerClassConverter implements ClassConverter {
 
 
     @Override
-    public boolean accept(Class<?> source, Class<?> dest) {
+    public boolean accept(Class<?> source, Class<?> dest, ContextConverter contextConverter) {
         return true;
     }
 

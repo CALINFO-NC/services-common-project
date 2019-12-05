@@ -30,7 +30,8 @@ public class AbstractConvertManagerTest {
         Assert.assertEquals(src, cm.getInstanceConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getInstanceConverter().getDestConvert());
         Assert.assertEquals(dest, cm.getInstanceConverter().getDestConvert());
-        Assert.assertEquals(contextConverter, cm.getInstanceConverter().getContextConverter());
+        Assert.assertEquals(contextConverter, cm.getInstanceConverter().getContextConverterConvert());
+        Assert.assertEquals(contextConverter, cm.getInstanceConverter().getContextConverterAccept());
     }
 
     @Test
@@ -49,7 +50,8 @@ public class AbstractConvertManagerTest {
         Assert.assertEquals(dest, cm.getClassConverter().getDestClass());
         Assert.assertEquals(src, cm.getClassConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getClassConverter().getDestConvert());
-        Assert.assertEquals(contextConverter, cm.getClassConverter().getContextConverter());
+        Assert.assertEquals(contextConverter, cm.getClassConverter().getContextConverterConvert());
+        Assert.assertEquals(contextConverter, cm.getClassConverter().getContextConverterAccept());
     }
 
     @Test

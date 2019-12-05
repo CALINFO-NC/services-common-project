@@ -27,6 +27,6 @@ package com.calinfo.api.common.converter;
  */
 public interface Converter {
 
-    boolean accept(Class<?> source, Class<?> dest);
+    boolean accept(Class<?> source, Class<?> dest, ContextConverter contextConverter);
 
 }

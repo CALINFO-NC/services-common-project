@@ -22,12 +22,16 @@ public class MockInstanceConverter implements InstanceConverter {
     private Object destConvert;
 
     @Getter
-    private ContextConverter contextConverter;
+    private ContextConverter contextConverterConvert;
+
+    @Getter
+    private ContextConverter contextConverterAccept;
 
     @Override
-    public boolean accept(Class<?> source, Class<?> dest) {
+    public boolean accept(Class<?> source, Class<?> dest, ContextConverter contextConverter) {
         this.sourceClass = source;
         this.destClass = dest;
+        this.contextConverterAccept = contextConverter;
         return true;
     }
 
@@ -35,7 +39,7 @@ public class MockInstanceConverter implements InstanceConverter {
     public <T> T convert(Object source, T dest, ContextConverter contextConverter) {
         this.sourceConvert = source;
         this.destConvert = dest;
-        this.contextConverter = contextConverter;
+        this.contextConverterConvert = contextConverter;
         return dest;
     }
 }
