@@ -35,6 +35,7 @@ public class MockInstanceConverter implements InstanceConverter {
     public <T> T convert(Object source, T dest, ContextConverter contextConverter) {
         this.sourceConvert = source;
         this.destConvert = dest;
+        this.contextConverter = contextConverter;
         return dest;
     }
 }

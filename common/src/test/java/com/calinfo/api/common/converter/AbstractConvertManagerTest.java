@@ -43,13 +43,13 @@ public class AbstractConvertManagerTest {
         ContextConverter contextConverter = new ContextConverter() {};
         String src = "123";
         Class<Integer> dest = Integer.class;
-        cm.convert(src, dest);
+        cm.convert(src, dest, contextConverter);
 
         Assert.assertEquals(src.getClass(), cm.getClassConverter().getSourceClass());
         Assert.assertEquals(dest, cm.getClassConverter().getDestClass());
         Assert.assertEquals(src, cm.getClassConverter().getSourceConvert());
         Assert.assertEquals(dest, cm.getClassConverter().getDestConvert());
-        Assert.assertEquals(contextConverter, cm.getInstanceConverter().getContextConverter());
+        Assert.assertEquals(contextConverter, cm.getClassConverter().getContextConverter());
     }
 
     @Test
