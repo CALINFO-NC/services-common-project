@@ -110,40 +110,40 @@ public class ConvertManager extends AbstractConvertManager {
 
  * Comment utiliser le <connverter>
 
-   +------------------------------------------+
-   import org.springframework.beans.factory.annotation.Autowired;
-   import org.springframework.stereotype.Component;
-   import com.calinfo.api.common.converter.ContextConverter;
++------------------------------------------+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.calinfo.api.common.converter.ContextConverter;
 
-   @Component
-   public class Example {
+@Component
+public class Example {
 
-       @Autowired
-       private ConvertManager cm;
+   @Autowired
+   private ConvertManager cm;
 
-       public void callWithoutContext() {
+   public void callWithoutContext() {
 
-           Long myLong = cm.convert(1, Long.class);
-           Integer myInteger = cm.convert(1l, Integer.class);
-           A myA1 = cm.convert(new B(), A.class);
-           A myA2 = cm.convert(new B(), new A());
-           B myB1 = cm.convert(new A(), B.class);
-           B myB2 = cm.convert(new A(), new B());
-       }
-
-       // Ou encore
-
-       public void callWithContext() {
-
-            ContextConverter context = ...
-
-           Long myLong = cm.convert(1, Long.class);
-           Integer myInteger = cm.convert(1l, Integer.class);
-           A myA1 = cm.convert(new B(), A.class, context);
-           A myA2 = cm.convert(new B(), new A(), context);
-           B myB1 = cm.convert(new A(), B.class, context);
-           B myB2 = cm.convert(new A(), new B(), context);
-
-       }
+       Long myLong = cm.convert(1, Long.class);
+       Integer myInteger = cm.convert(1l, Integer.class);
+       A myA1 = cm.convert(new B(), A.class);
+       A myA2 = cm.convert(new B(), new A());
+       B myB1 = cm.convert(new A(), B.class);
+       B myB2 = cm.convert(new A(), new B());
    }
-   +------------------------------------------+
+
+   // Ou encore
+
+   public void callWithContext() {
+
+        ContextConverter context = ...
+
+       Long myLong = cm.convert(1, Long.class);
+       Integer myInteger = cm.convert(1l, Integer.class);
+       A myA1 = cm.convert(new B(), A.class, context);
+       A myA2 = cm.convert(new B(), new A(), context);
+       B myB1 = cm.convert(new A(), B.class, context);
+       B myB2 = cm.convert(new A(), new B(), context);
+
+   }
+}
++------------------------------------------+
