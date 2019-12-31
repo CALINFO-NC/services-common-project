@@ -160,7 +160,6 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Dépendance pour les tests bdd en mémoire -->
