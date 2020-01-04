@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
 /**
@@ -40,6 +41,8 @@ public abstract class AbstractConvertManager {
     private Map<Class<?>, Map<Class<?>, Converter>> cache = new HashMap<>();
 
     private List<Converter> converterStore = new ArrayList<>();
+
+    private static ReentrantLock locker = new ReentrantLock();
 
 
     /**
@@ -114,7 +117,15 @@ public abstract class AbstractConvertManager {
         if (source == null)
             return findConverter(sourceRoot, sourceRoot, dest.getSuperclass(), contextConverter);
 
-        Map<Class<?>, Converter> map = cache.computeIfAbsent(source, k -> new HashMap<>());
+        locker.lock();
+        Map<Class<?>, Converter> map;
+        try {
+            map = cache.computeIfAbsent(source, k -> new HashMap<>());
+        }
+        finally {
+            locker.unlock();
+        }
+
         if (map.containsKey(dest))
             return map.get(dest);
 
