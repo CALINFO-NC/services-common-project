@@ -111,11 +111,17 @@ public abstract class AbstractConvertManager {
 
     private Converter findConverter(Class<?> sourceRoot, Class<?> source, Class<?> dest, ContextConverter contextConverter){
 
-        if (source == null && dest == null)
+        if (source == null && dest == null) {
             return null;
+        }
 
-        if (source == null)
+        if (source == null) {
             return findConverter(sourceRoot, sourceRoot, dest.getSuperclass(), contextConverter);
+        }
+
+        if (source.equals(sourceRoot) && dest == null){
+            return null;
+        }
 
         locker.lock();
         Map<Class<?>, Converter> map;
