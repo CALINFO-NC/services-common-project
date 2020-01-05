@@ -77,4 +77,19 @@ public class EntityManagerContext {
 
         return em;
     }
+
+    /**
+     *
+     * @param emf Fabrique d'EntityManager
+     * @return true si une EntityManager à étté créé
+     */
+    public static boolean isEntityManagerExist(EntityManagerFactory emf){
+
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        if (map == null){
+            return false;
+        }
+
+        return map.get(emf) != null;
+    }
 }
