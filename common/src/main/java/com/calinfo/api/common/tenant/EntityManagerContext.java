@@ -32,7 +32,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TransactionRequiredException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by dalexis on 29/05/2018.
@@ -80,16 +82,26 @@ public class EntityManagerContext {
 
     /**
      *
-     * @param emf Fabrique d'EntityManager
+     * @param em EntityManager
      * @return true si une EntityManager à étté créé
      */
-    public static boolean isEntityManagerExist(EntityManagerFactory emf){
+    public static boolean isEntityManagerExist(EntityManager em){
 
         Map<EntityManagerFactory, EntityManager> map = currentEm.get();
-        if (map == null){
-            return false;
-        }
+        return map.entrySet().stream().anyMatch(i -> i.getValue().equals(em));
+    }
 
-        return map.get(emf) != null;
+    /**
+     *
+     * @param em Supprimer EntityManager si elle existe
+     */
+    public static void removeExistingEntityManager(EntityManager em){
+
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        List<Map.Entry<EntityManagerFactory, EntityManager>> lst = map.entrySet().stream().filter(i -> i.getValue().equals(em)).collect(Collectors.toList());
+
+        if (!lst.isEmpty()){
+            map.remove(lst.get(0).getKey());
+        }
     }
 }
