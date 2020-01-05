@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TransactionRequiredException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by dalexis on 29/05/2018.
@@ -40,7 +42,7 @@ public class EntityManagerContext {
 
     private static final Logger log = LoggerFactory.getLogger(EntityManagerContext.class);
 
-    private static ThreadLocal<EntityManager> currentEm = new ThreadLocal<>();
+    private static ThreadLocal<Map<EntityManagerFactory, EntityManager>> currentEm = new ThreadLocal<>();
 
     /**
      * Cette méthode retourne une instance de EntityManager et tente de la joindre à la transactino courante.
@@ -51,11 +53,17 @@ public class EntityManagerContext {
      */
     public static EntityManager smartGet(EntityManagerFactory emf) {
 
-        EntityManager em = currentEm.get();
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        if (map == null){
+            map = new HashMap<>();
+            currentEm.set(map);
+        }
+
+        EntityManager em = map.get(emf);
 
         if (em == null || !em.isOpen()){
             em = emf.createEntityManager();
-            currentEm.set(em);
+            map.put(emf, em);
         }
 
         if (!em.isJoinedToTransaction()){
