@@ -37,8 +37,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +50,7 @@ public class TenantDatasourceConfiguration {
     public static final String ENTITY_MANAGER_FACTORY_REF = "tenantEntityManagerFactory";
     public static final String TRANSACTION_MANAGER_REF = "tenantTransactionManager";
     public static final String TENANT_DATASOURCE = "tenantDataSource";
+    public static final String ENTITY_MANAGER_REF = "tenantEntityManager";
 
     @Autowired
     private TenantProperties tenantProperties;
@@ -98,5 +101,13 @@ public class TenantDatasourceConfiguration {
         em.setJpaPropertyMap(jpaProperties);
 
         return em;
+    }
+
+
+    @Bean(name = ENTITY_MANAGER_REF)
+    public EntityManager apoClient(@Qualifier(TenantDatasourceConfiguration.ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory emf){
+        return (EntityManager) Proxy.newProxyInstance(this.getClass().getClassLoader(),
+                new Class<?>[] { EntityManager.class },
+                (proxy, method, args) -> method.invoke(EntityManagerContext.smartGet(emf), args));
     }
 }
