@@ -4,7 +4,7 @@ package com.calinfo.api.common.converter;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 CALINFO
+ * Copyright (C) 2019 - 2020 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 
 /**
@@ -40,6 +41,8 @@ public abstract class AbstractConvertManager {
     private Map<Class<?>, Map<Class<?>, Converter>> cache = new HashMap<>();
 
     private List<Converter> converterStore = new ArrayList<>();
+
+    private static ReentrantLock locker = new ReentrantLock();
 
 
     /**
@@ -78,11 +81,15 @@ public abstract class AbstractConvertManager {
         return ((InstanceConverter)converter).convert(source, dest, contextConverter);
     }
 
-    public <T> T convert (@NotNull Object source, @NotNull Class<T> dest){
+    public <T> T convert (Object source, @NotNull Class<T> dest){
         return convert(source, dest, null);
     }
 
-    public <T> T convert (@NotNull Object source, @NotNull Class<T> dest, ContextConverter contextConverter){
+    public <T> T convert (Object source, @NotNull Class<T> dest, ContextConverter contextConverter){
+
+        if (source == null){
+            return (T) null;
+        }
 
         Converter converter = findConverter(source.getClass(), source.getClass(), dest, contextConverter);
 
@@ -108,13 +115,27 @@ public abstract class AbstractConvertManager {
 
     private Converter findConverter(Class<?> sourceRoot, Class<?> source, Class<?> dest, ContextConverter contextConverter){
 
-        if (source == null && dest == null)
+        if (source == null && dest == null) {
             return null;
+        }
 
-        if (source == null)
+        if (source == null) {
             return findConverter(sourceRoot, sourceRoot, dest.getSuperclass(), contextConverter);
+        }
 
-        Map<Class<?>, Converter> map = cache.computeIfAbsent(source, k -> new HashMap<>());
+        if (source.equals(sourceRoot) && dest == null){
+            return null;
+        }
+
+        locker.lock();
+        Map<Class<?>, Converter> map;
+        try {
+            map = cache.computeIfAbsent(source, k -> new HashMap<>());
+        }
+        finally {
+            locker.unlock();
+        }
+
         if (map.containsKey(dest))
             return map.get(dest);
 

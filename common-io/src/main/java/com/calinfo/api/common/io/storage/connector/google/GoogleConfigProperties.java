@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.connector.google;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 CALINFO
+ * Copyright (C) 2019 - 2020 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

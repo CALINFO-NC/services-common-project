@@ -4,7 +4,7 @@ package com.calinfo.api.common.tenant;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 CALINFO
+ * Copyright (C) 2019 - 2020 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -31,6 +31,10 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TransactionRequiredException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by dalexis on 29/05/2018.
@@ -40,7 +44,7 @@ public class EntityManagerContext {
 
     private static final Logger log = LoggerFactory.getLogger(EntityManagerContext.class);
 
-    private static ThreadLocal<EntityManager> currentEm = new ThreadLocal<>();
+    private static ThreadLocal<Map<EntityManagerFactory, EntityManager>> currentEm = new ThreadLocal<>();
 
     /**
      * Cette méthode retourne une instance de EntityManager et tente de la joindre à la transactino courante.
@@ -51,11 +55,17 @@ public class EntityManagerContext {
      */
     public static EntityManager smartGet(EntityManagerFactory emf) {
 
-        EntityManager em = currentEm.get();
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        if (map == null){
+            map = new HashMap<>();
+            currentEm.set(map);
+        }
+
+        EntityManager em = map.get(emf);
 
         if (em == null || !em.isOpen()){
             em = emf.createEntityManager();
-            currentEm.set(em);
+            map.put(emf, em);
         }
 
         if (!em.isJoinedToTransaction()){
@@ -68,5 +78,56 @@ public class EntityManagerContext {
         }
 
         return em;
+    }
+
+    /**
+     *
+     * @param em EntityManager
+     * @return true si une EntityManager à étté créé
+     */
+    public static boolean isEntityManagerExist(EntityManager em){
+
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+
+        if (map == null){
+            return false;
+        }
+
+        return map.entrySet().stream().anyMatch(i -> i.getValue().equals(em));
+    }
+
+    /**
+     *
+     * @param emf Fabrique d'EntityManager
+     * @return true si une EntityManager à étté créé
+     */
+    public static boolean isEntityManagerExist(EntityManagerFactory emf){
+
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+
+        if (map == null){
+            return false;
+        }
+
+        return map.entrySet().stream().anyMatch(i -> i.getKey().equals(emf));
+    }
+
+    /**
+     *
+     * @param em Supprimer EntityManager si elle existe
+     */
+    public static void removeExistingEntityManager(EntityManager em){
+
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+
+        if (map == null){
+            return;
+        }
+
+        List<Map.Entry<EntityManagerFactory, EntityManager>> lst = map.entrySet().stream().filter(i -> i.getValue().equals(em)).collect(Collectors.toList());
+
+        if (!lst.isEmpty()){
+            map.remove(lst.get(0).getKey());
+        }
     }
 }
