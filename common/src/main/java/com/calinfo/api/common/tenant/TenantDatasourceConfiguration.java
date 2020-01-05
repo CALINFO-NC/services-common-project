@@ -105,7 +105,7 @@ public class TenantDatasourceConfiguration {
 
 
     @Bean(name = ENTITY_MANAGER_REF)
-    public EntityManager apoClient(@Qualifier(TenantDatasourceConfiguration.ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory emf){
+    public EntityManager apoClient(@Qualifier(ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory emf){
         return (EntityManager) Proxy.newProxyInstance(this.getClass().getClassLoader(),
                 new Class<?>[] { EntityManager.class },
                 (proxy, method, args) -> method.invoke(EntityManagerContext.smartGet(emf), args));
