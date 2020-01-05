@@ -87,6 +87,10 @@ public abstract class AbstractConvertManager {
 
     public <T> T convert (@NotNull Object source, @NotNull Class<T> dest, ContextConverter contextConverter){
 
+        if (source == null){
+            return (T) null;
+        }
+
         Converter converter = findConverter(source.getClass(), source.getClass(), dest, contextConverter);
 
         if (converter == null) {
