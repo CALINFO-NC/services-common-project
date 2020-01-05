@@ -88,6 +88,11 @@ public class EntityManagerContext {
     public static boolean isEntityManagerExist(EntityManager em){
 
         Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+
+        if (map == null){
+            return false;
+        }
+
         return map.entrySet().stream().anyMatch(i -> i.getValue().equals(em));
     }
 
@@ -99,6 +104,11 @@ public class EntityManagerContext {
     public static boolean isEntityManagerExist(EntityManagerFactory emf){
 
         Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+
+        if (map == null){
+            return false;
+        }
+
         return map.entrySet().stream().anyMatch(i -> i.getKey().equals(emf));
     }
 
@@ -109,6 +119,11 @@ public class EntityManagerContext {
     public static void removeExistingEntityManager(EntityManager em){
 
         Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+
+        if (map == null){
+            return;
+        }
+
         List<Map.Entry<EntityManagerFactory, EntityManager>> lst = map.entrySet().stream().filter(i -> i.getValue().equals(em)).collect(Collectors.toList());
 
         if (!lst.isEmpty()){
