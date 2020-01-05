@@ -93,6 +93,17 @@ public class EntityManagerContext {
 
     /**
      *
+     * @param emf Fabrique d'EntityManager
+     * @return true si une EntityManager à étté créé
+     */
+    public static boolean isEntityManagerExist(EntityManagerFactory emf){
+
+        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        return map.entrySet().stream().anyMatch(i -> i.getKey().equals(emf));
+    }
+
+    /**
+     *
      * @param em Supprimer EntityManager si elle existe
      */
     public static void removeExistingEntityManager(EntityManager em){
