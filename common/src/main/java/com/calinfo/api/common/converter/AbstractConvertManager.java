@@ -81,11 +81,11 @@ public abstract class AbstractConvertManager {
         return ((InstanceConverter)converter).convert(source, dest, contextConverter);
     }
 
-    public <T> T convert (@NotNull Object source, @NotNull Class<T> dest){
+    public <T> T convert (Object source, @NotNull Class<T> dest){
         return convert(source, dest, null);
     }
 
-    public <T> T convert (@NotNull Object source, @NotNull Class<T> dest, ContextConverter contextConverter){
+    public <T> T convert (Object source, @NotNull Class<T> dest, ContextConverter contextConverter){
 
         if (source == null){
             return (T) null;
