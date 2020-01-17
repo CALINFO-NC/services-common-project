@@ -3,6 +3,7 @@ env:
     - SCRIPT_BASE_DIR: $TRAVIS_BUILD_DIR/.travis-github  # Definir le lieu de stockage des script travis (obligatoire)
 sudo: required
 language: java
+install: skip
 jdk:
     - openjdk11
 addons:
@@ -17,7 +18,11 @@ before_install:
   - $SCRIPT_BASE_DIR/scripts/scripts-init.sh
   - chmod +x .travis/deploy.sh
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true sonar:sonar
-  - travis_wait 90 .travis/deploy.sh
+  -  mvn -Dmaven.test.failure.ignore=true -Dsonar.projectKey=com.calinfo-nc.services:common-project clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  # - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=com.calinfo-nc.services:common-project
+  # - mvn clean install -Dmaven.javadoc.skip=true
+  # - sonar-scanner -Dsonar.coverage.jacoco.xmlReportPaths=target/surefire-reports/junitreports -Dsonar.projectKey=com.calinfo-nc.services:common-project
+  # - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report
+  # - travis_wait 90 .travis/deploy.sh
 notifications:
     slack: calinfo-nc:xiw9XrUwovVTx24yk1sgNyO6#projet-common

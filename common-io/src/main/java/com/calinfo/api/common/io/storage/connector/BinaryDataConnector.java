@@ -38,7 +38,7 @@ public interface BinaryDataConnector {
      * @param spaceName Domain (ou multi tenant). Peut être à null
      * @param id Identifiant du fichier
      * @param in Contenue du fichier à downloader
-     * @throws IOException
+     * @throws IOException Exception d'entrée/sortie
      */
     void upload(String spaceName, String id, InputStream in) throws IOException;
 
@@ -47,7 +47,7 @@ public interface BinaryDataConnector {
      * @param spaceName Domain (ou multi tenant). Peut être à null
      * @param id Identifiant du fichier
      * @param out Déversseur du fichier uploader
-     * @throws IOException
+     * @throws IOException Exception d'entrée/sortie
      */
     void download(String spaceName, String id, OutputStream out) throws IOException;
 
@@ -57,7 +57,7 @@ public interface BinaryDataConnector {
      * @param spaceName Domain (ou multi tenant). Peut être à null
      * @param id Identifiant du fichier
      * @return true si le fichier à été supprimer, false sinon.
-     * @throws IOException
+     * @throws IOException Exception d'entrée/sortie
      */
     Future<Boolean> delete(String spaceName, String id) throws IOException;
 
@@ -67,7 +67,7 @@ public interface BinaryDataConnector {
      *
      * @param spaceName Nom de l'espace de stockage (peut être un domain)
      * @return true si l'espace à été créé
-     * @throws IOException
+     * @throws IOException Exception d'entrée/sortie
      */
     Future<Boolean> createSpace(String spaceName) throws IOException;
 
@@ -76,7 +76,7 @@ public interface BinaryDataConnector {
      *
      * @param spaceName Nom de l'espace de sotckage
      * @return true si supprimer false sinon
-     * @throws IOException
+     * @throws IOException Exception d'entrée/sortie
      */
     Future<Boolean> deleteSpace(String spaceName) throws IOException;
 }
