@@ -11,9 +11,11 @@ addons:
     organization: "calinfo-nc"
     token:
       secure: $SONARQUBE_TOKEN
+git:
+  depth: false
 before_install:
   - mkdir $SCRIPT_BASE_DIR
-  - git clone --depth 1 https://$TRAVIS_SCRIPT_TOKEN@github.com/CALINFO-NC/travis.git $SCRIPT_BASE_DIR
+  - git clone https://$TRAVIS_SCRIPT_TOKEN@github.com/CALINFO-NC/travis.git $SCRIPT_BASE_DIR
   - chmod +x $SCRIPT_BASE_DIR/scripts/scripts-init.sh
   - $SCRIPT_BASE_DIR/scripts/scripts-init.sh
   - chmod +x .travis/deploy.sh
