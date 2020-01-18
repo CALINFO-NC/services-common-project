@@ -27,3 +27,4 @@ script:
   - travis_wait 90 .travis/deploy.sh
 notifications:
     slack: calinfo-nc:xiw9XrUwovVTx24yk1sgNyO6#projet-common
+
