@@ -20,7 +20,7 @@ before_install:
   - $SCRIPT_BASE_DIR/scripts/scripts-init.sh
   - chmod +x .travis/deploy.sh
 script:
-  - sonar-scanner
+  - sonar-scanner -Dsonar.projectKey=com.calinfo-nc.services:common-project
   #-  mvn -Dmaven.test.failure.ignore=true clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
   #- travis_wait 90 .travis/deploy.sh
 notifications:
