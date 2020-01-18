@@ -12,7 +12,7 @@ addons:
     token:
       secure: $SONARQUBE_TOKEN
 git:
-  depth: false
+  depth: 10000
 before_install:
   - mkdir $SCRIPT_BASE_DIR
   - git clone https://$TRAVIS_SCRIPT_TOKEN@github.com/CALINFO-NC/travis.git $SCRIPT_BASE_DIR
