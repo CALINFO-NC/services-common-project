@@ -3,7 +3,7 @@ env:
     - SCRIPT_BASE_DIR: $TRAVIS_BUILD_DIR/.travis-github  # Definir le lieu de stockage des script travis (obligatoire)
 sudo: required
 language: java
-#install: skip
+install: skip
 jdk:
     - openjdk11
 addons:
@@ -12,7 +12,7 @@ addons:
     token:
       secure: $SONARQUBE_TOKEN
 git:
-  depth: 1000
+  depth: false
 before_install:
   - mkdir $SCRIPT_BASE_DIR
   - git clone https://$TRAVIS_SCRIPT_TOKEN@github.com/CALINFO-NC/travis.git $SCRIPT_BASE_DIR
@@ -20,8 +20,7 @@ before_install:
   - $SCRIPT_BASE_DIR/scripts/scripts-init.sh
   - chmod +x .travis/deploy.sh
 script:
-  - sonar-scanner -Dsonar.projectKey=com.calinfo-nc.services:common-project
-  #-  mvn -Dmaven.test.failure.ignore=true clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-  #- travis_wait 90 .travis/deploy.sh
+  - mvn -B -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dmaven.test.failure.ignore=true clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - travis_wait 90 .travis/deploy.sh
 notifications:
     slack: calinfo-nc:xiw9XrUwovVTx24yk1sgNyO6#projet-common
