@@ -39,6 +39,7 @@
         <version.plantuml-maven-plugin>7954</version.plantuml-maven-plugin>
         <version.plantuml>8059</version.plantuml>
         <version.common-net>3.6</version.common-net>
+        <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -111,7 +112,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>${version.jacoco-maven-plugin}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>

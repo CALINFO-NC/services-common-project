@@ -12,6 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
     </properties>
 
     <build>
@@ -20,7 +21,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>${version.jacoco-maven-plugin}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
