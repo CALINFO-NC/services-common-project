@@ -1,3 +1,6 @@
+cache:
+  directories:
+    - $HOME/.m2
 env:
   global:
     - SCRIPT_BASE_DIR: $TRAVIS_BUILD_DIR/.travis-github  # Definir le lieu de stockage des script travis (obligatoire)
@@ -12,7 +15,7 @@ addons:
     token:
       secure: $SONARQUBE_TOKEN
 git:
-  depth: 10000
+  depth: false
 before_install:
   - mkdir $SCRIPT_BASE_DIR
   - git clone https://$TRAVIS_SCRIPT_TOKEN@github.com/CALINFO-NC/travis.git $SCRIPT_BASE_DIR
