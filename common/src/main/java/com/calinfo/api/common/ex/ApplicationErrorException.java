@@ -22,18 +22,26 @@ package com.calinfo.api.common.ex;
  * #L%
  */
 
-import org.springframework.http.HttpStatus;
 
-/**
- * Created by dalexis on 02/12/2017.
- */
-public class ApplicationErrorException extends MessageStatusException{
+public class ApplicationErrorException extends RuntimeException{
 
-    public ApplicationErrorException(Throwable e){
-        super(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+
+    public ApplicationErrorException() {
     }
 
-    public ApplicationErrorException(String message){
-        super(HttpStatus.INTERNAL_SERVER_ERROR, message);
+    public ApplicationErrorException(String message) {
+        super(message);
+    }
+
+    public ApplicationErrorException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ApplicationErrorException(Throwable cause) {
+        super(cause);
+    }
+
+    public ApplicationErrorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }
