@@ -20,6 +20,7 @@
 
         <menu name="Usage">
             <item name="Multi-tenant" href="multitenant.html"/>
+            <item name="Tâche async multi-tenant" href="asyncmultitenant.html"/>
             <item name="Convertisseur" href="converter.html"/>
             <item name="Sécirité" href="security.html"/>
             <item name="Tâches" href="task.html"/>
