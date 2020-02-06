@@ -22,21 +22,18 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.util.concurrent.ListenableFuture;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
+import javax.persistence.EntityManagerFactory;
 
-public class DomainAwarePoolExecutor extends ThreadPoolTaskExecutor {
+@Getter
+@Setter
+@EqualsAndHashCode
+public class SmartManagerFactoryKey {
 
-    @Override
-    public <T> Future<T> submit(Callable<T> task) {
-        return super.submit(new DomainAwareCallable(task, DomainContext.getDomain()));
-    }
+    private EntityManagerFactory entityManagerFactory;
 
-    @Override
-    public <T> ListenableFuture<T> submitListenable(Callable<T> task) {
-        return super.submitListenable(new DomainAwareCallable(task, DomainContext.getDomain()));
-    }
+    private String identifiantResolver;
 }
