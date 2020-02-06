@@ -35,7 +35,7 @@ fi
 
 
 # Publier le site si nécessaire
-#if [[ ( "$TRAVIS_BRANCH" == "master" && "$isSnapshot" == "false" ) || ( $TRAVIS_PULL_REQUEST != "false" ) ]]
-#then
-#    mvn site -B
-#fi
+if [[ ( "$TRAVIS_BRANCH" == "master" && "$isSnapshot" == "false" ) || ( $TRAVIS_PULL_REQUEST != "false" ) ]]
+then
+    mvn site -B
+fi
