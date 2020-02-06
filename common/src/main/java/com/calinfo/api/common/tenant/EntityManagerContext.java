@@ -25,6 +25,8 @@ package com.calinfo.api.common.tenant;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.cfg.Environment;
+import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +46,20 @@ public class EntityManagerContext {
 
     private static final Logger log = LoggerFactory.getLogger(EntityManagerContext.class);
 
-    private static ThreadLocal<Map<EntityManagerFactory, EntityManager>> currentEm = new ThreadLocal<>();
+    private static ThreadLocal<Map<SmartManagerFactoryKey, EntityManager>> currentEm = new ThreadLocal<>();
+
+    private static SmartManagerFactoryKey getSmartKey(EntityManagerFactory emf){
+
+        SmartManagerFactoryKey key = new SmartManagerFactoryKey();
+        key.setEntityManagerFactory(emf);
+
+        CurrentTenantIdentifierResolver resolver = (CurrentTenantIdentifierResolver)emf.getProperties().get(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER);
+        if (resolver != null){
+            key.setIdentifiantResolver(resolver.resolveCurrentTenantIdentifier());
+        }
+
+        return key;
+    }
 
     /**
      * Cette méthode retourne une instance de EntityManager et tente de la joindre à la transactino courante.
@@ -55,17 +70,19 @@ public class EntityManagerContext {
      */
     public static EntityManager smartGet(EntityManagerFactory emf) {
 
-        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        SmartManagerFactoryKey key = getSmartKey(emf);
+
+        Map<SmartManagerFactoryKey, EntityManager> map = currentEm.get();
         if (map == null){
             map = new HashMap<>();
             currentEm.set(map);
         }
 
-        EntityManager em = map.get(emf);
+        EntityManager em = map.get(key);
 
         if (em == null || !em.isOpen()){
             em = emf.createEntityManager();
-            map.put(emf, em);
+            map.put(key, em);
         }
 
         if (!em.isJoinedToTransaction()){
@@ -87,7 +104,7 @@ public class EntityManagerContext {
      */
     public static boolean isEntityManagerExist(EntityManager em){
 
-        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        Map<SmartManagerFactoryKey, EntityManager> map = currentEm.get();
 
         if (map == null){
             return false;
@@ -103,13 +120,13 @@ public class EntityManagerContext {
      */
     public static boolean isEntityManagerExist(EntityManagerFactory emf){
 
-        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        Map<SmartManagerFactoryKey, EntityManager> map = currentEm.get();
 
         if (map == null){
             return false;
         }
 
-        return map.entrySet().stream().anyMatch(i -> i.getKey().equals(emf));
+        return map.entrySet().stream().anyMatch(i -> i.getKey().equals(getSmartKey(emf)));
     }
 
     /**
@@ -118,13 +135,13 @@ public class EntityManagerContext {
      */
     public static void removeExistingEntityManager(EntityManager em){
 
-        Map<EntityManagerFactory, EntityManager> map = currentEm.get();
+        Map<SmartManagerFactoryKey, EntityManager> map = currentEm.get();
 
         if (map == null){
             return;
         }
 
-        List<Map.Entry<EntityManagerFactory, EntityManager>> lst = map.entrySet().stream().filter(i -> i.getValue().equals(em)).collect(Collectors.toList());
+        List<Map.Entry<SmartManagerFactoryKey, EntityManager>> lst = map.entrySet().stream().filter(i -> i.getValue().equals(em)).collect(Collectors.toList());
 
         if (!lst.isEmpty()){
             map.remove(lst.get(0).getKey());
