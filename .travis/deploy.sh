@@ -4,15 +4,39 @@
 source $SCRIPT_BASE_DIR/scripts/artifactory.sh
 
 
+# Affichage des variable travis
+echo TRAVIS_TAG=$TRAVIS_TAG
+echo TRAVIS_BRANCH=$TRAVIS_BRANCH
+echo TRAVIS_PULL_REQUEST_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
+
+# Si on est sur une branche snapshot
+isMasterBranch="false"
+if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_TAG" == "" ] && [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]
+then
+   isMasterBranch="true"
+fi
+echo isMasterBranch=$isMasterBranch
+
+# Publier l'image docker
 version=$(maven_version "$TRAVIS_BUILD_DIR/pom.xml")
+echo version=$version
 isSnapshot=$(maven_is_snapshot "$version")
+echo isSnapshot=$isSnapshot
+
+# On vérifie s'il y a une cohérence entre la version maven et le tag
+if [ "$TRAVIS_TAG" != "" ] && [ "$isSnapshot" == "true" ] && [ "$version" != "$TRAVIS_TAG" ]
+then
+  echo "ERROR : maven version and branch tag not match"
+  exit 1
+fi
+
 if [ "$isSnapshot" == "false" ]
 then
     export ARTIFACTORY_RELEASE_REPOSITORY=license-gpl-local
 fi
 
-# Effectuer les déploiements sur artifactory
-if [ "$TRAVIS_BRANCH" == "master" ]
+# On déploie le binaire dans artifactory uniquement si c'est une vrai version ou si c'est dans le master
+if [ "$TRAVIS_TAG" != "" ] || [ "$isMasterBranch" == "true" ]
 then
     artifactory_deploy $TRAVIS_BUILD_DIR/common common.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common common-sources.jar "" sources
@@ -31,11 +55,6 @@ then
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io-javadoc.jar "" javadoc
 
     artifactory_deploy $TRAVIS_BUILD_DIR/common-libs pom.xml
-fi
 
-
-# Publier le site si nécessaire
-if [[ ( "$TRAVIS_BRANCH" == "master" && "$isSnapshot" == "false" ) || ( $TRAVIS_PULL_REQUEST != "false" ) ]]
-then
     mvn site -B
 fi
