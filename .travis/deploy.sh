@@ -36,8 +36,9 @@ then
 fi
 
 # On déploie le binaire dans artifactory uniquement si c'est une vrai version ou si c'est dans le master
-if [ "$TRAVIS_TAG" != "" ] || [ "$isMasterBranch" == "true" ]
-then
+# TODO : Pour le test
+# if [ "$TRAVIS_TAG" != "" ] || [ "$isMasterBranch" == "true" ]
+# then
     artifactory_deploy $TRAVIS_BUILD_DIR/common common.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common common-sources.jar "" sources
     artifactory_deploy $TRAVIS_BUILD_DIR/common common-javadoc.jar "" javadoc
@@ -54,7 +55,7 @@ then
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io-sources.jar "" sources
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io-javadoc.jar "" javadoc
 
-    artifactory_deploy $TRAVIS_BUILD_DIR/common-libs pom.xml
+    artifactory_deploy $TRAVIS_BUILD_DIR pom.xml
 
     mvn site -B
-fi
+# fi

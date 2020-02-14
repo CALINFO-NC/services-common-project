@@ -2,7 +2,6 @@ La documentation de ce projet est disponnible ici : https://calinfo-nc.github.io
 
 Listes des modules
 * common
-* common-libs
 * common-api
 * common-test
 * common-io

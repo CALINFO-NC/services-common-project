@@ -17,6 +17,15 @@
     </custom>
 
     <body>
+
+
+        <menu name="Modules">
+            <item name="common" href="./common"/>
+            <item name="common-api" href="./common-api"/>
+            <item name="common-io" href="./common-io"/>
+            <item name="common-test" href="./common-test"/>
+        </menu>
+
         <menu ref="reports"/>
     </body>
 </project>

@@ -8,7 +8,7 @@ Introduction
 +------------------------------------------+
 <parent>
     <groupId>com.calinfo-nc.services</groupId>
-    <artifactId>common-libs</artifactId>
+    <artifactId>common-project</artifactId>
     <version>...</version>
 </parent>
 +------------------------------------------+
