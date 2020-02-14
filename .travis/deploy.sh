@@ -39,6 +39,9 @@ fi
 # TODO : Pour le test
 # if [ "$TRAVIS_TAG" != "" ] || [ "$isMasterBranch" == "true" ]
 # then
+
+    mvn site -B
+    
     artifactory_deploy $TRAVIS_BUILD_DIR/common common.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common common-sources.jar "" sources
     artifactory_deploy $TRAVIS_BUILD_DIR/common common-javadoc.jar "" javadoc
@@ -56,6 +59,4 @@ fi
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io-javadoc.jar "" javadoc
 
     artifactory_deploy $TRAVIS_BUILD_DIR pom.xml
-
-    mvn site -B
 # fi
