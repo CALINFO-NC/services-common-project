@@ -93,7 +93,7 @@ public class SecurityUtils {
      * @param privateKey Clé privée
      * @return Donnée crypté
      * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
-     * @throws InvalidKeySpecException Exception si la clé est incorrecte
+     * @throws InvalidKeyException Exception si la clé est incorrecte
      * @throws NoSuchPaddingException Problème pour encrypter la clé
      * @throws IllegalBlockSizeException Problème pour encrypter la clé
      * @throws BadPaddingException Problème pour encrypter la clé
@@ -111,7 +111,7 @@ public class SecurityUtils {
      * @param publicKey Clé public
      * @return Donnée décrypté
      * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
-     * @throws InvalidKeySpecException Exception si la clé est incorrecte
+     * @throws InvalidKeyException Exception si la clé est incorrecte
      * @throws NoSuchPaddingException Problème pour encrypter la clé
      * @throws IllegalBlockSizeException Problème pour encrypter la clé
      * @throws BadPaddingException Problème pour encrypter la clé
