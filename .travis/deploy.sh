@@ -35,6 +35,7 @@ then
     export ARTIFACTORY_RELEASE_REPOSITORY=license-gpl-local
 fi
 
+
 # On déploie le binaire dans artifactory uniquement si c'est une vrai version ou si c'est dans le master
 if [ "$TRAVIS_TAG" != "" ] || [ "$isMasterBranch" == "true" ]
 then
