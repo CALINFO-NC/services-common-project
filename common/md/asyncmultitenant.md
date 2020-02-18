@@ -4,8 +4,8 @@
 
 # Usage
 
- Afin que la tâche Asynchrone sache connaisse le context du domaine, il faudra crééer bean qui renvoie un <Executor> de spring.
- L'impléméntation du <Executor> devrat être celle de la class <DomainAwarePoolExecutor>
+ Afin que la tâche Asynchrone sache connaisse le context du domaine, il faudra crééer bean qui renvoie un *Executor* de spring.
+ L'impléméntation du *Executor* devrat être celle de la class *DomainAwarePoolExecutor*
 
  Exemple de code :
 

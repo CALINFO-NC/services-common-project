@@ -16,10 +16,10 @@ public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextT
 }
 ```
 
- Lorsque ce test s'exécutera, le résultat de ce test créra une nouvelle Jira (<CODEJIRA-100> apr exemple) qui sera associé à la jira <CODEJIRA-1>.
+ Lorsque ce test s'exécutera, le résultat de ce test créra une nouvelle Jira (*CODEJIRA-100* apr exemple) qui sera associé à la jira *CODEJIRA-1*.
 
- Afin d'éviter qu'à chaque exécution de ce test, une nouvelle Jira soit créé, il faudra indiquer dans le code de test, le numéro de la Jira créé (<CODEJIRA-100> dans l'exemple ci-dessus).
- Pour cela il fadra utiliser la propriété <test> de l'annotation <Xray> comme ci-dessous.
+ Afin d'éviter qu'à chaque exécution de ce test, une nouvelle Jira soit créé, il faudra indiquer dans le code de test, le numéro de la Jira créé (*CODEJIRA-100* dans l'exemple ci-dessus).
+ Pour cela il fadra utiliser la propriété *test* de l'annotation *Xray* comme ci-dessous.
 
 
 ```
@@ -36,7 +36,7 @@ public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextT
 
  L'exécution des tests généra un fichier testng-results.xml. Ce fichier devra être envoyé au serveur Xray pour obtenir le résultat dans Jira
 
- Il est possible via l'annotation <Xray> de définir un ratachement d'un test à plusieur Jira. La propriété <requirement> est un tableau.
+ Il est possible via l'annotation *Xray* de définir un ratachement d'un test à plusieur Jira. La propriété *requirement* est un tableau.
  Cependant, XRay étant bugué pour le moment, seule le premier éléments du tableau est rataché automatiquement. Les autres éléments devront faire
  l'objet d'un ratachement manuel.
 

@@ -1,3 +1,3 @@
-# Bienvenue dans la documentation du module <common-test>.
+# Bienvenue dans la documentation du module *common-test*.
 
 * [Introduction](./md/usage.md)

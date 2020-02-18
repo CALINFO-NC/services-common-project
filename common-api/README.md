@@ -1,3 +1,3 @@
-# Bienvenue dans la documentation du module <common-api>.
+# Bienvenue dans la documentation du module *common-api*.
 
 * [Introduction](./md/usage.md)

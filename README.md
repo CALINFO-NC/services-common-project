@@ -1,9 +1,9 @@
 # Introduction
 
- Le <common> est un module créé spécialement pour les applications de type <service>.
+ Le *common* est un module créé spécialement pour les applications de type *service*.
  Il apporte un certain nombre de fonctionnalités et de librairies décritent dans chacun des modules.
 
- Pour utiliser le common dans une application de type <service>, il suffit d'hériter de :
+ Pour utiliser le common dans une application de type *service*, il suffit d'hériter de :
 
 ```
 <parent>
@@ -15,10 +15,10 @@
 
 # Listes des modules
 
- * [common](./common/README.md)
- * [common-api](./common-api/README.md)
- * [common-test](./common-test/README.md)
- * [common-io](./common-io/README.md)
+ * [common](./common)
+ * [common-api](./common-api)
+ * [common-test](./common-test)
+ * [common-io](./common-io)
 
 # Licence
 

@@ -1,4 +1,4 @@
-# Bienvenue dans la documentation du module <common>.
+# Bienvenue dans la documentation du module *common*.
 
  * [Multi-tenant](./md/multitenant.md)
  * [Tâche async multi-tenant](./md/asyncmultitenant.md)

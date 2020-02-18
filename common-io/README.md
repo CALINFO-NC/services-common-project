@@ -1,4 +1,4 @@
-# Bienvenue dans la documentation du module <common-io>.
+# Bienvenue dans la documentation du module *common-io*.
 
 
  * [Binary data](./md/binarydata.md)

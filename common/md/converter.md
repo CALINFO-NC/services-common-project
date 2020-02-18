@@ -1,10 +1,10 @@
 # Description
 
- Le <converter> est un mécanisme permettant de convertir un objet en un autre.
+ Le *converter* est un mécanisme permettant de convertir un objet en un autre.
 
 # Usage
 
- * Création d'un premier <converter> permettant de convertir une classe <A> en une classe <B> et inversement
+ * Création d'un premier *converter* permettant de convertir une classe *A* en une classe *B* et inversement
 
 ```
 import com.calinfo.api.common.converter.InstanceConverter;
@@ -47,7 +47,7 @@ public class AtoBConverter implements InstanceConverter {
 }
 ```
 
- * Création d'un second <converter> permettant de convertir un <Integer> en <Long> et inversement.
+ * Création d'un second *converter* permettant de convertir un *Integer* en *Long* et inversement.
 
 ```
 import com.calinfo.api.common.converter.ClassConverter;
@@ -108,7 +108,7 @@ public class ConvertManager extends AbstractConvertManager {
 }
 ```
 
- * Comment utiliser le <connverter>
+ * Comment utiliser le *connverter*
 
 ```
 import org.springframework.beans.factory.annotation.Autowired;
