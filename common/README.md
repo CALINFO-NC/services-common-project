@@ -8,4 +8,3 @@
  * [Internationalisation](./md/internationalisation.md)
  * [Kafka](./md/kafka.md)
  * [Logger](./md/logger.md)
- * [PlantUML](./md/plantuml.md)

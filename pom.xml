@@ -33,17 +33,11 @@
         <version.maven-site-plugin>3.8.2</version.maven-site-plugin>
         <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
-        <version.plantuml-maven-plugin>7954</version.plantuml-maven-plugin>
-        <version.plantuml>8059</version.plantuml>
         <version.common-net>3.6</version.common-net>
         <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-
-        <plantuml.source-file-including>src/site/plantuml/**/*.txt</plantuml.source-file-including>
-        <plantuml.source-directory>${basedir}</plantuml.source-directory>
-        <plantuml.output-directory>${project.build.directory}/site/images/plantuml</plantuml.output-directory>
 
         <javadoc.failOnError>true</javadoc.failOnError>
 
@@ -160,31 +154,6 @@
                         <goals>
                             <!-- produce source artifact for main project sources -->
                             <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-
-            <!-- Plugin necesaires pour la génération de diagramme via plantUml -->
-            <plugin>
-                <groupId>com.github.jeluard</groupId>
-                <artifactId>plantuml-maven-plugin</artifactId>
-                <version>${version.plantuml-maven-plugin}</version>
-                <configuration>
-                    <sourceFiles>
-                        <directory>${plantuml.source-directory}</directory>
-                        <includes>
-                            <include>${plantuml.source-file-including}</include>
-                        </includes>
-                    </sourceFiles>
-                    <outputDirectory>${plantuml.output-directory}</outputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>pre-site</phase>
-                        <goals>
-                            <goal>generate</goal>
                         </goals>
                     </execution>
                 </executions>
