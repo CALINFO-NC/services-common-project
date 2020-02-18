@@ -63,8 +63,8 @@ public class SecurityUtils {
      *
      * @param publicKeyValue Clé public sous forme de chaine de caractère
      * @return Instance de clé public
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeySpecException Exception si la clé est incorrecte
      */
     public static PublicKey getPublicKeyFromString(String publicKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
         X509EncodedKeySpec spec = new X509EncodedKeySpec(DatatypeConverter.parseBase64Binary(publicKeyValue));
@@ -77,8 +77,8 @@ public class SecurityUtils {
      *
      * @param privateKeyValue Clé privée sous forme de chaine de caractère
      * @return Instance de clé privée
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeySpecException Exception si la clé est incorrecte
      */
     public static PrivateKey getPrivateKeyFromString(String privateKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKeyValue));
@@ -92,11 +92,11 @@ public class SecurityUtils {
      * @param data Donnée à crypter
      * @param privateKey Clé privée
      * @return Donnée crypté
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeyException Exception si la clé est incorrecte
+     * @throws NoSuchPaddingException Problème pour encrypter la clé
+     * @throws IllegalBlockSizeException Problème pour encrypter la clé
+     * @throws BadPaddingException Problème pour encrypter la clé
      */
     public static byte[] rsaEncryption(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
@@ -110,11 +110,11 @@ public class SecurityUtils {
      * @param data Donnée à décrypter
      * @param publicKey Clé public
      * @return Donnée décrypté
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeyException Exception si la clé est incorrecte
+     * @throws NoSuchPaddingException Problème pour encrypter la clé
+     * @throws IllegalBlockSizeException Problème pour encrypter la clé
+     * @throws BadPaddingException Problème pour encrypter la clé
      */
     public static byte[] rsaDecryption(byte[] data, PublicKey publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
@@ -175,8 +175,8 @@ public class SecurityUtils {
      * @param token Token à décrypter
      * @param publicKeyValue Clé public
      * @return Token décrypté
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeySpecException Exception si la clé est incorrecte
      */
     public static JwtUser getUserFromJwt(String token, String publicKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
@@ -204,7 +204,7 @@ public class SecurityUtils {
      * @param token Token à décrypter
      * @param apiKey Clé d'api permettant de renouveller le token
      * @param publicKey Clé public
-     * @return
+     * @return Le Principal
      */
     public static AbstractCommonPrincipal getPrincipalFromTokens(String token, String apiKey, String publicKey){
 

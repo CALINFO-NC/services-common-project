@@ -105,8 +105,8 @@ public class PrincipalFactory {
 
     /**
      * Permet de rafraichir le token
-     * @param apiKey
-     * @return
+     * @param apiKey Clé d'API
+     * @return Nouveau token
      */
     private String refreshToken(String apiKey) {
 

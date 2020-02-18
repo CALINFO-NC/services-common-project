@@ -21,7 +21,7 @@ public class FileBinaryDataConnectorTest extends AbstractBinaryDataConnector {
     /**
      * Pour faire passer ce test, il faut mettre le bon paramétrage dans le fichier application-file.yml
      * 
-     * @throws Exception
+     * @throws Exception Tout exception pour le tests
      */
     @Ignore("Ce test est ignoré car il ne peut pas passé en TU. On est dépendant du filesystem du développeur pour vérifier son bon fonctionnement")
     @Test

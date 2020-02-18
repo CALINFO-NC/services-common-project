@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 public class PrincipalManager {
 
     /**
-     * @return
+     * @return Principal
      */
     public AbstractCommonPrincipal getPrincipal(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -10,12 +10,65 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <description>Bibliothèque parent de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
+    <developers>
+        <developer>
+            <organization>CALINFO</organization>
+            <organizationUrl>https://www.calinfo-nc.com</organizationUrl>
+            <email>calinfo@calinfo-nc.com</email>
+            <timezone>GMT+11</timezone>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <version.service-common>${project.version}</version.service-common>
+        <version.lombok>1.18.8</version.lombok>
+        <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
+        <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
+        <version.spring>2.1.5.RELEASE</version.spring>
+        <version.testng>6.14.3</version.testng>
+        <version.maven-source-plugin>2.1.1</version.maven-source-plugin>
+        <version.maven-site-plugin>3.8.2</version.maven-site-plugin>
+        <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
+        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
+        <version.plantuml-maven-plugin>7954</version.plantuml-maven-plugin>
+        <version.plantuml>8059</version.plantuml>
+        <version.common-net>3.6</version.common-net>
         <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
+
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <plantuml.source-file-including>src/site/plantuml/**/*.txt</plantuml.source-file-including>
+        <plantuml.source-directory>${basedir}</plantuml.source-directory>
+        <plantuml.output-directory>${project.build.directory}/site/images/plantuml</plantuml.output-directory>
+
+        <javadoc.failOnError>true</javadoc.failOnError>
+
+        <java.version>11</java.version>
+
+        <maven.site.path>/${project.artifactId}</maven.site.path>
+        <github.project.name>services-common-project</github.project.name>
+
+        <license.gpl3.licenseName>gpl_v3</license.gpl3.licenseName>
+        <license.gpl3.organisationName>CALINFO</license.gpl3.organisationName>
+        <license.gpl3.inceptionYear>2019</license.gpl3.inceptionYear>
+
     </properties>
 
+    <url>https://calinfo-nc.github.io/${github.project.name}/${project.version}</url>
+
+    <licenses>
+        <license>
+            <name>GNU GPLv3</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+        </license>
+    </licenses>
+
     <profiles>
+
         <profile>
             <id>coverage</id>
             <build>
@@ -45,24 +98,131 @@
         </profile>
     </profiles>
 
+
     <build>
+        <finalName>${project.artifactId}</finalName>
+
         <plugins>
 
-            <!-- On exclut ce module de la génération du site -->
+            <!-- Passage du common en licence GNU GPL -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <licenseName>${license.gpl3.licenseName}</licenseName>
+                            <organizationName>${license.gpl3.organisationName}</organizationName>
+                            <inceptionYear>${license.gpl3.inceptionYear}</inceptionYear>
+                            <canUpdateCopyright>true</canUpdateCopyright>
+                            <roots>
+                                <root>src/main/java</root>
+                            </roots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Permet d'ingorer l'absence du fichier web.xml géré par springboot -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.8.2</version>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.maven-war-plugin}</version>
                 <configuration>
-                    <skip>true</skip>
-                    <skipDeploy>true</skipDeploy>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+
+            <!-- On précise -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.maven-compiler-plugin}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+
+
+            <!-- Génère les .jar contenant uniquement les sources -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${version.maven-source-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>bundle-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <!-- produce source artifact for main project sources -->
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- Plugin necesaires pour la génération de diagramme via plantUml -->
+            <plugin>
+                <groupId>com.github.jeluard</groupId>
+                <artifactId>plantuml-maven-plugin</artifactId>
+                <version>${version.plantuml-maven-plugin}</version>
+                <configuration>
+                    <sourceFiles>
+                        <directory>${plantuml.source-directory}</directory>
+                        <includes>
+                            <include>${plantuml.source-file-including}</include>
+                        </includes>
+                    </sourceFiles>
+                    <outputDirectory>${plantuml.output-directory}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <!-- Définie l'application étant de type Spring -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${version.spring}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- Utilisation de lombok pour les getter/setter -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${version.lombok}</version>
+        </dependency>
+
+
+    </dependencies>
+
     <modules>
-        <module>common-libs</module>
         <module>common-api</module>
         <module>common</module>
         <module>common-test</module>
