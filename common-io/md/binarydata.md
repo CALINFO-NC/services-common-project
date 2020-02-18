@@ -1,10 +1,10 @@
-Description
+# Description
 
  Le sous package *storage* du *common-io* offre un méchanisme de trasfert des fichiers binaires d'un support à un autre en arrière plan.
  Cela est surtout très pratique pour transférer les images d'une base de données (couteux) vers un stockage moins couteux
  comme *google cloud* par exemple.
 
-Cas d'utilisation
+# Cas d'utilisation
 
  Nous souhaitons, par exemple, dans une application stocker des fichiers binaires dans la même transaction que ses méta-données.
  Pour cela il suffit de créer une ou plusieurs tables en base de données afin de stocker les binaires et les méta-données.
@@ -12,7 +12,7 @@ Cas d'utilisation
  L'idéal, serait de stocker les données binaires en base de données avec les métadonnés et une fois la transaction commitée, de déplacer les données
  binaires vers un autre support. C'est le principe mis en place dans le sous package *storage* de *common-io*
 
-Comment intégrer le méchanisme du sous package *storage* au sein de son application ?
+# Comment intégrer le méchanisme du sous package *storage* au sein de son application ?
 
  * Créer un service implémentant *BinaryDataClientService*
 

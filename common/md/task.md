@@ -8,7 +8,6 @@
 
  * Les rôles de l'utilisateur exécutant la tâche
 
- []
 
 ```
 Exemple :

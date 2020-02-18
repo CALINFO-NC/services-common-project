@@ -53,9 +53,8 @@ AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal()
 
  Il existe aussi "PrincipalFactory" qui permet aussi d'insérer dans le context un "principal" à partir de ses tokens, ou d'insérer un "principal" annonyme.
 
- []
 
-Configuration
+# Configuration
 
  La configuration de la sécurité se fait dans la sous configuration *common.configuration.security* du fichier *yaml* .
  Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe *com.calinfo.api.common.security.SecurityProperties*

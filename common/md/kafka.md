@@ -1,8 +1,8 @@
 # Description
 
- Le *common* propose une intégration d'apache Kafka  {{ https://kafka.apache.org/ }}
+ Le *common* propose une intégration d'apache [Kafka](https://kafka.apache.org/)
 
- L'intégration est basée sur {{ https://spring.io/projects/spring-kafka }}
+ L'intégration est basée sur [Spring Kafka](https://spring.io/projects/spring-kafka)
 
  L'integration de Kafka au seins du common consiste à transférer en tant que message Kafka, une instance de la classe *com.calinfo.api.common.kafka.KafkaEvent*
 
@@ -46,15 +46,13 @@ public void receiveTopic(KafkaEvent kafkaEvent) {
  * Soit la cause original n'ayant pas permis de reconsituer l'exception sur laquelle *@KafkaTopic* a été posée.
  Dans ce cas l'exception levée est *KafkaRestitutionException* qui est une sous classe de *KafkaException*
 
- []
-
  Dans les deux cas, il est possible de récupérer le nom original de l'exception levée par la méthode sur laquelle *@KafkaTopic*
  a été posée en utilisant la méthode *KafkaException.getOriginalCauseClassName*
 
  Dans le cas ou la méthode sur laquelle  *@KafkaTopic* a été apposée retourne une exception
  faisant un Rollback alors aucun message Kafka est envoyé
 
-Configuration
+# Configuration
 
  Par défaut l'annotation *@KafkaTopic* n'est pas activé. Il est possible de l'activer en ajoutant dans le fichier de
  configuration *application.yml* les lignes suivantes :
@@ -90,7 +88,7 @@ spring:
  ATTENTION : Dans le cas ou vous utilisez l'annotation *@KafkaTopic* il est fortement conseillé d'activer l'exécution
  des méthodes asynchrones, via l'annotation spring *@EnableAsync(mode = AdviceMode.ASPECTJ)* (sur une configuration par exemple).
 
-Comment récupérer *KafkaEvent* Sans mettre en place Kafka
+# Comment récupérer *KafkaEvent* Sans mettre en place Kafka
 
  Il est possible de récupérer les évènements envoyer à Kafka et les traiter manuellement au lieu de les envoyer à Kafka.
  Pour cela vous n'avez pas besoins de la configuration *spring.kafka...*. En revanche, il faudra la configuration

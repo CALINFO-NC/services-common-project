@@ -1,4 +1,4 @@
-Description
+# Description
 
  Les connecteurs sont des classe permettant de faire des opération (comme downloader ou uplooader) sur des support externe.
  Pour que le sous package *storage* du *common-io* sache écrire sur un support externe, il vous faudra implémenter le composant *BinaryDataConnector*.
@@ -20,7 +20,7 @@ public class MyBinaryDataConnector implements BinaryDataConnector {
 
  Le sous package *storage* du *common-io* apporte plusieurs implémentation de *BinaryDataConnector*
 
-Connecteur *Google cloud*
+# Connecteur *Google cloud*
 
  Ce conencteur permet d'envoyer les données binaire dans un *bucket* du *google cloud*. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
  de configuration (ex : application.yml) les éléments suivants :
@@ -62,7 +62,7 @@ common-io:
 
 ```
 
-Connecteur *mémoire*
+# Connecteur *mémoire*
 
  Il existe aussi un connecteur permettant de transférer les fichiers en mémoire cache de java, et ce jusqu'a ce que l'application soit éteinte.
  Ce connecteur peut servir principalement pour lancer tests unitaires. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
@@ -77,7 +77,7 @@ common-io:
 
 ```
 
-Connecteur *FileSystem*
+# Connecteur *FileSystem*
 
  Ce connecteur permet de stocker les données binaires dans un système de fichier. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
  de configuration (ex : application.yml) les éléments suivants :
@@ -104,7 +104,7 @@ common-io:
 
 ```
 
-Connecteur *Ftp*
+# Connecteur *Ftp*
 
  Ce connecteur permet de stocker les données binaires sur un FTP (non sécurisé). Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
  de configuration (ex : application.yml) les éléments suivants :

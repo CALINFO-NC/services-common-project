@@ -36,8 +36,6 @@ public class MyFilter extends OncePerRequestFilter {
 }
 ```
 
- []
-
 # Comment le *common* sait-il quels sont les *repository* et les *entity* utilisés pour un *domain* et ceux utilisés pour la base de données commune (ou générique) ?
 
  Le développeur doit indiquer ces informations au *common*.

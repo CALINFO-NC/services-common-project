@@ -1,4 +1,4 @@
-Créé des tests Java compatible Xray
+# Créé des tests Java compatible Xray
 
  Ce module apporte des outils permettant d'intgrer les résultats de test dans Jira via le module XRay.
  Pour ce faire, l'ensemble des tests doivent être écrit avec TestNg.
@@ -40,7 +40,7 @@ public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextT
  Cependant, XRay étant bugué pour le moment, seule le premier éléments du tableau est rataché automatiquement. Les autres éléments devront faire
  l'objet d'un ratachement manuel.
 
-Comment envoyer les résultats des tests Java dans le serveur Xray
+# Comment envoyer les résultats des tests Java dans le serveur Xray
 
  Ce référer à la documentation officiel : https://confluence.xpand-it.com/
 

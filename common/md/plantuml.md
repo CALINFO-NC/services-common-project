@@ -1,6 +1,6 @@
 # Description
 
- Le common intègre la génération d'image UML grace à l'outil PlantUML dont vous pouvez trouver la description ici : {{{http://plantuml.com/fr/}http://plantuml.com/fr/}}
+ Le common intègre la génération d'image UML grace à l'outil PlantUML dont vous pouvez trouver la description ici : http://plantuml.com/fr/}http://plantuml.com/fr/
 
 # Usage
 

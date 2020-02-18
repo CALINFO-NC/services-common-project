@@ -53,8 +53,6 @@
 
  * LOG_LEVEL_HIBERNATE: Niveau de log Hibernate (warn par défaut)
 
- []
-
  Ci dessous un exemple de fichierlogback-spring.xml avec 2 appenders. Un sur LOGZIO et l'autre sur la console du développeur.
  N'oubliez pas de remplacer **NomApplication**
 
