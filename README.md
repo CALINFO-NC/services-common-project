@@ -15,10 +15,10 @@
 
 # Listes des modules
 
- * [common](../common/README.md)
- * [common-api](../common-api/README.md)
- * [common-test](../common-test/README.md)
- * [common-io](../common-io/README.md)
+ * [common](./common/README.md)
+ * [common-api](./common-api/README.md)
+ * [common-test](./common-test/README.md)
+ * [common-io](./common-io/README.md)
 
 # Licence
 

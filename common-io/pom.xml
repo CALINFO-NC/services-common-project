@@ -20,36 +20,6 @@
         <version.MockFtpServer>2.7.1</version.MockFtpServer>
     </properties>
 
-    <build>
-        <plugins>
-
-            <!-- Passage du common en licence GNU GPL -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>first</id>
-                        <goals>
-                            <goal>update-file-header</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <licenseName>${license.gpl3.licenseName}</licenseName>
-                            <organizationName>${license.gpl3.organisationName}</organizationName>
-                            <inceptionYear>${license.gpl3.inceptionYear}</inceptionYear>
-                            <canUpdateCopyright>true</canUpdateCopyright>
-                            <roots>
-                                <root>src/main/java</root>
-                            </roots>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

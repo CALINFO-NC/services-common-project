@@ -26,14 +26,11 @@
         <version.service-common>${project.version}</version.service-common>
         <version.lombok>1.18.8</version.lombok>
         <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
-        <version.maven-javadoc-plugin>3.1.1</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.spring>2.1.5.RELEASE</version.spring>
         <version.testng>6.14.3</version.testng>
         <version.maven-source-plugin>2.1.1</version.maven-source-plugin>
-        <version.maven-javadoc-plugin>3.1.1</version.maven-javadoc-plugin>
         <version.maven-site-plugin>3.8.2</version.maven-site-plugin>
-        <version.maven-project-info-reports-plugin>3.0.0</version.maven-project-info-reports-plugin>
         <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.plantuml-maven-plugin>7954</version.plantuml-maven-plugin>
@@ -58,6 +55,7 @@
         <license.gpl3.licenseName>gpl_v3</license.gpl3.licenseName>
         <license.gpl3.organisationName>CALINFO</license.gpl3.organisationName>
         <license.gpl3.inceptionYear>2019</license.gpl3.inceptionYear>
+
     </properties>
 
     <url>https://calinfo-nc.github.io/${github.project.name}/${project.version}</url>
@@ -98,44 +96,37 @@
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>github-profile</id>
-            <build>
-                <plugins>
-
-                    <!-- Publication du maven site lors de la génération du site -->
-                    <plugin>
-                        <!-- Deploy the web site -->
-                        <groupId>com.github.github</groupId>
-                        <artifactId>site-maven-plugin</artifactId>
-                        <version>0.12</version>
-                        <configuration>
-                            <message>Creating site for ${project.version}</message>
-                            <path>${project.version}${maven.site.path}</path>
-                            <repositoryName>${github.project.name}</repositoryName>
-                            <repositoryOwner>CALINFO-NC</repositoryOwner>
-                            <merge>true</merge>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>site</goal>
-                                </goals>
-                                <phase>site</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
     </profiles>
+
 
     <build>
         <finalName>${project.artifactId}</finalName>
 
         <plugins>
+
+            <!-- Passage du common en licence GNU GPL -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <licenseName>${license.gpl3.licenseName}</licenseName>
+                            <organizationName>${license.gpl3.organisationName}</organizationName>
+                            <inceptionYear>${license.gpl3.inceptionYear}</inceptionYear>
+                            <canUpdateCopyright>true</canUpdateCopyright>
+                            <roots>
+                                <root>src/main/java</root>
+                            </roots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!-- Permet d'ingorer l'absence du fichier web.xml géré par springboot -->
             <plugin>
@@ -174,34 +165,6 @@
                 </executions>
             </plugin>
 
-            <!-- Génère les .jar contenant la javadoc -->
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven-javadoc-plugin}</version>
-                <executions>
-                    <execution>
-                        <id>resource-bundles</id>
-                        <phase>package</phase>
-                        <goals>
-                            <!-- produce source artifact for main project sources -->
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                            <detectOfflineLinks>false</detectOfflineLinks>
-                            <show>private</show>
-                            <failOnError>${javadoc.failOnError}</failOnError>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Plugin necesaires pour la génération de la doc maven -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>${version.maven-site-plugin}</version>
-            </plugin>
 
             <!-- Plugin necesaires pour la génération de diagramme via plantUml -->
             <plugin>
@@ -258,29 +221,6 @@
 
 
     </dependencies>
-
-    <reporting>
-        <plugins>
-            <!-- Rapport standard d'un site maven -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>${version.maven-project-info-reports-plugin}</version>
-            </plugin>
-
-            <!--Javadoc -->
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven-javadoc-plugin}</version>
-                <configuration>
-                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                    <detectOfflineLinks>false</detectOfflineLinks>
-                    <show>private</show>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
-    
 
     <modules>
         <module>common-api</module>
