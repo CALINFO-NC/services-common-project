@@ -18,7 +18,7 @@ Comment intégrer le méchanisme du sous package <storage> au sein de son applic
 
   Lors de l'appel de ce service, si vous souhaitez savoir dans quel domaine les méthodes de ce service sont invoquées, vous pouvez utiliser la classe <DomainContext>.
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.io.storage.service.BinaryDataClientService;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +27,13 @@ public class MyBinaryDataService implements BinaryDataClientService {
 
     ...
 }
-+------------------------------------------+
+```
 
  * Multi tenant
 
  Si votre application est une applciation multi tenant, c'est à dire avec plusieurs domaines, il vous faudra implémenter le service <BinaryDataDomainService>.
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.io.storage.service.BinaryDataDomainService;
 import org.springframework.stereotype.Service;
 
@@ -43,14 +43,14 @@ public class MyBinaryDataDomainService implements BinaryDataDomainService {
     ...
 }
 
-+------------------------------------------+
+```
 
  * Connecteur
 
  Ensuite le sous package <storage> de <common-io> a besoins de savoir comment lire et écrire des fichiers sur un autre support.
  Dans ce cas, il vous faudra implémenter le composant <BinaryDataConnector>.
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import org.springframework.stereotype.Component;
 
@@ -60,7 +60,7 @@ public class MyBinaryDataConnector implements BinaryDataConnector {
     ...
 }
 
-+------------------------------------------+
+```
 
  Il existe plusieurs type de connecteur déjà implémenté dans le sous package <storage> du <common-io>. Voir chapitre <Connecteur>.
 
@@ -69,7 +69,7 @@ public class MyBinaryDataConnector implements BinaryDataConnector {
 
  Ajouter les lignes ci-dessous dans le fichier de propriété (ex : application.yml)
 
-+------------------------------------------+
+```
 common-io:
   storage:
     scheduler:
@@ -77,7 +77,7 @@ common-io:
       delay: 60000      # Délai en mili seconde entre chaque tentative de transfert
 
 
-+------------------------------------------+
+```
 
  * Multi-threading
 
@@ -86,7 +86,7 @@ common-io:
 
  Ci-dessous un exemple d'implémentation
 
-+------------------------------------------+
+```
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -116,4 +116,4 @@ public class ThreadConfig {
 }
 
 
-+------------------------------------------+
+```

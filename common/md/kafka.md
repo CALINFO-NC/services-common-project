@@ -1,4 +1,4 @@
-Description
+# Description
 
  Le <common> propose une intégration d'apache Kafka  {{ https://kafka.apache.org/ }}
 
@@ -6,18 +6,18 @@ Description
 
  L'integration de Kafka au seins du common consiste à transférer en tant que message Kafka, une instance de la classe <com.calinfo.api.common.kafka.KafkaEvent>
 
-Comment envoyer un topic à Kafka avec comme objet <KafkaEvent> ?
+# Comment envoyer un topic à Kafka avec comme objet <KafkaEvent> ?
 
-+------------------------------------------+
+```
  @KafkaTopic("nomTopic")
  public MyResource myMethod(...){
     ...
  }
-+------------------------------------------+
+```
 
-Comment écouter un topic à Kafka avec comme objet <KafkaEvent> ?
+# Comment écouter un topic à Kafka avec comme objet <KafkaEvent> ?
 
-+------------------------------------------+
+```
  @KafkaListener(topics = "idApplicationEmetteurTopic.domain.nomTopic")
  public void receiveTopic(KafkaEvent kafkaEvent) {
     ...
@@ -29,9 +29,9 @@ Comment écouter un topic à Kafka avec comme objet <KafkaEvent> ?
 public void receiveTopic(KafkaEvent kafkaEvent) {
  ...
 }
-+------------------------------------------+
+```
 
-Comment utiliser <KafkaEvent> ?
+# Comment utiliser <KafkaEvent> ?
 
  La méthode <get> de <KafkaEvent> vous permet de récupérer une instance du retour de la méthode
  sur laquelle <@KafkaTopic> a été posée. Dans l'exemple ci-dessus, la méthode <KafkaEvent.get> retournerait
@@ -59,19 +59,19 @@ Configuration
  Par défaut l'annotation <@KafkaTopic> n'est pas activé. Il est possible de l'activer en ajoutant dans le fichier de
  configuration <application.yml> les lignes suivantes :
 
-+------------------------------------------+
+```
 common:
   configuration:
     kafka-event:
       enabled: true
-+------------------------------------------+
+```
 
  Le reste de la configuration est de la configuration standard kafka-spring.
  Ci-dessous un exemple de configuration
 
  NB : Ne pas oublier d'activer Les écouteur Kafka avec l'annotation <@EnableKafka>
 
-+------------------------------------------+
+```
 spring:
   kafka:
     bootstrap-servers: ${spring.embedded.kafka.brokers}
@@ -83,7 +83,7 @@ spring:
         spring.json.trusted.packages: com.calinfo.api.common.kafka
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-+------------------------------------------+
+```
 
  Notez le <JsonDeserializer> et le <JsonSerializer>
 
@@ -98,7 +98,7 @@ Comment récupérer <KafkaEvent> Sans mettre en place Kafka
 
  Si vous voulez intercepter un évènement Kafka, il vous suffit d'écrire le code ci-dessous
 
-+------------------------------------------+
+```
 @Async  // Pas obligatoire mais vivement conseillé
 @TransactionalEventListener(...)
 public void call(KafkaEvent kafkaEvent) {
@@ -114,5 +114,5 @@ public void call(KafkaEvent kafkaEvent) {
 
     ...
 }
-+------------------------------------------+
+```
 

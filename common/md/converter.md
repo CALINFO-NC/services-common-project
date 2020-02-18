@@ -1,12 +1,12 @@
-Description
+# Description
 
  Le <converter> est un mécanisme permettant de convertir un objet en un autre.
 
-Usage
+# Usage
 
  * Création d'un premier <converter> permettant de convertir une classe <A> en une classe <B> et inversement
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.converter.InstanceConverter;
 import org.springframework.stereotype.Component;
 import com.calinfo.api.common.converter.ContextConverter;
@@ -45,11 +45,11 @@ public class AtoBConverter implements InstanceConverter {
         return ...;
     }
 }
-+------------------------------------------+
+```
 
  * Création d'un second <converter> permettant de convertir un <Integer> en <Long> et inversement.
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.converter.ClassConverter;
 import org.springframework.stereotype.Component;
 import com.calinfo.api.common.converter.ContextConverter;
@@ -79,11 +79,11 @@ public class InttoLongConverter implements ClassConverter {
         return intToLong || longToInt;
     }
 }
-+------------------------------------------+
+```
 
  * Création d'un registre
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.converter.AbstractConvertManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -106,11 +106,11 @@ public class ConvertManager extends AbstractConvertManager {
         addConverter(inttoLongConverter);
     }
 }
-+------------------------------------------+
+```
 
  * Comment utiliser le <connverter>
 
-+------------------------------------------+
+```
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.calinfo.api.common.converter.ContextConverter;
@@ -146,4 +146,4 @@ public class Example {
 
    }
 }
-+------------------------------------------+
+```

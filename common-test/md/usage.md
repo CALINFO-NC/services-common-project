@@ -4,7 +4,7 @@ Créé des tests Java compatible Xray
  Pour ce faire, l'ensemble des tests doivent être écrit avec TestNg.
  Ci dessous, un exemple de test.
 
-+------------------------------------------+
+```
 public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextTests {
 
     @Test
@@ -14,7 +14,7 @@ public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextT
     }
 
 }
-+------------------------------------------+
+```
 
  Lorsque ce test s'exécutera, le résultat de ce test créra une nouvelle Jira (<CODEJIRA-100> apr exemple) qui sera associé à la jira <CODEJIRA-1>.
 
@@ -22,7 +22,7 @@ public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextT
  Pour cela il fadra utiliser la propriété <test> de l'annotation <Xray> comme ci-dessous.
 
 
-+------------------------------------------+
+```
 public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextTests {
 
     @Test
@@ -32,7 +32,7 @@ public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextT
     }
 
 }
-+------------------------------------------+
+```
 
  L'exécution des tests généra un fichier testng-results.xml. Ce fichier devra être envoyé au serveur Xray pour obtenir le résultat dans Jira
 
@@ -46,7 +46,7 @@ Comment envoyer les résultats des tests Java dans le serveur Xray
 
  Cependant, vous trouverez ci-dessous un exemple de script sh intégrant le résultat des tests dans le serveur Xray
 
-+------------------------------------------+
+```
 #!/bin/bash
 
 clientId=5E2C649649404FCB49D10B
@@ -62,4 +62,4 @@ projectKey=codeJira
 
 # Intégrer le résultat dans XRay
 curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $xRayToken"  --data @"/cheminDeMonResultat/testng-results.xml" "https://xray.cloud.xpand-it.com/api/v1/import/execution/testng?projectKey=$projectKey&testEnvironments=$testEnvironments"
-+------------------------------------------+
+```

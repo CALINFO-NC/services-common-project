@@ -3,7 +3,7 @@ Description
  Les connecteurs sont des classe permettant de faire des opération (comme downloader ou uplooader) sur des support externe.
  Pour que le sous package <storage> du <common-io> sache écrire sur un support externe, il vous faudra implémenter le composant <BinaryDataConnector>.
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class MyBinaryDataConnector implements BinaryDataConnector {
  ...
 }
 
-+------------------------------------------+
+```
 
  NB : La classe <BinaryDataConnector> possède deux autres méthodes <createSpace> et <deleteSpace> permettant de crééer ou de supprimer un espace de stockage.
  On peu voir un espace de stockage un peu comme un schéma de base de données.
@@ -25,7 +25,7 @@ Connecteur <Google cloud>
  Ce conencteur permet d'envoyer les données binaire dans un <bucket> du <google cloud>. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
  de configuration (ex : application.yml) les éléments suivants :
 
-+------------------------------------------+
+```
 
 common-io:
   storage:
@@ -33,11 +33,11 @@ common-io:
       provider: google
       configuration: # Voir les propriétés de la classe GoogleConfigProperties
 
-+------------------------------------------+
+```
 
  Voici un exemple de configuration
 
-+------------------------------------------+
+```
 
 common-io:
   storage:
@@ -60,7 +60,7 @@ common-io:
           }
         buckatName: "test_bucket_calinfo"
 
-+------------------------------------------+
+```
 
 Connecteur <mémoire>
 
@@ -68,21 +68,21 @@ Connecteur <mémoire>
  Ce connecteur peut servir principalement pour lancer tests unitaires. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
  de configuration (ex : application.yml) les éléments suivants :
 
-+------------------------------------------+
+```
 
 common-io:
   storage:
     connector:
       provider: mem
 
-+------------------------------------------+
+```
 
 Connecteur <FileSystem>
 
  Ce connecteur permet de stocker les données binaires dans un système de fichier. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
  de configuration (ex : application.yml) les éléments suivants :
 
-+------------------------------------------+
+```
 
 common-io:
   storage:
@@ -90,11 +90,11 @@ common-io:
       provider: file
       configuration: # Voir les propriétés de la classe FileConfigProperties
 
-+------------------------------------------+
+```
 
  Voici un exemple de configuration
 
-+------------------------------------------+
+```
 
 common-io:
   storage:
@@ -102,14 +102,14 @@ common-io:
       provider: file
       configuration: "/foo/bar"
 
-+------------------------------------------+
+```
 
 Connecteur <Ftp>
 
  Ce connecteur permet de stocker les données binaires sur un FTP (non sécurisé). Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier
  de configuration (ex : application.yml) les éléments suivants :
 
-+------------------------------------------+
+```
 
 common-io:
   storage:
@@ -117,11 +117,11 @@ common-io:
       provider: ftp
       configuration: # Voir les propriétés de la classe FtpConfigProperties
 
-+------------------------------------------+
+```
 
  Voici un exemple de configuration
 
-+------------------------------------------+
+```
 
 common-io:
   storage:
@@ -134,4 +134,4 @@ common-io:
         password: "password"
         path: "/test"
 
-+------------------------------------------+
+```

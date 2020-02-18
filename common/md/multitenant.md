@@ -1,4 +1,4 @@
-Description
+# Description
 
  La gestion <multi-tenant> implémentée par le <common> est un mécanisme permettant, pour une seule instance d'une application, d'avoir plusieurs schémas d'une même structure de base de données.
  Dans le reste du <common>, nous avons appelé <domain> une représentation de ce schéma. Ajouter à cela, le <common> sait gérer une base de données commune pour tous les domaines.
@@ -12,7 +12,7 @@ Description
  Pour cela, le développeur doit indiquer lors de l'appel d'une requête HTTP, quel est le <domain> souhaité. Pour se faire, le développeur
  indiquer dans le context via <com.calinfo.api.common.tenant.DomainContext.setDomain(...)> le domain souhaité.
 
-+------------------------------------------+
+```
 Exemple :
 
 @Component
@@ -34,11 +34,11 @@ public class MyFilter extends OncePerRequestFilter {
         }
     }
 }
-+------------------------------------------+
+```
 
  []
 
-Comment le <common> sait-il quels sont les <repository> et les <entity> utilisés pour un <domain> et ceux utilisés pour la base de données commune (ou générique) ?
+# Comment le <common> sait-il quels sont les <repository> et les <entity> utilisés pour un <domain> et ceux utilisés pour la base de données commune (ou générique) ?
 
  Le développeur doit indiquer ces informations au <common>.
 
@@ -48,7 +48,7 @@ Comment le <common> sait-il quels sont les <repository> et les <entity> utilisé
 
   * Pour indiquer les <jpaRepository> pour le <domain>, le développeur doit écrire la classe ci-dessous en indiquant dans <basePackages> la liste des packages concernés par le <domain>.
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.tenant.TenantDatasourceConfiguration;
 import com.calinfo.api.common.tenant.TenantProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -66,11 +66,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 public class DomainDatasourceConfiguration extends TenantDatasourceConfiguration {
 }
-+------------------------------------------+
+```
 
   * Pour indiquer les <jpaRepository> pour la base de données générique, le développeur doit écrire la classe ci-dessous en indiquant dans <basePackages> la liste des packages concernés par la base de données générique.
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.tenant.DefaultDatasourceConfiguration;
 import com.calinfo.api.common.tenant.TenantProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -88,15 +88,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 public class GenericDatasourceConfiguration extends DefaultDatasourceConfiguration {
 }
-+------------------------------------------+
+```
 
-Comment créer un <domain> par programme ?
+# Comment créer un <domain> par programme ?
 
  La création d'un <domain> consiste à créer un schéma de base de donnée, et éventuellement jouer les scripts <liquibase>.
 
  Le code ci-dessous donne un exemple de comment y parvenir :
 
-+------------------------------------------+
+```
 import com.calinfo.api.common.tenant.TenantDatasourceConfiguration;
 import com.calinfo.api.common.tenant.TenantProperties;
 import com.calinfo.api.common.utils.DatabaseUtils;
@@ -126,15 +126,15 @@ public class MyExample {
 
     }
 }
-+------------------------------------------+
+```
 
-Configuration
+# Configuration
 
  La configuration du <tenant> se fait dans la sous configuration <common.configuration.tenant> du fichier <yaml> .
  Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe <com.calinfo.api.common.tenant.TenantProperties>
 
 
-Point d'attention
+# Point d'attention
 
  Le common récupère le <domain> à utiliser (et donc le schéma) lors de l'ouverture d'une transaction (DomainContext.getDomain()).
  Si vous la transaction est déjà ouverte, l'utilisatiuon de DomainContext.setDomain(...) ne fonctionnera pas et peut même provoquer des bug

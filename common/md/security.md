@@ -1,4 +1,4 @@
-Description
+# Description
 
  Lors de l'appel d'une requête HTTP d'un service, le <common> tentera de déterminer l'identité de l'utilisateur ayant appelé cette requête.
  Si le <common> ne parvient pas à identifier l'utilisateur, ce dernier sera par défaut <securityProperties.getAnonymousLogin()> dans le cas d'une requête publique,
@@ -11,7 +11,7 @@ Description
 
  ATTENTION : il est important lorsque l'on utilise la sécurité du <common> que l'injection de <com.calinfo.api.common.manager.ApiKeyManager> soit possible.
 
-+------------------------------------------+
+```
 Exemple de classe pouvant être injectée
 
 import com.calinfo.api.common.manager.ApiKeyManager;
@@ -25,7 +25,7 @@ public class MyApiKeyManager implements ApiKeyManager{
         return ...
     }
 }
-+------------------------------------------+
+```
 
  La forme décryptée du <token> est représentée par la classe <com.calinfo.api.common.security.JwtUser>.
 
@@ -35,21 +35,21 @@ public class MyApiKeyManager implements ApiKeyManager{
 
  * Soit par injection :
 
-+------------------------------------------+
+```
 @Autowired
 private PrincipalManager principalManager;
 
 ...
 
 AbstractCommonPrincipal principal = principalManager.getPrincipal();
-+------------------------------------------+
+```
 
  * Soit par programme
 
-+------------------------------------------+
+```
 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal();
-+------------------------------------------+
+```
 
  Il existe aussi "PrincipalFactory" qui permet aussi d'insérer dans le context un "principal" à partir de ses tokens, ou d'insérer un "principal" annonyme.
 
@@ -61,9 +61,9 @@ Configuration
  Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe <com.calinfo.api.common.security.SecurityProperties>
  De plus, le common base sa sécurité sur un filtre, donc, si vous activé la sécurité, il faudra ajouter l'annotation SpringBootApplication comme précisé dans l'exemple ci-dessous
 
-+------------------------------------------+
+```
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class MocksApplication {
     ...
 }
-+------------------------------------------+
+```

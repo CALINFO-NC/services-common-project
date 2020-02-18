@@ -1,4 +1,4 @@
-Les services
+# Les services
 
  Sur un <CRUD>, les opérations au niveau des services sont toujours les mêmes.
  <Create>, <Read>, <Update> et <Delete>.
@@ -16,9 +16,7 @@ Les services
 
  * <DestroyService> ou <DeleteService>
 
- []
-
-Les DTOs
+# Les DTOs
 
  Un DTO (Data Transfert Object), est un objet sérialisable utilisé comme paramètre aux services, ou encore comme attribut d'un autre DTO.
  Un DTO implémente l'interface <com.calinfo.api.common.dto.Dto>.
@@ -35,7 +33,7 @@ Les DTOs
  * <DynamicListDto> : Dans le même esprit que <ChargementListDto>, si l'appelant du service renseigne les éléments à charger (<départ> et <limite>),
  ce même appelant doit avoir en retour la liste demandée ainsi que le nombre total d'éléments que pourraient avoir cette liste.
 
-Les Ressources
+# Les Ressources
 
  Une ressource est la spécialisation d'un DTO. De ce fait, une ressource hérite du DTO.
  La ressource représente une donnée exposée par un service (par exemple un <CRUD>).
@@ -46,7 +44,7 @@ Les Ressources
  Dans le package <com.calinfo.api.common.resource>, vous trouverez d'autres types de ressources vous aidant à harmoniser
  les services REST dans l'ensemble de vos projets.
 
-L'API de validation
+# L'API de validation
 
  L'API <javax.validation> offre la possibilité d'utiliser les <groups> dans chacune des annotations proposées par cette même API.
 
