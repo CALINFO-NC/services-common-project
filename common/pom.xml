@@ -32,6 +32,17 @@
         <version.truth>0.40</version.truth>
     </properties>
 
+    <build>
+
+        <plugins>
+            <!-- Passage du common en licence GNU GPL -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 
     <dependencies>
 

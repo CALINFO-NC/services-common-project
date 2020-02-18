@@ -20,6 +20,18 @@
         <version.MockFtpServer>2.7.1</version.MockFtpServer>
     </properties>
 
+
+    <build>
+
+        <plugins>
+            <!-- Passage du common en licence GNU GPL -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
