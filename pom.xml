@@ -35,6 +35,7 @@
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.common-net>3.6</version.common-net>
         <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
+        <version.maven-surefire-plugin>3.0.0-M4</version.maven-surefire-plugin>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -193,6 +194,14 @@
             <artifactId>lombok</artifactId>
             <version>${version.lombok}</version>
         </dependency>
+
+        <!-- correction d'un bug sur maven-surfery-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${version.maven-surefire-plugin}</version>
+        </dependency>
+
 
 
     </dependencies>
