@@ -42,19 +42,15 @@ then
     
     artifactory_deploy $TRAVIS_BUILD_DIR/common common.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common common-sources.jar "" sources
-    artifactory_deploy $TRAVIS_BUILD_DIR/common common-javadoc.jar "" javadoc
 
     artifactory_deploy $TRAVIS_BUILD_DIR/common-api common-api.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common-api common-api-sources.jar "" sources
-    artifactory_deploy $TRAVIS_BUILD_DIR/common-api common-api-javadoc.jar "" javadoc
 
     artifactory_deploy $TRAVIS_BUILD_DIR/common-test common-test.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common-test common-test-sources.jar "" sources
-    artifactory_deploy $TRAVIS_BUILD_DIR/common-test common-test-javadoc.jar "" javadoc
 
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io-sources.jar "" sources
-    artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io-javadoc.jar "" javadoc
 
     artifactory_deploy $TRAVIS_BUILD_DIR pom.xml
 fi

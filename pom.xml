@@ -40,8 +40,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <javadoc.failOnError>true</javadoc.failOnError>
-
         <java.version>11</java.version>
 
         <maven.site.path>/${project.artifactId}</maven.site.path>
