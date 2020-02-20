@@ -189,7 +189,7 @@ public class SecurityUtils {
         tokenUser.setLogin(claims.get("login", String.class));
         tokenUser.setDomain(claims.get("domain", String.class));
 
-        List<String> rolesApp = (List<String>) claims.get("rolesApp", List.class);
+        List<String> rolesApp = claims.get("rolesApp", List.class);
 
         if (rolesApp != null){
             tokenUser.setRoles(rolesApp);
