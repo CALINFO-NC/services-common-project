@@ -7,7 +7,7 @@
 
     <groupId>com.calinfo-nc.services</groupId>
     <artifactId>common-project</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <description>Bibliothèque parent de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
