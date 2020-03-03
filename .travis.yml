@@ -12,8 +12,7 @@ jdk:
 addons:
   sonarcloud:
     organization: "calinfo-nc"
-    token:
-      secure: $SONARQUBE_TOKEN
+    token: $SONARQUBE_TOKEN
 git:
   depth: false
 before_install:
