@@ -73,6 +73,8 @@ common:
 spring:
   kafka:
     bootstrap-servers: ${spring.embedded.kafka.brokers}
+    listener:
+      missing-topics-fatal: false   # Cette configuration est tr!ès importante car le common créé les topic à la volet
     consumer:
       auto-offset-reset: earliest
       group-id: ${common.configuration.application.id}

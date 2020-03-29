@@ -8,16 +8,15 @@
     <parent>
         <groupId>com.calinfo-nc.services</groupId>
         <artifactId>common-project</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>common-api</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <version.service-common>${project.version}</version.service-common>
-        <version.openpojo>0.8.12</version.openpojo>
-        <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
+        <version.openpojo>0.8.13</version.openpojo>
         <version.validation-api>2.0.1.Final</version.validation-api>
     </properties>
 
