@@ -93,6 +93,28 @@ public class MyJsClass {
 
 Le code java ci-dessus aura pour effet d'écrire la fonction javascript accessible depuis **document.$server.MonNameSapce.maMethod(...)**.
 
+* Attention en intégrant common-teaVm, cela vous génère une nouvelle classe avec un *main*. Le démarrage de votre application
+springboot risque de ne plus fonctionner. Vous dever indiquer dans votre configuration quel est la vrai classe mai nà utiliser
+par spring boot. Vous devriez avoir quelque chose comme ceci :
+
+```
+<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <version>${version.spring}</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>repackage</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <mainClass>com.calinfo.api.Application</mainClass>
+    </configuration>
+</plugin>
+```
+
 # Contrainte Java
 
 La bibliothèque TeaVM apporte cependant queleques contraintes sur la classe Java déportable
