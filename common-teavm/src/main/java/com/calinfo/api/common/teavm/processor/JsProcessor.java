@@ -260,6 +260,8 @@ public class JsProcessor extends AbstractProcessor {
         String packageName = System.getProperty("calinfo.common.teavm.main.packageName", "com.calinfo.teavm");
         String className = System.getProperty("calinfo.common.teavm.main.className", "JsClass");
 
+        LogUtils.trace(String.format("Génération de la classe Java : %s.%s", packageName, className));
+
         List<String> lstJavaMethodNameInClass = new ArrayList<>();
 
         String sourceFilePkg = String.join(".", packageName, className);
@@ -298,9 +300,12 @@ public class JsProcessor extends AbstractProcessor {
 
     private String writeJsBodyAndGetJavaMethodeName(PrintWriter out, SignatureJvm signatureJvm){
 
+        String baseNamespace = System.getProperty("calinfo.common.teavm.main.rootNameSpace", "document.$server");
+        LogUtils.trace(String.format("Utilisation de la racine du namespace : %s", baseNamespace));
+
         // Création du name space javascript
         StringBuilder javaMethodName = new StringBuilder("js");
-        StringBuilder namespace = new StringBuilder(System.getProperty("calinfo.common.teavm.main.rootNameSpace", "document.$server"));
+        StringBuilder namespace = new StringBuilder(baseNamespace);
         StringBuilder scripts = new StringBuilder(String.format("if (%s === null || %s === undefined) { %s = {}; } ", namespace, namespace, namespace));
         Arrays.stream(signatureJvm.getNameSpaceAndMethodName().split("\\.")).forEach(item -> {
             scripts.append(String.format("if (%s.%s === null || %s.%s === undefined) { %s.%s = {}; } ", namespace, item, namespace, item, namespace, item));

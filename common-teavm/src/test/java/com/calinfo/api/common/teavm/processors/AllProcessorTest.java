@@ -23,7 +23,6 @@ public class AllProcessorTest {
 
         JsProcessor processor = new JsProcessor();
         File source = new File("src/test/resources/processor/JsClassTest.java");
-        //Truth.assertAbout(JavaSourceSubjectFactory.javaSource()).that(JavaFileObjects.forResource(source.toURI().toURL())).processedWith(processor).compilesWithoutError();
 
 
         JavaFileObject[] files = {JavaFileObjects.forResource(source.toURI().toURL())};
