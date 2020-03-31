@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.calinfo-nc.services</groupId>
         <artifactId>common-project</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>common</artifactId>
@@ -19,14 +19,13 @@
 
     <properties>
         <version.service-common>${project.version}</version.service-common>
-        <version.commons-io>2.5</version.commons-io>
-        <version.commons-lang3>3.9</version.commons-lang3>
+        <version.commons-io>2.6</version.commons-io>
         <version.jjwt>0.9.1</version.jjwt>
-        <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
-        <version.swagger>2.9.2</version.swagger>
-        <version.spring-kafka>2.2.7.RELEASE</version.spring-kafka>
+        <version.springfox-swagger2>2.9.2</version.springfox-swagger2>
+        <version.pringfox-swagger-ui>2.9.2</version.pringfox-swagger-ui>
+        <version.spring-kafka>2.4.4.RELEASE</version.spring-kafka>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
-        <version.javassist>3.25.0-GA</version.javassist>
+        <version.javassist>3.27.0-GA</version.javassist>
         <version.auto-service>1.0-rc2</version.auto-service>
         <version.compile-testing>0.13</version.compile-testing>
         <version.truth>0.40</version.truth>
@@ -173,13 +172,13 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${version.swagger}</version>
+            <version>${version.springfox-swagger2}</version>
         </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${version.swagger}</version>
+            <version>${version.pringfox-swagger-ui}</version>
         </dependency>
 
 

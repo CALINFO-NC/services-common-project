@@ -19,6 +19,7 @@
  * [common-api](./common-api)
  * [common-test](./common-test)
  * [common-io](./common-io)
+ * [common-teavm](./common-teavm)
 
 # Licence
 

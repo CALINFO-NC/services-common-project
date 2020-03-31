@@ -7,7 +7,7 @@
 
     <groupId>com.calinfo-nc.services</groupId>
     <artifactId>common-project</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>Bibliothèque parent de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
@@ -24,18 +24,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <version.service-common>${project.version}</version.service-common>
-        <version.lombok>1.18.8</version.lombok>
-        <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
-        <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
-        <version.spring>2.1.5.RELEASE</version.spring>
-        <version.testng>6.14.3</version.testng>
-        <version.maven-source-plugin>2.1.1</version.maven-source-plugin>
-        <version.maven-site-plugin>3.8.2</version.maven-site-plugin>
-        <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
+        <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
+        <version.lombok>1.18.12</version.lombok>
+        <version.spring>2.2.0.RELEASE</version.spring>
+        <version.testng>7.1.0</version.testng>
+        <version.maven-war-plugin>3.2.3</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.common-net>3.6</version.common-net>
         <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
         <version.maven-surefire-plugin>3.0.0-M4</version.maven-surefire-plugin>
+        <version.commons-lang3>3.10</version.commons-lang3>
+        <version.teavm>0.6.1</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-team puisse changer la version de teaVM -->
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -209,6 +208,7 @@
         <module>common</module>
         <module>common-test</module>
         <module>common-io</module>
+        <module>common-teavm</module>
     </modules>
 
 

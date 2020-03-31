@@ -6,17 +6,17 @@
     <parent>
         <groupId>com.calinfo-nc.services</groupId>
         <artifactId>common-project</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-io</artifactId>
 
     <properties>
-        <version.shedlock-core>2.5.0</version.shedlock-core>
+        <version.shedlock-core>4.6.0</version.shedlock-core>
         <version.service-common>${project.version}</version.service-common>
-        <version.commons-io>2.5</version.commons-io>
-        <version.google-cloud-storage>1.35.0</version.google-cloud-storage>
+        <version.commons-io>2.6</version.commons-io>
+        <version.google-cloud-storage>1.106.0</version.google-cloud-storage>
         <version.MockFtpServer>2.7.1</version.MockFtpServer>
     </properties>
 
