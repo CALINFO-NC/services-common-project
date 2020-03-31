@@ -17,9 +17,7 @@ import java.io.IOException;
 public class AllProcessorTest {
 
     @Test
-    public void callProcessor() throws IOException{
-
-        System.setProperty("calinfo.common.teavm.log.level", "trace");
+    public void callProcessor() throws IOException{s
 
         JsProcessor processor = new JsProcessor();
         File source = new File("src/test/resources/processor/JsClassTest.java");
