@@ -17,7 +17,7 @@ import java.io.IOException;
 public class AllProcessorTest {
 
     @Test
-    public void callProcessor() throws IOException{s
+    public void callProcessor() throws IOException{
 
         JsProcessor processor = new JsProcessor();
         File source = new File("src/test/resources/processor/JsClassTest.java");

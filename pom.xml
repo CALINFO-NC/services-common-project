@@ -34,7 +34,7 @@
         <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
         <version.maven-surefire-plugin>3.0.0-M4</version.maven-surefire-plugin>
         <version.commons-lang3>3.10</version.commons-lang3>
-        <version.teavm>0.6.1</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-team puisse changer la version de teaVM -->
+        <version.teavm>0.6.1</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-teavm puisse changer la version de teaVM -->
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
