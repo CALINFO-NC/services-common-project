@@ -122,6 +122,7 @@ La bibliothèque TeaVM apporte cependant queleques contraintes sur la classe Jav
 * Le constructeur de la classe ne doit comporté aucun paramètre
 * La classe ne peut pas utiliser l'injection
 * Les méthodes annotées avec JsMethod ne peuvent pas renvoyer d'exception. Cependant le RuntimeException (ou dérivé) est géré.
+* Les méthodes annotées avec JsMethod doivent être static.
 * les types gérés en paramètre ou en retour sont *void*, *int* (le *long* n'est pa géré), *double*, *float*, *short*, *byte*,
 *boolean*, *java.lang.String*, ainsi que les tableaux ([] et non des listes) de tous ces types.
 

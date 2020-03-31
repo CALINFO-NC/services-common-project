@@ -328,8 +328,15 @@ public class JsProcessor extends AbstractProcessor {
         scripts.append(String.format("%s = function(%s) { %s javaMethods.get('%s').invoke(%s); }; ", namespace, strPrm, returnStr, getJvmSignature(signatureJvm), strPrm));
 
         // Ecriture de la méthode java
-        out.println(String.format("@JSBody(script = \"%s\")", scripts));
-        out.println(String.format("static native void %s();", javaMethodName));
+        String line = String.format("@JSBody(script = \"%s\")", scripts);
+        out.println(line);
+        LogUtils.trace(String.format("annotation : %s", line));
+
+        line = String.format("static native void %s();", javaMethodName);
+        LogUtils.trace(String.format("méthode : %s", line));
+        out.println(line);
+
+
 
         return javaMethodName.toString();
     }
@@ -337,8 +344,9 @@ public class JsProcessor extends AbstractProcessor {
     private String getJvmSignature(SignatureJvm signatureJvm){
 
         List<String> prmJvm = signatureJvm.getParameters().stream().map(this::getJvmType).collect(Collectors.toList());
+        String prmSignature =  String.join("", prmJvm.toArray(new String[prmJvm.size()]));
 
-        return MessageFormat.format("{0}({1}){2})", signatureJvm.getClassAndMethodName(), String.join("", prmJvm.toArray(new String[prmJvm.size()])), getJvmType(signatureJvm.getReturnType()));
+        return MessageFormat.format("{0}({1}){2}", signatureJvm.getClassAndMethodName(), prmSignature, getJvmType(signatureJvm.getReturnType()));
     }
 
     private void writeImport(PrintWriter out){
