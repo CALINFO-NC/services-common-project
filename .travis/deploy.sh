@@ -52,8 +52,8 @@ then
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io.jar
     artifactory_deploy $TRAVIS_BUILD_DIR/common-io common-io-sources.jar "" sources
 
-    artifactory_deploy $TRAVIS_BUILD_DIR/common-teamvm common-teavm.jar
-    artifactory_deploy $TRAVIS_BUILD_DIR/common-teamvm common-teavm-sources.jar "" sources
+    artifactory_deploy $TRAVIS_BUILD_DIR/common-teavm common-teavm.jar
+    artifactory_deploy $TRAVIS_BUILD_DIR/common-teavm common-teavm-sources.jar "" sources
 
     artifactory_deploy $TRAVIS_BUILD_DIR pom.xml
 fi
