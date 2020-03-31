@@ -29,10 +29,7 @@ import com.calinfo.api.common.teavm.utils.LogUtils;
 import com.google.auto.service.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Processor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.*;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -55,33 +52,23 @@ public class JsProcessor extends AbstractProcessor {
 
     private List<SignatureJvm> cache = new ArrayList<>();
 
-    // Il semble que le prcessor soit lancé 2 fois. J'ignore le pourquoi du comment.
-    // Cette variable évite que le traitement soit effectué deux fois
-    private boolean obsolete = false;
-
-
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
         try {
-            if (!obsolete) {
-                LogUtils.trace("Start js class generation");
+            LogUtils.trace("Start js class generation");
 
-                for (Element jsClassElement : roundEnv.getRootElements()) {
-                    analyzeJsClassElement(jsClassElement);
-                }
-
-                generateTeaVmClass();
-
-                LogUtils.trace("End js class generation");
+            for (Element jsClassElement : roundEnv.getRootElements()) {
+                analyzeJsClassElement(jsClassElement);
             }
+
+            generateTeaVmClass();
+
+            LogUtils.trace("End js class generation");
         }
         catch(Exception e){
             LogUtils.error(e);
             throw new ProcessorRuntimeException(e);
-        }
-        finally {
-            obsolete = true;
         }
 
         // Processeur suivant peuvent traiter les annotations
@@ -275,7 +262,15 @@ public class JsProcessor extends AbstractProcessor {
 
         List<String> lstJavaMethodNameInClass = new ArrayList<>();
 
-        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(String.join(".", packageName, className));
+        String sourceFilePkg = String.join(".", packageName, className);
+        JavaFileObject builderFile;
+        try {
+            builderFile = processingEnv.getFiler().createSourceFile(sourceFilePkg);
+        }
+        catch(FilerException e){
+            LogUtils.trace(e.getMessage());
+            return;
+        }
 
         try (PrintWriter out = new PrintWriter(builderFile.openWriter())) {
 
