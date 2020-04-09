@@ -36,7 +36,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -90,12 +89,6 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
      */
     @Autowired
     private PrincipalFactory principalFactory;
-
-    /**
-     * Dans le cas ou les requêtes cross over domaine sont autorisées
-     */
-    @Autowired(required = false)
-    private CorsConfiguration corsConfiguration;
 
     /**
      * {@inheritDoc}
@@ -182,7 +175,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     }
 
     private boolean isCorsRequest(HttpServletRequest httpServletRequest){
-        return corsConfiguration != null && httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.name());
+        return securityProperties.isCors() && httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.name());
     }
 
 }
