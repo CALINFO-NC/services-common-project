@@ -32,9 +32,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -90,13 +92,21 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     private PrincipalFactory principalFactory;
 
     /**
+     * Dans le cas ou les requêtes cross over domaine sont autorisées
+     */
+    @Autowired(required = false)
+    private CorsConfiguration corsConfiguration;
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         try{
-            initPrincipal(httpServletRequest, httpServletResponse);
+            if (!isCorsRequest(httpServletRequest)) {
+                initPrincipal(httpServletRequest, httpServletResponse);
+            }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         catch(ExpiredJwtException e){
@@ -169,6 +179,10 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             isPrivate = true;
         }
         return isPrivate;
+    }
+
+    private boolean isCorsRequest(HttpServletRequest httpServletRequest){
+        return corsConfiguration != null && httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.name());
     }
 
 }
