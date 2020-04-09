@@ -36,10 +36,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -94,16 +94,15 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
      * {@inheritDoc}
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException {
 
         try{
             if (!isCorsRequest(httpServletRequest)) {
                 initPrincipal(httpServletRequest, httpServletResponse);
             }
-            else{
-                httpServletResponse.setStatus(HttpStatus.OK.value());
-            }
+
             filterChain.doFilter(httpServletRequest, httpServletResponse);
+
         }
         catch(ExpiredJwtException e){
             catchMessageStatusException(new MessageStatusException(HttpStatus.UNAUTHORIZED, e.getMessage()), httpServletResponse);
@@ -178,7 +177,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
     }
 
     private boolean isCorsRequest(HttpServletRequest httpServletRequest){
-        return securityProperties.isCors() && httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.name());
+        return CorsUtils.isCorsRequest(httpServletRequest) && httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.name());
     }
 
 }

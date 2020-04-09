@@ -64,9 +64,4 @@ public class SecurityProperties {
      * Lorsqu'une tâche système est lancée, le pricipal peut utiliser un login par défaut
      */
     private String systemLogin = DEFAULT_SYSTEM_USER_LOGIN;
-
-    /**
-     * true si les requête cross domain sont activées
-     */
-    private boolean cors = false;
 }
