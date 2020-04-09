@@ -100,6 +100,9 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
             if (!isCorsRequest(httpServletRequest)) {
                 initPrincipal(httpServletRequest, httpServletResponse);
             }
+            else{
+                httpServletResponse.setStatus(HttpStatus.OK.value());
+            }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         catch(ExpiredJwtException e){
