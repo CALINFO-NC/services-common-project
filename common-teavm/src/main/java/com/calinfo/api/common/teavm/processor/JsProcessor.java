@@ -351,6 +351,8 @@ public class JsProcessor extends AbstractProcessor {
 
     private void writeImport(PrintWriter out){
 
+        List<String> lstImport = new ArrayList<>();
+
         cache.stream().forEach(signatureJvm -> {
 
             String strType = signatureJvm.getReturnType();
@@ -358,8 +360,9 @@ public class JsProcessor extends AbstractProcessor {
                 strType = getItemTypeArray(strType);
             }
 
-            if (signatureJvm.getReturnType() != null && isClass(strType)){
-                out.println(MessageFormat.format("import {0};", signatureJvm.getReturnType()));
+            if (strType != null && isClass(strType)  && !lstImport.contains(strType)){
+                out.println(MessageFormat.format("import {0};", strType));
+                lstImport.add(strType);
             }
 
             signatureJvm.getParameters().stream().forEach(parameter -> {
@@ -369,8 +372,9 @@ public class JsProcessor extends AbstractProcessor {
                     strTypePrm = getItemTypeArray(strTypePrm);
                 }
 
-                if (isClass(strTypePrm)){
+                if (isClass(strTypePrm) && !lstImport.contains(strTypePrm)){
                     out.println(MessageFormat.format("import {0};", strTypePrm));
+                    lstImport.add(strTypePrm);
                 }
             });
 
