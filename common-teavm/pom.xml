@@ -75,6 +75,12 @@
         <!-- Bibliothèque interne -->
         <dependency>
             <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common-teavm-annotations</artifactId>
+            <version>${version.service-common}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
             <artifactId>common-test</artifactId>
             <version>${version.service-common}</version>
             <scope>test</scope>
