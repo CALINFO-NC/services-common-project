@@ -209,7 +209,6 @@
         <module>common-test</module>
         <module>common-io</module>
         <module>common-teavm</module>
-        <module>common-teavm-annotations</module>
     </modules>
 
 
