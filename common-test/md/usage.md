@@ -1,7 +1,28 @@
 # Créé des tests Java compatible Xray
 
  Ce module apporte des outils permettant d'intgrer les résultats de test dans Jira via le module XRay.
- Pour ce faire, l'ensemble des tests doivent être écrit avec TestNg.
+ Pour ce faire, il faut ajouter dans le pom.xml le plugin ci-dessous
+ 
+```
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.0.0-M3</version>
+
+    <configuration>
+        <testFailureIgnore>true</testFailureIgnore>
+        <properties>
+            <property>
+                <name>reporter</name>
+                <value>org.testng.reporters.XMLReporter:generateTestResultAttributes=true,generateGroupsAttribute=true</value>
+            </property>
+        </properties>
+
+    </configuration>
+</plugin> 
+```
+ 
+ Ecrire l'ensemble des tests avec TestNg.
  Ci dessous, un exemple de test.
 
 ```
