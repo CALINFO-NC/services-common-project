@@ -23,7 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.service-common>${project.version}</version.service-common>
+        <version.service-common>1.0.1-SNAPSHOT</version.service-common>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
         <version.lombok>1.18.12</version.lombok>
         <version.spring>2.2.0.RELEASE</version.spring>
