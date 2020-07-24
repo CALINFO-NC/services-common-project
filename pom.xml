@@ -7,7 +7,7 @@
 
     <groupId>com.calinfo-nc.services</groupId>
     <artifactId>common-project</artifactId>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <packaging>pom</packaging>
 
     <description>Bibliothèque parent de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
@@ -23,7 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.service-common>${project.version}</version.service-common>
+        <version.service-common>1.0.0.2</version.service-common>
         <version.lombok>1.18.8</version.lombok>
         <version.maven-plugin-plugin>2.5.1</version.maven-plugin-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
