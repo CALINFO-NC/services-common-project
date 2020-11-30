@@ -25,14 +25,14 @@
 
         <version.service-common>1.0.1</version.service-common>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
-        <version.lombok>1.18.12</version.lombok>
+        <version.lombok>1.18.16</version.lombok>
         <version.spring>2.2.0.RELEASE</version.spring>
         <version.testng>7.1.0</version.testng>
-        <version.maven-war-plugin>3.2.3</version.maven-war-plugin>
+        <version.maven-war-plugin>3.3.1</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.common-net>3.6</version.common-net>
         <version.jacoco-maven-plugin>0.8.5</version.jacoco-maven-plugin>
-        <version.maven-surefire-plugin>3.0.0-M4</version.maven-surefire-plugin>
+        <version.maven-surefire-plugin>3.0.0-M5</version.maven-surefire-plugin>
         <version.commons-lang3>3.10</version.commons-lang3>
         <version.teavm>0.6.1</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-teavm puisse changer la version de teaVM -->
 

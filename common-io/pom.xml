@@ -13,10 +13,10 @@
     <artifactId>common-io</artifactId>
 
     <properties>
-        <version.shedlock-core>4.6.0</version.shedlock-core>
+        <version.shedlock-core>4.16.0</version.shedlock-core>
         <version.service-common>${project.version}</version.service-common>
-        <version.commons-io>2.6</version.commons-io>
-        <version.google-cloud-storage>1.106.0</version.google-cloud-storage>
+        <version.commons-io>2.8.0</version.commons-io>
+        <version.google-cloud-storage>1.113.4</version.google-cloud-storage>
         <version.MockFtpServer>2.7.1</version.MockFtpServer>
     </properties>
 
