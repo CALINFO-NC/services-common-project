@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.calinfo-nc.services</groupId>
         <artifactId>common-project</artifactId>
-        <version>1.0.1</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>common</artifactId>
@@ -21,14 +21,11 @@
         <version.service-common>${project.version}</version.service-common>
         <version.commons-io>2.6</version.commons-io>
         <version.jjwt>0.9.1</version.jjwt>
-        <version.springfox-swagger2>2.9.2</version.springfox-swagger2>
-        <version.pringfox-swagger-ui>2.9.2</version.pringfox-swagger-ui>
-        <version.spring-kafka>2.4.4.RELEASE</version.spring-kafka>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
         <version.javassist>3.27.0-GA</version.javassist>
         <version.auto-service>1.0-rc2</version.auto-service>
-        <version.compile-testing>0.13</version.compile-testing>
-        <version.truth>0.40</version.truth>
+        <version.compile-testing>0.19</version.compile-testing>
+        <version.truth>1.1</version.truth>
     </properties>
 
     <build>
@@ -62,14 +59,12 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>${version.spring-kafka}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
-            <version>${version.spring-kafka}</version>
         </dependency>
 
 
@@ -96,6 +91,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
 
         <!-- Biding des données des ressources REST -->
@@ -169,16 +169,20 @@
         </dependency>
 
         <!-- Swagger -->
+        <!-- Deprecated since 1.2.0 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${version.springfox-swagger2}</version>
+            <version>2.9.2</version>
+            <scope>provided</scope>
         </dependency>
 
+        <!-- Deprecated since 1.2.0 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${version.pringfox-swagger-ui}</version>
+            <version>2.9.2</version>
+            <scope>provided</scope>
         </dependency>
 
 

@@ -24,6 +24,7 @@ package com.calinfo.api.common.swagger;
 
 import com.calinfo.api.common.utils.MiscUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import springfox.documentation.service.ApiInfo;
@@ -34,11 +35,14 @@ import springfox.documentation.swagger.common.SwaggerPluginSupport;
 
 /**
  * Created by dalexis on 08/06/2018.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
  */
-
+@Deprecated(since = "1.2.0", forRemoval = true)
 @Component
 @Order(DefaultNicknameOperationBuilder.ORDER)
 @ConditionalOnClass({ApiInfo.class})
+@ConditionalOnProperty(prefix = "common.deprecated.swagger", name = "enabled", havingValue = "true")
 public class DefaultNicknameOperationBuilder implements OperationBuilderPlugin {
 
     public static final int ORDER = SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 100;

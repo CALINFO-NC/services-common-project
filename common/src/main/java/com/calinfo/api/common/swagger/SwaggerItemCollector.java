@@ -26,6 +26,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpMethod;
 
+/**
+ * Created by dalexis on 08/06/2018.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
+ */
+@Deprecated(since = "1.2.0", forRemoval = true)
 @Getter
 @Setter
 public class SwaggerItemCollector {

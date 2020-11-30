@@ -26,6 +26,7 @@ import com.calinfo.api.common.security.CommonSecurityUrlFilter;
 import com.calinfo.api.common.security.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ParameterBuilder;
@@ -42,11 +43,14 @@ import java.util.*;
 
 /**
  * Created by dalexis on 08/06/2018.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
  */
-
+@Deprecated(since = "1.2.0", forRemoval = true)
 @Component
 @Order(SecurityFilterSwaggerOperationBuilder.ORDER)
 @ConditionalOnClass({ApiInfo.class})
+@ConditionalOnProperty(prefix = "common.deprecated.swagger", name = "enabled", havingValue = "true")
 public class SecurityFilterSwaggerOperationBuilder implements OperationBuilderPlugin {
 
     public static final int ORDER = CollectorOperationBuilder.ORDER + 100;

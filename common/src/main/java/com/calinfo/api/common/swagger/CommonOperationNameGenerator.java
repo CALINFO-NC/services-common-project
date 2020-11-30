@@ -24,17 +24,24 @@ package com.calinfo.api.common.swagger;
 
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import springfox.documentation.OperationNameGenerator;
 import springfox.documentation.service.ApiInfo;
 
-
+/**
+ * Created by dalexis on 08/06/2018.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
+ */
+@Deprecated(since = "1.2.0", forRemoval = true)
 @Component
 @Primary
 @ConditionalOnClass({ApiInfo.class})
-@ConditionalOnProperty(value = "common.configuration.swagger.name-generator.enabled", matchIfMissing = true)
+@ConditionalOnExpression(
+        "${common.configuration.swagger.name-generator.enabled:true} and ${common.deprecated.swagger.enabled:false}"
+)
 public class CommonOperationNameGenerator implements OperationNameGenerator {
 
     @Override

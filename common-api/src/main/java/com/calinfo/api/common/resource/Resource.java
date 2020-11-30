@@ -33,9 +33,12 @@ import java.util.List;
 
 /**
  * Created by dalexis on 18/11/2017.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
  */
 @Getter
 @Setter
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class Resource implements Dto, MessageInfoAndWarningInterface {
 
     @Size(min = 0, max = 0)
