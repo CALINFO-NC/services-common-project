@@ -21,7 +21,6 @@
         <version.service-common>${project.version}</version.service-common>
         <version.commons-io>2.6</version.commons-io>
         <version.jjwt>0.9.1</version.jjwt>
-        <version.spring-kafka>2.4.4.RELEASE</version.spring-kafka>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
         <version.javassist>3.27.0-GA</version.javassist>
         <version.auto-service>1.0-rc2</version.auto-service>
@@ -60,14 +59,12 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>${version.spring-kafka}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
-            <version>${version.spring-kafka}</version>
         </dependency>
 
 
