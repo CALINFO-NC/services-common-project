@@ -29,7 +29,8 @@ Binaire disponnible dans le "repository" :  [https://calinfo.jfrog.io/calinfo/li
 
 # Quoi de nouveau
 
- * La classe com.calinfo.api.common.resource.Resource a été déprcié
+ * Mise à jour des versions des dépendances dans les pom.xml
+ * La classe com.calinfo.api.common.resource.Resource a été déprécié
  * Le common ne prend plus en charge la configurattion swagger. Cependant, vous pouvez garder sa 
  rétrocompatibilité en activant la propriété **common.deprecated.swagger.enabled** à **true**.
  Il sera aussi nécessaire de tirer les dépendances ci-dessous :

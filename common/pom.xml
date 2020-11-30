@@ -25,8 +25,8 @@
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
         <version.javassist>3.27.0-GA</version.javassist>
         <version.auto-service>1.0-rc2</version.auto-service>
-        <version.compile-testing>0.13</version.compile-testing>
-        <version.truth>0.40</version.truth>
+        <version.compile-testing>0.19</version.compile-testing>
+        <version.truth>1.1</version.truth>
     </properties>
 
     <build>
