@@ -1,7 +1,6 @@
 package com.calinfo.api.common;
 
-import com.calinfo.api.common.dto.DtoFilter;
-import com.calinfo.api.common.resource.ResourceFilter;
+import com.calinfo.api.common.resource.DtoFilter;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
@@ -30,8 +29,8 @@ public class PojoTest {
                 .with(new NoPublicFieldsExceptStaticFinalRule()) // ok for public fields only if they are static and final
                 .build();
 
-        validator.validateRecursively(ResourceFilter.PACKAGE_SCAN, new ResourceFilter());
         validator.validateRecursively(DtoFilter.PACKAGE_SCAN, new DtoFilter());
+        validator.validateRecursively(com.calinfo.api.common.dto.DtoFilter.PACKAGE_SCAN, new com.calinfo.api.common.dto.DtoFilter());
 
     }
 }

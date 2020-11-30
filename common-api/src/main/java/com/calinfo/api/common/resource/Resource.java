@@ -36,6 +36,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class Resource implements Dto, MessageInfoAndWarningInterface {
 
     @Size(min = 0, max = 0)

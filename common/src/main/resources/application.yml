@@ -8,3 +8,6 @@ common:
     application: # Propriété de la classe ApplicationProperties
 
     kafka-event: # Propriété de la classe KafkaProperties
+
+    deprecated:
+      swagger: true/false # Prise en charge du swagger malgré qu'il soit déprécié

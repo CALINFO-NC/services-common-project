@@ -4,7 +4,7 @@ import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
-import com.calinfo.api.common.swagger.mock.SwaggerConfig;
+
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by dalexis on 08/05/2018.
  */
-@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class})
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PrincipalManagerGetPrincipalTest extends AbstractTestNGSpringContextTests {
 

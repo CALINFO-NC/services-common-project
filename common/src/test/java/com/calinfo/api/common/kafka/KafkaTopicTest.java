@@ -5,7 +5,7 @@ import com.calinfo.api.common.kafka.mock.KafkaService;
 import com.calinfo.api.common.kafka.mock.KafkaSubServiceImpl;
 import com.calinfo.api.common.kafka.mock.Receiver;
 import com.calinfo.api.common.kafka.mock.TestResource;
-import com.calinfo.api.common.swagger.mock.SwaggerConfig;
+
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
-@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("kafka")
 @EmbeddedKafka
 public class KafkaTopicTest extends AbstractTestNGSpringContextTests {

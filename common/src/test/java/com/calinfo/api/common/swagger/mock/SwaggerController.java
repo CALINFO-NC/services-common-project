@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class SwaggerController {
 
 

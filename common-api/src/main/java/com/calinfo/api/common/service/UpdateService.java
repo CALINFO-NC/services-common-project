@@ -22,12 +22,12 @@ package com.calinfo.api.common.service;
  * #L%
  */
 
-import com.calinfo.api.common.resource.Resource;
+import com.calinfo.api.common.dto.Dto;
 
 /**
  * Created by dalexis on 04/04/2018.
  *
  */
-public interface UpdateService<T extends Resource, I> extends UpdateProjectionService<T, T, I> {
+public interface UpdateService<T extends Dto, I> extends UpdateProjectionService<T, T, I> {
 
 }

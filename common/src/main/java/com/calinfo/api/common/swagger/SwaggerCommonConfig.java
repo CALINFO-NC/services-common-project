@@ -28,6 +28,7 @@ import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.ResponseMessageBuilder;
@@ -39,9 +40,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Deprecated(since = "1.2.0", forRemoval = true)
 @Component
 @ConditionalOnClass({ApiInfo.class})
+@ConditionalOnProperty(prefix = "common.deprecated.swagger", name = "enabled", havingValue = "true")
 public class SwaggerCommonConfig implements BeanPostProcessor {
 
     @Override

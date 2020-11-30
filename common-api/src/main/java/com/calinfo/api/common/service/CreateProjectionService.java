@@ -22,16 +22,16 @@ package com.calinfo.api.common.service;
  * #L%
  */
 
-import com.calinfo.api.common.resource.Resource;
+import com.calinfo.api.common.dto.Dto;
 
 /**
  *
- * La création prend en entrée un "{@link Resource}" et renvoi une "{@link Resource}"
+ * La création prend en entrée un "{@link com.calinfo.api.common.dto.Dto}" et renvoi une "{@link com.calinfo.api.common.dto.Dto}"
  *
- * @param <I> type du paramètre d'entrée de la fonction {@link #create(Resource)}
- * @param <O> type du paramètre de sortie de la fonction {@link #create(Resource)}
+ * @param <I> type du paramètre d'entrée de la fonction {@link #create(Dto)}
+ * @param <O> type du paramètre de sortie de la fonction {@link #create(Dto)}
  */
-public interface CreateProjectionService<I extends Resource, O extends Resource> {
+public interface CreateProjectionService<I extends Dto, O extends Dto> {
 
     O create(I id);
 }

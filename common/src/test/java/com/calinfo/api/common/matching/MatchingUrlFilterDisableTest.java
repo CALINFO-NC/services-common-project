@@ -2,7 +2,7 @@ package com.calinfo.api.common.matching;
 
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.config.ApplicationProperties;
-import com.calinfo.api.common.swagger.mock.SwaggerConfig;
+
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.apache.http.HttpResponse;
@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 /**
  * Created by dalexis on 06/01/2018.
  */
-@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("disableMatching")
 public class MatchingUrlFilterDisableTest extends AbstractTestNGSpringContextTests {

@@ -6,7 +6,7 @@ import com.openpojo.reflection.PojoClassFilter;
 /**
  * Created by dalexis on 08/05/2018.
  */
-public class ResourceFilter implements PojoClassFilter {
+public class DtoFilter implements PojoClassFilter {
 
     public static final String PACKAGE_SCAN = "com.calinfo.api.common.resource";
 

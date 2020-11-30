@@ -22,12 +22,12 @@ package com.calinfo.api.common.service;
  * #L%
  */
 
-import com.calinfo.api.common.resource.Resource;
+import com.calinfo.api.common.dto.Dto;
 
 /**
  * Created by dalexis on 04/04/2018.
  */
-public interface DestroyService<R extends Resource, I> {
+public interface DestroyService<R extends Dto, I> {
 
     R destroy(I id);
 }

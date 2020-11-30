@@ -10,7 +10,7 @@ import com.calinfo.api.common.mocks.MockMessageCode;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.service.MessageService;
-import com.calinfo.api.common.swagger.mock.SwaggerConfig;
+
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import com.calinfo.api.common.type.TypeAttribut;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class})
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExceptionTest extends AbstractTestNGSpringContextTests {
 

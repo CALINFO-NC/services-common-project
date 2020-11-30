@@ -3,7 +3,7 @@ package com.calinfo.api.common.task;
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.SecurityProperties;
-import com.calinfo.api.common.swagger.mock.SwaggerConfig;
+
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Created by dalexis on 31/05/2018.
  */
-@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class})
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
 

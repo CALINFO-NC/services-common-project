@@ -15,6 +15,7 @@ import java.util.ArrayList;
 @TestConfiguration
 @ConditionalOnClass({ApiInfo.class})
 @EnableSwagger2
+@Deprecated(since = "1.2.0", forRemoval = true)
 public class SwaggerConfig {
 
     @Bean
