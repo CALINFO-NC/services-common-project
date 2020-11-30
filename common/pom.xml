@@ -93,6 +93,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
         <!-- Biding des données des ressources REST -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
