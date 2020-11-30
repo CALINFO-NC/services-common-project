@@ -40,10 +40,10 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal();
 
-            Assert.assertEquals("login", principal.getUsername());
-            Assert.assertEquals("domain", principal.getDomain());
+            Assert.assertEquals(principal.getUsername(), "login");
+            Assert.assertEquals(principal.getDomain(), "domain");
             Assert.assertTrue(principal.getAuthorities().size() == 1);
-            Assert.assertEquals("role1", principal.getAuthorities().iterator().next().getAuthority());
+            Assert.assertEquals(principal.getAuthorities().iterator().next().getAuthority(), "role1");
 
             return Optional.<Void>empty();
         });

@@ -28,6 +28,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by dalexis on 08/06/2018.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
+ */
 @Deprecated(since = "1.2.0", forRemoval = true)
 @Component
 @ConditionalOnProperty(prefix = "common.deprecated.swagger", name = "enabled", havingValue = "true")

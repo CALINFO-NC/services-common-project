@@ -114,7 +114,7 @@ public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextT
 
         // Lire la donnée dans la table générique
         String val = tableGenericService.read(id);
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
 
         // Lire une données inexistante
         val = tableGenericService.read(id + 1);
@@ -123,7 +123,7 @@ public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextT
         // Vérifier que la donnée est tojours présente même si je change de domaine
         DomainContext.setDomain("mydom1");
         val = tableGenericService.read(id);
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
     }
 
 }

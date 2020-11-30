@@ -83,36 +83,36 @@ public class KafkaTopicTest extends AbstractTestNGSpringContextTests {
         KafkaEvent kafkaEvent = receiver.getLstKafkaEvent().get(0);
 
         Assert.assertNotNull(kafkaEvent);
-        Assert.assertEquals("topicB", kafkaEvent.getTopic());
+        Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
         Assert.assertEquals(KafkaSubServiceImpl.class.getName(), kafkaEvent.getFullQualifiedServiceClassName());
-        Assert.assertEquals("topicAWithoutException", kafkaEvent.getMethodServiceName());
+        Assert.assertEquals(kafkaEvent.getMethodServiceName(), "topicAWithoutException");
         Assert.assertTrue(false == kafkaEvent.isResultException());
 
         Assert.assertTrue(kafkaEvent.getParameters().size() == 2);
         KafkaObject kafkaObject = kafkaEvent.getParameters().get(0);
         Assert.assertEquals(String.class.getName(), kafkaObject.getFullQualifiedClassName());
-        Assert.assertEquals("\"A12\"", kafkaObject.getStrValue());
-        Assert.assertEquals("A12", kafkaObject.get());
+        Assert.assertEquals(kafkaObject.getStrValue(), "\"A12\"");
+        Assert.assertEquals(kafkaObject.get(), "A12");
 
 
 
         kafkaObject = kafkaEvent.getParameters().get(1);
         Assert.assertEquals(TestResource.class.getName(), kafkaObject.getFullQualifiedClassName());
-        Assert.assertEquals("{\"prop1\":\"123\"}", kafkaObject.getStrValue());
+        Assert.assertEquals(kafkaObject.getStrValue(), "{\"prop1\":\"123\"}");
         TestResource resRes = kafkaObject.get();
-        Assert.assertEquals("123", resRes.getProp1());
+        Assert.assertEquals(resRes.getProp1(), "123");
 
 
         Assert.assertEquals(TestResource.class.getName(), kafkaEvent.getResult().getFullQualifiedClassName());
-        Assert.assertEquals("{\"prop1\":\"Propppp\"}", kafkaEvent.getResult().getStrValue());
+        Assert.assertEquals(kafkaEvent.getResult().getStrValue(), "{\"prop1\":\"Propppp\"}");
 
 
-        Assert.assertEquals("topicB", kafkaEvent.getTopic());
-        Assert.assertEquals("topicB", kafkaEvent.getTopic());
-        Assert.assertEquals("topicB", kafkaEvent.getTopic());
+        Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
+        Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
+        Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
 
         resRes = kafkaEvent.get();
-        Assert.assertEquals("Propppp", resRes.getProp1());
+        Assert.assertEquals(resRes.getProp1(), "Propppp");
     }
 
 }

@@ -33,6 +33,8 @@ import java.util.List;
 
 /**
  * Created by dalexis on 18/11/2017.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
  */
 @Getter
 @Setter

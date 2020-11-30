@@ -150,7 +150,7 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
         // Lire la donnée dans la table générique
         response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, null);
         String val = response;
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
 
         // Lire une données inexistante
         val = callUrl(String.format("/mock/tenant/generic/%s", (id + 1)), HttpMethod.GET, null);
@@ -159,6 +159,6 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
         // Vérifier que la donnée est tojours présente même si je change de domaine
         response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, domain1);
         val =  response;
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
     }
 }

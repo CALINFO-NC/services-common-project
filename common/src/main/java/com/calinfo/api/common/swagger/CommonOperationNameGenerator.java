@@ -30,6 +30,11 @@ import org.springframework.stereotype.Component;
 import springfox.documentation.OperationNameGenerator;
 import springfox.documentation.service.ApiInfo;
 
+/**
+ * Created by dalexis on 08/06/2018.
+ *
+ * @deprecated (1.2.0, N'est plus pris en charge par le common)
+ */
 @Deprecated(since = "1.2.0", forRemoval = true)
 @Component
 @Primary
