@@ -1,7 +1,6 @@
 package com.calinfo.api.common.manager;
 
 import com.calinfo.api.common.AutowiredConfig;
-import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
 
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PrincipalManagerGetPrincipalTest extends AbstractTestNGSpringContextTests {
 
-    private AbstractCommonPrincipal principalAjouteAuContext;
+    private CommonPrincipal principalAjouteAuContext;
 
     @Autowired
     private PrincipalManager principalManager;
@@ -35,7 +34,7 @@ public class PrincipalManagerGetPrincipalTest extends AbstractTestNGSpringContex
     @BeforeMethod
     public void before(){
 
-        principalAjouteAuContext = new CommonPrincipal(null, null,"domain", "username", "password", new ArrayList<>());
+        principalAjouteAuContext = new CommonPrincipal("username", "domain", new ArrayList<>());
         Authentication authentication = new UsernamePasswordAuthenticationToken(principalAjouteAuContext, "", principalAjouteAuContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

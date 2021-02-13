@@ -1,3 +1,16 @@
+keycloak:
+  security-constraints[0].authRoles[0]: user
+  security-constraints[0].securityCollections[0].patterns[0]: /api/*
+
+{
+"realm": "",
+"auth-server-url" : "http://localhost:8085/auth",
+"resource" : "login-app",
+"public-client" : true,
+"principal-attribute" : "preferred_username"
+}
+
+
 # Description
 
  Lors de l'appel d'une requête HTTP d'un service, le *common* tentera de déterminer l'identité de l'utilisateur ayant appelé cette requête.

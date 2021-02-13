@@ -5,7 +5,6 @@ import com.calinfo.api.common.kafka.mock.KafkaService;
 import com.calinfo.api.common.kafka.mock.KafkaSubServiceImpl;
 import com.calinfo.api.common.kafka.mock.Receiver;
 import com.calinfo.api.common.kafka.mock.TestResource;
-
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;

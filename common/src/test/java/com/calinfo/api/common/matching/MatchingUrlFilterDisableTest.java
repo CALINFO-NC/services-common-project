@@ -2,7 +2,6 @@ package com.calinfo.api.common.matching;
 
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.config.ApplicationProperties;
-
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.apache.http.HttpResponse;

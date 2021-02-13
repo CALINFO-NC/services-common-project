@@ -4,7 +4,7 @@ package com.calinfo.api.common.kafka;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2020 CALINFO
+ * Copyright (C) 2019 - 2021 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -23,7 +23,7 @@ package com.calinfo.api.common.kafka;
  */
 
 import com.calinfo.api.common.config.ApplicationProperties;
-import com.calinfo.api.common.security.AbstractCommonPrincipal;
+import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.security.SecurityProperties;
 import com.calinfo.api.common.tenant.DomainContext;
@@ -143,7 +143,7 @@ public class KafkaTopicAspect {
             return kafkaUser;
         }
 
-        AbstractCommonPrincipal principal = principalManager.getPrincipal();
+        CommonPrincipal principal = principalManager.getPrincipal();
         if (principal != null) {
             String login = principal.getUsername();
 
