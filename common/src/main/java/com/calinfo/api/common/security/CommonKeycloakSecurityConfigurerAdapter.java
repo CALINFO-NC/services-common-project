@@ -56,11 +56,12 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
 
         if (StringUtils.isBlank(securityProperties.getAccessAppRole())){
             http.authorizeRequests()
+                    .regexMatchers(securityProperties.getPrivateUrlRegex()).authenticated()
                     .anyRequest().permitAll();
         }
         else{
             http.authorizeRequests()
-                    .regexMatchers(securityProperties.getPrivateUrlRegex()).authenticated()
+                    .regexMatchers(securityProperties.getPrivateUrlRegex()).hasRole(securityProperties.getAccessAppRole())
                     .anyRequest().permitAll();
         }
         http.csrf().disable();
