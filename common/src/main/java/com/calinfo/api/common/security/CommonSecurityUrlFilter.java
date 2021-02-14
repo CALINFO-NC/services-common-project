@@ -27,12 +27,9 @@ import com.calinfo.api.common.matching.MatchingUrlFilter;
 import com.calinfo.api.common.tenant.DomainContext;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.KeycloakPrincipal;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -44,9 +41,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 @RequiredArgsConstructor
-@ConditionalOnProperty("common.configuration.security.enabled")
+/*@ConditionalOnProperty("common.configuration.security.enabled")
 @Component
-@Order(CommonSecurityUrlFilter.ORDER_FILTER)
+@Order(CommonSecurityUrlFilter.ORDER_FILTER)*/
 public class CommonSecurityUrlFilter extends OncePerRequestFilter {
 
     public static final int ORDER_FILTER = MatchingUrlFilter.ORDER_FILTER + 10;

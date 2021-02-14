@@ -23,13 +23,13 @@ package com.calinfo.api.common.security;
  */
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -38,18 +38,31 @@ import org.springframework.security.web.authentication.session.RegisterSessionAu
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 @RequiredArgsConstructor
+/*@ConfigurationProperties(prefix = "common.configuration.security")
 @Configuration
-@Order(200)
+@Order(CommonKeycloakSecurityConfigurerAdapter.ORDER_FILTER)
+@EnableWebSecurity*/
+@KeycloakConfiguration
 public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurityConfigurerAdapter {
+
+
+    public static final int ORDER_FILTER = CommonSecurityUrlFilter.ORDER_FILTER + 10;
 
     private final SecurityProperties securityProperties;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http.authorizeRequests()
-                .regexMatchers(securityProperties.getPrivateUrlRegex()).hasRole(securityProperties.getAccessAppRole())
-                .anyRequest().permitAll();
+
+        if (StringUtils.isBlank(securityProperties.getAccessAppRole())){
+            http.authorizeRequests()
+                    .anyRequest().permitAll();
+        }
+        else{
+            http.authorizeRequests()
+                    .regexMatchers(securityProperties.getPrivateUrlRegex()).authenticated()
+                    .anyRequest().permitAll();
+        }
         http.csrf().disable();
     }
 
