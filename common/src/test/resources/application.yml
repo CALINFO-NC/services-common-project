@@ -10,6 +10,10 @@ common:
       name: "common"
       version: "TEST"
 
+    security:
+      enabled: false
+keycloak:
+  enabled: false
 
 spring:
   liquibase:
@@ -29,9 +33,10 @@ spring:
     profiles: disableSecurity
 common:
   configuration:
-
     security:
       enabled: false
+keycloak:
+  enabled: false
 ---
 spring:
     profiles: enableSecurity
@@ -40,7 +45,6 @@ common:
 
     security:
       enabled: true
-      publicKeyCertificat: "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCy/bnCEtHF6im5sGUIuktbILl9vCaYMCi0CZ4wGtEUtdHZ+tsnMpeOIAusMBrmfYaq4jcUde9fWV9+vNENhpLD29x7YtR5rnaqsQv+hp+eQoWp5u3fqkRtmkjy0kqmU9idVkGjn2dA5YeXF3xxF8WnyKSwohLK8oYAxQxoaS0yuwIDAQAB"
 ---
 spring:
   profiles: disableMatching
@@ -49,4 +53,5 @@ common:
     matching:
       filter:
         enabled: false
-
+keycloak:
+  enabled: false

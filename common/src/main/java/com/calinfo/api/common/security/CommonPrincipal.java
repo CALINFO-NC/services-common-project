@@ -4,7 +4,7 @@ package com.calinfo.api.common.security;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2020 CALINFO
+ * Copyright (C) 2019 - 2021 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -22,32 +22,37 @@ package com.calinfo.api.common.security;
  * #L%
  */
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 
 /**
- * Implémentation du principal par le common
+ * Représentation d'un pricipal
  */
-@EqualsAndHashCode
-public class CommonPrincipal extends AbstractCommonPrincipal {
+public class CommonPrincipal extends User {
+
+    @Getter
+    private KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipal;
 
     @Getter
     private String domain;
 
-    @Getter
-    private String apiKey;
-
-    @Getter
-    private String initialToken;
-
-    public CommonPrincipal(String apiKey, String initialToken, String domain, String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+    public CommonPrincipal(String username, String domain, Collection<? extends GrantedAuthority> authorities) {
+        super(username, "", authorities);
         this.domain = domain;
-        this.apiKey = apiKey;
-        this.initialToken = initialToken;
     }
+
+    public CommonPrincipal(KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipal, String domain) {
+        super(keycloakPrincipal.getName(), "", keycloakPrincipal.getKeycloakSecurityContext().getToken().getRealmAccess().getRoles().stream().map(item -> new SimpleGrantedAuthority("ROLE_" + item)).collect(Collectors.toList()));
+        this.keycloakPrincipal = keycloakPrincipal;
+        this.domain = domain;
+    }
+
 }

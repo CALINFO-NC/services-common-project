@@ -1,7 +1,6 @@
 package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.AutowiredConfig;
-
 import com.calinfo.api.common.tenant.service.TableDomainService;
 import com.calinfo.api.common.tenant.service.TableGenericService;
 import com.calinfo.api.common.utils.DatabaseUtils;

@@ -1,7 +1,6 @@
 package com.calinfo.api.common.security;
 
 import com.calinfo.api.common.AutowiredConfig;
-
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import com.calinfo.api.common.utils.MiscUtils;

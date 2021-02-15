@@ -1,68 +1,83 @@
 # Description
 
- Lors de l'appel d'une requête HTTP d'un service, le *common* tentera de déterminer l'identité de l'utilisateur ayant appelé cette requête.
- Si le *common* ne parvient pas à identifier l'utilisateur, ce dernier sera par défaut *securityProperties.getAnonymousLogin()* dans le cas d'une requête publique,
- ou cela génèrera une exception dans le cas d'une requête privée (Voir configuration sur la sécurité pour plus de détails).
+Le common embarque une sécurité cablé avec Keycloak (https://www.keycloak.org/).
 
- Le *common* détermine l'utilisateur appelant une requête en décryptant la valeur du *token* JWT préfixé par "*Bearer *" (avec l'espace) du *Header "Authorization"*.
- S'il ne parvient pas à décrypter le token parce qu'il est périmé, alors il délègue le rafraichissement du token à *com.calinfo.api.common.manager.ApiKeyManager.refreshToken(apiKey)*
- qui est chargé de renvoyer un nouveau token à jour. le paramètre *apiKey* est récupéré du *Header "X-ApiKey"* de la requête HTTP.
- A chaque requête, le *common* renvoie dans le *Header "Authorization"* de la réponse le token actualisé si necessaire.
+# Mise en oeuvre
 
- ATTENTION : il est important lorsque l'on utilise la sécurité du *common* que l'injection de *com.calinfo.api.common.manager.ApiKeyManager* soit possible.
+La sécurité du common délègue la configuration de keyloack au fichier *commonkeycloak.json* au lieu du fichier usuel *keycloak.json* définit dans la doc Keycloak.
+Le contenue du fichier *commonkeycloak.json* est le même que celui du fichier *keycloak.json* à la diférrence que la valeur *realm* sera surcharger par le common avec la valeur du domain
+La sécurité du common prend aussi en charge la définition des URLs sécurisées définit dans *common.configuration.security.privateUrlRegex*
 
+Exemple de fichier *commonkeycloak.json*
 ```
-Exemple de classe pouvant être injectée
+  {
+    "realm": "",        -> ici le common remplacera cette valeur par la valeur du domain
+    "auth-server-url" : "http://localhost:8085/auth",     -> Serveur d'authentification
+    "resource" : "login-app",       -> Client keycloak (nom de l'application dans keycloak)
+    "public-client" : true,
+    "principal-attribute" : "preferred_username"
+  }
+```
 
-import com.calinfo.api.common.manager.ApiKeyManager;
-import org.springframework.stereotype.Component;
+Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter*.
 
-@Component
-public class MyApiKeyManager implements ApiKeyManager{
+Exemple (Prennez note de l'annotation @KeycloakConfiguration):
+```
+import com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter;
+import com.calinfo.api.common.security.SecurityProperties;
+import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-    @Override
-    public String refreshToken(String apiKey) {
-        return ...
+@EnableWebSecurity
+@KeycloakConfiguration
+public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
+    
+    public SecurityConfig(SecurityProperties securityProperties){
+        super(securityProperties);
     }
 }
 ```
 
- La forme décryptée du *token* est représentée par la classe *com.calinfo.api.common.security.JwtUser*.
 
- Le *common* apporte aussi des outils via la classe utilitaire *com.calinfo.api.common.utils.SecurityUtils* permettant de crypter ou décrypter un *token*.
+# Configuration de la sécurité
 
- Dans le reste de l'application, il est possible de récupérer l'utilisateur connecté :
+Toutes les propriétés paramétrables par le common sur la sécurité sont décrite dans la classe *com.calinfo.api.common.security.SecurityProperties*
+Pour modifier cette configuration, il faut modifier les sous propriété de *common.configuration.security.enabled* du ficbhier *application.yml*
 
- * Soit par injection :
 
+# Déseactiver la sécurité
+
+Par défaut la sécurité du common est activé. Pour la désactiver, il faut mettre à *false* la configuration *common.configuration.security.enabled*.
+Cependant, cette configuration désactivera uniquement la pris en charge de la sécurité par le common, et vous devrez configurer à lamain la sécurité de keycloak.
+Pour désactiver totalement la sécurité de votre application, vous devrez définir la configuration ci-dessous
 ```
-@Autowired
-private PrincipalManager principalManager;
-
-...
-
-AbstractCommonPrincipal principal = principalManager.getPrincipal();
-```
-
- * Soit par programme
-
-```
-Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-AbstractCommonPrincipal principal = (AbstractCommonPrincipal)auth.getPrincipal();
+common:
+  configuration:
+    security:
+      enabled: false
+keycloak:
+  enabled: false
 ```
 
- Il existe aussi "PrincipalFactory" qui permet aussi d'insérer dans le context un "principal" à partir de ses tokens, ou d'insérer un "principal" annonyme.
+Il faudra aussi désactivé la sécurity spring en utilisant l'annotation *@SpringBootApplication(exclude = SecurityAutoConfiguration.class)*
 
-
-# Configuration
-
- La configuration de la sécurité se fait dans la sous configuration *common.configuration.security* du fichier *yaml* .
- Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe *com.calinfo.api.common.security.SecurityProperties*
- De plus, le common base sa sécurité sur un filtre, donc, si vous activé la sécurité, il faudra ajouter l'annotation SpringBootApplication comme précisé dans l'exemple ci-dessous
-
+Exemple :
 ```
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
-public class MocksApplication {
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+public class Application extends SpringBootServletInitializer {
+
     ...
+
 }
 ```
+
+# Appeler des reqête HTTP en précisant le domain
+
+Pour définir le domain dans lequel les reqêtes sécurisées devront intervenir, il faut définir le header *X-Domain* avec la valeur du domain d'intervention

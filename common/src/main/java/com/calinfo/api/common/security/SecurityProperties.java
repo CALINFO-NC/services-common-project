@@ -4,18 +4,18 @@ package com.calinfo.api.common.security;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2020 CALINFO
+ * Copyright (C) 2019 - 2021 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -43,12 +43,7 @@ public class SecurityProperties {
     /**
      * Activer la gestion de la sécurité
      */
-    private boolean enabled = false;
-
-    /**
-     * Valeur de la clé public permettant de décrypter le jeton JWT
-     */
-    private String publicKeyCertificat = null;
+    private boolean enabled = true;
 
     /**
      * Regex des url privée
@@ -56,7 +51,12 @@ public class SecurityProperties {
     private String privateUrlRegex = "^(\\/api\\/v.*\\/private\\/.*)";
 
     /**
-     * Lorsqu'un utilisateur n'est pas connecté, le pricipal peut renvoyer un login par défaut
+     * Role minimum permettant d'accéder à l'application. Null s'il suffit d'être authentifier pour accéder à l'application
+     */
+    private String accessAppRole;
+
+    /**
+     * Role permettant d'accéder à l'application
      */
     private String anonymousLogin = DEFAULT_ANONYMOUS_USER_LOGIN;
 

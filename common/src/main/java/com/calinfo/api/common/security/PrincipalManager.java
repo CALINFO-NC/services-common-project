@@ -4,7 +4,7 @@ package com.calinfo.api.common.security;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2020 CALINFO
+ * Copyright (C) 2019 - 2021 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -36,14 +36,14 @@ public class PrincipalManager {
     /**
      * @return Principal
      */
-    public AbstractCommonPrincipal getPrincipal(){
+    public CommonPrincipal getPrincipal(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null){
             return null;
         }
 
-        return (AbstractCommonPrincipal) authentication.getPrincipal();
+        return (CommonPrincipal) authentication.getPrincipal();
     }
 
 }

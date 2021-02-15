@@ -2,7 +2,6 @@ package com.calinfo.api.common.matching;
 
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.config.ApplicationProperties;
-
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.apache.http.HttpResponse;
@@ -39,7 +38,6 @@ public class MatchingUrlFilterDisableTest extends AbstractTestNGSpringContextTes
 
     @Test
     public void callPublicUrl() throws Exception{
-
         String url = String.format("http://localhost:%s/api/v1//public/mock", port);
 
         HttpClient client = HttpClientBuilder.create().build();

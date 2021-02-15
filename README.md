@@ -47,3 +47,4 @@ Binaire disponnible dans le "repository" :  [https://calinfo.jfrog.io/calinfo/li
             <version>2.9.2</version>
         </dependency>
 ``` 
+ * Le module de sécurité du common a été modifié pour prendre en charge une intégration avec Keycloak

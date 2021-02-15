@@ -4,7 +4,7 @@ package com.calinfo.api.common.task;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2020 CALINFO
+ * Copyright (C) 2019 - 2021 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -22,7 +22,6 @@ package com.calinfo.api.common.task;
  * #L%
  */
 
-import com.calinfo.api.common.security.AbstractCommonPrincipal;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.SecurityProperties;
 import com.calinfo.api.common.tenant.DomainContext;
@@ -56,7 +55,7 @@ public class TaskRunner {
             List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
             // Mettre en place l'authentification
-            AbstractCommonPrincipal principal = new CommonPrincipal(null, null, domainName, username, "", grants);
+            CommonPrincipal principal = new CommonPrincipal(username, domainName, grants);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
