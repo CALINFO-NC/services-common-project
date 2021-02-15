@@ -1,19 +1,8 @@
 # Description
 
 Le common embarque une sécurité cablé avec Keycloak (https://www.keycloak.org/).
-Toutes les propriétés paramétrables par le common sur la sécurité sont décrite dans la classe *com.calinfo.api.common.security.SecurityProperties*
-Par défaut la sécurité du common est activé. Pour la désactiver, il faut mettre à *false* la configuration *common.configuration.security.enabled*.
-Cependant, cette configuration désactivera uniquement la pris en charge de la sécurité par le common, et vous devrez configurer à lamain la sécurité de keycloak.
-Pour désactiver totalement la sécurité de votre application, vous devrez définir la configuration ci-dessous
-```
-common:
-  configuration:
-    security:
-      enabled: false
-keycloak:
-  enabled: false
-```
 
+# Mise en oeuvre
 
 La sécurité du common délègue la configuration de keyloack au fichier *commonkeycloak.json* au lieu du fichier usuel *keycloak.json* définit dans la doc Keycloak.
 Le contenue du fichier *commonkeycloak.json* est le même que celui du fichier *keycloak.json* à la diférrence que la valeur *realm* sera surcharger par le common avec la valeur du domain
@@ -29,5 +18,66 @@ Exemple de fichier *commonkeycloak.json*
     "principal-attribute" : "preferred_username"
   }
 ```
+
+Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter*.
+
+Exemple (Prennez note de l'annotation @KeycloakConfiguration):
+```
+import com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter;
+import com.calinfo.api.common.security.SecurityProperties;
+import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+@EnableWebSecurity
+@KeycloakConfiguration
+public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
+    
+    public SecurityConfig(SecurityProperties securityProperties){
+        super(securityProperties);
+    }
+}
+```
+
+
+# Configuration de la sécurité
+
+Toutes les propriétés paramétrables par le common sur la sécurité sont décrite dans la classe *com.calinfo.api.common.security.SecurityProperties*
+Pour modifier cette configuration, il faut modifier les sous propriété de *common.configuration.security.enabled* du ficbhier *application.yml*
+
+
+# Déseactiver la sécurité
+
+Par défaut la sécurité du common est activé. Pour la désactiver, il faut mettre à *false* la configuration *common.configuration.security.enabled*.
+Cependant, cette configuration désactivera uniquement la pris en charge de la sécurité par le common, et vous devrez configurer à lamain la sécurité de keycloak.
+Pour désactiver totalement la sécurité de votre application, vous devrez définir la configuration ci-dessous
+```
+common:
+  configuration:
+    security:
+      enabled: false
+keycloak:
+  enabled: false
+```
+
+Il faudra aussi désactivé la sécurity spring en utilisant l'annotation *@SpringBootApplication(exclude = SecurityAutoConfiguration.class)*
+
+Exemple :
+```
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+public class Application extends SpringBootServletInitializer {
+
+    ...
+
+}
+```
+
+# Appeler des reqête HTTP en précisant le domain
 
 Pour définir le domain dans lequel les reqêtes sécurisées devront intervenir, il faut définir le header *X-Domain* avec la valeur du domain d'intervention
