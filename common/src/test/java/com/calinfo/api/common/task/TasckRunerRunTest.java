@@ -53,9 +53,9 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
             CommonPrincipal principal = (CommonPrincipal)auth.getPrincipal();
 
             Assert.assertEquals(securityProperties.getSystemLogin(), principal.getUsername());
-            Assert.assertEquals("domain", principal.getDomain());
+            Assert.assertEquals(principal.getDomain(), "domain");
             Assert.assertTrue(principal.getAuthorities().size() == 1);
-            Assert.assertEquals("role1", principal.getAuthorities().iterator().next().getAuthority());
+            Assert.assertEquals(principal.getAuthorities().iterator().next().getAuthority(), "role1");
 
             return Optional.<Void>empty();
         });
@@ -66,7 +66,7 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
             CommonPrincipal principal = (CommonPrincipal)auth.getPrincipal();
 
             Assert.assertEquals(securityProperties.getSystemLogin(), principal.getUsername());
-            Assert.assertEquals("domain", principal.getDomain());
+            Assert.assertEquals(principal.getDomain(), "domain");
             Assert.assertTrue(principal.getAuthorities().size() == 0);
 
             return Optional.<Void>empty();

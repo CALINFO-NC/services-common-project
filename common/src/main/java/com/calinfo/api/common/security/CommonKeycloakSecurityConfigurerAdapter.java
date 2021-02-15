@@ -29,19 +29,21 @@ import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 @RequiredArgsConstructor
-/*@ConfigurationProperties(prefix = "common.configuration.security")
-@Configuration
+@ConditionalOnProperty("common.configuration.security.enabled")
 @Order(CommonKeycloakSecurityConfigurerAdapter.ORDER_FILTER)
-@EnableWebSecurity*/
+@EnableWebSecurity
 @KeycloakConfiguration
 public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurityConfigurerAdapter {
 
@@ -54,21 +56,16 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
 
-        if (StringUtils.isBlank(securityProperties.getAccessAppRole())){
-            http.authorizeRequests()
-                    .regexMatchers(securityProperties.getPrivateUrlRegex()).authenticated()
-                    .anyRequest().permitAll();
-        }
-        else{
-            http.authorizeRequests()
-                    .regexMatchers(securityProperties.getPrivateUrlRegex()).hasRole(securityProperties.getAccessAppRole())
-                    .anyRequest().permitAll();
+        if (StringUtils.isBlank(securityProperties.getAccessAppRole())) {
+            http.authorizeRequests().regexMatchers(securityProperties.getPrivateUrlRegex()).authenticated().anyRequest().permitAll();
+        } else {
+            http.authorizeRequests().regexMatchers(securityProperties.getPrivateUrlRegex()).hasRole(securityProperties.getAccessAppRole()).anyRequest().permitAll();
         }
         http.csrf().disable();
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
         auth.authenticationProvider(keycloakAuthenticationProvider);
@@ -81,7 +78,7 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
     }
 
     @Bean
-    public KeycloakConfigResolver KeycloakConfigResolver() {
+    public KeycloakConfigResolver keycloakConfigResolver() {
         return new CommonKeycloakConfigResolver();
     }
 

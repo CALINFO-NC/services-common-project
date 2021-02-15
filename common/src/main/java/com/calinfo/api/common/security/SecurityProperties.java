@@ -43,7 +43,7 @@ public class SecurityProperties {
     /**
      * Activer la gestion de la sécurité
      */
-    private boolean enabled = false;
+    private boolean enabled = true;
 
     /**
      * Regex des url privée
@@ -51,7 +51,7 @@ public class SecurityProperties {
     private String privateUrlRegex = "^(\\/api\\/v.*\\/private\\/.*)";
 
     /**
-     * Role permettant d'accéder à l'application
+     * Role minimum permettant d'accéder à l'application. Null s'il suffit d'être authentifier pour accéder à l'application
      */
     private String accessAppRole;
 

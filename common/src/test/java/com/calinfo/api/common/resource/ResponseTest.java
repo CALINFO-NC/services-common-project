@@ -2,7 +2,6 @@ package com.calinfo.api.common.resource;
 
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.mocks.MockResponseResource;
-
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;

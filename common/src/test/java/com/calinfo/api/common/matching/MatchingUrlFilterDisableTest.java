@@ -38,7 +38,6 @@ public class MatchingUrlFilterDisableTest extends AbstractTestNGSpringContextTes
 
     @Test
     public void callPublicUrl() throws Exception{
-
         String url = String.format("http://localhost:%s/api/v1//public/mock", port);
 
         HttpClient client = HttpClientBuilder.create().build();

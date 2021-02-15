@@ -3,7 +3,6 @@ package com.calinfo.api.common;
 import com.calinfo.api.common.kafka.mock.KafkaServiceImpl;
 import com.calinfo.api.common.kafka.mock.KafkaSubServiceImpl;
 import com.calinfo.api.common.kafka.mock.Receiver;
-import com.calinfo.api.common.mocks.MockApiKeyManager;
 import com.calinfo.api.common.mocks.MockMessageServiceImpl;
 import com.calinfo.api.common.mocks.MockServiceConstrainteVilationService;
 import com.calinfo.api.common.tenant.TenantProperties;
@@ -23,14 +22,6 @@ public class AutowiredConfig {
 
     @Autowired
     private AutowireCapableBeanFactory autowireCapableBeanFactory;
-
-    @Bean
-    @Profile("apiKeyManager")
-    public MockApiKeyManager mockApiKeyManager() {
-        MockApiKeyManager obj = new MockApiKeyManager();
-        autowireCapableBeanFactory.autowireBean(obj);
-        return obj;
-    }
 
     @Bean
     public MockMessageServiceImpl mockMessageServiceImpl() {

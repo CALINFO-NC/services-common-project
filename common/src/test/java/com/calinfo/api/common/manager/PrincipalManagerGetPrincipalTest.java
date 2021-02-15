@@ -3,7 +3,6 @@ package com.calinfo.api.common.manager;
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
-
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;

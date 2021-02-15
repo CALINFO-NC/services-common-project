@@ -50,7 +50,7 @@ public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
 
         KeycloakDeployment deployment;
         try(InputStream in = commonkeycloak.getInputStream()){
-            deployment = KeycloakDeploymentBuilder.build(getClass().getResourceAsStream("/commonkeycloak.json"));
+            deployment = KeycloakDeploymentBuilder.build(in);
             deployment.setRealm(realm);
         }
 
