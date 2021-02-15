@@ -25,6 +25,7 @@ package com.calinfo.api.common.security;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,8 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurityConfigurerAdapter {
 
 
-    public static final int ORDER_FILTER = CommonSecurityUrlFilter.ORDER_FILTER + 10;
-
     private final SecurityProperties securityProperties;
+    private final KeycloakSpringBootProperties adapterConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -71,7 +71,7 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
 
     @Bean
     public KeycloakConfigResolver keycloakConfigResolver() {
-        return new CommonKeycloakConfigResolver();
+        return new CommonKeycloakConfigResolver(adapterConfig);
     }
 
 

@@ -4,19 +4,18 @@ Le common embarque une sécurité cablé avec Keycloak (https://www.keycloak.org
 
 # Mise en oeuvre
 
-La sécurité du common délègue la configuration de keyloack au fichier *commonkeycloak.json* au lieu du fichier usuel *keycloak.json* définit dans la doc Keycloak.
-Le contenue du fichier *commonkeycloak.json* est le même que celui du fichier *keycloak.json* à la diférrence que la valeur *realm* sera surcharger par le common avec la valeur du domain
 La sécurité du common prend aussi en charge la définition des URLs sécurisées définit dans *common.configuration.security.privateUrlRegex*
+Ainsi que la gestion du multi-tenant. Le common injectera le domain directement dans le realm de la configuration keycloak
 
-Exemple de fichier *commonkeycloak.json*
+Exemple de configuration
 ```
-  {
-    "realm": "",        -> ici le common remplacera cette valeur par la valeur du domain
-    "auth-server-url" : "http://localhost:8085/auth",     -> Serveur d'authentification
-    "resource" : "login-app",       -> Client keycloak (nom de l'application dans keycloak)
-    "public-client" : true,
-    "principal-attribute" : "preferred_username"
-  }
+keycloak:
+  realm: ""   # ici le common remplacera cette valeur par la valeur du domain
+  auth-server-url: http://localhost:8085/auth   # Serveur d'authentification
+  resource: login-app   # Client keycloak (nom de l'application dans keycloak)
+  public-client: true
+  use-resource-role-mappings: true
+  principal-attribute: preferred_username
 ```
 
 Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter*.
@@ -32,8 +31,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @KeycloakConfiguration
 public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
     
-    public SecurityConfig(SecurityProperties securityProperties){
-        super(securityProperties);
+    public SecurityConfig(SecurityProperties securityProperties, KeycloakSpringBootProperties adapterConfig){
+        super(securityProperties, adapterConfig);
     }
 }
 ```

@@ -23,6 +23,8 @@ package com.calinfo.api.common.security;
  */
 
 
+import com.calinfo.api.common.utils.MiscUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -30,31 +32,27 @@ import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.spi.HttpFacade;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-
-import java.io.InputStream;
+import org.keycloak.representations.adapters.config.AdapterConfig;
 
 @Slf4j
 @RequiredArgsConstructor
 public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
 
-    @Value("classpath:/commonkeycloak.json")
-    private Resource commonkeycloak;
+    private final AdapterConfig adapterConfig;
 
     @SneakyThrows
     @Override
     public KeycloakDeployment resolve(HttpFacade.Request request) {
 
+
         String realm = request.getHeader(CommonSecurityUrlFilter.HEADER_DOMAIN);
 
-        KeycloakDeployment deployment;
-        try(InputStream in = commonkeycloak.getInputStream()){
-            deployment = KeycloakDeploymentBuilder.build(in);
-            deployment.setRealm(realm);
-        }
+        ObjectMapper mapper = MiscUtils.getObjectMapper();
+        String str = mapper.writeValueAsString(adapterConfig);
+        AdapterConfig copyAdapterConfig = mapper.readValue(str, AdapterConfig.class);
+        copyAdapterConfig.setRealm(realm);
 
-        return deployment;
+        return KeycloakDeploymentBuilder.build(copyAdapterConfig);
     }
 
 }
