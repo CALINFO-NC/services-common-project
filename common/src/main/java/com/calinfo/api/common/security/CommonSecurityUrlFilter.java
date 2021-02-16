@@ -26,12 +26,8 @@ package com.calinfo.api.common.security;
 import com.calinfo.api.common.matching.MatchingUrlFilter;
 import com.calinfo.api.common.tenant.DomainContext;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.KeycloakPrincipal;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,8 +36,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @ConditionalOnProperty("common.configuration.security.enabled")
@@ -53,8 +47,6 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
 
     public static final String HEADER_DOMAIN = "X-Domain";
 
-    private final SecurityProperties securityProperties;
-
     /**
      * {@inheritDoc}
      */
@@ -64,20 +56,6 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
         String oldDomain = DomainContext.getDomain();
         try {
             DomainContext.setDomain(httpServletRequest.getHeader(HEADER_DOMAIN));
-            Principal principal = httpServletRequest.getUserPrincipal();
-            CommonPrincipal commonPrincipal;
-
-            if (principal != null && principal instanceof KeycloakPrincipal) {
-                KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) httpServletRequest.getUserPrincipal();
-                commonPrincipal = new CommonPrincipal(keycloakPrincipal, DomainContext.getDomain());
-            }
-            else{
-                commonPrincipal = new CommonPrincipal(securityProperties.getAnonymousLogin(), DomainContext.getDomain(), new ArrayList<>());
-            }
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(commonPrincipal, "", commonPrincipal.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         finally {

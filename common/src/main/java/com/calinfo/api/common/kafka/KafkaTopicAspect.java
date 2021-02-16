@@ -23,12 +23,12 @@ package com.calinfo.api.common.kafka;
  */
 
 import com.calinfo.api.common.config.ApplicationProperties;
-import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.security.SecurityProperties;
 import com.calinfo.api.common.tenant.DomainContext;
 import com.calinfo.api.common.utils.ExceptionUtils;
 import com.calinfo.api.common.utils.MiscUtils;
+import com.calinfo.api.common.utils.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,12 +38,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.stream.Collectors;
+import java.security.Principal;
 
 
 @Aspect
@@ -135,6 +134,8 @@ public class KafkaTopicAspect {
         return result;
     }
 
+
+
     private KafkaUser getKafkaUser() {
 
         KafkaUser kafkaUser = null;
@@ -143,13 +144,13 @@ public class KafkaTopicAspect {
             return kafkaUser;
         }
 
-        CommonPrincipal principal = principalManager.getPrincipal();
+        Principal principal = principalManager.getPrincipal();
         if (principal != null) {
-            String login = principal.getUsername();
+            String login = principal.getName();
 
             kafkaUser = new KafkaUser();
             kafkaUser.setLogin(login);
-            kafkaUser.setRoles(principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+            kafkaUser.setRoles(SecurityUtils.getRoleFormPrincipal(principal));
 
             kafkaUser.setSystemUser(false);
             if (securityProperties.getSystemLogin().equals(login)) {

@@ -7,7 +7,6 @@ import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.mocks.MockDtoContrainteViolation;
 import com.calinfo.api.common.mocks.MockDtoInerContrainteViolation;
 import com.calinfo.api.common.mocks.MockMessageCode;
-import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
@@ -29,6 +28,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -231,8 +231,13 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
 
 
         // Mettre en place l'authentification
-        CommonPrincipal principal = new CommonPrincipal("toto", null, new ArrayList<>());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+        Principal principal = new Principal() {
+            @Override
+            public String getName() {
+                return "toto";
+            }
+        };
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", new ArrayList<>());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

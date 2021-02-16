@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
@@ -44,15 +45,22 @@ public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
     @Override
     public KeycloakDeployment resolve(HttpFacade.Request request) {
 
-
         String realm = request.getHeader(CommonSecurityUrlFilter.HEADER_DOMAIN);
 
         ObjectMapper mapper = MiscUtils.getObjectMapper();
         String str = mapper.writeValueAsString(adapterConfig);
         AdapterConfig copyAdapterConfig = mapper.readValue(str, AdapterConfig.class);
-        copyAdapterConfig.setRealm(realm);
 
-        return KeycloakDeploymentBuilder.build(copyAdapterConfig);
+        if (!StringUtils.isBlank(realm)) {
+            copyAdapterConfig.setRealm(realm);
+        }
+
+        if (StringUtils.isBlank(copyAdapterConfig.getRealm())){
+            return new KeycloakDeployment();
+        }
+        else {
+            return KeycloakDeploymentBuilder.build(copyAdapterConfig);
+        }
     }
 
 }

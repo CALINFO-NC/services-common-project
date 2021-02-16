@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security;
+package com.calinfo.api.common.task;
 
 /*-
  * #%L
@@ -26,33 +26,32 @@ import lombok.Getter;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 
 /**
  * Représentation d'un pricipal
  */
-public class CommonPrincipal extends User {
+public class TaskPrincipal implements Principal {
 
     @Getter
     private KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipal;
 
     @Getter
+    private String name;
+
+    @Getter
+    Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
+
+    @Getter
     private String domain;
 
-    public CommonPrincipal(String username, String domain, Collection<? extends GrantedAuthority> authorities) {
-        super(username, "", authorities);
+    public TaskPrincipal(String username, String domain, Collection<? extends GrantedAuthority> authorities) {
+        this.name = username;
         this.domain = domain;
+        this.authorities = authorities;
     }
-
-    public CommonPrincipal(KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipal, String domain) {
-        super(keycloakPrincipal.getName(), "", keycloakPrincipal.getKeycloakSecurityContext().getToken().getRealmAccess().getRoles().stream().map(item -> new SimpleGrantedAuthority("ROLE_" + item)).collect(Collectors.toList()));
-        this.keycloakPrincipal = keycloakPrincipal;
-        this.domain = domain;
-    }
-
 }
