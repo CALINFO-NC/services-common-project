@@ -26,6 +26,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
+
 /**
  * Created by dalexis on 05/04/2018.
  */
@@ -36,14 +38,14 @@ public class PrincipalManager {
     /**
      * @return Principal
      */
-    public CommonPrincipal getPrincipal(){
+    public Principal getPrincipal(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null){
             return null;
         }
 
-        return (CommonPrincipal) authentication.getPrincipal();
+        return (Principal) authentication.getPrincipal();
     }
 
 }

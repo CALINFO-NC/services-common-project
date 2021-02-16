@@ -1,6 +1,6 @@
 package com.calinfo.api.common.mocks;
 
-import com.calinfo.api.common.security.CommonPrincipal;
+import com.calinfo.api.common.task.TaskPrincipal;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,11 +20,11 @@ public class SecurityFilterController {
     @GetMapping(value = "/api/v1/private/mock/security")
     public HttpEntity<?> mockSecurityPrivateUrl(){
 
-        CommonPrincipal principal = (CommonPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        TaskPrincipal principal = (TaskPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         JsonizablePrincipal jPrincipal = new JsonizablePrincipal();
         jPrincipal.setDomain(principal.getDomain());
-        jPrincipal.setUsername(principal.getUsername());
+        jPrincipal.setUsername(principal.getName());
 
 
         for (GrantedAuthority item : principal.getAuthorities()){
@@ -44,8 +44,8 @@ public class SecurityFilterController {
     @GetMapping(value = "/api/nonversion/private/mock/security")
     public HttpEntity<?> mockSecurityPublicUrl(){
 
-        if (SecurityContextHolder.getContext().getAuthentication() == null){
-            throw new RuntimeException("Il ne devrait pas avoir d'authentification pour ce type d'URL");
+        if (SecurityContextHolder.getContext().getAuthentication() != null){
+            throw new RuntimeException("Il ne devrait pas avoir d'authentification pour ce type d'URL.");
         }
         else{
             return new HttpEntity<>("");

@@ -1,10 +1,11 @@
 package com.calinfo.api.common.manager;
 
 import com.calinfo.api.common.AutowiredConfig;
-import com.calinfo.api.common.security.CommonPrincipal;
 import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PrincipalManagerGetPrincipalTest extends AbstractTestNGSpringContextTests {
 
-    private CommonPrincipal principalAjouteAuContext;
+    private KeycloakPrincipal<RefreshableKeycloakSecurityContext> principalAjouteAuContext;
 
     @Autowired
     private PrincipalManager principalManager;
@@ -33,8 +34,8 @@ public class PrincipalManagerGetPrincipalTest extends AbstractTestNGSpringContex
     @BeforeMethod
     public void before(){
 
-        principalAjouteAuContext = new CommonPrincipal("username", "domain", new ArrayList<>());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principalAjouteAuContext, "", principalAjouteAuContext.getAuthorities());
+        principalAjouteAuContext = new KeycloakPrincipal<>("username", new RefreshableKeycloakSecurityContext());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principalAjouteAuContext, "", new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

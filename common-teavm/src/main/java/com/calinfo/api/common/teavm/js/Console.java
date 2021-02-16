@@ -22,8 +22,11 @@ package com.calinfo.api.common.teavm.js;
  * #L%
  */
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.teavm.jso.JSBody;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Console {
 
     @JSBody(params = { "message" }, script = "console.log(message)")
