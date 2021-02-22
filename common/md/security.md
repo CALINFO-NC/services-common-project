@@ -76,7 +76,3 @@ public class Application extends SpringBootServletInitializer {
 
 }
 ```
-
-# Appeler des reqête HTTP en précisant le domain
-
-Pour définir le domain dans lequel les reqêtes sécurisées devront intervenir, il faut définir le header *X-Domain* avec la valeur du domain d'intervention

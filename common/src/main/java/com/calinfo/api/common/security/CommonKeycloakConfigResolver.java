@@ -35,6 +35,8 @@ import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.spi.HttpFacade;
 import org.keycloak.representations.adapters.config.AdapterConfig;
 
+import java.net.URL;
+
 @Slf4j
 @RequiredArgsConstructor
 public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
@@ -45,7 +47,7 @@ public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
     @Override
     public KeycloakDeployment resolve(HttpFacade.Request request) {
 
-        String realm = request.getHeader(CommonSecurityUrlFilter.HEADER_DOMAIN);
+        String realm = new URL(request.getURI()).getHost();
 
         ObjectMapper mapper = MiscUtils.getObjectMapper();
         String str = mapper.writeValueAsString(adapterConfig);

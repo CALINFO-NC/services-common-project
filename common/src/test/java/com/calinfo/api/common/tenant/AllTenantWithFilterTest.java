@@ -2,7 +2,6 @@ package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.manager.RestTemplateManager;
-import com.calinfo.api.common.security.CommonSecurityUrlFilter;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
 import com.calinfo.api.common.utils.MiscUtils;
@@ -95,7 +94,6 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(createURLWithPort(url));
         URI uri = builder.build().encode().toUri();
         HttpHeaders headers = new HttpHeaders();
-        headers.add(CommonSecurityUrlFilter.HEADER_DOMAIN, tenant);
 
         if (tenant != null)
             headers.set("tenant", tenant);

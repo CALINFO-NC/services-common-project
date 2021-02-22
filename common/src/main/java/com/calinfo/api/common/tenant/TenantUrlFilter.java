@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security;
+package com.calinfo.api.common.tenant;
 
 /*-
  * #%L
@@ -24,7 +24,6 @@ package com.calinfo.api.common.security;
 
 
 import com.calinfo.api.common.matching.MatchingUrlFilter;
-import com.calinfo.api.common.tenant.DomainContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
@@ -36,16 +35,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
 
+@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @RequiredArgsConstructor
-@ConditionalOnProperty("common.configuration.security.enabled")
 @Component
-@Order(CommonSecurityUrlFilter.ORDER_FILTER)
-public class CommonSecurityUrlFilter extends OncePerRequestFilter {
+@Order(TenantUrlFilter.ORDER_FILTER)
+public class TenantUrlFilter extends OncePerRequestFilter {
 
     public static final int ORDER_FILTER = MatchingUrlFilter.ORDER_FILTER + 10;
-
-    public static final String HEADER_DOMAIN = "X-Domain";
 
     /**
      * {@inheritDoc}
@@ -55,7 +53,7 @@ public class CommonSecurityUrlFilter extends OncePerRequestFilter {
 
         String oldDomain = DomainContext.getDomain();
         try {
-            DomainContext.setDomain(httpServletRequest.getHeader(HEADER_DOMAIN));
+            DomainContext.setDomain(new URL(httpServletRequest.getRequestURL().toString()).getHost());
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         finally {
