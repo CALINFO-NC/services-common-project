@@ -43,6 +43,7 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
 
     private final SecurityProperties securityProperties;
     private final KeycloakSpringBootProperties adapterConfig;
+    private final HostResolver hostResolver;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -71,8 +72,6 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
 
     @Bean
     public KeycloakConfigResolver keycloakConfigResolver() {
-        return new CommonKeycloakConfigResolver(adapterConfig);
+        return new CommonKeycloakConfigResolver(adapterConfig, hostResolver);
     }
-
-
 }

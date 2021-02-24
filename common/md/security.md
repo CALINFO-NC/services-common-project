@@ -23,16 +23,20 @@ Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.sec
 Exemple (Prennez note de l'annotation @KeycloakConfiguration):
 ```
 import com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter;
+import com.calinfo.api.common.security.HostResolver;
 import com.calinfo.api.common.security.SecurityProperties;
+import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @EnableWebSecurity
 @KeycloakConfiguration
 public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
-    
-    public SecurityConfig(SecurityProperties securityProperties, KeycloakSpringBootProperties adapterConfig){
-        super(securityProperties, adapterConfig);
+
+    public SecurityConfig(SecurityProperties securityProperties,
+                          KeycloakSpringBootProperties adapterConfig,
+                          HostResolver hostResolver){
+        super(securityProperties, adapterConfig, hostResolver);
     }
 }
 ```
