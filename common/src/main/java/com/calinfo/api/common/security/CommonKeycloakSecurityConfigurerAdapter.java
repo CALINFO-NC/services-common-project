@@ -22,6 +22,7 @@ package com.calinfo.api.common.security;
  * #L%
  */
 
+import com.calinfo.api.common.tenant.DomainResolver;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.keycloak.adapters.KeycloakConfigResolver;
@@ -43,7 +44,7 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
 
     private final SecurityProperties securityProperties;
     private final KeycloakSpringBootProperties adapterConfig;
-    private final HostResolver hostResolver;
+    private final DomainResolver domainResolver;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -72,6 +73,6 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
 
     @Bean
     public KeycloakConfigResolver keycloakConfigResolver() {
-        return new CommonKeycloakConfigResolver(adapterConfig, hostResolver);
+        return new CommonKeycloakConfigResolver(adapterConfig, domainResolver);
     }
 }

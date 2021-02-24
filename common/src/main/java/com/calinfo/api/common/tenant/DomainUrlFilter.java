@@ -27,6 +27,7 @@ import com.calinfo.api.common.matching.MatchingUrlFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,10 +41,12 @@ import java.net.URL;
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @RequiredArgsConstructor
 @Component
-@Order(TenantUrlFilter.ORDER_FILTER)
-public class TenantUrlFilter extends OncePerRequestFilter {
+@Order(DomainUrlFilter.ORDER_FILTER)
+public class DomainUrlFilter extends OncePerRequestFilter {
 
     public static final int ORDER_FILTER = MatchingUrlFilter.ORDER_FILTER + 10;
+
+    private final DomainResolver domainResolver;
 
     /**
      * {@inheritDoc}
@@ -53,7 +56,14 @@ public class TenantUrlFilter extends OncePerRequestFilter {
 
         String oldDomain = DomainContext.getDomain();
         try {
-            DomainContext.setDomain(new URL(httpServletRequest.getRequestURL().toString()).getHost());
+
+            Request req = new Request();
+            req.setUrl(new URL(httpServletRequest.getRequestURL().toString()));
+            req.setMethod(HttpMethod.resolve(httpServletRequest.getMethod()));
+            req.setHeaders(httpServletRequest::getHeader);
+            req.setParameters(httpServletRequest::getParameter);
+
+            DomainContext.setDomain(domainResolver.getDomain(req));
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         finally {

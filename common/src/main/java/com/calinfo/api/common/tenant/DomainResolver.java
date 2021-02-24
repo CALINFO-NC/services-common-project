@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security;
+package com.calinfo.api.common.tenant;
 
 /*-
  * #%L
@@ -22,10 +22,8 @@ package com.calinfo.api.common.security;
  * #L%
  */
 
-import org.keycloak.adapters.spi.HttpFacade;
 
+public interface DomainResolver {
 
-public interface HostResolver {
-
-    String getHostName(HttpFacade.Request request);
+    String getDomain(Request request);
 }

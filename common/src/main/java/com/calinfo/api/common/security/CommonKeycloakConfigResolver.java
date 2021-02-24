@@ -23,6 +23,8 @@ package com.calinfo.api.common.security;
  */
 
 
+import com.calinfo.api.common.tenant.DomainResolver;
+import com.calinfo.api.common.tenant.Request;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -34,19 +36,28 @@ import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.spi.HttpFacade;
 import org.keycloak.representations.adapters.config.AdapterConfig;
+import org.springframework.http.HttpMethod;
+
+import java.net.URL;
 
 @Slf4j
 @RequiredArgsConstructor
 public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
 
     private final AdapterConfig adapterConfig;
-    private final HostResolver hostResolver;
+    private final DomainResolver domainResolver;
 
     @SneakyThrows
     @Override
     public KeycloakDeployment resolve(HttpFacade.Request request) {
 
-        String realm = hostResolver.getHostName(request);
+        Request req = new Request();
+        req.setUrl(new URL(request.getURI()));
+        req.setMethod(HttpMethod.resolve(request.getMethod()));
+        req.setHeaders(request::getHeader);
+        req.setParameters(request::getFirstParam);
+
+        String realm = domainResolver.getDomain(req);
 
         ObjectMapper mapper = MiscUtils.getObjectMapper();
         String str = mapper.writeValueAsString(adapterConfig);

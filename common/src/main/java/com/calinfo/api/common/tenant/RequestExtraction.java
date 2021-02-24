@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security;
+package com.calinfo.api.common.tenant;
 
 /*-
  * #%L
@@ -22,18 +22,8 @@ package com.calinfo.api.common.security;
  * #L%
  */
 
-import lombok.SneakyThrows;
-import org.keycloak.adapters.spi.HttpFacade;
-import org.springframework.stereotype.Component;
+@FunctionalInterface
+public interface RequestExtraction {
 
-import java.net.URL;
-
-
-@Component
-public class DefaultHostResolver implements HostResolver {
-
-    @SneakyThrows
-    public String getHostName(HttpFacade.Request request){
-        return new URL(request.getURI()).getHost();
-    }
+    String get(String name);
 }
