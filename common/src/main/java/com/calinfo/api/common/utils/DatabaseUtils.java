@@ -23,11 +23,12 @@ package com.calinfo.api.common.utils;
  */
 
 import com.calinfo.api.common.ex.ApplicationErrorException;
+import com.calinfo.api.common.tenant.TenantError;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dalexis on 11/05/2018.
@@ -68,4 +69,30 @@ public class DatabaseUtils {
             throw new ApplicationErrorException(e);
         }
     }
+
+    public static List<String> listSchema(DataSource dataSource) {
+
+        List<String> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection()) {
+
+            // Parcours des schémas
+            DatabaseMetaData meta = connection.getMetaData();
+            try(ResultSet res = meta.getSchemas()) {
+                while (res.next()) {
+
+                    // Récupération du schéma
+                    String schemaName = res.getString("TABLE_SCHEM");
+                    result.add(schemaName);
+                }
+            }
+
+        }
+        catch(Exception e){
+            throw new TenantError(e.getMessage(), e);
+        }
+
+        return result;
+    }
+
 }
