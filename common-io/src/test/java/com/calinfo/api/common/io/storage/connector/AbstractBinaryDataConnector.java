@@ -7,6 +7,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class AbstractBinaryDataConnector extends AbstractTestNGSpringContextTests {
 
@@ -52,7 +54,7 @@ public class AbstractBinaryDataConnector extends AbstractTestNGSpringContextTest
 
     private void upload(BinaryDataConnector binaryDataConnector, String spaceName, String id, String data) throws IOException {
 
-        try(InputStream in = new ByteArrayInputStream(data.getBytes())){
+        try(InputStream in = new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8))){
             binaryDataConnector.upload(spaceName, id, in);
         }
     }
@@ -64,7 +66,7 @@ public class AbstractBinaryDataConnector extends AbstractTestNGSpringContextTest
         try(ByteArrayOutputStream out = new ByteArrayOutputStream()){
 
             binaryDataConnector.download(spaceName, id, out);
-            val = new String(out.toByteArray());
+            val = new String(out.toByteArray(), StandardCharsets.UTF_8);
         }
         catch (IOException e){
             val = null;
