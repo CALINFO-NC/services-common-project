@@ -22,7 +22,6 @@ package com.calinfo.api.common.task;
  * #L%
  */
 
-import com.calinfo.api.common.security.SecurityProperties;
 import com.calinfo.api.common.tenant.DomainContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +30,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +39,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class TaskRunner {
-
-    @Autowired
-    private SecurityProperties securityProperties;
 
     public <T> Optional<T> run (String username, String domainName, String[] roles, Task<T> task) throws TaskException {
 
@@ -68,15 +65,7 @@ public class TaskRunner {
         }
     }
 
-    public <T> Optional<T> run (String domainName, String[] roles, Task<T> task) throws TaskException {
-        return run(securityProperties.getSystemLogin(), domainName, roles, task);
-    }
-
-    public <T> Optional<T> run (String domainName, Task<T> task) throws TaskException {
-        return run(securityProperties.getSystemLogin(), domainName, new String[]{}, task);
-    }
-
-    public <T> Optional<T> run (Task<T> task) throws TaskException {
-        return run(securityProperties.getSystemLogin(), null, new String[]{}, task);
+    public <T> Optional<T> run (String username, String domainName, Task<T> task) throws TaskException {
+        return run(username, domainName, new String[0], task);
     }
 }

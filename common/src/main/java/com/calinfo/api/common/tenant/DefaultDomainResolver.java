@@ -31,6 +31,6 @@ public class DefaultDomainResolver implements DomainResolver {
 
     @SneakyThrows
     public String getDomain(Request request){
-        return request.getUrl().getHost().replaceAll("\\.", "_");
+        return request.getUrl().getHost();
     }
 }

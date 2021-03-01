@@ -80,7 +80,7 @@ public class TransfertStorageScheduler {
     private void runTransfertBinaryDataWithDomainParameter(String domain){
 
         try {
-            taskRunner.run(domain, () -> {
+            taskRunner.run(null, domain, () -> {
 
                 // Récupérer la liste des objets à transférer
                 List<String> lstId = binaryDataSchedulerService.listId();

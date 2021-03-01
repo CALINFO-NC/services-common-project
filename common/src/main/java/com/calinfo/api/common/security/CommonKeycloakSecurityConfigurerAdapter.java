@@ -24,7 +24,6 @@ package com.calinfo.api.common.security;
 
 import com.calinfo.api.common.tenant.DomainResolver;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
@@ -32,7 +31,6 @@ import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurer
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
@@ -41,22 +39,9 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @RequiredArgsConstructor
 public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurityConfigurerAdapter {
 
-
-    private final SecurityProperties securityProperties;
     private final KeycloakSpringBootProperties adapterConfig;
     private final DomainResolver domainResolver;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-
-        if (StringUtils.isBlank(securityProperties.getAccessAppRole())) {
-            http.authorizeRequests().regexMatchers(securityProperties.getPrivateUrlRegex()).authenticated().anyRequest().permitAll();
-        } else {
-            http.authorizeRequests().regexMatchers(securityProperties.getPrivateUrlRegex()).hasRole(securityProperties.getAccessAppRole()).anyRequest().permitAll();
-        }
-        http.csrf().disable();
-    }
+    private final String keycloakResource;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
@@ -74,5 +59,10 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
     @Bean
     public KeycloakConfigResolver keycloakConfigResolver() {
         return new CommonKeycloakConfigResolver(adapterConfig, domainResolver);
+    }
+
+    @Override
+    protected KeycloakAuthenticationProvider keycloakAuthenticationProvider() {
+        return new CommonKeycloakAuthenticationProvider(keycloakResource);
     }
 }

@@ -61,7 +61,7 @@ public class TenantDatasourceConfiguration {
             throw new NullPointerException("domainName is null");
         }
 
-        return String.format("%s%s", prefix, domainName);
+        return String.format("%s%s", prefix, domainName.replaceAll("\\.", "_"));
     }
 
     @Bean(name = TENANT_DATASOURCE)

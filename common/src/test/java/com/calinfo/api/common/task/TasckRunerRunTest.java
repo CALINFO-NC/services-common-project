@@ -1,7 +1,6 @@
 package com.calinfo.api.common.task;
 
 import com.calinfo.api.common.AutowiredConfig;
-import com.calinfo.api.common.security.SecurityProperties;
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,6 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private TaskRunner taskRunner;
 
-    @Autowired
-    private SecurityProperties securityProperties;
 
     @Test
     public void runOk() throws TaskException {
@@ -46,51 +43,8 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
             return Optional.<Void>empty();
         });
 
-        taskRunner.run( "domain", new String[]{"role1"}, () -> {
-
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            TaskPrincipal principal = (TaskPrincipal)auth.getPrincipal();
-
-            Assert.assertEquals(securityProperties.getSystemLogin(), principal.getName());
-            Assert.assertEquals(principal.getDomain(), "domain");
-            Assert.assertTrue(principal.getAuthorities().size() == 1);
-            Assert.assertEquals(principal.getAuthorities().iterator().next().getAuthority(), "role1");
-
-            return Optional.<Void>empty();
-        });
-
-        taskRunner.run( "domain", () -> {
-
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            TaskPrincipal principal = (TaskPrincipal)auth.getPrincipal();
-
-            Assert.assertEquals(securityProperties.getSystemLogin(), principal.getName());
-            Assert.assertEquals(principal.getDomain(), "domain");
-            Assert.assertTrue(principal.getAuthorities().size() == 0);
-
-            return Optional.<Void>empty();
-        });
-
-        taskRunner.run( () -> {
-
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            TaskPrincipal principal = (TaskPrincipal)auth.getPrincipal();
-
-            Assert.assertEquals(securityProperties.getSystemLogin(), principal.getName());
-            Assert.assertNull(principal.getDomain());
-            Assert.assertTrue(principal.getAuthorities().size() == 0);
-
-            return Optional.<Void>empty();
-        });
-
         Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
         Assert.assertTrue(oldAuth == newAuth);
-
-        String strArbitraire = "arbitraire";
-        Optional<String> res = taskRunner.run( () -> Optional.of(strArbitraire));
-
-        Assert.assertTrue(res.isPresent());
-        Assert.assertEquals(res.get(), strArbitraire);
     }
 
     @Test

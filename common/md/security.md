@@ -4,8 +4,8 @@ Le common embarque une sécurité cablé avec Keycloak (https://www.keycloak.org
 
 # Mise en oeuvre
 
-La sécurité du common prend aussi en charge la définition des URLs sécurisées définit dans *common.configuration.security.privateUrlRegex*
-Ainsi que la gestion du multi-tenant. Le common injectera le domain directement dans le realm de la configuration keycloak
+La sécurité prend en charge la gestion du multi-tenant et utilise keyckloak pour son fonctionnement. 
+Le common injectera le domain directement dans le realm de la configuration keycloak
 
 Exemple de configuration
 ```
@@ -38,26 +38,23 @@ public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
                           HostResolver hostResolver){
         super(securityProperties, adapterConfig, hostResolver);
     }
+    
+    // Exemple de configuration de la sécurité
+    
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+
+        http.authorizeRequests().regexMatchers("/private/*").hasRole(securityProperties.getAccessAppRole()).anyRequest().permitAll();
+        http.csrf().disable();
+    }
 }
 ```
 
-
-# Configuration de la sécurité
-
-Toutes les propriétés paramétrables par le common sur la sécurité sont décrite dans la classe *com.calinfo.api.common.security.SecurityProperties*
-Pour modifier cette configuration, il faut modifier les sous propriété de *common.configuration.security.enabled* du ficbhier *application.yml*
-
-
 # Déseactiver la sécurité
 
-Par défaut la sécurité du common est activé. Pour la désactiver, il faut mettre à *false* la configuration *common.configuration.security.enabled*.
-Cependant, cette configuration désactivera uniquement la pris en charge de la sécurité par le common, et vous devrez configurer à lamain la sécurité de keycloak.
 Pour désactiver totalement la sécurité de votre application, vous devrez définir la configuration ci-dessous
 ```
-common:
-  configuration:
-    security:
-      enabled: false
 keycloak:
   enabled: false
 ```
