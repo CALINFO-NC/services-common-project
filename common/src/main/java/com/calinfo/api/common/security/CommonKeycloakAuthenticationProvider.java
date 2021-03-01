@@ -43,6 +43,7 @@ public class CommonKeycloakAuthenticationProvider extends KeycloakAuthentication
 
     private GrantedAuthoritiesMapper grantedAuthoritiesMapper;
 
+    @Override
     public void setGrantedAuthoritiesMapper(GrantedAuthoritiesMapper grantedAuthoritiesMapper) {
         super.setGrantedAuthoritiesMapper(grantedAuthoritiesMapper);
         this.grantedAuthoritiesMapper = grantedAuthoritiesMapper;
@@ -63,7 +64,7 @@ public class CommonKeycloakAuthenticationProvider extends KeycloakAuthentication
         roles = getRoles(token, keycloakResource);
         addRoles(grantedAuthorities, roles);
 
-        return new KeycloakAuthenticationToken(token.getAccount(), token.isInteractive(), this.mapAuthorities(grantedAuthorities));
+        return new KeycloakAuthenticationToken(token.getAccount(), token.isInteractive(), this.getAuthorities(grantedAuthorities));
     }
 
     private Iterator<String> getRoles(KeycloakAuthenticationToken token, String name) {
@@ -87,7 +88,7 @@ public class CommonKeycloakAuthenticationProvider extends KeycloakAuthentication
         }
     }
 
-    private Collection<? extends GrantedAuthority> mapAuthorities(Collection<? extends GrantedAuthority> authorities) {
+    private Collection<? extends GrantedAuthority> getAuthorities(Collection<? extends GrantedAuthority> authorities) {
         return this.grantedAuthoritiesMapper != null ? this.grantedAuthoritiesMapper.mapAuthorities(authorities) : authorities;
     }
 
