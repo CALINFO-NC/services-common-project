@@ -42,6 +42,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -61,7 +62,7 @@ public class TenantDatasourceConfiguration {
             throw new NullPointerException("domainName is null");
         }
 
-        return String.format("%s%s", prefix, domainName.replaceAll("\\.", "_"));
+        return String.format("%s%s", prefix, domainName.replaceAll("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT));
     }
 
     @Bean(name = TENANT_DATASOURCE)
