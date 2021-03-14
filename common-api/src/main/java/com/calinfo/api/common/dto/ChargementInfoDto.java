@@ -22,18 +22,18 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import org.springframework.data.domain.Pageable;
 
 /**
  * Created by dalexis on 18/11/2017.
  */
-@Getter
-@Setter
+@Data
+@Schema(name = "ChargementInfo")
 public class ChargementInfoDto implements Dto {
 
-    private int start = 0;
+    private int page = 0;
 
     private Integer limit;
 
@@ -45,11 +45,21 @@ public class ChargementInfoDto implements Dto {
     }
 
     public ChargementInfoDto(int start){
-        this.start = start;
+        this.page = start;
     }
 
     public ChargementInfoDto(int start, Integer limit){
-        this.start = start;
+        this.page = start;
         this.limit = limit;
+    }
+
+    @Deprecated
+    public int getStart() {
+        return page;
+    }
+
+    @Deprecated
+    public void setStart(int start) {
+        this.page = start;
     }
 }

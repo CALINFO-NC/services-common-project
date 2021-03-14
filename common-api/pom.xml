@@ -67,6 +67,13 @@
             <version>${version.openpojo}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${version.springdoc-openapi-ui}</version>
+        </dependency>
     </dependencies>
 
 </project>

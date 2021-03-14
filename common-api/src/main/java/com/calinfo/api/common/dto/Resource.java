@@ -22,22 +22,9 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-
 /**
- * Created by dalexis on 18/11/2017.
+ * Marqueyr sémentique représentant une ressource
  */
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Schema(name = "Simple")
-public class SimpleDto<R extends Serializable> implements Dto {
-
-    private R value;
+public interface Resource extends Dto, MessageInfoAndWarningInterface {
 
 }

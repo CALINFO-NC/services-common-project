@@ -16,7 +16,7 @@ public class ChargementInfoPageRequestPageSizeAndPageNumberTest {
         ChargementInfoDto ci = new ChargementInfoDto(1, 50);
         ChargementInfoPageRequest cipr = new ChargementInfoPageRequest(ci);
 
-        Assert.assertEquals(ci.getStart() , cipr.getPageNumber());
+        Assert.assertEquals(ci.getPage() , cipr.getPageNumber());
         Assert.assertEquals(ci.getLimit().intValue(), cipr.getPageSize());
 
         ChargementInfoPageRequest.setMaxLimit(50);

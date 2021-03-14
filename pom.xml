@@ -24,9 +24,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <version.service-common>1.2.0-SNAPSHOT</version.service-common>
+        <version.springdoc-openapi-ui>1.2.32</version.springdoc-openapi-ui>
         <version.keycloak>12.0.2</version.keycloak>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
-        <version.lombok>1.18.16</version.lombok>
+        <version.lombok>1.18.18</version.lombok>
         <version.spring>2.4.0</version.spring>
         <version.testng>7.1.0</version.testng>
         <version.maven-war-plugin>3.3.1</version.maven-war-plugin>

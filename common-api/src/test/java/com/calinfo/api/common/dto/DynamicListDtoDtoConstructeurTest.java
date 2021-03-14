@@ -12,7 +12,7 @@ import java.util.function.Function;
 /**
  * Created by dalexis on 21/05/2018.
  */
-public class DynamicListDtoConstructeurTest {
+public class DynamicListDtoDtoConstructeurTest {
 
 
     @Test

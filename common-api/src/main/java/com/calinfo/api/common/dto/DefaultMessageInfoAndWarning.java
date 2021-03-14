@@ -22,22 +22,17 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by dalexis on 18/11/2017.
- */
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Data
-@Schema(name = "Simple")
-public class SimpleDto<R extends Serializable> implements Dto {
+public class DefaultMessageInfoAndWarning implements MessageInfoAndWarningInterface{
 
-    private R value;
+    private List<String> listInfoMessages = new ArrayList<>();
+
+    private List<String> listWarningMessages = new ArrayList<>();
 
 }

@@ -60,7 +60,7 @@ public class ChargementInfoPageRequest implements Pageable {
     public ChargementInfoPageRequest(ChargementInfoDto ci, Sort sort) {
 
         int limit = Math.min(ci.getLimit() == null ? maxLimit : ci.getLimit(), maxLimit);
-        pageable = PageRequest.of(ci.getStart(), limit, sort);
+        pageable = PageRequest.of(ci.getPage(), limit, sort);
     }
 
     @Override
