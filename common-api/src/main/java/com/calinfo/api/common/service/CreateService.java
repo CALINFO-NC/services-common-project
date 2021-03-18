@@ -29,7 +29,7 @@ import java.io.Serializable;
 /**
  * Created by dalexis on 04/04/2018.
  */
-public interface CreateService<T extends Resource<I>, I extends Serializable> {
+public interface CreateService<T extends Resource<? extends Serializable>> {
 
     T create(T resource);
 }
