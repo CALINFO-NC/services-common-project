@@ -35,7 +35,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Schema(name = "Simple")
 public class SimpleDto<R extends Serializable> implements Dto {
 
     private R value;

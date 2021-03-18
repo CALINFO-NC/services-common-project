@@ -22,9 +22,12 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
+import java.io.Serializable;
+
 /**
  * Marqueyr sémentique représentant une ressource
  */
-public interface Resource extends Dto, MessageInfoAndWarningInterface {
+public interface Resource<I extends Serializable> extends Dto, MessageInfoAndWarningInterface {
 
+    I getId();
 }

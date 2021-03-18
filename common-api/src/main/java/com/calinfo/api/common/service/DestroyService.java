@@ -24,10 +24,12 @@ package com.calinfo.api.common.service;
 
 import com.calinfo.api.common.dto.Dto;
 
+import java.io.Serializable;
+
 /**
  * Created by dalexis on 04/04/2018.
  */
-public interface DestroyService<R extends Dto, I> {
+public interface DestroyService<D extends Dto, I extends Serializable> {
 
-    R destroy(I id);
+    D destroy(I id);
 }

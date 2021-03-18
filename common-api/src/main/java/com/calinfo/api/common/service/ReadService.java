@@ -22,12 +22,14 @@ package com.calinfo.api.common.service;
  * #L%
  */
 
-import com.calinfo.api.common.dto.Dto;
+import com.calinfo.api.common.dto.Resource;
+
+import java.io.Serializable;
 
 /**
  * Created by dalexis on 04/04/2018.
  */
-public interface ReadService<T extends Dto, I> {
+public interface ReadService<R extends Resource<I>, I extends Serializable> {
 
-    T read(I id);
+    R read(I id);
 }

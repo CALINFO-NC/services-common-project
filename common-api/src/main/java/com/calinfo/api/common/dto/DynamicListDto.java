@@ -37,7 +37,6 @@ import java.util.function.Function;
  */
 @NoArgsConstructor
 @Data
-@Schema(name = "DynamicList")
 public class DynamicListDto<R extends Serializable> extends DefaultMessageInfoAndWarning implements Dto, MessageInfoAndWarningInterface {
 
 
