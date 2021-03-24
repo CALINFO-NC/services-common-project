@@ -26,6 +26,8 @@ import com.calinfo.api.common.task.TaskPrincipal;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.KeycloakDeployment;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.representations.AccessToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -146,6 +148,51 @@ public class SecurityUtils {
     private static List<String> getRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
 
         List<String> result = new ArrayList<>();
+        result.addAll(getRealmRoleFromKecloakPrincipal(principal));
+        result.addAll(getResourceRoleFromKecloakPrincipal(principal));
+
+        return  result;
+    }
+
+    private static List<String> getResourceRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
+
+        List<String> result = new ArrayList<>();
+
+
+        if (!(principal.getKeycloakSecurityContext() instanceof RefreshableKeycloakSecurityContext)){
+            return result;
+        }
+
+        RefreshableKeycloakSecurityContext context = ((RefreshableKeycloakSecurityContext)principal.getKeycloakSecurityContext());
+
+        KeycloakDeployment deployment = context.getDeployment();
+        if (deployment == null){
+            return result;
+        }
+
+        AccessToken accessToken = context.getToken();
+        if (accessToken == null){
+            return result;
+        }
+
+
+        String resourceName = deployment.getResourceName();
+        AccessToken.Access resourceAccess = accessToken.getResourceAccess().get(resourceName);
+        if (resourceAccess == null){
+            return result;
+        }
+
+        Set<String> roles = resourceAccess.getRoles();
+        if (roles != null){
+            result.addAll(roles.stream().collect(Collectors.toList()));
+        }
+
+        return  result;
+    }
+
+    private static List<String> getRealmRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
+
+        List<String> result = new ArrayList<>();
 
         AccessToken accessToken = principal.getKeycloakSecurityContext().getToken();
         if (accessToken == null){
@@ -158,10 +205,10 @@ public class SecurityUtils {
         }
 
         Set<String> roles = realmAccess.getRoles();
-        if (roles == null){
-            return result;
+        if (roles != null){
+            result.addAll(roles.stream().collect(Collectors.toList()));
         }
 
-        return  roles.stream().collect(Collectors.toList());
+        return  result;
     }
 }
