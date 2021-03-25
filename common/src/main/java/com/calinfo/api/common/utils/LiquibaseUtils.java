@@ -46,7 +46,7 @@ public class LiquibaseUtils {
     private LiquibaseUtils(){
     }
 
-    public static void updateSchema(DataSource dataSource, String changelogFileConf, String schemaName) {
+    public static void updateSchema(DataSource dataSource, String changelogFileConf, String schemaName, String... contexts) {
 
         // Création de la connection
         try (Connection con = dataSource.getConnection()) {
@@ -60,7 +60,7 @@ public class LiquibaseUtils {
             database.setDefaultSchemaName(schemaName);
 
             try(Liquibase liquibase = new Liquibase(changelogName, new ClassLoaderResourceAccessor(), database)) {
-                liquibase.update(new Contexts());
+                liquibase.update(new Contexts(contexts));
             }
 
         } catch (Exception e) {

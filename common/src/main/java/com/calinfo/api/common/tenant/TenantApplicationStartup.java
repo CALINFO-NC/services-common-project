@@ -25,6 +25,7 @@ package com.calinfo.api.common.tenant;
 import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class TenantApplicationStartup implements ApplicationListener<Application
 
         DatabaseUtils.listSchema(dataSource).forEach(schemaName -> {
             if (schemaName.startsWith(tenantProperties.getPrefix()) && !schemaName.equals(tenantProperties.getDefaultValue())) {
-                LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schemaName);
+                LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schemaName, liquibaseProperties.getContexts());
             }
         });
 
