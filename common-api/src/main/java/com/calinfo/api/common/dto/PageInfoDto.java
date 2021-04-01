@@ -24,30 +24,32 @@ package com.calinfo.api.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.Pageable;
 
 /**
  * Created by dalexis on 18/11/2017.
- * Utiliser {{@link #PageInfoDto}}
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-@Schema(name = "ChargementInfo")
-@Deprecated
-public class ChargementInfoDto extends PageInfoDto {
-    public ChargementInfoDto() {
+@Schema(name = "PageInfo")
+public class PageInfoDto implements Dto {
+
+    private int page = 0;
+
+    private Integer limit;
+
+    public PageInfoDto(){
     }
 
-    public ChargementInfoDto(Pageable page) {
-        super(page);
+    public PageInfoDto(Pageable page){
+        this(page.getPageNumber(), page.getPageSize());
     }
 
-    public ChargementInfoDto(int start) {
-        super(start);
+    public PageInfoDto(int start){
+        this.page = start;
     }
 
-    public ChargementInfoDto(int start, Integer limit) {
-        super(start, limit);
+    public PageInfoDto(int start, Integer limit){
+        this.page = start;
+        this.limit = limit;
     }
 }

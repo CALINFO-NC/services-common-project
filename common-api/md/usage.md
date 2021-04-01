@@ -25,7 +25,7 @@
 
  * *MediaDto* : Représente un média (ex : Une image, une vidéo, un document, etc...)
 
- * *ChargementInfoDto* : Ce DTO représente les paramètres de chargement dynamique d'une liste.
+ * *PageInfoDto* : Ce DTO représente les paramètres de chargement dynamique d'une liste.
  Par exemple, il est fortement déconseillé dans un service de renvoyer une liste sur laquelle le développeur n'a pas de
  maîtrise sur la volumétrie des informations renvoyées. Si le développeur veut garder cette maîtrise, il devra, à minima, ajouter
  dans les paramètres de son service, le *départ* et la *limite*.

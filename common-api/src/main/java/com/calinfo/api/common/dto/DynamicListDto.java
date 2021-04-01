@@ -22,7 +22,6 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
