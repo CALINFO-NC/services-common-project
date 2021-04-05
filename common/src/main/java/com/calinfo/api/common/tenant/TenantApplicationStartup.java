@@ -48,8 +48,10 @@ import javax.sql.DataSource;
 
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(TenantApplicationStartup.ORDER)
 public class TenantApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
+
+    public static final int ORDER = 10000;
 
     private static final Logger log = LoggerFactory.getLogger(TenantApplicationStartup.class);
 
