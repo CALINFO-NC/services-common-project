@@ -7,7 +7,7 @@
 
     <groupId>com.calinfo-nc.services</groupId>
     <artifactId>common-project</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
     <packaging>pom</packaging>
 
     <description>Bibliothèque parent de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
@@ -23,7 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.service-common>1.2.0-SNAPSHOT</version.service-common>
+        <version.service-common>1.2.0</version.service-common>
         <version.springdoc-openapi-ui>1.2.32</version.springdoc-openapi-ui>
         <version.keycloak>12.0.2</version.keycloak>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
