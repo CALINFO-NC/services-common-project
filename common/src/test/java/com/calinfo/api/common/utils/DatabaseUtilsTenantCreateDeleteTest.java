@@ -43,11 +43,11 @@ public class DatabaseUtilsTenantCreateDeleteTest extends AbstractTestNGSpringCon
 
         DatabaseUtils.deleteSchema(tenantDataSource, tenantSchema);
 
-        // Pour vérifier que la base existe, on la re créé, et il ne doit pas y avoir d'excerption
+        // Pour vérifier que la base existe, on la re créé, et il ne doit pas y avoir d'exception
         DatabaseUtils.createSchema(tenantDataSource, tenantSchema);
 
         try {
-            // Pour vérifier que la base existe, on la re créé, et il ne doit pas y avoir d'excerption
+            // Pour vérifier que la base existe, on la re créé, et il ne doit pas y avoir d'exception
             DatabaseUtils.createSchema(dataSource, schemaName);
         }
         catch(Exception e){

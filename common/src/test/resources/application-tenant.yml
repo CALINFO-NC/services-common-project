@@ -6,6 +6,7 @@ common:
       version: "TEST"
     tenant:
       enabled: true
+      schemaMultitenancy: true
       domainScanEntities: "com.calinfo.api.common.tenant.entity.domain"
       genericScanEntities: "com.calinfo.api.common.tenant.entity.generic"
       datasource:

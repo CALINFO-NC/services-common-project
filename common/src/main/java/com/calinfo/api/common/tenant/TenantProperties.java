@@ -4,7 +4,7 @@ package com.calinfo.api.common.tenant;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 CALINFO
+ * Copyright (C) 2019 - 2021 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -42,6 +42,9 @@ public class TenantProperties {
 
 
     public static final String CONDITIONNAL_PROPERTY = "common.configuration.tenant.enabled";
+
+    public static final String SCHEMA_MULTITENANCY = "common.configuration.tenant.schemaMultitenancy";
+    public static final String DATABASE_MULTITENANCY = "common.configuration.tenant.databaseMultitenancy";
 
     /**
      * Activer la gestion de multi schméa (un schma par demaine)
