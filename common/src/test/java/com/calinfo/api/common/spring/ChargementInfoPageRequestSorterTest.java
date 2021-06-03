@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by dalexis on 21/05/2018.
  */
+@Deprecated
 public class ChargementInfoPageRequestSorterTest {
 
 

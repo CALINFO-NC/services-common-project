@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>common-project</artifactId>
+        <groupId>com.calinfo-nc.services</groupId>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>common-teavm</artifactId>
+
+    <properties>
+        <version.auto-service>1.0-rc7</version.auto-service>
+        <version.compile-testing>0.19</version.compile-testing>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Passage du common en licence GNU GPL -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Modification du compiler pour prendre en compte le processor -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerReuseStrategy>reuseSame</compilerReuseStrategy>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- Processeur -->
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>${version.auto-service}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.testing.compile</groupId>
+            <artifactId>compile-testing</artifactId>
+            <version>${version.compile-testing}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Librairie de génération de code Javascript à partir du code Java -->
+        <dependency>
+            <groupId>org.teavm</groupId>
+            <artifactId>teavm-classlib</artifactId>
+            <version>${version.teavm}</version>
+        </dependency>
+
+        <!-- Librairie utilitaire -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${version.commons-lang3}</version>
+        </dependency>
+
+
+        <!-- Bibliothèque interne -->
+        <dependency>
+            <groupId>com.calinfo-nc.services</groupId>
+            <artifactId>common-test</artifactId>
+            <version>${version.service-common}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

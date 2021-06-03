@@ -2,7 +2,6 @@ package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.AutowiredConfig;
 import com.calinfo.api.common.manager.RestTemplateManager;
-import com.calinfo.api.common.swagger.mock.SwaggerConfig;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
 import com.calinfo.api.common.utils.MiscUtils;
@@ -38,7 +37,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 /**
  * Created by dalexis on 10/05/2018.
  */
-@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class} , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("tenant")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
@@ -150,7 +149,7 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
         // Lire la donnée dans la table générique
         response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, null);
         String val = response;
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
 
         // Lire une données inexistante
         val = callUrl(String.format("/mock/tenant/generic/%s", (id + 1)), HttpMethod.GET, null);
@@ -159,6 +158,6 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
         // Vérifier que la donnée est tojours présente même si je change de domaine
         response = callUrl(String.format("/mock/tenant/generic/%s", id), HttpMethod.GET, domain1);
         val =  response;
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
     }
 }

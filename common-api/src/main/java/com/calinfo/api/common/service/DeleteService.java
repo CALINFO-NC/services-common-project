@@ -23,7 +23,9 @@ package com.calinfo.api.common.service;
  */
 
 
-public interface DeleteService<I> {
+import java.io.Serializable;
+
+public interface DeleteService<I extends Serializable> {
 
     void delete(I id);
 }

@@ -22,8 +22,8 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,8 +32,8 @@ import java.util.List;
 /**
  * Created by dalexis on 20/11/2017.
  */
-@Getter
-@Setter
+@Data
+@Schema(name = "BadRequestParameter")
 public class BadRequestParameterDto implements Serializable {
 
     private List<AttributDto> listErrorMessages = new ArrayList<>();

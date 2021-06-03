@@ -35,8 +35,4 @@ public class KafkaUser {
     private String login;
 
     private List<String> roles = new ArrayList<>();
-
-    private boolean systemUser;
-
-    private boolean anonymousUser;
 }

@@ -67,16 +67,19 @@ public class MiscUtils {
 
     public static ObjectMapper getObjectMapper(){
         final ObjectMapper result = new ObjectMapper();
+        configureObjectMapper(result);
+        return result;
+    }
 
-        result.registerModule(new JavaTimeModule());
+    public static void configureObjectMapper(ObjectMapper mapper){
+
+        mapper.registerModule(new JavaTimeModule());
 
         // Format des date transitant dans le JSon
-        result.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         // Ignorée les champs absent du model et présent dans le Json
-        result.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        return result;
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private static ResponseEntity<String> getResponse(RestTemplate restTemplate, URI uri, HttpMethod httpMethod, HttpEntity<?> entity){

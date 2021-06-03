@@ -22,29 +22,26 @@ package com.calinfo.api.common.utils;
  * #L%
  */
 
-import com.calinfo.api.common.ex.MessageStatusException;
-import com.calinfo.api.common.security.AbstractCommonPrincipal;
-import com.calinfo.api.common.security.CommonPrincipal;
-import com.calinfo.api.common.security.JwtUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.http.HttpStatus;
+import com.calinfo.api.common.task.TaskPrincipal;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.KeycloakDeployment;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
+import org.keycloak.representations.AccessToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.xml.bind.DatatypeConverter;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -63,11 +60,11 @@ public class SecurityUtils {
      *
      * @param publicKeyValue Clé public sous forme de chaine de caractère
      * @return Instance de clé public
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeySpecException Exception si la clé est incorrecte
      */
     public static PublicKey getPublicKeyFromString(String publicKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(DatatypeConverter.parseBase64Binary(publicKeyValue));
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyValue));
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return keyFactory.generatePublic(spec);
     }
@@ -77,11 +74,11 @@ public class SecurityUtils {
      *
      * @param privateKeyValue Clé privée sous forme de chaine de caractère
      * @return Instance de clé privée
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeySpecException Exception si la clé est incorrecte
      */
     public static PrivateKey getPrivateKeyFromString(String privateKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKeyValue));
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyValue));
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return keyFactory.generatePrivate(spec);
     }
@@ -92,11 +89,11 @@ public class SecurityUtils {
      * @param data Donnée à crypter
      * @param privateKey Clé privée
      * @return Donnée crypté
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeyException Exception si la clé est incorrecte
+     * @throws NoSuchPaddingException Problème pour encrypter la clé
+     * @throws IllegalBlockSizeException Problème pour encrypter la clé
+     * @throws BadPaddingException Problème pour encrypter la clé
      */
     public static byte[] rsaEncryption(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
@@ -110,11 +107,11 @@ public class SecurityUtils {
      * @param data Donnée à décrypter
      * @param publicKey Clé public
      * @return Donnée décrypté
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeyException Exception si la clé est incorrecte
+     * @throws NoSuchPaddingException Problème pour encrypter la clé
+     * @throws IllegalBlockSizeException Problème pour encrypter la clé
+     * @throws BadPaddingException Problème pour encrypter la clé
      */
     public static byte[] rsaDecryption(byte[] data, PublicKey publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
@@ -123,106 +120,94 @@ public class SecurityUtils {
     }
 
     /**
-     * Permet de créer un token JWT
+     * Extrait les roles du principal
      *
-     * @param privateKeyValue Valeur de la clée privée permettant de crypter le token
-     * @param durationMillis Durée de validité du jeton. 0 ou null si valable indéfiniment
-     * @param user Utilisateur et ses rôle à encoder
-     * @return Token
+     * @param intPrincipal
+     * @return List des rôles associé au principal
      */
-    public static String getJwtFromUser(String privateKeyValue, Long durationMillis, JwtUser user) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static List<String> getRoleFormPrincipal(Principal intPrincipal){
 
-        PrivateKey privateKey = getPrivateKeyFromString(privateKeyValue);
+        List<String> result = new ArrayList<>();
 
-        // Signature JWT utilisé pour encoder le jeton
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS512;
-
-        long nowMillis = DateUtils.now().toInstant().toEpochMilli();
-        Date now = new Date(nowMillis);
-
-        Map<String, Object> mapClaims = new HashMap<>();
-        mapClaims.put("login", user.getLogin());
-        mapClaims.put("domain", user.getDomain());
-        if (!user.getRoles().isEmpty()) {
-            mapClaims.put("rolesApp", user.getRoles());
+        if (intPrincipal instanceof KeycloakPrincipal){
+            return getRoleFromKecloakPrincipal((KeycloakPrincipal<? extends KeycloakSecurityContext>) intPrincipal);
         }
 
-
-        // Fabriquer le jeton JWT
-        // Voir ici (https://www.iana.org/assignments/jwt/jwt.xhtml) les propriétés recomandé d'utiliser
-        JwtBuilder builder = Jwts.builder()
-                .setClaims(mapClaims)
-                .setId(UUID.randomUUID().toString())
-                .setIssuedAt(now)  // iat : Date de construction du jeton
-                .signWith(signatureAlgorithm, privateKey); // typ et alg : Type d'algorithm
-
-
-        // Ajouter la durée de validité du jeton
-        if (durationMillis != null) {
-            long expMillis = nowMillis + durationMillis;
-            Date exp = new Date(expMillis);
-            builder.setExpiration(exp);
+        if (intPrincipal instanceof TaskPrincipal){
+            return getRoleFromTaskPrincipal((TaskPrincipal) intPrincipal);
         }
 
-        // Encoder le tenon JWT
-        return builder.compact();
-
+        return result;
     }
 
-    /**
-     * Permet de décrypter le token JWT
-     *
-     * @param token Token à décrypter
-     * @param publicKeyValue Clé public
-     * @return Token décrypté
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
-     */
-    public static JwtUser getUserFromJwt(String token, String publicKeyValue) throws NoSuchAlgorithmException, InvalidKeySpecException {
-
-        PublicKey publicKey = getPublicKeyFromString(publicKeyValue);
-
-        Claims claims = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
-
-
-        JwtUser tokenUser = new JwtUser();
-        tokenUser.setLogin(claims.get("login", String.class));
-        tokenUser.setDomain(claims.get("domain", String.class));
-
-        List<String> rolesApp = (List<String>) claims.get("rolesApp", List.class);
-
-        if (rolesApp != null){
-            tokenUser.setRoles(rolesApp);
-        }
-
-        return tokenUser;
+    private static List<String> getRoleFromTaskPrincipal(TaskPrincipal principal){
+        return principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
     }
 
-    /**
-     * Retourne le principal associé au token
-     *
-     * @param token Token à décrypter
-     * @param apiKey Clé d'api permettant de renouveller le token
-     * @param publicKey Clé public
-     * @return
-     */
-    public static AbstractCommonPrincipal getPrincipalFromTokens(String token, String apiKey, String publicKey){
+    private static List<String> getRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
 
-        JwtUser user;
-        try{
-            user = SecurityUtils.getUserFromJwt(token, publicKey);
-        }
-        catch(InvalidKeySpecException | NoSuchAlgorithmException e){
-            throw new MessageStatusException(HttpStatus.UNAUTHORIZED, "JWT Expired or invalid");
+        List<String> result = new ArrayList<>();
+        result.addAll(getRealmRoleFromKecloakPrincipal(principal));
+        result.addAll(getResourceRoleFromKecloakPrincipal(principal));
+
+        return  result;
+    }
+
+    private static List<String> getResourceRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
+
+        List<String> result = new ArrayList<>();
+
+
+        if (!(principal.getKeycloakSecurityContext() instanceof RefreshableKeycloakSecurityContext)){
+            return result;
         }
 
-        List<String> lstRoles = user.getRoles();
-        if (lstRoles == null){
-            lstRoles = new ArrayList<>();
-        }
-        List<? extends GrantedAuthority> authorities = lstRoles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        RefreshableKeycloakSecurityContext context = ((RefreshableKeycloakSecurityContext)principal.getKeycloakSecurityContext());
 
-        // Création du principal
-        return new CommonPrincipal(apiKey, token, user.getDomain(), user.getLogin(), "", authorities);
+        KeycloakDeployment deployment = context.getDeployment();
+        if (deployment == null){
+            return result;
+        }
+
+        AccessToken accessToken = context.getToken();
+        if (accessToken == null){
+            return result;
+        }
+
+
+        String resourceName = deployment.getResourceName();
+        AccessToken.Access resourceAccess = accessToken.getResourceAccess().get(resourceName);
+        if (resourceAccess == null){
+            return result;
+        }
+
+        Set<String> roles = resourceAccess.getRoles();
+        if (roles != null){
+            result.addAll(roles.stream().collect(Collectors.toList()));
+        }
+
+        return  result;
+    }
+
+    private static List<String> getRealmRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
+
+        List<String> result = new ArrayList<>();
+
+        AccessToken accessToken = principal.getKeycloakSecurityContext().getToken();
+        if (accessToken == null){
+            return result;
+        }
+
+        AccessToken.Access realmAccess = accessToken.getRealmAccess();
+        if (realmAccess == null){
+            return result;
+        }
+
+        Set<String> roles = realmAccess.getRoles();
+        if (roles != null){
+            result.addAll(roles.stream().collect(Collectors.toList()));
+        }
+
+        return  result;
     }
 }

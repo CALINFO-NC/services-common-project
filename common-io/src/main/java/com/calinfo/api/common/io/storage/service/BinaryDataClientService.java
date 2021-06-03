@@ -36,7 +36,7 @@ public interface BinaryDataClientService {
      *
      * @param id Identifiant obtenue grâce à la méthode {@link #listId()}
      * @return Un handle sur le fichier à transférer avec la version transférée
-     * @throws java.io.IOException
+     * @throws java.io.IOException  Exception d'entrée/sortie
      */
     TransfertData startTransfert(String id) throws IOException;
 

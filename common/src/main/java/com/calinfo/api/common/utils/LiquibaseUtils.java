@@ -28,12 +28,10 @@ import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * Created by dalexis on 05/01/2018.
@@ -48,7 +46,7 @@ public class LiquibaseUtils {
     private LiquibaseUtils(){
     }
 
-    public static void updateSchema(DataSource dataSource, String changelogFileConf, String schemaName) {
+    public static void updateSchema(DataSource dataSource, String changelogFileConf, String schemaName, String... contexts) {
 
         // Création de la connection
         try (Connection con = dataSource.getConnection()) {
@@ -61,12 +59,11 @@ public class LiquibaseUtils {
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(con));
             database.setDefaultSchemaName(schemaName);
 
-            Liquibase liquibase = new Liquibase(changelogName,
-                    new ClassLoaderResourceAccessor(), database);
+            try(Liquibase liquibase = new Liquibase(changelogName, new ClassLoaderResourceAccessor(), database)) {
+                liquibase.update(new Contexts(contexts));
+            }
 
-            liquibase.update(new Contexts());
-
-        } catch (SQLException | LiquibaseException e) {
+        } catch (Exception e) {
             throw new ApplicationErrorException(e);
         }
     }

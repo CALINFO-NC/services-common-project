@@ -35,7 +35,11 @@ public class BadRequestParameterException extends RuntimeException{
     private final BadRequestParameterDto badRequestParameterResource;
 
     public BadRequestParameterException(BadRequestParameterDto badRequestParameterResource){
-        super(constructMessage(badRequestParameterResource));
+        this(badRequestParameterResource, null);
+    }
+
+    public BadRequestParameterException(BadRequestParameterDto badRequestParameterResource, Throwable cause){
+        super(constructMessage(badRequestParameterResource), cause);
         this.badRequestParameterResource = badRequestParameterResource;
     }
 

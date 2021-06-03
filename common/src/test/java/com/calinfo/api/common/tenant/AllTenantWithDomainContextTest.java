@@ -1,7 +1,6 @@
 package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.AutowiredConfig;
-import com.calinfo.api.common.swagger.mock.SwaggerConfig;
 import com.calinfo.api.common.tenant.service.TableDomainService;
 import com.calinfo.api.common.tenant.service.TableGenericService;
 import com.calinfo.api.common.utils.DatabaseUtils;
@@ -26,7 +25,7 @@ import java.util.Map;
 /**
  * Created by dalexis on 10/05/2018.
  */
-@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class, SwaggerConfig.class})
+@SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class})
 @ActiveProfiles("tenant")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextTests {
@@ -114,7 +113,7 @@ public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextT
 
         // Lire la donnée dans la table générique
         String val = tableGenericService.read(id);
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
 
         // Lire une données inexistante
         val = tableGenericService.read(id + 1);
@@ -123,7 +122,7 @@ public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextT
         // Vérifier que la donnée est tojours présente même si je change de domaine
         DomainContext.setDomain("mydom1");
         val = tableGenericService.read(id);
-        Assert.assertEquals("gen1", val);
+        Assert.assertEquals(val, "gen1");
     }
 
 }

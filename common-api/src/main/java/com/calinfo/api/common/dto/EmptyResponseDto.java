@@ -22,23 +22,14 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
  * Created by dalexis on 18/11/2017.
  */
-@Getter
-@Setter
-public class EmptyResponseDto implements Dto, MessageInfoAndWarningInterface {
+@Data
+@Schema(name = "EmptyResponse")
+public class EmptyResponseDto extends DefaultMessageInfoAndWarning implements Dto, MessageInfoAndWarningInterface {
 
-    @Size(min = 0, max = 0)
-    private List<String> listInfoMessages = new ArrayList<>();
-
-    @Size(min = 0, max = 0)
-    private List<String> listWarningMessages = new ArrayList<>();
 }

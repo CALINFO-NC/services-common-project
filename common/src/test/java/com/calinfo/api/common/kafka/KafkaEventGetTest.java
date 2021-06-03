@@ -20,7 +20,7 @@ public class KafkaEventGetTest {
 
         try {
             String cible = kafkaEvent.get();
-            Assert.assertEquals("AA", cible);
+            Assert.assertEquals(cible, "AA");
         } catch (Exception e) {
             Assert.fail("Il ne devrait pas y avoir d'exception de levée");
         }

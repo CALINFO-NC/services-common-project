@@ -23,9 +23,8 @@ package com.calinfo.api.common.dto;
  */
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -34,8 +33,7 @@ import java.io.Serializable;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class SimpleDto<R extends Serializable> implements Dto {
 
     private R value;

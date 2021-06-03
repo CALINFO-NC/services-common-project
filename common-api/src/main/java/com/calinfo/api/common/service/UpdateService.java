@@ -22,12 +22,15 @@ package com.calinfo.api.common.service;
  * #L%
  */
 
-import com.calinfo.api.common.resource.Resource;
+import com.calinfo.api.common.dto.Resource;
+
+import java.io.Serializable;
 
 /**
  * Created by dalexis on 04/04/2018.
  *
  */
-public interface UpdateService<T extends Resource, I> extends UpdateProjectionService<T, T, I> {
+public interface UpdateService<R extends Resource<I>, I extends Serializable> {
 
+    R update(I id, R resource);
 }

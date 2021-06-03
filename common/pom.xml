@@ -8,9 +8,8 @@
 
     <parent>
         <groupId>com.calinfo-nc.services</groupId>
-        <artifactId>common-libs</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../common-libs</relativePath>
+        <artifactId>common-project</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>common</artifactId>
@@ -20,51 +19,26 @@
 
     <properties>
         <version.service-common>${project.version}</version.service-common>
-        <version.commons-io>2.5</version.commons-io>
-        <version.commons-lang3>3.9</version.commons-lang3>
+        <version.commons-io>2.6</version.commons-io>
         <version.jjwt>0.9.1</version.jjwt>
-        <version.maven-javadoc-plugin>3.0.0</version.maven-javadoc-plugin>
-        <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
-        <version.swagger>2.9.2</version.swagger>
-        <version.spring-kafka>2.2.7.RELEASE</version.spring-kafka>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
-        <version.javassist>3.25.0-GA</version.javassist>
+        <version.javassist>3.27.0-GA</version.javassist>
         <version.auto-service>1.0-rc2</version.auto-service>
-        <version.compile-testing>0.13</version.compile-testing>
-        <version.truth>0.40</version.truth>
+        <version.compile-testing>0.19</version.compile-testing>
+        <version.truth>1.1</version.truth>
     </properties>
 
     <build>
-        <finalName>common</finalName>
 
         <plugins>
-
             <!-- Passage du common en licence GNU GPL -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>first</id>
-                        <goals>
-                            <goal>update-file-header</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <licenseName>${license.gpl3.licenseName}</licenseName>
-                            <organizationName>${license.gpl3.organisationName}</organizationName>
-                            <inceptionYear>${license.gpl3.inceptionYear}</inceptionYear>
-                            <canUpdateCopyright>true</canUpdateCopyright>
-                            <roots>
-                                <root>src/main/java</root>
-                            </roots>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
-
         </plugins>
     </build>
+
 
     <dependencies>
 
@@ -85,17 +59,25 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>${version.spring-kafka}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
-            <version>${version.spring-kafka}</version>
         </dependency>
 
 
+
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
@@ -119,6 +101,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
 
         <!-- Biding des données des ressources REST -->
@@ -160,7 +147,6 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Dépendance pour les tests bdd en mémoire -->
@@ -193,16 +179,20 @@
         </dependency>
 
         <!-- Swagger -->
+        <!-- Deprecated since 1.2.0 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${version.swagger}</version>
+            <version>2.9.2</version>
+            <scope>provided</scope>
         </dependency>
 
+        <!-- Deprecated since 1.2.0 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${version.swagger}</version>
+            <version>2.9.2</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -241,8 +231,26 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Dépendance sur la sécurité -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-admin-client</artifactId>
+            <version>${version.keycloak}</version>
+        </dependency>
+
 
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.keycloak.bom</groupId>
+                <artifactId>keycloak-adapter-bom</artifactId>
+                <version>${version.keycloak}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
