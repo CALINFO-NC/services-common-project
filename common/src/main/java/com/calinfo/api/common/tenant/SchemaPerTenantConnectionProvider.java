@@ -23,6 +23,7 @@ package com.calinfo.api.common.tenant;
  */
 
 import org.hibernate.HibernateException;
+import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,13 +36,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-@ConditionalOnProperty({TenantProperties.CONDITIONNAL_PROPERTY, TenantProperties.SCHEMA_MULTITENANCY})
+@ConditionalOnProperty({TenantProperties.CONDITIONNAL_PROPERTY})
 @Component
 public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionProvider {
 
     @Autowired
     @Qualifier(TenantDatasourceConfiguration.TENANT_DATASOURCE)
     private transient DataSource dataSource;
+
+    @Autowired
+    private TenantProperties tenantProperties;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
@@ -59,7 +63,10 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
         Connection connection = this.getAnyConnection();
         try (Statement statement = connection.createStatement()) {
 
-            statement.execute(String.format("SET search_path to %s", tenantIdentifier));
+            if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy()))
+                statement.execute(String.format("SET search_path to %s", tenantIdentifier));
+            else if (MultiTenancyStrategy.DATABASE.name().equals(tenantProperties.getMultitenancyStrategy()))
+                statement.execute(String.format("USE %s", tenantIdentifier));
             return connection;
 
         } catch (SQLException e) {
@@ -71,12 +78,14 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
 
-        try (Statement statement = connection.createStatement()) {
+        if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy())) {
+            try (Statement statement = connection.createStatement()) {
 
-            statement.execute("SET search_path to public");
+                statement.execute("SET search_path to public");
 
-        } catch (SQLException e) {
-            throw new HibernateException(String.format("Could not alter JDBC connection to specified schema [%s]", tenantIdentifier), e);
+            } catch (SQLException e) {
+                throw new HibernateException(String.format("Could not alter JDBC connection to specified schema [%s]", tenantIdentifier), e);
+            }
         }
 
         connection.close();

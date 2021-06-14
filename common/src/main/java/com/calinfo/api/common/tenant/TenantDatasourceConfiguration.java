@@ -22,13 +22,11 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -53,12 +51,6 @@ public class TenantDatasourceConfiguration {
     public static final String TRANSACTION_MANAGER_REF = "tenantTransactionManager";
     public static final String TENANT_DATASOURCE = "tenantDataSource";
     public static final String ENTITY_MANAGER_REF = "tenantEntityManager";
-
-    @Value("${" + TenantProperties.SCHEMA_MULTITENANCY + ":false}")
-    private String SCHEMA_MULTITENANCY;
-
-    @Value("${" + TenantProperties.DATABASE_MULTITENANCY + ":false}")
-    private String DATABASE_MULTITENANCY;
 
     @Autowired
     private TenantProperties tenantProperties;
@@ -102,11 +94,7 @@ public class TenantDatasourceConfiguration {
 
         Map<String, Object> jpaProperties = new HashMap<>();
         jpaProperties.putAll(jpa.getProperties());
-        if (Boolean.TRUE.equals(Boolean.valueOf(this.SCHEMA_MULTITENANCY)))
-            jpaProperties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
-        else if (Boolean.TRUE.equals(Boolean.valueOf(this.DATABASE_MULTITENANCY)))
-            jpaProperties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
-
+        jpaProperties.put(Environment.MULTI_TENANT, tenantProperties.getMultitenancyStrategy());
         jpaProperties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         jpaProperties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
 
@@ -117,9 +105,9 @@ public class TenantDatasourceConfiguration {
 
 
     @Bean(name = ENTITY_MANAGER_REF)
-    public EntityManager apoClient(@Qualifier(ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory emf){
+    public EntityManager apoClient(@Qualifier(ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory emf) {
         return (EntityManager) Proxy.newProxyInstance(this.getClass().getClassLoader(),
-                new Class<?>[] { EntityManager.class },
+                new Class<?>[]{EntityManager.class},
                 (proxy, method, args) -> method.invoke(emf.createEntityManager(), args));
     }
 }
