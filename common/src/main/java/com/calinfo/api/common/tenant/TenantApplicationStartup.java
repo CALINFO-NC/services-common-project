@@ -10,12 +10,12 @@ package com.calinfo.api.common.tenant;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -25,7 +25,7 @@ package com.calinfo.api.common.tenant;
 import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.hibernate.MultiTenancyStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,6 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +58,7 @@ public class TenantApplicationStartup implements ApplicationListener<Application
     private TenantProperties tenantProperties;
 
     @Autowired
-    @Qualifier("tenantDataSource")
+    @Qualifier(TenantDatasourceConfiguration.TENANT_DATASOURCE)
     private DataSource dataSource;
 
     @Autowired
@@ -72,15 +71,18 @@ public class TenantApplicationStartup implements ApplicationListener<Application
         LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
 
         // On ne fait la mise à jour sur les schémas uniquement si c'est configuré comme cela
-        if (!liquibaseProperties.isEnabled()){
+        if (!liquibaseProperties.isEnabled()) {
             return;
         }
 
-        DatabaseUtils.listSchema(dataSource).forEach(schemaName -> {
-            if (schemaName.startsWith(tenantProperties.getPrefix()) && !schemaName.equals(tenantProperties.getDefaultValue())) {
-                LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schemaName, liquibaseProperties.getContexts());
-            }
-        });
+        if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy())) {
+
+            DatabaseUtils.listSchema(dataSource).forEach(schemaName -> {
+                if (schemaName.startsWith(tenantProperties.getPrefix()) && !schemaName.equals(tenantProperties.getDefaultValue())) {
+                    LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schemaName, liquibaseProperties.getContexts());
+                }
+            });
+        }
 
         ConfigurableApplicationContext ctx = applicationReadyEvent.getApplicationContext();
         if (log.isInfoEnabled()) {

@@ -10,12 +10,12 @@ package com.calinfo.api.common.tenant;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -23,6 +23,7 @@ package com.calinfo.api.common.tenant;
  */
 
 import org.hibernate.HibernateException;
+import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,13 +36,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
+@ConditionalOnProperty({TenantProperties.CONDITIONNAL_PROPERTY})
 @Component
 public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionProvider {
 
     @Autowired
     @Qualifier(TenantDatasourceConfiguration.TENANT_DATASOURCE)
     private transient DataSource dataSource;
+
+    @Autowired
+    private TenantProperties tenantProperties;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
@@ -57,9 +61,12 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     public Connection getConnection(String tenantIdentifier) throws SQLException {
 
         Connection connection = this.getAnyConnection();
-        try(Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
 
-            statement.execute(String.format("SET search_path to %s", tenantIdentifier));
+            if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy()))
+                statement.execute(String.format("SET search_path to %s", tenantIdentifier));
+            else if (MultiTenancyStrategy.DATABASE.name().equals(tenantProperties.getMultitenancyStrategy()))
+                statement.execute(String.format("USE %s", tenantIdentifier));
             return connection;
 
         } catch (SQLException e) {
@@ -71,12 +78,14 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
 
-        try(Statement statement = connection.createStatement()) {
+        if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy())) {
+            try (Statement statement = connection.createStatement()) {
 
-            statement.execute("SET search_path to public");
+                statement.execute("SET search_path to public");
 
-        } catch (SQLException e) {
-            throw new HibernateException(String.format("Could not alter JDBC connection to specified schema [%s]", tenantIdentifier), e);
+            } catch (SQLException e) {
+                throw new HibernateException(String.format("Could not alter JDBC connection to specified schema [%s]", tenantIdentifier), e);
+            }
         }
 
         connection.close();

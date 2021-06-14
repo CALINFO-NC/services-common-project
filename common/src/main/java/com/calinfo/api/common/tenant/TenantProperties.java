@@ -10,12 +10,12 @@ package com.calinfo.api.common.tenant;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -24,6 +24,7 @@ package com.calinfo.api.common.tenant;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.MultiTenancyStrategy;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -35,13 +36,18 @@ import org.springframework.stereotype.Component;
  */
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @ConfigurationProperties(prefix = "common.configuration.tenant")
-@Component  // Ici on utilise pas @Configuration (voir https://stackoverflow.com/questions/53484529/inspection-info-verifies-configurationproperties-setup-new-in-2018-3-intellij)
+@Component
+// Ici on utilise pas @Configuration (voir https://stackoverflow.com/questions/53484529/inspection-info-verifies-configurationproperties-setup-new-in-2018-3-intellij)
 @Getter
 @Setter
 public class TenantProperties {
 
 
     public static final String CONDITIONNAL_PROPERTY = "common.configuration.tenant.enabled";
+    public static final String MULTITENANCY_STRATEGY = "common.configuration.tenant.multitenancyStrategy";
+    public static final String DEFAULT_TENANT_IDENTIFIER = "public";
+
+    private String multitenancyStrategy = MultiTenancyStrategy.SCHEMA.name();
 
     /**
      * Activer la gestion de multi schméa (un schma par demaine)
@@ -51,7 +57,7 @@ public class TenantProperties {
     /**
      * Nom du schéma par défaut (ou générique) de l'application
      */
-    private String defaultValue = "public";
+    private String defaultValue = DEFAULT_TENANT_IDENTIFIER;
 
     /**
      * Préfixe des noms de schémas représentant chaque domaine. Le sufixe est le nom du domaine lui même

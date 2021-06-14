@@ -10,19 +10,18 @@ package com.calinfo.api.common.tenant;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
 
-import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -56,9 +55,9 @@ public class TenantDatasourceConfiguration {
     @Autowired
     private TenantProperties tenantProperties;
 
-    public static String getSchemaName(String prefix, String domainName){
+    public static String getSchemaName(String prefix, String domainName) {
 
-        if (domainName == null){
+        if (domainName == null) {
             throw new NullPointerException("domainName is null");
         }
 
@@ -78,9 +77,9 @@ public class TenantDatasourceConfiguration {
     }
 
     @Bean(name = ENTITY_MANAGER_FACTORY_REF)
-    public LocalContainerEntityManagerFactoryBean tenantEntityManagerFactory(@SuppressWarnings("SpringJavaAutowiringInspection") @Qualifier(TENANT_DATASOURCE) DataSource dataSource,
-                                                                             MultiTenantConnectionProvider multiTenantConnectionProvider,
-                                                                             CurrentTenantIdentifierResolver tenantIdentifierResolver) {
+    public LocalContainerEntityManagerFactoryBean schemaTenantEntityManagerFactory(@SuppressWarnings("SpringJavaAutowiringInspection") @Qualifier(TENANT_DATASOURCE) DataSource dataSource,
+                                                                                   MultiTenantConnectionProvider multiTenantConnectionProvider,
+                                                                                   CurrentTenantIdentifierResolver tenantIdentifierResolver) {
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 
@@ -95,7 +94,7 @@ public class TenantDatasourceConfiguration {
 
         Map<String, Object> jpaProperties = new HashMap<>();
         jpaProperties.putAll(jpa.getProperties());
-        jpaProperties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
+        jpaProperties.put(Environment.MULTI_TENANT, tenantProperties.getMultitenancyStrategy());
         jpaProperties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         jpaProperties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
 
@@ -106,9 +105,9 @@ public class TenantDatasourceConfiguration {
 
 
     @Bean(name = ENTITY_MANAGER_REF)
-    public EntityManager apoClient(@Qualifier(ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory emf){
+    public EntityManager apoClient(@Qualifier(ENTITY_MANAGER_FACTORY_REF) EntityManagerFactory emf) {
         return (EntityManager) Proxy.newProxyInstance(this.getClass().getClassLoader(),
-                new Class<?>[] { EntityManager.class },
+                new Class<?>[]{EntityManager.class},
                 (proxy, method, args) -> method.invoke(emf.createEntityManager(), args));
     }
 }
