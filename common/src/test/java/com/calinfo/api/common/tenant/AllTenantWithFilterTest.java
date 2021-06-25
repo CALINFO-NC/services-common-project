@@ -76,10 +76,10 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
 
         LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
 
-        DatabaseUtils.createSchema(dataSource, schema1);
+        DatabaseUtils.createSchemaOrDatabase(dataSource, schema1);
         LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema1);
 
-        DatabaseUtils.createSchema(dataSource, schema2);
+        DatabaseUtils.createSchemaOrDatabase(dataSource, schema2);
         LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema2);
 
         mockMvc = webAppContextSetup(this.context).build();

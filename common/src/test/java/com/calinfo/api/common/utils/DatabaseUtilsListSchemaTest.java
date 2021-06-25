@@ -25,8 +25,8 @@ public class DatabaseUtilsListSchemaTest extends AbstractTestNGSpringContextTest
     @Test
     public void call(){
 
-        DatabaseUtils.createSchema(dataSource, "schema1");
-        DatabaseUtils.createSchema(dataSource, "schema2");
+        DatabaseUtils.createSchemaOrDatabase(dataSource, "schema1");
+        DatabaseUtils.createSchemaOrDatabase(dataSource, "schema2");
 
         List<String> schema = DatabaseUtils.listSchema(dataSource);
         Assert.assertNotNull(schema);

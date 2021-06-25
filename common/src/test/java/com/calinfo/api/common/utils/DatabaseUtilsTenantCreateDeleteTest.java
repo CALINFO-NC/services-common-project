@@ -31,10 +31,10 @@ public class DatabaseUtilsTenantCreateDeleteTest extends AbstractTestNGSpringCon
         String schemaName = "schema_public";
         String tenantSchema = "schema_tenant";
 
-        DatabaseUtils.createSchema(dataSource, schemaName);
-        DatabaseUtils.createSchema(tenantDataSource, tenantSchema);
+        DatabaseUtils.createSchemaOrDatabase(dataSource, schemaName);
+        DatabaseUtils.createSchemaOrDatabase(tenantDataSource, tenantSchema);
         try {
-            DatabaseUtils.createSchema(tenantDataSource, tenantSchema);
+            DatabaseUtils.createSchemaOrDatabase(tenantDataSource, tenantSchema);
         }
         catch(Exception e){
             // C'est normal s'il y a une exception
@@ -43,11 +43,11 @@ public class DatabaseUtilsTenantCreateDeleteTest extends AbstractTestNGSpringCon
         DatabaseUtils.deleteSchema(tenantDataSource, tenantSchema);
 
         // Pour vérifier que la base existe, on la re créé, et il ne doit pas y avoir d'exception
-        DatabaseUtils.createSchema(tenantDataSource, tenantSchema);
+        DatabaseUtils.createSchemaOrDatabase(tenantDataSource, tenantSchema);
 
         try {
             // Pour vérifier que la base existe, on la re créé, et il ne doit pas y avoir d'exception
-            DatabaseUtils.createSchema(dataSource, schemaName);
+            DatabaseUtils.createSchemaOrDatabase(dataSource, schemaName);
         }
         catch(Exception e){
             // C'est normal s'il y a une exception

@@ -86,6 +86,9 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
             } catch (SQLException e) {
                 throw new HibernateException(String.format("Could not alter JDBC connection to specified schema [%s]", tenantIdentifier), e);
             }
+        } else {
+            // TODO VERIFIER QU'IL N'Y A PAS D'EQUIVALENT à 'SET search_path to public'
+            // Sinon faire un 'USE"
         }
 
         connection.close();

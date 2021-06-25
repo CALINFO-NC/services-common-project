@@ -10,12 +10,12 @@ package com.calinfo.api.common.utils;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -35,10 +35,17 @@ import java.util.List;
  */
 public class DatabaseUtils {
 
-    private DatabaseUtils(){
+    private DatabaseUtils() {
     }
 
-    public static void createSchema(DataSource dataSource, String schemaName){
+    /**
+     * Si la source de donnée accepte les schémas (postgres) un schema sera créé
+     * Sinon, une BDD sera créée
+     *
+     * @param dataSource
+     * @param schemaName
+     */
+    public static void createSchemaOrDatabase(DataSource dataSource, String schemaName) {
 
         // Création de la connection
         try (Connection con = dataSource.getConnection(); Statement statement = con.createStatement()) {
@@ -54,7 +61,12 @@ public class DatabaseUtils {
         }
     }
 
-    public static void deleteSchema(DataSource dataSource, String schemaName){
+    @Deprecated
+    public static void createSchema(DataSource dataSource, String schemaName) {
+        createSchemaOrDatabase(dataSource, schemaName);
+    }
+
+    public static void deleteSchema(DataSource dataSource, String schemaName) {
 
         // Création de la connection
         try (Connection con = dataSource.getConnection(); Statement statement = con.createStatement()) {
@@ -78,7 +90,7 @@ public class DatabaseUtils {
 
             // Parcours des schémas
             DatabaseMetaData meta = connection.getMetaData();
-            try(ResultSet res = meta.getSchemas()) {
+            try (ResultSet res = meta.getSchemas()) {
                 while (res.next()) {
 
                     // Récupération du schéma
@@ -87,12 +99,30 @@ public class DatabaseUtils {
                 }
             }
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new TenantError(e.getMessage(), e);
         }
 
         return result;
+    }
+
+    public static List<String> listDatabases(DataSource dataSource) {
+        List<String> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
+
+            ResultSet databases = statement.executeQuery("SHOW DATABASES");
+
+            while (databases.next()) {
+                result.add(databases.getString(1));
+            }
+
+        } catch (SQLException e) {
+            throw new ApplicationErrorException(e);
+        }
+
+        return result;
+
     }
 
 }
