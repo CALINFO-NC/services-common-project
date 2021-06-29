@@ -23,9 +23,9 @@ public class DatabaseUtilsCreateDeleteTest extends AbstractTestNGSpringContextTe
 
         String schemaName = "mySchema";
 
-        DatabaseUtils.createSchema(dataSource, schemaName);
+        DatabaseUtils.createSchemaOrDatabase(dataSource, schemaName);
         try {
-            DatabaseUtils.createSchema(dataSource, schemaName);
+            DatabaseUtils.createSchemaOrDatabase(dataSource, schemaName);
         }
         catch(Exception e){
             // C'est normal s'il y a une exception
@@ -34,6 +34,6 @@ public class DatabaseUtilsCreateDeleteTest extends AbstractTestNGSpringContextTe
         DatabaseUtils.deleteSchema(dataSource, schemaName);
 
         // Pour vérifier que la base existe, on la re créé, et il ne doit pas y avoir d'excerption
-        DatabaseUtils.createSchema(dataSource, schemaName);
+        DatabaseUtils.createSchemaOrDatabase(dataSource, schemaName);
     }
 }

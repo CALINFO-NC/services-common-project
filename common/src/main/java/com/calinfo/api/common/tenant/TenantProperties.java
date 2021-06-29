@@ -45,7 +45,6 @@ public class TenantProperties {
 
     public static final String CONDITIONNAL_PROPERTY = "common.configuration.tenant.enabled";
     public static final String MULTITENANCY_STRATEGY = "common.configuration.tenant.multitenancyStrategy";
-    public static final String DEFAULT_TENANT_IDENTIFIER = "public";
 
     private String multitenancyStrategy = MultiTenancyStrategy.SCHEMA.name();
 
@@ -55,9 +54,9 @@ public class TenantProperties {
     private boolean enabled = false;
 
     /**
-     * Nom du schéma par défaut (ou générique) de l'application
+     * Nom du schéma/bdd par défaut (ou générique) de l'application
      */
-    private String defaultValue = DEFAULT_TENANT_IDENTIFIER;
+    private String defaultValue = "public";
 
     /**
      * Préfixe des noms de schémas représentant chaque domaine. Le sufixe est le nom du domaine lui même

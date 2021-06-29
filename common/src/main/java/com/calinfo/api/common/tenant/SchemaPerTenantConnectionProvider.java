@@ -78,14 +78,15 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
 
-        if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy())) {
-            try (Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
 
-                statement.execute("SET search_path to public");
+            if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy()))
+                statement.execute(String.format("SET search_path to %s", tenantProperties.getDefaultValue()));
+            else if (MultiTenancyStrategy.DATABASE.name().equals(tenantProperties.getMultitenancyStrategy()))
+                statement.execute(String.format("USE %s", tenantProperties.getDefaultValue()));
 
-            } catch (SQLException e) {
-                throw new HibernateException(String.format("Could not alter JDBC connection to specified schema [%s]", tenantIdentifier), e);
-            }
+        } catch (SQLException e) {
+            throw new HibernateException(String.format("Could not alter JDBC connection to specified schema [%s]", tenantIdentifier), e);
         }
 
         connection.close();

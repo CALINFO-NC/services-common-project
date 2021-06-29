@@ -62,7 +62,7 @@ public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextT
             String dom = String.format("mydom%s", i);
             String schema = String.format("%s%s", tenantProperties.getPrefix(), dom);
 
-            DatabaseUtils.createSchema(dataSource, schema);
+            DatabaseUtils.createSchemaOrDatabase(dataSource, schema);
             LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema);
         }
     }
