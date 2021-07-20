@@ -45,6 +45,10 @@ public class PrincipalManager {
             return null;
         }
 
+        if (!(authentication.getPrincipal() instanceof Principal)){
+            throw new UnknownPrincipalException(authentication.getPrincipal(), "Class cast Principal exception");
+        }
+
         return (Principal) authentication.getPrincipal();
     }
 

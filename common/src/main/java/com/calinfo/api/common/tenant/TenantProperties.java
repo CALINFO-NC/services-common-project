@@ -88,4 +88,9 @@ public class TenantProperties {
      */
     private String[] genericScanEntities;
 
+    /**
+     * Stratégie multi tenant
+     */
+    private MultiTenantStrategy multiTenantStrategy = MultiTenantStrategy.SCHEMA;
+
 }
