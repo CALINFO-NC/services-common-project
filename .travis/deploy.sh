@@ -23,13 +23,6 @@ echo version=$version
 isSnapshot=$(maven_is_snapshot "$version")
 echo isSnapshot=$isSnapshot
 
-# On vérifie s'il y a une cohérence entre la version maven et le tag
-if [ "$TRAVIS_TAG" != "" ] && [ "$isSnapshot" == "true" ] && [ "$version" != "$TRAVIS_TAG" ]
-then
-  echo "ERROR : maven version and branch tag not match"
-  exit 1
-fi
-
 if [ "$isSnapshot" == "false" ]
 then
     export ARTIFACTORY_RELEASE_REPOSITORY=license-gpl-local
@@ -37,7 +30,7 @@ fi
 
 
 # On déploie le binaire dans artifactory uniquement si c'est une vrai version ou si c'est dans le master
-if [ "$TRAVIS_TAG" != "" ] || [ "$isMasterBranch" == "true" ]
+if [ "$isSnapshot" == "false" ] || [ "$isMasterBranch" == "true" ]
 then
     
     artifactory_deploy $TRAVIS_BUILD_DIR/common common.jar

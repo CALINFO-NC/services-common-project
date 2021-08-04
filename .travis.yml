@@ -22,6 +22,7 @@ before_install:
   - $SCRIPT_BASE_DIR/scripts/scripts-init.sh
   - chmod +x .travis/deploy.sh
 script:
+  - if [[ "${TRAVIS_TAG}" != "" ]]; then mvn versions:set -DnewVersion=${TRAVIS_TAG} -DgenerateBackupPoms=false; fi;
   - mvn -Pcoverage -B -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dmaven.test.failure.ignore=true clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
   - travis_wait 90 .travis/deploy.sh
 notifications:

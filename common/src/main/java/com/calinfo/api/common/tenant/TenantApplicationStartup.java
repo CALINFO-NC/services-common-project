@@ -84,6 +84,15 @@ public class TenantApplicationStartup implements ApplicationListener<Application
             });
         }
 
+        if (MultiTenancyStrategy.DATABASE.name().equals(tenantProperties.getMultitenancyStrategy())) {
+
+            DatabaseUtils.listDatabases(dataSource).forEach(databaseName -> {
+                if (databaseName.startsWith(tenantProperties.getPrefix()) && !databaseName.equals(tenantProperties.getDefaultValue())) {
+                    LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), databaseName, liquibaseProperties.getContexts());
+                }
+            });
+        }
+
         ConfigurableApplicationContext ctx = applicationReadyEvent.getApplicationContext();
         if (log.isInfoEnabled()) {
             log.info(ctx.getApplicationName().concat(" : ").concat(applicationProperties.getName()).concat(" : Système démarré"));
