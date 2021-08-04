@@ -18,7 +18,6 @@
     <description>Bibliothèque d'outillage de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
 
     <properties>
-        <version.service-common>${project.version}</version.service-common>
         <version.commons-io>2.6</version.commons-io>
         <version.jjwt>0.9.1</version.jjwt>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>

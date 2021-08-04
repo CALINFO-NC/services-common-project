@@ -51,7 +51,7 @@
 
     </properties>
 
-    <url>https://calinfo-nc.github.io/${github.project.name}/${project.version}</url>
+    <url>https://calinfo-nc.github.io/${github.project.name}</url>
 
     <licenses>
         <license>
@@ -184,7 +184,7 @@
             <dependency>
                 <groupId>com.calinfo-nc.services</groupId>
                 <artifactId>common</artifactId>
-                <version>${project.version}</version>
+                <version>1.2.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
