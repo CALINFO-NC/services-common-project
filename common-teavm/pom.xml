@@ -76,7 +76,6 @@
         <dependency>
             <groupId>com.calinfo-nc.services</groupId>
             <artifactId>common-test</artifactId>
-            <version>${version.service-common}</version>
             <scope>test</scope>
         </dependency>
 

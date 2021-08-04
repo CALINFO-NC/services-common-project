@@ -23,7 +23,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.service-common>1.2.1-SNAPSHOT</version.service-common>
         <version.springdoc-openapi-ui>1.2.32</version.springdoc-openapi-ui>
         <version.keycloak>12.0.2</version.keycloak>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
@@ -182,6 +181,36 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.calinfo-nc.services</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.calinfo-nc.services</groupId>
+                <artifactId>common-api</artifactId>
+                <version>1.2.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.calinfo-nc.services</groupId>
+                <artifactId>common-test</artifactId>
+                <version>1.2.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.calinfo-nc.services</groupId>
+                <artifactId>common-teavm</artifactId>
+                <version>1.2.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.calinfo-nc.services</groupId>
+                <artifactId>common-io</artifactId>
+                <version>1.2.1-SNAPSHOT</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -204,6 +233,7 @@
 
 
     </dependencies>
+
 
     <modules>
         <module>common-api</module>
