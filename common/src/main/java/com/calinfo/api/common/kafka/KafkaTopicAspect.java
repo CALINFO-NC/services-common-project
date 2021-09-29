@@ -28,12 +28,11 @@ import com.calinfo.api.common.tenant.DomainContext;
 import com.calinfo.api.common.utils.ExceptionUtils;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.utils.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
@@ -43,13 +42,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.security.Principal;
 
-
+@Slf4j
 @Aspect
 @Component
 @ConditionalOnProperty(value = "common.configuration.kafka-event.enabled")
 public class KafkaTopicAspect {
-
-    private static final Logger log = LoggerFactory.getLogger(KafkaTopicAspect.class);
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;

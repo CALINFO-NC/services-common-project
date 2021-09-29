@@ -29,13 +29,11 @@ import com.calinfo.api.common.ex.BadRequestParameterException;
 import com.calinfo.api.common.ex.CommonConstraintViolationException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.ex.MessageStatusException;
-import com.calinfo.api.common.ex.handler.ResponseEntityExceptionHandler;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.type.TypeAttribut;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -53,10 +51,9 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class HandlerUtils {
-
-    private static final Logger log = LoggerFactory.getLogger(ResponseEntityExceptionHandler.class);
 
     public static ResponseEntity<String> messageStatusException(MessageStatusException ex) {
 

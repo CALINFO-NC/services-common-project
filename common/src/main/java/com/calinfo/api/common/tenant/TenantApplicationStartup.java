@@ -25,9 +25,8 @@ package com.calinfo.api.common.tenant;
 import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.MultiTenancyStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -45,14 +44,13 @@ import javax.sql.DataSource;
  * Created by dalexis on 05/01/2018.
  */
 
+@Slf4j
 @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
 @Component
 @Order(TenantApplicationStartup.ORDER)
 public class TenantApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
 
     public static final int ORDER = 10000;
-
-    private static final Logger log = LoggerFactory.getLogger(TenantApplicationStartup.class);
 
     @Autowired
     private TenantProperties tenantProperties;

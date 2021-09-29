@@ -24,13 +24,12 @@ package com.calinfo.api.common.io.storage.connector.ftp;
 
 
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Async;
@@ -40,11 +39,10 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.util.concurrent.Future;
 
+@Slf4j
 @Component
 @ConditionalOnProperty(prefix = "common-io.storage.connector", name = "provider", havingValue = "ftp")
 public class FtpBinaryDataConnector implements BinaryDataConnector {
-
-    private static final Logger log = LoggerFactory.getLogger(FtpBinaryDataConnector.class);
 
 
     @Autowired

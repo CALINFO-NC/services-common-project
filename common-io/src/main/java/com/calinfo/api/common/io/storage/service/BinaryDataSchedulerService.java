@@ -24,8 +24,7 @@ package com.calinfo.api.common.io.storage.service;
 
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import com.calinfo.api.common.tenant.DomainContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Async;
@@ -37,12 +36,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(propagation = Propagation.NEVER)
 @ConditionalOnProperty(prefix = "common-io.storage.scheduler", name = "enabled", havingValue = "true")
 public class BinaryDataSchedulerService {
-
-    private static final Logger log = LoggerFactory.getLogger(BinaryDataSchedulerService.class);
 
     @Autowired
     private BinaryDataClientService binaryDataService;

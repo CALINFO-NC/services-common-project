@@ -28,9 +28,8 @@ import com.calinfo.api.common.io.storage.service.BinaryDataSchedulerService;
 import com.calinfo.api.common.task.TaskException;
 import com.calinfo.api.common.task.TaskRunner;
 import com.calinfo.api.common.tenant.DomainContext;
+import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.SchedulerLock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -42,12 +41,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 @Transactional(propagation = Propagation.NEVER)
 @ConditionalOnProperty(prefix = "common-io.storage.scheduler", name = "enabled", havingValue = "true")
 public class TransfertStorageScheduler {
-
-    private static final Logger log = LoggerFactory.getLogger(TransfertStorageScheduler.class);
 
     @Autowired
     private BinaryDataSchedulerService binaryDataSchedulerService;

@@ -22,8 +22,7 @@ package com.calinfo.api.common.matching;
  * #L%
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -40,14 +39,13 @@ import java.io.IOException;
  * Filtre de sécurité sur les URLs
  */
 
+@Slf4j
 @ConditionalOnProperty(value = "common.configuration.matching.filter.enabled", matchIfMissing = true)
 @Component
 @Order(MatchingUrlFilter.ORDER_FILTER)
 public class MatchingUrlFilter extends OncePerRequestFilter {
 
     public static final int ORDER_FILTER = 1000;
-
-    private static final Logger log = LoggerFactory.getLogger(MatchingUrlFilter.class);
 
 
     /**
