@@ -23,7 +23,6 @@ public class FileBinaryDataConnectorTest extends AbstractBinaryDataConnector {
      * 
      * @throws Exception Tout exception pour le tests
      */
-    @Ignore("Ce test est ignoré car il ne peut pas passé en TU. On est dépendant du filesystem du développeur pour vérifier son bon fonctionnement")
     @Test
     public void call() throws Exception{
         super.call(fileBinaryDataConnector);

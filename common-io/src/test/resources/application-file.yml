@@ -3,4 +3,4 @@ common-io:
     connector:
       provider: file
       configuration:
-        path: "/Users/dalexis/Downloads/testconnecteur"
+        path: _tmpFile

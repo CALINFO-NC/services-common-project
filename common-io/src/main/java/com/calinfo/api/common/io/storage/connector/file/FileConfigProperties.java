@@ -37,7 +37,8 @@ import org.springframework.stereotype.Component;
 public class FileConfigProperties {
 
     /**
-     * Répertoire racine du lieu d'enregistrement des fichiers
+     * Répertoire racine du lieu d'enregistrement des fichiers.
+     * Il est possible d'utiliser $tmpFile pour utiliser un répertoire temporaire (utilisable dans les tests)
      */
     private String path;
 

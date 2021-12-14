@@ -24,6 +24,7 @@ package com.calinfo.api.common.io.storage.connector.file;
 
 
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
+import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +43,8 @@ public class FileBinaryDataConnector implements BinaryDataConnector {
 
     @Autowired
     private FileConfigProperties fileConfigProperties;
+
+    private static String testPath = null;
 
     @Override
     public void upload(String spaceName, String id, InputStream in) throws IOException {
@@ -105,8 +108,24 @@ public class FileBinaryDataConnector implements BinaryDataConnector {
         return new AsyncResult<>(true);
     }
 
+    @SneakyThrows
     private File getPath(String spaceName){
-        return new File(String.format("%s/%s", fileConfigProperties.getPath(), getReelSpaceName(spaceName)));
+
+        String path = fileConfigProperties.getPath();
+        if (fileConfigProperties.getPath().equals("_tmpFile")){
+
+            if (testPath == null) {
+                File fPath = File.createTempFile("commonio", "file");
+                fPath.delete();
+                fPath.mkdirs();
+                path = fPath.getAbsolutePath();
+                testPath = path;
+            }
+            else{
+                path = testPath;
+            }
+        }
+        return new File(String.format("%s/%s", path, getReelSpaceName(spaceName)));
     }
 
     private File getFile(String spaceName, String id){
