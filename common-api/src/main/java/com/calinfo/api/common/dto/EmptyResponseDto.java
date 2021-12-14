@@ -24,10 +24,12 @@ package com.calinfo.api.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Created by dalexis on 18/11/2017.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(name = "EmptyResponse")
 public class EmptyResponseDto extends DefaultMessageInfoAndWarning implements Dto, MessageInfoAndWarningInterface {

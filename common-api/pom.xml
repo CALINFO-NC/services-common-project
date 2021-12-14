@@ -72,6 +72,14 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${version.springdoc-openapi-ui}</version>
         </dependency>
+
+        <!-- EqualsVerifier pour vérifier les méthode equals de lombok -->
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>${version.equalsverifier}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

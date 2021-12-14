@@ -23,6 +23,7 @@ package com.calinfo.api.common.dto;
  */
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
@@ -34,6 +35,7 @@ import java.util.function.Function;
 /**
  * Created by dalexis on 18/11/2017.
  */
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
 public class DynamicListDto<R extends Serializable> extends DefaultMessageInfoAndWarning implements Dto, MessageInfoAndWarningInterface {

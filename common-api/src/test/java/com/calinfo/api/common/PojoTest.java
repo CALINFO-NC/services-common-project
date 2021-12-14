@@ -1,6 +1,6 @@
 package com.calinfo.api.common;
 
-import com.calinfo.api.common.resource.DtoFilter;
+import com.calinfo.api.common.dto.DtoFilter;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
@@ -9,6 +9,7 @@ import com.openpojo.validation.rule.impl.NoPublicFieldsExceptStaticFinalRule;
 import com.openpojo.validation.rule.impl.NoStaticExceptFinalRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.testng.annotations.Test;
 
 /**
@@ -31,6 +32,9 @@ public class PojoTest {
 
         validator.validateRecursively(DtoFilter.PACKAGE_SCAN, new DtoFilter());
         validator.validateRecursively(com.calinfo.api.common.dto.DtoFilter.PACKAGE_SCAN, new com.calinfo.api.common.dto.DtoFilter());
+
+        EqualsVerifier.simple().forPackage(com.calinfo.api.common.dto.DtoFilter.PACKAGE_SCAN).except(DtoFilter.class).verify();
+
 
     }
 }
