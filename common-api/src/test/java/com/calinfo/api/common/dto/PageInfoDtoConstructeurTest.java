@@ -15,7 +15,7 @@ public class PageInfoDtoConstructeurTest {
 
         PageInfoDto ci = new PageInfoDto(0, 50);
         Assert.assertTrue(0 == ci.getPage());
-        Assert.assertTrue(50 == ci.getLimit());
+        Assert.assertTrue(50 == ci.getLimit()); 
 
         ci = new PageInfoDto(0);
         Assert.assertTrue(0 == ci.getPage());
