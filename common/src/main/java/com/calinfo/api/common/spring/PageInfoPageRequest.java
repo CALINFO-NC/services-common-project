@@ -4,7 +4,7 @@ package com.calinfo.api.common.spring;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2021 CALINFO
+ * Copyright (C) 2019 - 2022 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -25,6 +25,7 @@ package com.calinfo.api.common.spring;
 import com.calinfo.api.common.dto.PageInfoDto;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Delegate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -41,6 +42,7 @@ public class PageInfoPageRequest implements Pageable {
     @Setter
     private static int maxLimit = 100;
 
+    @Delegate
     private Pageable pageable;
 
 
@@ -61,46 +63,6 @@ public class PageInfoPageRequest implements Pageable {
 
         int limit = Math.min(ci.getLimit() == null ? maxLimit : ci.getLimit(), maxLimit);
         pageable = PageRequest.of(ci.getPage(), limit, sort);
-    }
-
-    @Override
-    public int getPageNumber() {
-        return pageable.getPageNumber();
-    }
-
-    @Override
-    public int getPageSize() {
-        return pageable.getPageSize();
-    }
-
-    @Override
-    public long getOffset() {
-        return pageable.getOffset();
-    }
-
-    @Override
-    public Sort getSort() {
-        return pageable.getSort();
-    }
-
-    @Override
-    public Pageable next() {
-        return new PageInfoPageRequest(pageable.next());
-    }
-
-    @Override
-    public Pageable previousOrFirst() {
-        return new PageInfoPageRequest(pageable.previousOrFirst());
-    }
-
-    @Override
-    public Pageable first() {
-        return new PageInfoPageRequest(pageable.first());
-    }
-
-    @Override
-    public boolean hasPrevious() {
-        return pageable.hasPrevious();
     }
 }
 

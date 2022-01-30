@@ -35,8 +35,7 @@ import java.util.Locale;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class})
@@ -74,14 +73,14 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
         valueTester.getListErrorMessages().add(dto);
         dto.setName("prmName");
         dto.setType(TypeAttribut.REQUEST);
-        dto.getListMessages().add("Required prmType parameter 'prmName' is not present");
 
         ObjectMapper objectMapper = MiscUtils.getObjectMapper();
 
         this.mockMvc.perform(httpRequest)
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(valueTester)));
+                .andExpect(jsonPath("$.listErrorMessages[0].name").value("prmName"))
+                .andExpect(jsonPath("$.listErrorMessages[0].type").value("REQUEST"));
     }
 
     @Test

@@ -29,22 +29,4 @@ Binaire disponnible dans le "repository" :  [https://calinfo.jfrog.io/calinfo/li
 
 # Quoi de nouveau
 
- * Mise à jour des versions des dépendances dans les pom.xml
- * La classe com.calinfo.api.common.resource.Resource a été déprécié
- * Le common ne prend plus en charge la configurattion swagger. Cependant, vous pouvez garder sa 
- rétrocompatibilité en activant la propriété **common.deprecated.swagger.enabled** à **true**.
- Il sera aussi nécessaire de tirer les dépendances ci-dessous :
- ```
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-``` 
- * Le module de sécurité du common a été modifié pour prendre en charge une intégration avec Keycloak
+ * Passage en JAVA 15

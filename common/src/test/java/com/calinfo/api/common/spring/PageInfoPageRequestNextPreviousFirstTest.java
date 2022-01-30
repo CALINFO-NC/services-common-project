@@ -1,6 +1,7 @@
 package com.calinfo.api.common.spring;
 
 import com.calinfo.api.common.dto.PageInfoDto;
+import org.springframework.data.domain.Pageable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,19 +18,19 @@ public class PageInfoPageRequestNextPreviousFirstTest {
         PageInfoPageRequest cipr = new PageInfoPageRequest(ci);
         Assert.assertFalse(cipr.hasPrevious());
 
-        PageInfoPageRequest ciprNext = (PageInfoPageRequest) cipr.next();
+        Pageable ciprNext = cipr.next();
         Assert.assertTrue(ciprNext.hasPrevious());
 
         Assert.assertTrue(ciprNext.getOffset() == cipr.getOffset() + cipr.getPageSize());
         Assert.assertTrue(ciprNext.getPageSize() == cipr.getPageSize());
 
-        PageInfoPageRequest ciprPrev = (PageInfoPageRequest) ciprNext.previousOrFirst();
+        Pageable ciprPrev = ciprNext.previousOrFirst();
         Assert.assertFalse(ciprPrev.hasPrevious());
 
         Assert.assertTrue(ciprPrev.getOffset() == cipr.getOffset());
         Assert.assertTrue(ciprPrev.getPageSize() == cipr.getPageSize());
 
-        PageInfoPageRequest ciprFirst = (PageInfoPageRequest) ciprNext.first();
+        Pageable ciprFirst = ciprNext.first();
         Assert.assertFalse(ciprFirst.hasPrevious());
 
         Assert.assertTrue(ciprFirst.getOffset() == cipr.getOffset());

@@ -4,7 +4,7 @@ package com.calinfo.api.common.tenant;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2021 CALINFO
+ * Copyright (C) 2019 - 2022 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -22,8 +22,6 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-
-import com.calinfo.api.common.matching.MatchingUrlFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
@@ -44,7 +42,7 @@ import java.net.URL;
 @Order(DomainUrlFilter.ORDER_FILTER)
 public class DomainUrlFilter extends OncePerRequestFilter {
 
-    public static final int ORDER_FILTER = MatchingUrlFilter.ORDER_FILTER + 10;
+    public static final int ORDER_FILTER = 1000;
 
     private final DomainResolver domainResolver;
 
