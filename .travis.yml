@@ -8,7 +8,7 @@ sudo: required
 language: java
 install: skip
 jdk:
-    - openjdk17
+    - openjdk16
 addons:
   sonarcloud:
     organization: "calinfo-nc"
