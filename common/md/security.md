@@ -18,7 +18,7 @@ keycloak:
   principal-attribute: preferred_username
 ```
 
-Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter*.
+Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter*....
 
 Exemple (Prennez note de l'annotation @KeycloakConfiguration):
 ```
@@ -47,6 +47,30 @@ public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
 
         http.authorizeRequests().regexMatchers("/private/*").hasRole(securityProperties.getAccessAppRole()).anyRequest().permitAll();
         http.csrf().disable();
+    }
+}
+```
+
+... Et la classe java qui inject le bean *com.calinfo.api.common.security.CommonKeycloakConfigResolver*.
+Exemple :
+```
+import com.calinfo.api.common.tenant.DomainResolver;
+import lombok.RequiredArgsConstructor;
+import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@RequiredArgsConstructor
+@Configuration
+public class KeycloakConfigResolverConfiguration {
+
+    private final KeycloakSpringBootProperties adapterConfig;
+    private final DomainResolver domainResolver;
+
+    @Bean
+    public KeycloakConfigResolver keycloakConfigResolver() {
+        return new CommonKeycloakConfigResolver(adapterConfig, domainResolver);
     }
 }
 ```

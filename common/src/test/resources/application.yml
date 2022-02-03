@@ -31,7 +31,9 @@ keycloak:
 
 ---
 spring:
-    profiles: disableSecurity
+  config:
+    activate:
+      on-profile: disableSecurity
 common:
   configuration:
     security:
@@ -40,19 +42,12 @@ keycloak:
   enabled: false
 ---
 spring:
-    profiles: enableSecurity
+  config:
+    activate:
+      on-profile: enableSecurity
 common:
   configuration:
 
     security:
       enabled: true
----
-spring:
-  profiles: disableMatching
-common:
-  configuration:
-    matching:
-      filter:
-        enabled: false
-keycloak:
-  enabled: false
+

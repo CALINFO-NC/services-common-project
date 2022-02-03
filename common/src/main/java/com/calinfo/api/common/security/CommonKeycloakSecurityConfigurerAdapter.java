@@ -4,7 +4,7 @@ package com.calinfo.api.common.security;
  * #%L
  * common
  * %%
- * Copyright (C) 2019 - 2021 CALINFO
+ * Copyright (C) 2019 - 2022 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -22,10 +22,7 @@ package com.calinfo.api.common.security;
  * #L%
  */
 
-import com.calinfo.api.common.tenant.DomainResolver;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.adapters.KeycloakConfigResolver;
-import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +36,6 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @RequiredArgsConstructor
 public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurityConfigurerAdapter {
 
-    private final KeycloakSpringBootProperties adapterConfig;
-    private final DomainResolver domainResolver;
     private final String keycloakResource;
 
     @Autowired
@@ -56,10 +51,6 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
-    @Bean
-    public KeycloakConfigResolver keycloakConfigResolver() {
-        return new CommonKeycloakConfigResolver(adapterConfig, domainResolver);
-    }
 
     @Override
     protected KeycloakAuthenticationProvider keycloakAuthenticationProvider() {

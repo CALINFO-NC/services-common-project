@@ -45,9 +45,9 @@ public class MockResponseEntityExceptionController {
     }
 
     @GetMapping(value = "/launchMissingServletRequestParameterException", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void launchMissingServletRequestParameterException() throws MissingServletRequestParameterException {
-        MissingServletRequestParameterException ex = new MissingServletRequestParameterException("prmName", "prmType");
-        throw ex;
+    public void launchMissingServletRequestParameterException(@RequestParam("prmName") String prmName, @RequestParam("prmType") String prmType) throws MissingServletRequestParameterException {
+        /*MissingServletRequestParameterException ex = new MissingServletRequestParameterException("prmName", "prmType");
+        throw ex;*/
     }
 
     @GetMapping(value = "/launchMessageException", produces = MediaType.APPLICATION_JSON_VALUE)
