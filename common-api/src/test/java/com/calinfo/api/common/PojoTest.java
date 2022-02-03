@@ -10,6 +10,7 @@ import com.openpojo.validation.rule.impl.NoStaticExceptFinalRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 /**
@@ -17,6 +18,7 @@ import org.testng.annotations.Test;
  */
 public class PojoTest {
 
+    @Ignore
     @Test
     public void validatePojo() {
         Validator validator = ValidatorBuilder.create() //
