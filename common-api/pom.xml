@@ -15,7 +15,7 @@
     <version>1.3.0-SNAPSHOT</version>
 
     <properties>
-        <version.openpojo>0.9.1</version.openpojo>
+        <sonar.skip>true</sonar.skip>
         <version.validation-api>2.0.1.Final</version.validation-api>
     </properties>
 
@@ -55,15 +55,6 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>${version.validation-api}</version>
-        </dependency>
-
-
-        <!-- Test des POJO -->
-        <dependency>
-            <groupId>com.openpojo</groupId>
-            <artifactId>openpojo</artifactId>
-            <version>${version.openpojo}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Swagger -->
