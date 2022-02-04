@@ -231,6 +231,12 @@
             <version>${version.maven-surefire-plugin}</version>
         </dependency>
 
+        <!-- On downgrade la version liquibase par défaut car liquibase ne tien pas compte du schema pour l'exécution de ligne SQL pure. -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.2.2</version>
+        </dependency>
 
 
     </dependencies>
