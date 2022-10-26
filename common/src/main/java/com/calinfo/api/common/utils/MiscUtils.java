@@ -169,10 +169,10 @@ public class MiscUtils {
 
         String result = topicName;
         if (prefixTopicNameWithDomain) {
-            result = String.format("%s.%s", domain, result);
+            result = String.format("%s/%s", domain, result);
         }
         if (prefixTopicNameWithApplicationName) {
-            result = String.format("%s.%s", applicationId, result);
+            result = String.format("%s/%s", applicationId, result);
         }
 
         return result;
