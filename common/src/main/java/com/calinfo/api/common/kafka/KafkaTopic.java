@@ -35,4 +35,6 @@ public @interface KafkaTopic {
     boolean prefixTopicNameWithApplicationId() default true;
 
     boolean prefixTopicNameWithDomain() default true;
+
+    boolean kafkaPrefixeMandatory() default true;
 }

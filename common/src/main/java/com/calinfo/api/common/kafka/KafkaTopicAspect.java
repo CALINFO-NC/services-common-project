@@ -120,7 +120,9 @@ public class KafkaTopicAspect {
             throw e;
         } finally {
 
-            applicationEventPublisher.publishEvent(kafkaEvent);
+            if (!kafkaTopic.kafkaPrefixeMandatory() || kafkaPrefixTopic != null) {
+                applicationEventPublisher.publishEvent(kafkaEvent);
+            }
 
         }
     }

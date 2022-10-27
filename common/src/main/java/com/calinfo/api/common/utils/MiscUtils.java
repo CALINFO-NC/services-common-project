@@ -160,7 +160,7 @@ public class MiscUtils {
     public static String getTopicFullName(String applicationId, KafkaTopic kafkaTopic, KafkaPrefixTopic kafkaPrefixTopic){
         String topicName = kafkaTopic.value();
         if (kafkaPrefixTopic != null && !StringUtils.isBlank(kafkaPrefixTopic.value())){
-            topicName = String.format("%s.%s", kafkaTopic.value(), topicName);
+            topicName = String.format("%s.%s", kafkaPrefixTopic.value(), topicName);
         }
         return getTopicFullName(applicationId, topicName, kafkaTopic.prefixTopicNameWithApplicationId(), kafkaTopic.prefixTopicNameWithDomain());
     }
