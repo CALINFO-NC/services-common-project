@@ -22,6 +22,7 @@ package com.calinfo.api.common.kafka;
  * #L%
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,6 +57,7 @@ public class KafkaEvent {
     @Setter
     private KafkaData data;
 
+    @JsonIgnore
     public KafkatValue getValues(){
         return new KafkatValue(metadata, data);
     }
