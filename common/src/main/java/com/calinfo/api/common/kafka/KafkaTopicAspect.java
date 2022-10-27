@@ -75,8 +75,9 @@ public class KafkaTopicAspect {
         }
 
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);
+        KafkaPrefixTopic kafkaPrefixTopic = getKafkaPrefixTopic(joinPoint.getTarget().getClass());
 
-        String topicName = MiscUtils.getTopicFullName(applicationProperties.getId(), kafkaTopic);
+        String topicName = MiscUtils.getTopicFullName(applicationProperties.getId(), kafkaTopic, kafkaPrefixTopic);
 
         KafkaMeasure mesure = new KafkaMeasure();
         kafkaEvent.setMeasure(mesure);
@@ -134,6 +135,21 @@ public class KafkaTopicAspect {
         return result;
     }
 
+    private KafkaPrefixTopic getKafkaPrefixTopic(Class<?> root){
+
+        Class<?> clazz = root;
+        while (clazz != null){
+
+            KafkaPrefixTopic ano = clazz.getAnnotation(KafkaPrefixTopic.class);
+            if (ano != null){
+                return ano;
+            }
+
+            clazz = clazz.getSuperclass();
+        }
+
+        return null;
+    }
 
 
     private KafkaUser getKafkaUser() {
