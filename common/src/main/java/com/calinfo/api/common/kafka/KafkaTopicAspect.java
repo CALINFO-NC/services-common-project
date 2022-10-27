@@ -78,6 +78,9 @@ public class KafkaTopicAspect {
 
         String topicName = MiscUtils.getTopicFullName(applicationProperties.getId(), kafkaTopic);
 
+        KafkaMeasure mesure = new KafkaMeasure();
+        kafkaEvent.setMeasure(mesure);
+
         kafkaEvent.setTopic(topicName);
         KafkaData data = new KafkaData();
         kafkaEvent.setData(data);
@@ -95,13 +98,16 @@ public class KafkaTopicAspect {
         }
 
         metadata.setReturnType(method.getReturnType().getName());
+        long deb = System.currentTimeMillis();
         try {
             Object val = joinPoint.proceed();
+            mesure.setExecutionDurationMillisecond(System.currentTimeMillis() - deb);
             data.setSerializedReturnValue(KafkaUtils.serialize(val));
             data.setReturnValueException(false);
 
             return val;
         } catch (Throwable e) {
+            mesure.setExecutionDurationMillisecond(System.currentTimeMillis() - deb);
 
             data.setSerializedReturnValue(ExceptionUtils.getPrintValue(e));
             data.setReturnValueException(true);

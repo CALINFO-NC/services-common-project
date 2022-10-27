@@ -22,47 +22,14 @@ package com.calinfo.api.common.kafka;
  * #L%
  */
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 
-public class KafkaEvent {
+public class KafkaMeasure {
+
 
     @Getter
     @Setter
-    private String version = "1.0.0";
-
-    @Getter
-    @Setter
-    private String domain;
-
-    @Getter
-    @Setter
-    private KafkaUser user;
-
-    @Getter
-    @Setter
-    private KafkaApplication application;
-
-    @Getter
-    @Setter
-    private String topic;
-
-    @Getter
-    @Setter
-    private KafkaMetadata metadata;
-
-    @Getter
-    @Setter
-    private KafkaData data;
-
-    @Getter
-    @Setter
-    private KafkaMeasure measure;
-
-    @JsonIgnore
-    public KafkatValue getValues(){
-        return new KafkatValue(metadata, data);
-    }
+    private long executionDurationMillisecond;
 }
