@@ -14,7 +14,7 @@ public class KafkaServiceImpl implements KafkaService {
     private KafkaSubService kafkaSubService;
 
     @Override
-    @KafkaTopic(value = "topic0", prefixTopicNameWithApplicationId = true)
+    @KafkaTopic(value = "topic0", prefixTopicNameWithApplicationId = true, kafkaPrefixeMandatory = false)
     public void topic0WithPrefix() {
 
         TestResource res = new TestResource();
@@ -23,7 +23,7 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
+    @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false, kafkaPrefixeMandatory = false)
     public void topic1WithoutExceptionAndWithoutExceptionTopicA() {
 
         TestResource res = new TestResource();
@@ -32,13 +32,13 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    @KafkaTopic(value = "topic2", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
+    @KafkaTopic(value = "topic2", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false, kafkaPrefixeMandatory = false)
     public void topic2WithoutExceptionAndWithExceptionTopicB() {
         kafkaSubService.topicAWithException();
     }
 
     @Override
-    @KafkaTopic(value = "topic3", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
+    @KafkaTopic(value = "topic3", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false, kafkaPrefixeMandatory = false)
     public void topic3WithExceptionBeforeCallTopicA() {
 
         launchException();
@@ -50,7 +50,7 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    @KafkaTopic(value = "topic4", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false)
+    @KafkaTopic(value = "topic4", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false, kafkaPrefixeMandatory = false)
     public void topic4WithExceptionAfterCallTopicA() {
 
         TestResource res = new TestResource();
