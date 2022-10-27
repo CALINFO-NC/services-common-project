@@ -79,35 +79,32 @@ public class KafkaTopicAspect {
         String topicName = MiscUtils.getTopicFullName(applicationProperties.getId(), kafkaTopic);
 
         kafkaEvent.setTopic(topicName);
-        kafkaEvent.setFullQualifiedServiceClassName(method.getDeclaringClass().getName());
-        kafkaEvent.setMethodServiceName(method.getName());
+        KafkaData data = new KafkaData();
+        kafkaEvent.setData(data);
+
+        KafkaMetadata metadata = new KafkaMetadata();
+        kafkaEvent.setMetadata(metadata);
+        metadata.setClassType(joinPoint.getTarget().getClass().getName());
+        metadata.setMethodName(method.getName());
 
         Parameter[] parameters = method.getParameters();
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            KafkaObject kafkaParameter = new KafkaObject();
-            kafkaEvent.getParameters().put(index, kafkaParameter);
-            kafkaParameter.setFullQualifiedClassName(parameter.getType().getName());
-            kafkaParameter.set(joinPoint.getArgs()[index]);
+            metadata.getParametersTypes().put(index, parameter.getType().getName());
+            data.getSerializedParametersValues().put(index, KafkaUtils.serialize(joinPoint.getArgs()[index]));
         }
 
+        metadata.setReturnType(method.getReturnType().getName());
         try {
             Object val = joinPoint.proceed();
-
-            KafkaObject result = new KafkaObject();
-            kafkaEvent.setResult(result);
-            result.setFullQualifiedClassName(method.getReturnType().getName());
-            kafkaEvent.setResultException(false);
-            result.set(val);
+            data.setSerializedReturnValue(KafkaUtils.serialize(val));
+            data.setReturnValueException(false);
 
             return val;
         } catch (Throwable e) {
 
-            KafkaObject result = new KafkaObject();
-            kafkaEvent.setResult(result);
-            result.set(ExceptionUtils.getPrintValue(e));
-            result.setFullQualifiedClassName(e.getClass().getName());
-            kafkaEvent.setResultException(true);
+            data.setSerializedReturnValue(ExceptionUtils.getPrintValue(e));
+            data.setReturnValueException(true);
 
             throw e;
         } finally {

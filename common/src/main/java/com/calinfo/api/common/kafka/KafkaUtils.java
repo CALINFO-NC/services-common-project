@@ -22,41 +22,34 @@ package com.calinfo.api.common.kafka;
  * #L%
  */
 
-import lombok.Getter;
-import lombok.Setter;
+import com.calinfo.api.common.utils.MiscUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import java.io.IOException;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class KafkaUtils {
 
 
-public class KafkaEvent {
+    public static <T> T unserialize(Class<T> clazz, String strValue) throws IOException {
 
-    @Getter
-    @Setter
-    private String version = "1.0.0";
+        if (strValue == null){
+            return null;
+        }
 
-    @Getter
-    @Setter
-    private String domain;
+        ObjectMapper objectMapper = MiscUtils.getObjectMapper();
+        return objectMapper.readValue(strValue, clazz);
+    }
 
-    @Getter
-    @Setter
-    private KafkaUser user;
+    public static String serialize(Object object) throws IOException {
 
-    @Getter
-    @Setter
-    private KafkaApplication application;
+        if (object == null){
+            return null;
+        }
 
-    @Getter
-    @Setter
-    private String topic;
-
-    @Getter
-    @Setter
-    private KafkaMetadata metadata;
-
-    @Getter
-    @Setter
-    private KafkaData data;
-
-    public KafkatValue getValues(){
-        return new KafkatValue(metadata, data);
+        ObjectMapper objectMapper = MiscUtils.getObjectMapper();
+        return objectMapper.writeValueAsString(object);
     }
 }

@@ -25,38 +25,29 @@ package com.calinfo.api.common.kafka;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
 
-public class KafkaEvent {
 
-    @Getter
-    @Setter
-    private String version = "1.0.0";
-
-    @Getter
-    @Setter
-    private String domain;
+public class KafkaMetadata {
 
     @Getter
     @Setter
-    private KafkaUser user;
+    private String language = "java";
 
     @Getter
     @Setter
-    private KafkaApplication application;
+    private String classType;
 
     @Getter
     @Setter
-    private String topic;
+    private String methodName;
 
     @Getter
     @Setter
-    private KafkaMetadata metadata;
+    private Map<Integer, String> parametersTypes = new HashMap<>();
 
     @Getter
     @Setter
-    private KafkaData data;
-
-    public KafkatValue getValues(){
-        return new KafkatValue(metadata, data);
-    }
+    private String returnType;
 }

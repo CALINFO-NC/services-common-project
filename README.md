@@ -29,6 +29,6 @@ Binaire disponnible dans le "repository" :  [https://calinfo.jfrog.io/calinfo/li
 
 # Quoi de nouveau
 
- * Modification du séparateur des topic multitenant Kafka. de "." vers "/".
+ * Modification de la structure du mesage kafka
 
 

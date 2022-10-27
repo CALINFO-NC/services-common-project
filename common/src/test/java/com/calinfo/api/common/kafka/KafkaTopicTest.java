@@ -83,35 +83,31 @@ public class KafkaTopicTest extends AbstractTestNGSpringContextTests {
 
         Assert.assertNotNull(kafkaEvent);
         Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
-        Assert.assertEquals(KafkaSubServiceImpl.class.getName(), kafkaEvent.getFullQualifiedServiceClassName());
-        Assert.assertEquals(kafkaEvent.getMethodServiceName(), "topicAWithoutException");
-        Assert.assertTrue(false == kafkaEvent.isResultException());
+        Assert.assertEquals(KafkaSubServiceImpl.class.getName(), kafkaEvent.getMetadata().getClassType());
+        Assert.assertEquals(kafkaEvent.getMetadata().getMethodName(), "topicAWithoutException");
+        Assert.assertTrue(false == kafkaEvent.getData().isReturnValueException());
 
-        Assert.assertTrue(kafkaEvent.getParameters().size() == 2);
-        KafkaObject kafkaObject = kafkaEvent.getParameters().get(0);
-        Assert.assertEquals(String.class.getName(), kafkaObject.getFullQualifiedClassName());
-        Assert.assertEquals(kafkaObject.getStrValue(), "\"A12\"");
-        Assert.assertEquals(kafkaObject.get(), "A12");
-
-
-
-        kafkaObject = kafkaEvent.getParameters().get(1);
-        Assert.assertEquals(TestResource.class.getName(), kafkaObject.getFullQualifiedClassName());
-        Assert.assertEquals(kafkaObject.getStrValue(), "{\"prop1\":\"123\"}");
-        TestResource resRes = kafkaObject.get();
-        Assert.assertEquals(resRes.getProp1(), "123");
+        Assert.assertTrue(kafkaEvent.getData().getSerializedParametersValues().size() == 2);
+        int indexParam = 0;
+        Assert.assertEquals(String.class.getName(), kafkaEvent.getMetadata().getParametersTypes().get(indexParam));
+        Assert.assertEquals(kafkaEvent.getData().getSerializedParametersValues().get(indexParam), "\"A12\"");
+        Assert.assertEquals(kafkaEvent.getValues().getParameterValueAt(indexParam, String.class), "A12");
 
 
-        Assert.assertEquals(TestResource.class.getName(), kafkaEvent.getResult().getFullQualifiedClassName());
-        Assert.assertEquals(kafkaEvent.getResult().getStrValue(), "{\"prop1\":\"Propppp\"}");
+        indexParam = 1;
+        Assert.assertEquals(TestResource.class.getName(), kafkaEvent.getMetadata().getParametersTypes().get(indexParam));
+        Assert.assertEquals(kafkaEvent.getData().getSerializedParametersValues().get(indexParam), "{\"prop1\":\"123\"}");
+        Assert.assertEquals(kafkaEvent.getValues().getParameterValueAt(indexParam, TestResource.class).getProp1(), "123");
+
+        Assert.assertEquals(TestResource.class.getName(), kafkaEvent.getMetadata().getReturnType());
+        Assert.assertEquals(kafkaEvent.getData().getSerializedReturnValue(), "{\"prop1\":\"Propppp\"}");
 
 
         Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
         Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
         Assert.assertEquals(kafkaEvent.getTopic(), "topicB");
 
-        resRes = kafkaEvent.get();
-        Assert.assertEquals(resRes.getProp1(), "Propppp");
+        Assert.assertEquals(kafkaEvent.getValues().getReturnValue(TestResource.class).getProp1(), "Propppp");
     }
 
 }

@@ -25,38 +25,21 @@ package com.calinfo.api.common.kafka;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
 
-public class KafkaEvent {
 
-    @Getter
-    @Setter
-    private String version = "1.0.0";
-
-    @Getter
-    @Setter
-    private String domain;
+public class KafkaData {
 
     @Getter
     @Setter
-    private KafkaUser user;
+    private Map<Integer, String> serializedParametersValues = new HashMap<>();
+
+    @Setter
+    @Getter
+    private String serializedReturnValue;
 
     @Getter
     @Setter
-    private KafkaApplication application;
-
-    @Getter
-    @Setter
-    private String topic;
-
-    @Getter
-    @Setter
-    private KafkaMetadata metadata;
-
-    @Getter
-    @Setter
-    private KafkaData data;
-
-    public KafkatValue getValues(){
-        return new KafkatValue(metadata, data);
-    }
+    private boolean returnValueException;
 }
