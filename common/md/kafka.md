@@ -9,23 +9,45 @@
 # Comment envoyer un topic à Kafka avec comme objet *KafkaEvent* ?
 
 ```
- @KafkaTopic("nomTopic")
- public MyResource myMethod(...){
-    ...
- }
+class MaClass {
+
+   @KafkaTopic(value = "nomTopic", kafkaPrefixeMandatory = false)
+   public MyResource myMethod(...){
+      ...
+   }
+}
 ```
+
+Il possible aussi de nommé un topic comme ceci
+
+```
+abstract class SuperClass {
+
+    @KafkaTopic("nomTopic")
+    public MyResource myMethod(...){
+    ...
+    }
+}
+
+@KafkaPrefixTopic("MonPrefix") 
+class SubClass extends SuperClass {
+    
+}
+```
+
+Dans ce cas le topic aura pour nom **MonPrefix.nomTopic**
 
 # Comment écouter un topic à Kafka avec comme objet *KafkaEvent* ?
 
 ```
- @KafkaListener(topics = "idApplicationEmetteurTopic.domain.nomTopic")
+ @KafkaListener(topics = "idApplicationEmetteurTopic---domain---nomTopic")
  public void receiveTopic(KafkaEvent kafkaEvent) {
     ...
  }
 
  OU, s'il n'y a pas de domain
 
-@KafkaListener(topics = "idApplicationEmetteurTopic..nomTopic")
+@KafkaListener(topics = "idApplicationEmetteurTopic------nomTopic")
 public void receiveTopic(KafkaEvent kafkaEvent) {
  ...
 }
