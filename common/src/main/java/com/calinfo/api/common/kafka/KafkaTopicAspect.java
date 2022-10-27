@@ -93,8 +93,9 @@ public class KafkaTopicAspect {
         Parameter[] parameters = method.getParameters();
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            metadata.getParametersTypes().put(index, parameter.getType().getName());
-            data.getSerializedParametersValues().put(index, KafkaUtils.serialize(joinPoint.getArgs()[index]));
+            Object prmVal = joinPoint.getArgs()[index];
+            metadata.getParametersTypes().put(index, prmVal == null ? parameter.getType().getName() : prmVal.getClass().getName());
+            data.getSerializedParametersValues().put(index, KafkaUtils.serialize(prmVal));
         }
 
         metadata.setReturnType(method.getReturnType().getName());
@@ -104,6 +105,9 @@ public class KafkaTopicAspect {
             mesure.setExecutionDurationMillisecond(System.currentTimeMillis() - deb);
             data.setSerializedReturnValue(KafkaUtils.serialize(val));
             data.setReturnValueException(false);
+            if (val != null){
+                metadata.setReturnType(val.getClass().getName());
+            }
 
             return val;
         } catch (Throwable e) {
