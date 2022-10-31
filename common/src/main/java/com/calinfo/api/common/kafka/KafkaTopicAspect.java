@@ -42,6 +42,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Aspect
@@ -83,7 +84,6 @@ public class KafkaTopicAspect {
 
         KafkaMeasure mesure = new KafkaMeasure();
         kafkaEvent.setMeasure(mesure);
-        mesure.setExecutionDate(DateUtils.now());
 
         kafkaEvent.setTopic(topicName);
         KafkaData data = new KafkaData();
@@ -101,6 +101,8 @@ public class KafkaTopicAspect {
             data.getSerializedParametersValues().put(index, KafkaUtils.serialize(prmVal));
         }
 
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        mesure.setExecutionDate(DateUtils.now().format(formatter));
         long deb = System.currentTimeMillis();
         try {
             Object val = joinPoint.proceed();

@@ -37,5 +37,5 @@ public class KafkaMeasure {
 
     @Getter
     @Setter
-    private ZonedDateTime executionDate;
+    private String executionDate;
 }
