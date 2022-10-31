@@ -26,8 +26,13 @@ import com.calinfo.api.common.utils.MiscUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class KafkaUtils {
@@ -51,5 +56,38 @@ public class KafkaUtils {
 
         ObjectMapper objectMapper = MiscUtils.getObjectMapper();
         return objectMapper.writeValueAsString(object);
+    }
+
+    public static String deleteAnnotationToStringMirror(String typeClass){
+
+        String[] spl = typeClass.split(" "); // On supprime les annotation
+        return spl[spl.length - 1];
+    }
+
+
+    public static List<String> splitToClassFromStringMirrorClass(String typeClass){
+
+        List<String> result = new ArrayList<>();
+
+        if (!StringUtils.isBlank(typeClass)) {
+
+            String[] spl = deleteAnnotationToStringMirror(typeClass).replace(">", "").split("<");
+            result.add(spl[0].trim());
+            if (spl.length > 1) {
+                Arrays.stream(spl[1].split(",")).forEach(i -> result.addAll(splitToClassFromStringMirrorClass(i.trim())));
+            }
+        }
+
+        return result;
+    }
+
+    public static List<String> splitToClassFromMetadataService(KafkaMetadataService metadataService){
+
+        List<String> result = new ArrayList<>();
+
+        splitToClassFromStringMirrorClass(metadataService.getReturnType()).forEach(result::add);
+        metadataService.getParametersTypes().entrySet().stream().map(Map.Entry::getValue).forEach(i -> splitToClassFromStringMirrorClass(i).forEach(result::add));
+
+        return result;
     }
 }

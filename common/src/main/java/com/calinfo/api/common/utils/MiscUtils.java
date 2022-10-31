@@ -28,10 +28,9 @@ import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.ex.MessageStatusException;
-import com.calinfo.api.common.kafka.KafkaPrefixTopic;
+import com.calinfo.api.common.kafka.KafkaTopicPrefix;
 import com.calinfo.api.common.kafka.KafkaTopic;
 import com.calinfo.api.common.service.MessageService;
-import com.calinfo.api.common.tenant.DomainContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -157,17 +156,23 @@ public class MiscUtils {
         return result;
     }
 
-    public static String getTopicFullName(String applicationId, KafkaTopic kafkaTopic, KafkaPrefixTopic kafkaPrefixTopic){
-        String topicName = kafkaTopic.value();
-        if (kafkaPrefixTopic != null && !StringUtils.isBlank(kafkaPrefixTopic.value())){
-            topicName = String.format("%s.%s", kafkaPrefixTopic.value(), topicName);
+    public static String getTopicFullKey(String prefixTopicKey, String topicKey){
+
+        String fullTopicKey = topicKey;
+        if (!StringUtils.isBlank(prefixTopicKey)){
+            fullTopicKey = String.format("%s.%s", prefixTopicKey, topicKey);
         }
-        return getTopicFullName(applicationId, topicName, kafkaTopic.prefixTopicNameWithApplicationId(), kafkaTopic.prefixTopicNameWithDomain());
+        return fullTopicKey;
     }
 
-    public static String getTopicFullName(String applicationId, String topicName, boolean prefixTopicNameWithApplicationName, boolean prefixTopicNameWithDomain){
+    public static String getTopicFullName(String applicationId, String domainName, KafkaTopic kafkaTopic, KafkaTopicPrefix kafkaTopicPrefix){
+        String topicName = getTopicFullKey(kafkaTopicPrefix != null ? kafkaTopicPrefix.value() : null, kafkaTopic.value());
+        return getTopicFullName(applicationId, domainName, topicName, kafkaTopic.prefixTopicNameWithApplicationId(), kafkaTopic.prefixTopicNameWithDomain());
+    }
 
-        String domain = DomainContext.getDomain();
+    public static String getTopicFullName(String applicationId, String domainName, String topicName, boolean prefixTopicNameWithApplicationName, boolean prefixTopicNameWithDomain){
+
+        String domain = domainName;
         if (domain == null){
             domain = "";
         }

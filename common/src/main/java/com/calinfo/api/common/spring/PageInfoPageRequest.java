@@ -55,7 +55,7 @@ public class PageInfoPageRequest implements Pageable {
         this(ci, Sort.unsorted());
     }
 
-    private PageInfoPageRequest(Pageable pageable) {
+    public PageInfoPageRequest(Pageable pageable) {
         this.pageable = pageable;
     }
 

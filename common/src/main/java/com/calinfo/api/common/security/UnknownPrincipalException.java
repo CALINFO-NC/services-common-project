@@ -29,7 +29,7 @@ import org.springframework.http.HttpStatus;
 public class UnknownPrincipalException extends MessageStatusException {
 
     @Getter
-    private Object principal;
+    private final Object principal;
 
     public UnknownPrincipalException(Object principal, String msg){
         super(HttpStatus.UNAUTHORIZED, msg);

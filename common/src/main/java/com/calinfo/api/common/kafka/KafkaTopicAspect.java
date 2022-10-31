@@ -25,6 +25,7 @@ package com.calinfo.api.common.kafka;
 import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.tenant.DomainContext;
+import com.calinfo.api.common.utils.DateUtils;
 import com.calinfo.api.common.utils.ExceptionUtils;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.utils.SecurityUtils;
@@ -75,40 +76,37 @@ public class KafkaTopicAspect {
         }
 
         KafkaTopic kafkaTopic = method.getAnnotation(KafkaTopic.class);
-        KafkaPrefixTopic kafkaPrefixTopic = getKafkaPrefixTopic(joinPoint.getTarget().getClass());
+        KafkaTopicPrefix kafkaTopicPrefix = getKafkaPrefixTopic(joinPoint.getTarget().getClass());
 
-        String topicName = MiscUtils.getTopicFullName(applicationProperties.getId(), kafkaTopic, kafkaPrefixTopic);
+        String topicName = MiscUtils.getTopicFullName(applicationProperties.getId(), DomainContext.getDomain(), kafkaTopic, kafkaTopicPrefix);
+        String templateTopicName = MiscUtils.getTopicFullName(KafkaMetadataUtils.TEMPLATE_APPLICATION_ID, KafkaMetadataUtils.TEMPLATE_DOMAIN_NAME, kafkaTopic, kafkaTopicPrefix);
 
         KafkaMeasure mesure = new KafkaMeasure();
         kafkaEvent.setMeasure(mesure);
+        mesure.setExecutionDate(DateUtils.now());
 
         kafkaEvent.setTopic(topicName);
         KafkaData data = new KafkaData();
         kafkaEvent.setData(data);
 
-        KafkaMetadata metadata = new KafkaMetadata();
-        kafkaEvent.setMetadata(metadata);
-        metadata.setClassType(joinPoint.getTarget().getClass().getName());
-        metadata.setMethodName(method.getName());
+        KafkaMetadataTopic metadataTopic = KafkaMetadataUtils.getTopicMetadatas().get(templateTopicName);
+        if (metadataTopic != null) {
+            kafkaEvent.setMetadataService(metadataTopic.getMetadataService());
+            kafkaEvent.setMetadataModels(KafkaMetadataUtils.getModelMetadatas(kafkaEvent.getMetadataService()));
+        }
 
         Parameter[] parameters = method.getParameters();
         for (int index = 0; index < parameters.length; index++) {
-            Parameter parameter = parameters[index];
             Object prmVal = joinPoint.getArgs()[index];
-            metadata.getParametersTypes().put(index, prmVal == null ? parameter.getType().getName() : prmVal.getClass().getName());
             data.getSerializedParametersValues().put(index, KafkaUtils.serialize(prmVal));
         }
 
-        metadata.setReturnType(method.getReturnType().getName());
         long deb = System.currentTimeMillis();
         try {
             Object val = joinPoint.proceed();
             mesure.setExecutionDurationMillisecond(System.currentTimeMillis() - deb);
             data.setSerializedReturnValue(KafkaUtils.serialize(val));
             data.setReturnValueException(false);
-            if (val != null){
-                metadata.setReturnType(val.getClass().getName());
-            }
 
             return val;
         } catch (Throwable e) {
@@ -120,7 +118,7 @@ public class KafkaTopicAspect {
             throw e;
         } finally {
 
-            if (!kafkaTopic.kafkaPrefixeMandatory() || kafkaPrefixTopic != null) {
+            if (metadataTopic != null && (!kafkaTopic.kafkaPrefixeMandatory() || kafkaTopicPrefix != null)) {
                 applicationEventPublisher.publishEvent(kafkaEvent);
             }
 
@@ -137,12 +135,12 @@ public class KafkaTopicAspect {
         return result;
     }
 
-    private KafkaPrefixTopic getKafkaPrefixTopic(Class<?> root){
+    private KafkaTopicPrefix getKafkaPrefixTopic(Class<?> root){
 
         Class<?> clazz = root;
         while (clazz != null){
 
-            KafkaPrefixTopic ano = clazz.getAnnotation(KafkaPrefixTopic.class);
+            KafkaTopicPrefix ano = clazz.getAnnotation(KafkaTopicPrefix.class);
             if (ano != null){
                 return ano;
             }

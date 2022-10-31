@@ -13,12 +13,12 @@ public class KafkaValueTest {
         KafkaEvent kafkaEvent = new KafkaEvent();
         KafkaData data = new KafkaData();
         kafkaEvent.setData(data);
-        KafkaMetadata metadata = new KafkaMetadata();
-        kafkaEvent.setMetadata(metadata);
+        KafkaMetadataService metadataService = new KafkaMetadataService();
+        kafkaEvent.setMetadataService(metadataService);
 
         data.setReturnValueException(false);
-        metadata.setReturnType(String.class.getName());
-        metadata.getParametersTypes().put(0, Integer.class.getName());
+        metadataService.setReturnType(String.class.getName());
+        metadataService.getParametersTypes().put(0, Integer.class.getName());
         data.setSerializedReturnValue(KafkaUtils.serialize("AA"));
         data.getSerializedParametersValues().put(0, KafkaUtils.serialize(3));
 
@@ -51,11 +51,11 @@ public class KafkaValueTest {
         KafkaEvent kafkaEvent = new KafkaEvent();
         KafkaData data = new KafkaData();
         kafkaEvent.setData(data);
-        KafkaMetadata metadata = new KafkaMetadata();
-        kafkaEvent.setMetadata(metadata);
+        KafkaMetadataService metadataService = new KafkaMetadataService();
+        kafkaEvent.setMetadataService(metadataService);
 
         data.setReturnValueException(true);
-        metadata.setReturnType(NullPointerException.class.getName());
+        metadataService.setReturnType(NullPointerException.class.getName());
 
 
         try {

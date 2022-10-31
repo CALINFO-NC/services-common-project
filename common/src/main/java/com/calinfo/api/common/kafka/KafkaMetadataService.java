@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class KafkaMetadata {
+public class KafkaMetadataService {
 
     @Getter
     @Setter

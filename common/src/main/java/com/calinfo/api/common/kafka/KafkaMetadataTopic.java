@@ -25,17 +25,23 @@ package com.calinfo.api.common.kafka;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
 
-
-public class KafkaMeasure {
+public class KafkaMetadataTopic {
 
 
     @Getter
     @Setter
-    private long executionDurationMillisecond;
+    private boolean prefixTopicNameWithApplicationId;
 
     @Getter
     @Setter
-    private ZonedDateTime executionDate;
+    private boolean prefixTopicNameWithDomain;
+
+    @Getter
+    @Setter
+    private String topicFullKey;
+
+    @Getter
+    @Setter
+    private KafkaMetadataService metadataService;
 }

@@ -14,15 +14,6 @@ public class KafkaServiceImpl implements KafkaService {
     private KafkaSubService kafkaSubService;
 
     @Override
-    @KafkaTopic(value = "topic0", prefixTopicNameWithApplicationId = true, kafkaPrefixeMandatory = false)
-    public void topic0WithPrefix() {
-
-        TestResource res = new TestResource();
-        res.setProp1("123");
-        kafkaSubService.topicAWithoutException("A12", res);
-    }
-
-    @Override
     @KafkaTopic(value = "topic1", prefixTopicNameWithApplicationId = false, prefixTopicNameWithDomain = false, kafkaPrefixeMandatory = false)
     public void topic1WithoutExceptionAndWithoutExceptionTopicA() {
 

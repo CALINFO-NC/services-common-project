@@ -22,13 +22,23 @@ package com.calinfo.api.common.kafka;
  * #L%
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import lombok.Getter;
+import lombok.Setter;
 
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface KafkaPrefixTopic {
-    String value();
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class KafkaMetadataEvent {
+
+
+    //Map<fullTopicName, definition>
+    @Getter
+    @Setter
+    private Map<String, KafkaMetadataTopic> metadataTopics = new HashMap<>();
+
+    //Map<fullClassModelName, definition>
+    @Getter
+    @Setter
+    private Map<String, KafkaMetadataModel> metadataModels = new HashMap<>();
 }

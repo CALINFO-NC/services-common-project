@@ -33,11 +33,11 @@ import java.lang.reflect.InvocationTargetException;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class KafkatValue {
 
-    private final KafkaMetadata metadata;
+    private final KafkaMetadataService metadataService;
     private final KafkaData data;
 
     public int getParametersSize(){
-        return metadata.getParametersTypes().size();
+        return metadataService.getParametersTypes().size();
     }
 
     public <T> T getParameterValueAt(int index, Class<T> clazz){
@@ -45,7 +45,7 @@ public class KafkatValue {
     }
 
     public <T> T getParameterValueAt(int index) throws ClassNotFoundException {
-        Class<T> clazz = (Class<T>) Class.forName(metadata.getParametersTypes().get(index));
+        Class<T> clazz = (Class<T>) Class.forName(metadataService.getParametersTypes().get(index));
         return getParameterValueAt(index, clazz);
     }
 
@@ -59,13 +59,13 @@ public class KafkatValue {
     }
 
     public <T> T getReturnValue() throws ClassNotFoundException {
-        Class<T> clazz = (Class<T>) Class.forName(metadata.getReturnType());
+        Class<T> clazz = (Class<T>) Class.forName(metadataService.getReturnType());
         return getReturnValue(clazz);
     }
 
     private  <T> T get(Class<T> clazz, String serializedValue) {
         try {
-            return (T)KafkaUtils.unserialize(clazz, serializedValue);
+            return KafkaUtils.unserialize(clazz, serializedValue);
         } catch (IOException e) {
             throw new ApplicationErrorException(e);
         }
@@ -74,13 +74,13 @@ public class KafkatValue {
     private void throwException() throws KafkaException {
 
         try {
-            Class<?> clazz = Class.forName(metadata.getReturnType());
+            Class<?> clazz = Class.forName(metadataService.getReturnType());
             Constructor<?> constructor = clazz.getConstructor(String.class);
             Exception cause = (Exception)constructor.newInstance(data.getSerializedReturnValue());
-            throw new KafkaInvocationException(metadata.getReturnType(), cause);
+            throw new KafkaInvocationException(metadataService.getReturnType(), cause);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             ClassNotFoundException cause = new ClassNotFoundException(data.getSerializedReturnValue(), e);
-            throw new KafkaRestitutionException(metadata.getReturnType(), cause);
+            throw new KafkaRestitutionException(metadataService.getReturnType(), cause);
         }
     }
 }

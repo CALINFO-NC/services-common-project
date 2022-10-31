@@ -39,6 +39,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommonKeycloakAuthenticationProvider extends KeycloakAuthenticationProvider {
 
+    private static final String ACCOUNT_RESOURCE_NAME = "account";
+
     private final String keycloakResource;
 
     private GrantedAuthoritiesMapper grantedAuthoritiesMapper;
@@ -93,6 +95,6 @@ public class CommonKeycloakAuthenticationProvider extends KeycloakAuthentication
     }
 
     protected String getAccountResourceName(){
-        return "account";
+        return ACCOUNT_RESOURCE_NAME;
     }
 }

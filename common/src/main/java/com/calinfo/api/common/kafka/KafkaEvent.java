@@ -26,6 +26,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class KafkaEvent {
 
@@ -51,7 +54,11 @@ public class KafkaEvent {
 
     @Getter
     @Setter
-    private KafkaMetadata metadata;
+    private KafkaMetadataService metadataService;
+
+    @Getter
+    @Setter
+    private Map<String, KafkaMetadataModel> metadataModels = new HashMap<>();
 
     @Getter
     @Setter
@@ -63,6 +70,6 @@ public class KafkaEvent {
 
     @JsonIgnore
     public KafkatValue getValues(){
-        return new KafkatValue(metadata, data);
+        return new KafkatValue(metadataService, data);
     }
 }

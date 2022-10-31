@@ -22,41 +22,13 @@ package com.calinfo.api.common.kafka;
  * #L%
  */
 
-import lombok.Getter;
-import lombok.Setter;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class KafkaTopicDefinition {
-
-
-    @Getter
-    @Setter
-    boolean prefixTopicNameWithApplicationId;
-
-    @Getter
-    @Setter
-    boolean prefixTopicNameWithDomain;
-
-    @Getter
-    @Setter
-    private String topicName;
-
-    @Getter
-    @Setter
-    private String fullQualifiedServiceClassName;
-
-    @Getter
-    @Setter
-    private String methodServiceName;
-
-    @Getter
-    @Setter
-    private List<String> parametersType = new ArrayList<>();
-
-    @Getter
-    @Setter
-    private String returnType;
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface KafkaTopicPrefix {
+    String value();
 }

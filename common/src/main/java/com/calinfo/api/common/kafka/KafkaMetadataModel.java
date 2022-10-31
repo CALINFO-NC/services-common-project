@@ -25,17 +25,27 @@ package com.calinfo.api.common.kafka;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 
-public class KafkaMeasure {
-
-
-    @Getter
-    @Setter
-    private long executionDurationMillisecond;
+public class KafkaMetadataModel {
 
     @Getter
     @Setter
-    private ZonedDateTime executionDate;
+    private String language = "java";
+
+    @Getter
+    @Setter
+    private String classType;
+
+    @Getter
+    @Setter
+    private String superClassType;
+
+    // Map<propertyName, propertyClass>
+    @Getter
+    @Setter
+    private Map<String, String> properties = new HashMap<>();
+
 }
