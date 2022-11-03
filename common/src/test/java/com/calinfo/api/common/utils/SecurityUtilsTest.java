@@ -1,10 +1,18 @@
 package com.calinfo.api.common.utils;
 
+import com.calinfo.api.common.task.TaskPrincipal;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.KeycloakDeployment;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
+import org.keycloak.representations.AccessToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.*;
 
 /**
  * Created by dalexis on 23/11/2017.
@@ -31,5 +39,56 @@ public class SecurityUtilsTest {
         String decryptValStrResult = new String(decryptValByteResult);
 
         Assert.assertEquals(decryptValStrResult, decryptValStr);
+    }
+
+    @Test
+    public void testGetRoleFromKeykloackPrincipal() throws Exception{
+
+        String resourceName = "resourceName";
+        Set<String> resourceRoles = new HashSet<>();
+        resourceRoles.add("R1");
+        Set<String> roles = new HashSet<>();
+        roles.add("R2");
+
+        Map<String, AccessToken.Access> resourceAccess = new HashMap<>();
+        AccessToken.Access resourceAccessRole = new AccessToken.Access();
+        resourceAccessRole.roles(resourceRoles);
+        resourceAccess.put(resourceName, resourceAccessRole);
+
+        AccessToken.Access access = new AccessToken.Access();
+        access.roles(roles);
+
+        AccessToken accessToken = new AccessToken();
+        accessToken.setRealmAccess(access);
+        accessToken.setResourceAccess(resourceAccess);
+
+        KeycloakDeployment deployment = new KeycloakDeployment();
+        deployment.setResourceName(resourceName);
+
+        RefreshableKeycloakSecurityContext context = new RefreshableKeycloakSecurityContext(deployment, null, null, accessToken, null, null, null);
+
+        KeycloakPrincipal<KeycloakSecurityContext> principal = new KeycloakPrincipal<>("name", context);
+
+        List<String> resultRole = SecurityUtils.getRoleFormPrincipal(principal);
+        Assert.assertEquals(resultRole.size(), 2);
+        Assert.assertTrue(resultRole.contains("R1"));
+        Assert.assertTrue(resultRole.contains("R2"));
+
+    }
+
+    @Test
+    public void testGetRoleFromKTaskPrincipal() throws Exception{
+
+        List<SimpleGrantedAuthority> lstRole = new ArrayList<>();
+        lstRole.add(new SimpleGrantedAuthority("Ra"));
+        lstRole.add(new SimpleGrantedAuthority("Rb"));
+
+        TaskPrincipal principal = new TaskPrincipal("name", "domain", lstRole);
+
+        List<String> resultRole = SecurityUtils.getRoleFormPrincipal(principal);
+        Assert.assertEquals(resultRole.size(), 2);
+        Assert.assertTrue(resultRole.contains("Ra"));
+        Assert.assertTrue(resultRole.contains("Rb"));
+
     }
 }
