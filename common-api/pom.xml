@@ -12,11 +12,6 @@
     </parent>
 
     <artifactId>common-api</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
-
-    <properties>
-        <version.validation-api>2.0.1.Final</version.validation-api>
-    </properties>
 
     <build>
 
