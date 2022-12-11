@@ -22,8 +22,8 @@
         <version.jjwt>0.9.1</version.jjwt>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
         <version.javassist>3.27.0-GA</version.javassist>
-        <version.auto-service>1.0-rc2</version.auto-service>
-        <version.compile-testing>0.19</version.compile-testing>
+        <version.auto-service>1.0.1</version.auto-service>
+        <version.compile-testing>0.20</version.compile-testing>
         <version.truth>1.1</version.truth>
     </properties>
 
@@ -150,6 +150,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>${version.h2}</version>
             <scope>test</scope>
         </dependency>
 

@@ -29,7 +29,7 @@ import com.calinfo.api.common.task.TaskException;
 import com.calinfo.api.common.task.TaskRunner;
 import com.calinfo.api.common.tenant.DomainContext;
 import lombok.extern.slf4j.Slf4j;
-import net.javacrumbs.shedlock.core.SchedulerLock;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -64,7 +64,7 @@ public class TransfertStorageScheduler {
      * pour les transférer sur un autre support
      */
     @Scheduled(fixedDelayString = "${common-io.storage.scheduler.delay}")
-    @SchedulerLock(name = "TransfertStorageScheduler_runTransfertBinaryData", lockAtMostFor = 1 * 60 * 1000)
+    @SchedulerLock(name = "TransfertStorageScheduler_runTransfertBinaryData", lockAtMostFor = "PT1H")
     public void runTransfertBinaryData(){
 
 
