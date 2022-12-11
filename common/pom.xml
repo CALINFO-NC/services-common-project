@@ -119,14 +119,6 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
-
-        <!-- Support de Java8 par hibernate -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-java8</artifactId>
-        </dependency>
-
-
         <!-- Dépendence sur l'API common -->
         <dependency>
             <groupId>com.calinfo-nc.services</groupId>

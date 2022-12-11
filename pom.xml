@@ -29,7 +29,7 @@
         <version.keycloak>16.1.1</version.keycloak>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
         <version.lombok>1.18.24</version.lombok>
-        <version.spring>2.7.6</version.spring>
+        <version.spring>3.0.0</version.spring>
         <version.testng>7.7.0</version.testng>
         <version.maven-war-plugin>3.3.1</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
