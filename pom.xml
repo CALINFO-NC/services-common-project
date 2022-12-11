@@ -23,20 +23,21 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.equalsverifier>3.8.3</version.equalsverifier>
-        <version.springdoc-openapi-ui>1.6.5</version.springdoc-openapi-ui>
+        <version.h2>1.4.200</version.h2> <!-- Nous n'utilisons pas la version de spring boot, car la création de table via liquibase ne semble pas fonctionner -->
+        <version.equalsverifier>3.12.2</version.equalsverifier>
+        <version.springdoc-openapi-ui>1.6.13</version.springdoc-openapi-ui>
         <version.keycloak>16.1.1</version.keycloak>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
-        <version.lombok>1.18.22</version.lombok>
-        <version.spring>2.6.3</version.spring>
-        <version.testng>7.5</version.testng>
+        <version.lombok>1.18.24</version.lombok>
+        <version.spring>2.7.6</version.spring>
+        <version.testng>7.7.0</version.testng>
         <version.maven-war-plugin>3.3.1</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
-        <version.common-net>3.8.0</version.common-net>
+        <version.common-net>3.9.0</version.common-net>
         <version.jacoco-maven-plugin>0.8.7</version.jacoco-maven-plugin>
-        <version.maven-surefire-plugin>3.0.0-M5</version.maven-surefire-plugin>
+        <version.maven-surefire-plugin>3.0.0-M7</version.maven-surefire-plugin>
         <version.commons-lang3>3.12.0</version.commons-lang3>
-        <version.teavm>0.6.1</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-teavm puisse changer la version de teaVM -->
+        <version.teavm>0.7.0</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-teavm puisse changer la version de teaVM -->
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -219,6 +220,11 @@
                 <version>4.2.2</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>31.1-jre</version>
+            </dependency>
 
         </dependencies>
 
@@ -233,12 +239,6 @@
             <version>${version.lombok}</version>
         </dependency>
 
-        <!-- correction d'un bug sur maven-surfery-plugin -->
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>${version.maven-surefire-plugin}</version>
-        </dependency>
 
 
     </dependencies>

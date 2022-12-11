@@ -13,10 +13,10 @@
     <artifactId>common-io</artifactId>
 
     <properties>
-        <version.shedlock-core>4.16.0</version.shedlock-core>
-        <version.commons-io>2.8.0</version.commons-io>
-        <version.google-cloud-storage>1.113.4</version.google-cloud-storage>
-        <version.MockFtpServer>2.7.1</version.MockFtpServer>
+        <version.shedlock-core>5.0.1</version.shedlock-core>
+        <version.commons-io>2.11.0</version.commons-io>
+        <version.google-cloud-storage>2.16.0</version.google-cloud-storage>
+        <version.MockFtpServer>3.1.0</version.MockFtpServer>
     </properties>
 
 
@@ -71,10 +71,9 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Scheduler -->
         <dependency>
             <groupId>net.javacrumbs.shedlock</groupId>
-            <artifactId>shedlock-core</artifactId>
+            <artifactId>shedlock-spring</artifactId>
             <version>${version.shedlock-core}</version>
         </dependency>
 

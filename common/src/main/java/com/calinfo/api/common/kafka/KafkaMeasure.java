@@ -25,8 +25,6 @@ package com.calinfo.api.common.kafka;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
-
 
 public class KafkaMeasure {
 
