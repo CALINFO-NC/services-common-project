@@ -11,11 +11,6 @@
 
     <artifactId>common-teavm</artifactId>
 
-    <properties>
-        <version.auto-service>1.0.1</version.auto-service>
-        <version.compile-testing>0.20</version.compile-testing>
-    </properties>
-
     <build>
         <plugins>
 
