@@ -45,7 +45,7 @@ public class SchemaPerTenantConnectionProvider implements MultiTenantConnectionP
     private transient DataSource dataSource;
 
     @Autowired
-    private TenantProperties tenantProperties;
+    private transient TenantProperties tenantProperties;
 
     @Override
     public Connection getAnyConnection() throws SQLException {

@@ -26,13 +26,27 @@ import com.calinfo.api.common.ex.MessageStatusException;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.io.Serializable;
+import java.security.Principal;
+
 public class UnknownPrincipalException extends MessageStatusException {
 
     @Getter
-    private final Object principal;
+    private final Serializable principal;
 
     public UnknownPrincipalException(Object principal, String msg){
         super(HttpStatus.UNAUTHORIZED, msg);
-        this.principal = principal;
+        if (principal == null){
+            this.principal = null;
+        }
+        else if (principal instanceof Serializable) {
+            this.principal = (Serializable)principal;
+        }
+        else if (principal instanceof Principal){
+            this.principal = ((Principal) principal).getName();
+        }
+        else{
+            this.principal = principal.toString();
+        }
     }
 }
