@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.service;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 - 2022 CALINFO
+ * Copyright (C) 2019 - 2023 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -23,6 +23,8 @@ package com.calinfo.api.common.io.storage.service;
  */
 
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
+import com.calinfo.api.common.io.storage.service.impl.IdQueue;
+import com.calinfo.api.common.io.storage.service.impl.IdQueueManager;
 import com.calinfo.api.common.tenant.DomainContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -43,37 +44,78 @@ import java.util.List;
 public class BinaryDataSchedulerService {
 
     @Autowired
+    private IdQueueManager idQueueManager;
+
+    @Autowired
     private BinaryDataClientService binaryDataService;
 
     @Autowired
     private BinaryDataConnector binaryDataConnector;
 
-    public List<String> listId(){
-        return binaryDataService.listId();
+
+    @Async("binaryDataASyncOperation")
+    public void transfert(String domain){
+
+        String oldDomain = DomainContext.getDomain();
+        try{
+            DomainContext.setDomain(domain);
+
+            IdQueue idQueue = idQueueManager.getIdQueue(domain); // FIFO concurent à valeur unique
+            int count = idQueue.add(binaryDataService.listId()); // Nombre d'élément réellement rajouté
+
+            // On passe par un count afin de laissé au autre thread la chance de traiter des ids
+            // afin de laisser la chance à tous les thread de traité des ids indépendament des domaines
+            int index = 0;
+            String id = idQueue.get();
+            while (id != null && index < count){
+
+                try {
+                    // On supprime le fichier existant s'il existe
+                    binaryDataConnector.delete(DomainContext.getDomain(), id);
+
+                    // On effectue le transfert
+                    transfertFromId(id);
+
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                }
+
+                id = idQueue.get();
+                index++;
+            }
+        }
+        finally {
+            setDefaultDomain(oldDomain);
+        }
+
     }
 
 
-    @Async("binaryDataASyncOperation")
-    public void transfert(String domainName, String binaryDataId){
-
-        String oldDomain = DomainContext.getDomain(); // On est dans une méthode asynchrone, on a donc pas le domaine qui est ThreadSafe
-        DomainContext.setDomain(domainName);
+    private void transfertFromId(String binaryDataId) throws IOException {
 
         try(TransfertData trData = binaryDataService.startTransfert(binaryDataId)){
+
 
             InputStream in = trData.getInputStream();
 
             binaryDataConnector.upload(DomainContext.getDomain(), binaryDataId, in);
 
             closeTransfert(binaryDataId, trData.getVersion(), true);
+
         } catch (IOException e) {
 
             closeTransfert(binaryDataId, null, false);
 
-            log.error(e.getMessage(), e);
+            throw e;
         }
-        finally {
-            DomainContext.setDomain(oldDomain);
+    }
+
+    private void setDefaultDomain(String defaultDomain){
+        try {
+            DomainContext.setDomain(defaultDomain);
+        }
+        catch (Exception e){
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -84,7 +126,8 @@ public class BinaryDataSchedulerService {
             binaryDataService.finalizeTransfert(binaryDataId, version, success);
 
         }catch (RuntimeException e){
-            log.warn(e.getMessage(), e);
+            log.debug(e.getMessage(), e);
+            log.warn(e.getMessage());
         }
     }
 
