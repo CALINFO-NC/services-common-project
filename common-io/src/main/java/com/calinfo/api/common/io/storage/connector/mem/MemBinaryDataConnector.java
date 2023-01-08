@@ -84,6 +84,11 @@ public class MemBinaryDataConnector implements BinaryDataConnector {
     }
 
     @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        return true;
+    }
+
+    @Override
     @Async("binaryDataASyncOperation")
     public Future<Boolean> deleteSpace(String spaceName) throws IOException {
 

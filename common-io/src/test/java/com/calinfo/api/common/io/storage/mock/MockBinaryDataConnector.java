@@ -48,6 +48,8 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
     @Getter
     private List<ItemSpace> dataSapce = new ArrayList<>();
 
+    private List<String> domainCreated = new ArrayList<>();
+
     @Override
     public void upload(String spaceName, String id, InputStream in) throws IOException {
 
@@ -101,13 +103,20 @@ public class MockBinaryDataConnector implements BinaryDataConnector {
     @Override
     public Future<Boolean> createSpace(String spaceName) throws IOException {
 
-        List<ItemSpace> one = dataSapce.stream().filter(i -> i.getSpaceName().equals(spaceName)).collect(Collectors.toList());
+        domainCreated.add(spaceName);
+
+        List<ItemSpace> one = dataSapce.stream().filter(i -> (i.getSpaceName() == null && spaceName == null) || (i.getSpaceName() != null && i.getSpaceName().equals(spaceName))).collect(Collectors.toList());
 
         if (one.isEmpty()){
             throw new IOException();
         }
 
         return new AsyncResult<>(one.get(0).isCreateReturnValue());
+    }
+
+    @Override
+    public boolean isSpaceExist(String spaceName) throws IOException {
+        return domainCreated.contains(spaceName);
     }
 
     @Override

@@ -36,7 +36,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.io.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @Slf4j
@@ -145,6 +147,15 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
         }
 
         return new AsyncResult<>(result);
+    }
+
+    @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        try {
+            return Boolean.TRUE.equals(createSpace(spaceName).get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     @Override

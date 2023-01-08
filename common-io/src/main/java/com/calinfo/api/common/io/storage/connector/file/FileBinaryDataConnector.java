@@ -100,6 +100,12 @@ public class FileBinaryDataConnector implements BinaryDataConnector {
     }
 
     @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        File pathSpace = getPath(spaceName);
+        return pathSpace.exists();
+    }
+
+    @Override
     @Async("binaryDataASyncOperation")
     public Future<Boolean> deleteSpace(String spaceName) throws IOException {
 

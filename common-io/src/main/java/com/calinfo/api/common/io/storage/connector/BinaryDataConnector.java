@@ -72,6 +72,15 @@ public interface BinaryDataConnector {
     Future<Boolean> createSpace(String spaceName) throws IOException;
 
     /**
+     * Vérifie si un espace existe
+     *
+     * @param spaceName Nom de l'espace de stockage (peut être un domain)
+     * @return true si l'espace existe
+     * @throws IOException Exception d'entrée/sortie
+     */
+    boolean isSpaceExist(String spaceName) throws IOException;
+
+    /**
      * Supprime u nespace de stockage et tou son contenue. Ce service doit être asynchrone
      *
      * @param spaceName Nom de l'espace de sotckage

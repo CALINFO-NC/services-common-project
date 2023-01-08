@@ -38,11 +38,13 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @Component
@@ -97,6 +99,15 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
     public Future<Boolean> createSpace(String spaceName) throws IOException{
         // Ici ilm n'y a rien à faire
         return new AsyncResult<>(getStorage() != null);
+    }
+
+    @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        try {
+            return Boolean.TRUE.equals(createSpace(spaceName).get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     @Override

@@ -24,6 +24,7 @@ package com.calinfo.api.common.io.storage.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -57,11 +58,11 @@ public class IdQueue {
                 return true;
             }
             else{
-                log.trace(String.format("Is '%s' déjà présent dans la queue", id));
+                log.trace(String.format("Id '%s' déjà présent dans la queue", id));
             }
         }
         catch (InterruptedException e){
-            log.error(e.getMessage(), e);
+            throw new InternalServerErrorException(e);
         }
         finally {
             locker.unlock();

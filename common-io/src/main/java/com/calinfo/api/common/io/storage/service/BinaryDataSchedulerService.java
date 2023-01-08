@@ -34,14 +34,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 @Service
 @Transactional(propagation = Propagation.NEVER)
 @ConditionalOnProperty(prefix = "common-io.storage.scheduler", name = "enabled", havingValue = "true")
 public class BinaryDataSchedulerService {
+
+    Lock locker = new ReentrantLock();
 
     @Autowired
     private IdQueueManager idQueueManager;
@@ -59,6 +66,7 @@ public class BinaryDataSchedulerService {
         String oldDomain = DomainContext.getDomain();
         try{
             DomainContext.setDomain(domain);
+            createDomainIfNecessary(domain);
 
             IdQueue idQueue = idQueueManager.getIdQueue(domain); // FIFO concurent à valeur unique
             int count = idQueue.add(binaryDataService.listId()); // Nombre d'élément réellement rajouté
@@ -71,12 +79,17 @@ public class BinaryDataSchedulerService {
 
                 try {
                     // On supprime le fichier existant s'il existe
-                    binaryDataConnector.delete(DomainContext.getDomain(), id);
+                    Future<Boolean> future = binaryDataConnector.delete(DomainContext.getDomain(), id);
+
+                    if (Boolean.TRUE.equals(future.get())){
+                        log.info(String.format("Fichier dont l'id est '%s' du domaine '%s' a été supprimé", id, domain));
+                    }
 
                     // On effectue le transfert
                     transfertFromId(id);
 
-                } catch (IOException e) {
+
+                } catch (IOException | InterruptedException | ExecutionException e) {
                     log.error(e.getMessage(), e);
                 }
 
@@ -86,6 +99,29 @@ public class BinaryDataSchedulerService {
         }
         finally {
             setDefaultDomain(oldDomain);
+        }
+
+    }
+
+    private void createDomainIfNecessary(String domain){
+
+        try {
+            if (!binaryDataConnector.isSpaceExist(domain)){
+
+                locker.lock();
+                try {
+
+                    if (!binaryDataConnector.isSpaceExist(domain)){
+                        binaryDataConnector.createSpace(domain);
+                    }
+                }
+                finally {
+                    locker.unlock();
+                }
+            }
+        }
+        catch (IOException e){
+            throw new InternalServerErrorException(e);
         }
 
     }
