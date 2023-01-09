@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.connector.mem;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 - 2022 CALINFO
+ * Copyright (C) 2019 - 2023 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -81,6 +81,11 @@ public class MemBinaryDataConnector implements BinaryDataConnector {
     @Async("binaryDataASyncOperation")
     public Future<Boolean> createSpace(String spaceName) throws IOException {
         return new AsyncResult<>(true);
+    }
+
+    @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        return true;
     }
 
     @Override

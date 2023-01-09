@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.connector.google;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 - 2022 CALINFO
+ * Copyright (C) 2019 - 2023 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -38,11 +38,13 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @Component
@@ -97,6 +99,15 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
     public Future<Boolean> createSpace(String spaceName) throws IOException{
         // Ici ilm n'y a rien à faire
         return new AsyncResult<>(getStorage() != null);
+    }
+
+    @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        try {
+            return Boolean.TRUE.equals(createSpace(spaceName).get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     @Override

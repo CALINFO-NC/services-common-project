@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.scheduler;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 - 2022 CALINFO
+ * Copyright (C) 2019 - 2023 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -27,7 +27,6 @@ import com.calinfo.api.common.io.storage.service.BinaryDataDomainService;
 import com.calinfo.api.common.io.storage.service.BinaryDataSchedulerService;
 import com.calinfo.api.common.task.TaskException;
 import com.calinfo.api.common.task.TaskRunner;
-import com.calinfo.api.common.tenant.DomainContext;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +36,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -72,6 +69,7 @@ public class TransfertStorageScheduler {
             binaryDataDomainService.list().stream().forEach(this::runTransfertBinaryDataWithDomainParameter);
         }
 
+        // On effectue le transfert sans domain
         runTransfertBinaryDataWithDomainParameter(null);
     }
 
@@ -80,21 +78,7 @@ public class TransfertStorageScheduler {
         try {
             taskRunner.run(null, domain, () -> {
 
-                // Récupérer la liste des objets à transférer
-                List<String> lstId = binaryDataSchedulerService.listId();
-
-                for (String id: lstId){
-
-                    // On supprime le fichier existant s'il existe
-                    try {
-                        binaryDataConnector.delete(DomainContext.getDomain(), id);
-                    } catch (IOException e) {
-                        throw new TaskException(e);
-                    }
-
-                    // On effectue le transfert
-                    binaryDataSchedulerService.transfert(domain, id);
-                }
+                binaryDataSchedulerService.transfert(domain);
 
                 return Optional.empty();
             });
