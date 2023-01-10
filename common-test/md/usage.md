@@ -1,86 +1,96 @@
+
+# Description
+
+La finalité de ce module est de reporter les résultats de l'exécution des tests automatisés dans Jira à l'aide du module [XRay](https://marketplace.atlassian.com/apps/1211769/xray-test-management-for-jira?tab=overview&hosting=cloud). Il est donc nécessaire que vous vous renseignez de ce que peut faire [XRay](https://marketplace.atlassian.com/apps/1211769/xray-test-management-for-jira?tab=overview&hosting=cloud), pour comprendre la suite de ce *readme*.
+
 # Créé des tests Java compatible Xray
 
- Ce module apporte des outils permettant d'intgrer les résultats de test dans Jira via le module XRay.
- Pour ce faire, il faut ajouter dans le pom.xml le plugin ci-dessous
- 
-```
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>3.0.0-M3</version>
+Pour écrire des tests compatibles avec XRay, il faut
+1. Configurer votre application
+2. Ecrire votre test en Java à l'aide de TestNg
+3. Consolider la liaison entre le test *Java* et le ticket *Jira*
+4. Envoyer le résultat des tests dans Jira
 
-    <configuration>
-        <testFailureIgnore>true</testFailureIgnore>
-        <properties>
-            <property>
-                <name>reporter</name>
-                <value>org.testng.reporters.XMLReporter:generateTestResultAttributes=true,generateGroupsAttribute=true</value>
-            </property>
-        </properties>
+## Configurer votre application
 
-    </configuration>
+La configuration de votre application se fait dans votre fichier pom.xml en y ajoutant les éléments ci-dessous.
+
+```xml
+<plugin>  
+	<groupId>org.apache.maven.plugins</groupId> 
+	<artifactId>maven-surefire-plugin</artifactId> 
+	<version>3.0.0-M3</version>  
+	<configuration> 
+		<testFailureIgnore>true</testFailureIgnore> 
+		<properties> 
+			<property> 
+				<name>reporter</name>
+				<value>org.testng.reporters.XMLReporter:generateTestResultAttributes=true,generateGroupsAttribute=true</value> 
+			</property> 
+		</properties>  
+	</configuration>
 </plugin> 
-```
+```  
+
+## Ecrire votre test en Java avec TestNg
+
+Considérez le code ci-dessous
+
+```java 
+public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextTests {
+
+	@Test 
+	@Xray(requirement = "CODEJIRA-1") 
+	private void envoyerTransfertEntrepot() throws Exception {
+		...
+	}  
+}  
+```  
+
+Lorsque ce test s'exécutera, le résultat de ce test créera un nouveau ticket *Jira* (par exemple *CODEJIRA-100*) qui sera associée au ticket *Jira* *CODEJIRA-1*. Le ticket Jira *CODEJIRA-100* représentera le résultat de l'exécution du test représenté par le ticket *Jira* *CODEJIRA-1*. Dans l'outil *Jira* les deux tickets *Jira*, *CODEJIRA-100* et *CODEJIRA-1*, seront liées.
+
+## Consolider la liaison entre le test *Java* et le ticket *Jira*
+
+A chaque exécution des tests, un nouveau ticket Jira représentant le résultat des tests est créé. Cela peut être contraignant. Afin d'éviter ce comportement il faudra indiquer dans le code de test, le numéro de la Jira créé (par exemple *CODEJIRA-100*). Pour cela il faudra utiliser la propriété *test* de l'annotation *Xray* comme ci-dessous.
+
+```java 
+public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextTests {  
  
- Ecrire l'ensemble des tests avec TestNg.
- Ci dessous, un exemple de test.
+	@Test 
+	@Xray(requirement = "CODEJIRA-1", test = "CODEJIRA-100") 
+	private void envoyerTransfertEntrepot() throws Exception { 
+		... 
+	}  
+}  
+```  
 
-```
-public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextTests {
+L'annotation *Xray* permet de rattacher d'un test à plusieurs tickets *Jira*. Par exemple :
 
-    @Test
-    @Xray(requirement = "CODEJIRA-1")
-    private void envoyerTransfertEntrepot() throws Exception {
-        ...
-    }
-
-}
-```
-
- Lorsque ce test s'exécutera, le résultat de ce test créra une nouvelle Jira (*CODEJIRA-100* apr exemple) qui sera associé à la jira *CODEJIRA-1*.
-
- Afin d'éviter qu'à chaque exécution de ce test, une nouvelle Jira soit créé, il faudra indiquer dans le code de test, le numéro de la Jira créé (*CODEJIRA-100* dans l'exemple ci-dessus).
- Pour cela il fadra utiliser la propriété *test* de l'annotation *Xray* comme ci-dessous.
-
-
-```
-public class WorkflowWarehouseTransfertTest extends AbstractTestNGSpringContextTests {
-
-    @Test
-    @Xray(requirement = "CODEJIRA-1", test = "CODEJIRA-100")
-    private void envoyerTransfertEntrepot() throws Exception {
-        ...
-    }
-
-}
+```java
+@Xray(requirement = {"CODEJIRA-1", "CODEJIRA-1"})
 ```
 
- L'exécution des tests généra un fichier testng-results.xml. Ce fichier devra être envoyé au serveur Xray pour obtenir le résultat dans Jira
+Cependant, XRay étant bugué pour le moment, seul le premier élément du tableau est rattaché automatiquement. Les autres éléments devront faire l'objet d'un rattachement manuel.
 
- Il est possible via l'annotation *Xray* de définir un ratachement d'un test à plusieur Jira. La propriété *requirement* est un tableau.
- Cependant, XRay étant bugué pour le moment, seule le premier éléments du tableau est rataché automatiquement. Les autres éléments devront faire
- l'objet d'un ratachement manuel.
 
-# Comment envoyer les résultats des tests Java dans le serveur Xray
+## Envoyer le résultat des tests dans Jira
 
- Ce référer à la documentation officiel : https://confluence.xpand-it.com/
+L'exécution des tests généra un fichier *testng-results.xml*. Ce fichier devra être envoyé au serveur *Xray* pour obtenir le résultat dans l'outil *Jira*. Pour plus de détail, ce référer à la documentation officiel [https://confluence.xpand-it.com/](https://confluence.xpand-it.com/). Cependant, vous trouverez ci-dessous un exemple de script *sh* permettant d'envoyer le résultat des tests contenues dans *testng-results.xml* vers le serveur *Xray*
 
- Cependant, vous trouverez ci-dessous un exemple de script sh intégrant le résultat des tests dans le serveur Xray
-
-```
-#!/bin/bash
-
-clientId=5E2C649649404FCB49D10B
-clientSecret=5e83e89a2751ae31d9414b1857909982
-
-# Récupérer un token d'authentification
-xRayToken=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "$clientId","client_secret": "$clientSecret" }'  https://xray.cloud.xpand-it.com/api/v1/authenticate)
-xRayToken=${xRayToken#'"'}
-xRayToken=${xRayToken%'"'}
-
-testEnvironments=ENV-FACULTATIF
-projectKey=codeJira
-
-# Intégrer le résultat dans XRay
-curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $xRayToken"  --data @"/cheminDeMonResultat/testng-results.xml" "https://xray.cloud.xpand-it.com/api/v1/import/execution/testng?projectKey=$projectKey&testEnvironments=$testEnvironments"
+```bash  
+#!/bin/bash  
+  
+clientId=5E2C649649404FCB49D10B  
+clientSecret=5e83e89a2751ae31d9414b1857909982  
+  
+# Récupérer un token d'authentification  
+xRayToken=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "$clientId","client_secret": "$clientSecret" }'  https://xray.cloud.xpand-it.com/api/v1/authenticate)  
+xRayToken=${xRayToken#'"'}  
+xRayToken=${xRayToken%'"'}  
+  
+testEnvironments=ENV-FACULTATIF  
+projectKey=codeJira  
+  
+# Intégrer le résultat dans XRay  
+curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $xRayToken"  --data @"/cheminDeMonResultat/testng-results.xml" "https://xray.cloud.xpand-it.com/api/v1/import/execution/testng?projectKey=$projectKey&testEnvironments=$testEnvironments"  
 ```
