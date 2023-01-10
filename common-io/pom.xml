@@ -12,13 +12,6 @@
 
     <artifactId>common-io</artifactId>
 
-    <properties>
-        <version.shedlock-core>5.0.1</version.shedlock-core>
-        <version.commons-io>2.11.0</version.commons-io>
-        <version.google-cloud-storage>2.16.0</version.google-cloud-storage>
-        <version.MockFtpServer>3.1.0</version.MockFtpServer>
-    </properties>
-
 
     <build>
 

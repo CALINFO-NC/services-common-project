@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.connector;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 - 2022 CALINFO
+ * Copyright (C) 2019 - 2023 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -70,6 +70,15 @@ public interface BinaryDataConnector {
      * @throws IOException Exception d'entrée/sortie
      */
     Future<Boolean> createSpace(String spaceName) throws IOException;
+
+    /**
+     * Vérifie si un espace existe
+     *
+     * @param spaceName Nom de l'espace de stockage (peut être un domain)
+     * @return true si l'espace existe
+     * @throws IOException Exception d'entrée/sortie
+     */
+    boolean isSpaceExist(String spaceName) throws IOException;
 
     /**
      * Supprime u nespace de stockage et tou son contenue. Ce service doit être asynchrone

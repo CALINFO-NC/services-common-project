@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.connector.ftp;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 - 2022 CALINFO
+ * Copyright (C) 2019 - 2023 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -36,7 +36,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.io.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @Slf4j
@@ -145,6 +147,15 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
         }
 
         return new AsyncResult<>(result);
+    }
+
+    @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        try {
+            return Boolean.TRUE.equals(createSpace(spaceName).get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     @Override

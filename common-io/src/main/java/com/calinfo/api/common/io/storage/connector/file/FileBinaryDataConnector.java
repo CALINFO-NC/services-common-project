@@ -4,7 +4,7 @@ package com.calinfo.api.common.io.storage.connector.file;
  * #%L
  * common-io
  * %%
- * Copyright (C) 2019 - 2022 CALINFO
+ * Copyright (C) 2019 - 2023 CALINFO
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -97,6 +97,12 @@ public class FileBinaryDataConnector implements BinaryDataConnector {
         }
 
         return new AsyncResult<>(result);
+    }
+
+    @Override
+    public boolean isSpaceExist(String spaceName) throws IOException{
+        File pathSpace = getPath(spaceName);
+        return pathSpace.exists();
     }
 
     @Override

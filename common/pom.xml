@@ -17,15 +17,6 @@
 
     <description>Bibliothèque d'outillage de tous les projets spring boot de type "services" de l'éditeur CALINFO.</description>
 
-    <properties>
-        <version.commons-io>2.6</version.commons-io>
-        <version.jjwt>0.9.1</version.jjwt>
-        <version.jaxb>2.4.0-b180830.0359</version.jaxb>
-        <version.javassist>3.29.2-GA</version.javassist>
-        <version.auto-service>1.0.1</version.auto-service>
-        <version.compile-testing>0.20</version.compile-testing>
-        <version.truth>1.1.3</version.truth>
-    </properties>
 
     <build>
 
@@ -164,7 +155,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.14</version>
+            <version>${version.httpclient}</version>
             <scope>test</scope>
         </dependency>
 
@@ -173,7 +164,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>3.0.0</version>
+            <version>${version.springfox-swagger}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -181,7 +172,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>3.0.0</version>
+            <version>${version.springfox-swagger}</version>
             <scope>provided</scope>
         </dependency>
 

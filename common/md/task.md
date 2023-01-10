@@ -1,20 +1,17 @@
+
 # Description
 
- Le *common* apporte une API permettant au développeur d'écrire ses classes représentant des tâches d'éxécution en précisant :
+Ce chapitre traite des façons d'exécuter du code en changeant les éléments de contexte suivants…
+* L'utilisateur connecté
+* Les rôles de l'utilisateur connecté
+* Le domaine
 
- * L'utilisateur exécutant cette tâche.
+Explication avec un cas d'usage
 
- * Le *domain* associé dans lequel se lance la tâche
+```java  
+taskRunner.run("login", "domain", new String[]{"role1", "role2"}, () -> {  
+	...
+});  
+```  
 
- * Les rôles de l'utilisateur exécutant la tâche
-
-
-```
-Exemple :
-
-taskRunner.run("login", "domain", new String[]{"role1", "role2"}, () -> {
-    ...
-});
-```
-
- Si le développeur ne précise pas l'utilisateur connecté, la tâche sera exécutée avec par défaut l'utilisateur *securityProperties.getSystemLogin()* (Voir configuration sur la sécurité pour plus de détails).
+Si le développeur ne précise pas l'utilisateur connecté, la tâche sera exécutée avec par défaut l'utilisateur *securityProperties.getSystemLogin()* (Voir configuration sur la sécurité pour plus de détails).

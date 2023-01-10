@@ -23,6 +23,24 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <version.guava>31.1-jre</version.guava>
+        <version.liquibase-core>4.2.2</version.liquibase-core>
+        <version.springfox-swagger>3.0.0</version.springfox-swagger>
+        <version.httpclient>4.5.14</version.httpclient>
+        <version.auto-service>1.0.1</version.auto-service>
+        <version.compile-testing>0.20</version.compile-testing>
+        <version.shedlock-core>5.0.1</version.shedlock-core>
+        <version.commons-io>2.11.0</version.commons-io>
+        <version.google-cloud-storage>2.16.0</version.google-cloud-storage>
+        <version.MockFtpServer>3.1.0</version.MockFtpServer>
+        <version.validation-api>2.0.1.Final</version.validation-api>
+        <version.commons-io>2.6</version.commons-io>
+        <version.jjwt>0.9.1</version.jjwt>
+        <version.jaxb>2.4.0-b180830.0359</version.jaxb>
+        <version.javassist>3.29.2-GA</version.javassist>
+        <version.auto-service>1.0.1</version.auto-service>
+        <version.compile-testing>0.20</version.compile-testing>
+        <version.truth>1.1.3</version.truth>
         <version.h2>1.4.200</version.h2> <!-- Nous n'utilisons pas la version de spring boot, car la création de table via liquibase ne semble pas fonctionner -->
         <version.equalsverifier>3.12.2</version.equalsverifier>
         <version.springdoc-openapi-ui>1.6.13</version.springdoc-openapi-ui>
@@ -217,13 +235,13 @@
             <dependency>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-core</artifactId>
-                <version>4.2.2</version>
+                <version>${version.liquibase-core}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>31.1-jre</version>
+                <version>${version.guava}</version>
             </dependency>
 
         </dependencies>

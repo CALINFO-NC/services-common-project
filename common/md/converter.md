@@ -6,7 +6,7 @@
 
  * Création d'un premier *converter* permettant de convertir une classe *A* en une classe *B* et inversement
 
-```
+```java
 import com.calinfo.api.common.converter.InstanceConverter;
 import org.springframework.stereotype.Component;
 import com.calinfo.api.common.converter.ContextConverter;
@@ -49,7 +49,7 @@ public class AtoBConverter implements InstanceConverter {
 
  * Création d'un second *converter* permettant de convertir un *Integer* en *Long* et inversement.
 
-```
+```java
 import com.calinfo.api.common.converter.ClassConverter;
 import org.springframework.stereotype.Component;
 import com.calinfo.api.common.converter.ContextConverter;
@@ -83,7 +83,7 @@ public class InttoLongConverter implements ClassConverter {
 
  * Création d'un registre
 
-```
+```java
 import com.calinfo.api.common.converter.AbstractConvertManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -110,7 +110,7 @@ public class ConvertManager extends AbstractConvertManager {
 
  * Comment utiliser le *connverter*
 
-```
+```java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.calinfo.api.common.converter.ContextConverter;
