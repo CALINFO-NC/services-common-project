@@ -1,20 +1,33 @@
+
 # Description
 
- Le *common* apporte une API permettant au développeur d'écrire ses classes représentant des tâches d'éxécution en précisant :
+Ce chapitre traite des façons d'exécuter du code en changeant les éléments de contexte suivants…
+* L'utilisateur connecté
+* Les rôles de l'utilisateur connecté
+* Le domaine
 
- * L'utilisateur exécutant cette tâche.
+# Usage
 
- * Le *domain* associé dans lequel se lance la tâche
+Afin que la tâche Asynchrone connaisse le contexte du domaine, il faudra créer *bean* qui renvoie un *Executor* de *spring*. L'implémentation du *Executor* devra être celle de la classe *DomainAwarePoolExecutor*
 
- * Les rôles de l'utilisateur exécutant la tâche
+Exemple de code :
 
-
+```java  
+import com.calinfo.api.common.tenant.DomainAwarePoolExecutor;  
+import org.springframework.context.annotation.Bean;  
+import org.springframework.context.annotation.Configuration;  
+import org.springframework.scheduling.annotation.AsyncConfigurerSupport;  
+import org.springframework.scheduling.annotation.EnableAsync;  
+  
+import java.util.concurrent.Executor;  
+  
+@Configuration  
+@EnableAsync  
+public class ExecutorConfig extends AsyncConfigurerSupport {  
+  
+	@Override 
+	@Bean public Executor getAsyncExecutor() { 
+		return new DomainAwarePoolExecutor(); 
+	}
+}  
 ```
-Exemple :
-
-taskRunner.run("login", "domain", new String[]{"role1", "role2"}, () -> {
-    ...
-});
-```
-
- Si le développeur ne précise pas l'utilisateur connecté, la tâche sera exécutée avec par défaut l'utilisateur *securityProperties.getSystemLogin()* (Voir configuration sur la sécurité pour plus de détails).
