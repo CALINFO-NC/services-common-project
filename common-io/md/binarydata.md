@@ -64,9 +64,9 @@ La configuration doit être écrite dans le fichier de propriété (par exemple 
 ```yaml
 common-io:  
 	storage: 
-	 scheduler: 
-		 enabled: true		# true pour activer le transfert de donnée binaire 
-		 delay: 60000		# Délai en milliseconde entre chaque tentative de transfert  
+	scheduler: 
+		enabled: true		# true pour activer le transfert de donnée binaire 
+		delay: 60000		# Délai en milliseconde entre chaque tentative de transfert  
   
 ```  
 
