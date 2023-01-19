@@ -96,16 +96,18 @@ Le reste de la configuration, est de la configuration standard *kafka-spring*. C
 
 ```yaml
 spring:  
-	kafka: bootstrap-servers: ${spring.embedded.kafka.brokers} 
-	listener: missing-topics-fatal: false   # Cette configuration est très importante car le common créé les topic à la volet 
-	consumer: 
-		auto-offset-reset: earliest 
-		group-id: ${common.configuration.application.id} 
-		value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer 
-		properties: 
-			spring.json.trusted.packages: com.calinfo.api.common.kafka 
-	producer: 
-		value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+	kafka: 
+		bootstrap-servers: ${spring.embedded.kafka.brokers} 
+		listener: 
+			missing-topics-fatal: false   # Cette configuration est très importante car le common créé les topic à la volet 
+		consumer: 
+			auto-offset-reset: earliest 
+			group-id: ${common.configuration.application.id} 
+			value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer 
+			properties: 
+				spring.json.trusted.packages: com.calinfo.api.common.kafka 
+		producer: 
+			value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 ```  
 
 > Notez le *JsonDeserializer* et le *JsonSerializer*
