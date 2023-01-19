@@ -56,6 +56,7 @@ public class KafkaEvent {
     @Setter
     private KafkaMetadataService metadataService;
 
+    // Map<fullQualifiedClassName, KafkaMetadataModel>
     @Getter
     @Setter
     private Map<String, KafkaMetadataModel> metadataModels = new HashMap<>();
