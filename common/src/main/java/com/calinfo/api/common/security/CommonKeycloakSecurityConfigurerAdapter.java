@@ -25,6 +25,7 @@ package com.calinfo.api.common.security;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
+import org.keycloak.adapters.springsecurity.filter.KeycloakAuthenticationProcessingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -32,6 +33,7 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @RequiredArgsConstructor
 public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurityConfigurerAdapter {
@@ -45,7 +47,6 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
         auth.authenticationProvider(keycloakAuthenticationProvider);
     }
 
-    @Bean
     @Override
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
@@ -55,5 +56,17 @@ public class CommonKeycloakSecurityConfigurerAdapter extends KeycloakWebSecurity
     @Override
     protected KeycloakAuthenticationProvider keycloakAuthenticationProvider() {
         return new CommonKeycloakAuthenticationProvider(keycloakResource);
+    }
+
+    @Bean
+    @Override
+    protected KeycloakAuthenticationProcessingFilter keycloakAuthenticationProcessingFilter() throws Exception {
+        KeycloakAuthenticationProcessingFilter filter = new KeycloakAuthenticationProcessingFilter(authenticationManagerBean(), getRequestMatcherForKeycloakAuthentication());
+        filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy());
+        return filter;
+    }
+
+    protected RequestMatcher getRequestMatcherForKeycloakAuthentication(){
+        return KeycloakAuthenticationProcessingFilter.DEFAULT_REQUEST_MATCHER;
     }
 }

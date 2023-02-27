@@ -56,6 +56,7 @@
         <version.maven-surefire-plugin>3.0.0-M7</version.maven-surefire-plugin>
         <version.commons-lang3>3.12.0</version.commons-lang3>
         <version.teavm>0.7.0</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-teavm puisse changer la version de teaVM -->
+        <version.sardine>5.10</version.sardine>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>

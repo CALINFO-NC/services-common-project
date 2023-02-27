@@ -100,6 +100,12 @@
             <version>${version.common-net}</version>
         </dependency>
 
+        <!-- Connection au webdav -->
+        <dependency>
+            <groupId>com.github.lookfirst</groupId>
+            <artifactId>sardine</artifactId>
+            <version>${version.sardine}</version>
+        </dependency>
 
     </dependencies>
 
