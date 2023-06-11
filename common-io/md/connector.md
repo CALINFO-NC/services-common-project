@@ -22,34 +22,34 @@ Ce connecteur permet d'envoyer ou de récupérer les données binaires dans ou v
 
 ```yaml
 common-io:  
-	storage: 
-		connector: 
-			provider: google 
-			configuration: # Voir les propriétés de la classe GoogleConfigProperties  
+  storage: 
+    connector: 
+      provider: google 
+      configuration: # Voir les propriétés de la classe GoogleConfigProperties  
 ```  
 
 Afin de faciliter l'utilisation de la configuration du connecteur *Google cloud*, voici un exemple de configuration
 
 ```yaml
 common-io:  
-	storage: 
-		connector: 
-			provider: google 
-			configuration: 
-				projectId: "services-dev-jeb" 
-				credentials: > 
-					{ 
-						"type": "service_account", 
-						"project_id": "services-dev-jeb", 
-						"private_key_id": "31f5f121afeec4dc7f38230b50e5234dab366639", "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFBBSCBKgwggSkAgEAAoIBAQCj7XLnMHAGf3/j\nURs5f+nm0dWyKeFnrS8H/zRMeOLmiZn7/RH2X7KdPo3dPYwSNE7ZEGup6AWnl7MN\nmsSIL4kurp3E24ucF6pRP0XRl8HLGrORFIb4NBw2vAXD1A37uVUqxtRaYamzA2x5\nPbA+YjtpFDS2AKP0Q9/9r6RyKu6vOsit/eePYRKT2YTNhT0Xu2xnUzZ0I4n2BLBQ\nMOpnXyTrp8bcqPIthyUzYR0bnRlxHF2YPADn1z4TtflxKzVwXstBT/WVMupyjcBN\n7Bwz29WfqIlky2e+4vrxYrVvsNdW75rK7DTCTyna/GaFKNcwRrVQ6sZnhxYXsCs+\n+w6U1WxXAgMBAAECggEABFF83GcarqpIUS0ayzVnkP7oGcz7NPnUhcVDuG5IhjAw\nWUKZRGT1Q3LijPh2zyf1UOyI0GRL541RDzFm97JOl9TwU+P3jNPUe3smyvti3/VC\n07ZJuH/YEUh7kmU10IUQDW9tcYJc1H6N4WfAeGHzgmtFaw+yHWq/LfXJjDarUPxd\npTKhrupRy2flyN6wEPExRGUz+xi8T2UowU/VrGqvzZFx000aZ4YVclRWUO+N5A0s\nRdbS3Hx9G4Tq2ZUHuSmP66Eak4e3NrZciySixJ1upUwHrBdJ+HvBKa8ds3i0NnrO\niQd6EQfti/93owKeHoYWIt4bOQCc+bwin1XKH3clGQKBgQDUAQLleHaymTNKpxOp\nmJgmNYBdAggVX8GlnNo9J3Sr/aNRsXhF2yTBxSog6VyXY4Q1+VbtBILJqpSi2DvR\n5tLUnx/XrOJBQfvcW9RXtNB4Be2Kg1pfAiwluJfD7tZV4Nkct12NUjCi1FZMkdKv\nnFiZcE5iSErQ1JaPWwu9F99v+wKBgQDF8lCQXC84o91cNHtPC3W7Gk3TfbyOups6\nCfRNwrDB+WtvUURf+BI2zLP/dd33yOMzkPaOUuSKRUjPwVlzWpVbRKOT3jBEa8Fj\nRGJuPjx44eLuQUfNZOhpcJctiMz+xooAshdV6bZOAvX5YnKQOTbGjtQh0snByhWt\n7q1e0SVaVQKBgCGkh3EizLNK3HjcSqJ/NKXbl6Mqz12U9IXzfi52NG2WsnQkVZHA\nVPTq9OSEI81iXXizOLgkHx0hlLTC27tTheF33vW62azBa9ZsPCYu62YgirGQZqbt\nEVRrFqphHGJEbC/CaXYjtNQiHg/IlEaJ6QVwbP/ruPOqyLm3GQXI5AxBAoGBAKrE\n6MIR9V8c50yzrim8Tj4zbC7ny7Mqw93nVo97RfiiUBBCAQX2Quhp42OhcPRip7gF\n+N9CHg43xaAOQzhkTnPlnGVmCygL+lPEXFKVeKAk6Bz5zpMg2eyVCKds3MVzzPza\np40jynY00bXrO8C2y02zTMk9S3fW+qsKPSGOt3XdAoGBAL2Bbu/Ycj0cTUu/pO8f\nAvTa2eI0sBNWeXWMTB5NY42LW02xjb/gd64q/QuMKb0AR1AIlCkB/l0HXSmh35PP\no1OL5EfwRc/BcWD8FrfmTYBuhU3BOb8qlEm/nIuINuXnYzXpln4EmRk+IXjBLdE7\nOklz+wPk1O+SeXha9ntt4WrG\n-----END PRIVATE KEY-----\n", 
-						"client_email": "calinfo-default-dev-bucket@services-dev-jeb.iam.gserviceaccount.com", 
-						"client_id": "100439927192752185861", 
-						"auth_uri": "https://accounts.google.com/o/oauth2/auth", 
-						"token_uri": "https://oauth2.googleapis.com/token", 
-						"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs", 
-						"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/calinfo-default-dev-bucket%40services-dev-jeb.iam.gserviceaccount.com" 
-					} 
-				buckatName: "test_bucket_calinfo"  
+  storage: 
+    connector: 
+	  provider: google 
+      configuration: 
+        projectId: "services-dev-jeb" 
+        credentials: > 
+            { 
+                "type": "service_account", 
+                "project_id": "services-dev-jeb", 
+                "private_key_id": "31f5f121afeec4dc7f38230b50e5234dab366639", "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFBBSCBKgwggSkAgEAAoIBAQCj7XLnMHAGf3/j\nURs5f+nm0dWyKeFnrS8H/zRMeOLmiZn7/RH2X7KdPo3dPYwSNE7ZEGup6AWnl7MN\nmsSIL4kurp3E24ucF6pRP0XRl8HLGrORFIb4NBw2vAXD1A37uVUqxtRaYamzA2x5\nPbA+YjtpFDS2AKP0Q9/9r6RyKu6vOsit/eePYRKT2YTNhT0Xu2xnUzZ0I4n2BLBQ\nMOpnXyTrp8bcqPIthyUzYR0bnRlxHF2YPADn1z4TtflxKzVwXstBT/WVMupyjcBN\n7Bwz29WfqIlky2e+4vrxYrVvsNdW75rK7DTCTyna/GaFKNcwRrVQ6sZnhxYXsCs+\n+w6U1WxXAgMBAAECggEABFF83GcarqpIUS0ayzVnkP7oGcz7NPnUhcVDuG5IhjAw\nWUKZRGT1Q3LijPh2zyf1UOyI0GRL541RDzFm97JOl9TwU+P3jNPUe3smyvti3/VC\n07ZJuH/YEUh7kmU10IUQDW9tcYJc1H6N4WfAeGHzgmtFaw+yHWq/LfXJjDarUPxd\npTKhrupRy2flyN6wEPExRGUz+xi8T2UowU/VrGqvzZFx000aZ4YVclRWUO+N5A0s\nRdbS3Hx9G4Tq2ZUHuSmP66Eak4e3NrZciySixJ1upUwHrBdJ+HvBKa8ds3i0NnrO\niQd6EQfti/93owKeHoYWIt4bOQCc+bwin1XKH3clGQKBgQDUAQLleHaymTNKpxOp\nmJgmNYBdAggVX8GlnNo9J3Sr/aNRsXhF2yTBxSog6VyXY4Q1+VbtBILJqpSi2DvR\n5tLUnx/XrOJBQfvcW9RXtNB4Be2Kg1pfAiwluJfD7tZV4Nkct12NUjCi1FZMkdKv\nnFiZcE5iSErQ1JaPWwu9F99v+wKBgQDF8lCQXC84o91cNHtPC3W7Gk3TfbyOups6\nCfRNwrDB+WtvUURf+BI2zLP/dd33yOMzkPaOUuSKRUjPwVlzWpVbRKOT3jBEa8Fj\nRGJuPjx44eLuQUfNZOhpcJctiMz+xooAshdV6bZOAvX5YnKQOTbGjtQh0snByhWt\n7q1e0SVaVQKBgCGkh3EizLNK3HjcSqJ/NKXbl6Mqz12U9IXzfi52NG2WsnQkVZHA\nVPTq9OSEI81iXXizOLgkHx0hlLTC27tTheF33vW62azBa9ZsPCYu62YgirGQZqbt\nEVRrFqphHGJEbC/CaXYjtNQiHg/IlEaJ6QVwbP/ruPOqyLm3GQXI5AxBAoGBAKrE\n6MIR9V8c50yzrim8Tj4zbC7ny7Mqw93nVo97RfiiUBBCAQX2Quhp42OhcPRip7gF\n+N9CHg43xaAOQzhkTnPlnGVmCygL+lPEXFKVeKAk6Bz5zpMg2eyVCKds3MVzzPza\np40jynY00bXrO8C2y02zTMk9S3fW+qsKPSGOt3XdAoGBAL2Bbu/Ycj0cTUu/pO8f\nAvTa2eI0sBNWeXWMTB5NY42LW02xjb/gd64q/QuMKb0AR1AIlCkB/l0HXSmh35PP\no1OL5EfwRc/BcWD8FrfmTYBuhU3BOb8qlEm/nIuINuXnYzXpln4EmRk+IXjBLdE7\nOklz+wPk1O+SeXha9ntt4WrG\n-----END PRIVATE KEY-----\n", 
+                "client_email": "calinfo-default-dev-bucket@services-dev-jeb.iam.gserviceaccount.com", 
+                "client_id": "100439927192752185861", 
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth", 
+                "token_uri": "https://oauth2.googleapis.com/token", 
+                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs", 
+                "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/calinfo-default-dev-bucket%40services-dev-jeb.iam.gserviceaccount.com" 
+            } 
+        buckatName: "test_bucket_calinfo"  
 ```  
 
 # Connecteur *mémoire*
@@ -58,9 +58,9 @@ Il existe aussi un connecteur permettant de transférer les fichiers en mémoire
 
 ```yaml
 common-io:  
-	storage: 
-		connector:
-			provider: mem  
+  storage: 
+    connector:
+	  provider: mem  
 ```  
 
 # Connecteur *FileSystem*
@@ -69,20 +69,20 @@ Ce connecteur permet de stocker les données binaires dans un système de fichie
 
 ```yaml
 common-io:  
-	storage: 
-		connector: 
-			provider: file 
-				configuration: # Voir les propriétés de la classe FileConfigProperties  
+  storage: 
+    connector: 
+	  provider: file 
+	  configuration: # Voir les propriétés de la classe FileConfigProperties  
 ```  
 
 Afin de faciliter l'utilisation de la configuration du connecteur *FileSystem*, voici un exemple de configuration
 
 ```yaml
 common-io:  
-	storage: 
-		connector: 
-			provider: file 
-			configuration: "/foo/bar"  # Emplacement du lieu de stockage des fichiers
+  storage: 
+    connector: 
+	  provider: file 
+	  configuration: "/foo/bar"  # Emplacement du lieu de stockage des fichiers
 ```  
 
 # Connecteur *Ftp*
@@ -90,24 +90,50 @@ common-io:
 Ce connecteur permet de stocker les données binaires sur un FTP (non sécurisé). Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier de configuration (ex : *application.yml*) les éléments suivants :
 
 ```yaml
-common-io:  
-	storage: 
-		connector: 
-			provider: ftp 
-				configuration: # Voir les propriétés de la classe FtpConfigProperties  
+common-io:
+  storage:
+    connector:
+      provider: ftp
+      configuration: # Voir les propriétés de la classe FtpConfigProperties  
 ```  
 
 Afin de faciliter l'utilisation de la configuration du connecteur *Ftp*, voici un exemple de configuration
 
 ```yaml
+common-io:
+  storage:
+    connector:
+      provider: ftp
+      configuration:
+        host: "localhost"
+        port: 21
+        username: "admin"
+        password: "password"
+        path: "/test"  
+```
+
+# Connecteur *Webdav*
+
+Ce connecteur permet de stocker les données binaires sur un serveur Webdav. Pour utiliser ce connecteur, il vous suffit d'ajouter dans le fichier de configuration (ex : *application.yml*) les éléments suivants :
+
+```yaml
 common-io:  
-	storage: 
-		connector: 
-			provider: ftp 
-			configuration: 
-				host: "localhost" 
-				port: 21 
-				username: "admin" 
-				password: "password" 
-				path: "/test"  
+  storage: 
+    connector: 
+      provider: webdav 
+      configuration: # Voir les propriétés de la classe WebdavConfigProperties  
+```  
+
+Afin de faciliter l'utilisation de la configuration du connecteur *Webdav*, voici un exemple de configuration
+
+```yaml
+common-io:  
+  storage: 
+    connector: 
+      provider: webdav
+      configuration:
+        host: "localhost"
+        port: 8080
+        username: "admin"
+        password: "password"  
 ```

@@ -29,10 +29,5 @@ Binaire disponnible dans le "repository" :  [https://calinfo.jfrog.io/calinfo/li
 
 # Quoi de nouveau
 
- * Passage à la version 2.7.6 de spring boot
- * **net.javacrumbs.shedlock.core.SchedulerLock** à été remplacé par **net.javacrumbs.shedlock.spring.annotation.SchedulerLock**
- * Mise à jour de toutes les versions des dépendances
- * ATTENTION : 
-   * h2 : Pour des raisons de rétro-compatibilité, on reste sur la version 1.4.200
-   * Keycloak : Est resté en version 16.1.1
+ * 2.1.0 : Ajout d'un WebdavBinaryDataConnector dans common-io
 

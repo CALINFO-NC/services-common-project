@@ -1,0 +1,9 @@
+common-io:
+  storage:
+    connector:
+      provider: webdav
+      configuration:
+        host: "host.docker.internal"
+        port: 58079
+        username: "admin"
+        password: "password"
