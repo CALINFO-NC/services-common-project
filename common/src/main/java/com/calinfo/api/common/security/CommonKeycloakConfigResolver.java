@@ -63,7 +63,7 @@ public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
         String str = mapper.writeValueAsString(adapterConfig);
         AdapterConfig copyAdapterConfig = mapper.readValue(str, AdapterConfig.class);
 
-        if (!StringUtils.isBlank(realm)) {
+        if (StringUtils.isBlank(adapterConfig.getRealm())) {
             copyAdapterConfig.setRealm(realm);
         }
 
