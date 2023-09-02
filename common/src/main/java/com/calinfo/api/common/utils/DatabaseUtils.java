@@ -61,11 +61,6 @@ public class DatabaseUtils {
         }
     }
 
-    @Deprecated
-    public static void createSchema(DataSource dataSource, String schemaName) {
-        createSchemaOrDatabase(dataSource, schemaName);
-    }
-
     public static void deleteSchema(DataSource dataSource, String schemaName) {
 
         // Création de la connection

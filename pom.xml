@@ -23,6 +23,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <version.java>17</version.java>
+        <version.spring>3.1.1</version.spring>
         <version.guava>32.1.2-jre</version.guava>
         <version.liquibase-core>4.23.1</version.liquibase-core>
         <version.httpclient>5.3-alpha1</version.httpclient>
@@ -46,7 +48,6 @@
         <version.keycloak>22.0.1</version.keycloak>
         <version.maven-source-plugin>3.3.0</version.maven-source-plugin>
         <version.lombok>1.18.28</version.lombok>
-        <version.spring>3.0.0</version.spring>
         <version.testng>7.8.0</version.testng>
         <version.maven-war-plugin>3.4.0</version.maven-war-plugin>
         <version.maven-compiler-plugin>3.11.0</version.maven-compiler-plugin>
@@ -60,7 +61,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <java.version>17</java.version>
+        <java.version>${version.java}</java.version>
 
         <github.project.name>services-common-project</github.project.name>
 
