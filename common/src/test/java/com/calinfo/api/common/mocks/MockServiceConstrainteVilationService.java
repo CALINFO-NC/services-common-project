@@ -2,7 +2,7 @@ package com.calinfo.api.common.mocks;
 
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Validated
 public class MockServiceConstrainteVilationService {

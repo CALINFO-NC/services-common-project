@@ -22,6 +22,8 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.cfg.Environment;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -36,8 +38,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
@@ -94,7 +94,7 @@ public class TenantDatasourceConfiguration {
 
         Map<String, Object> jpaProperties = new HashMap<>();
         jpaProperties.putAll(jpa.getProperties());
-        jpaProperties.put(Environment.MULTI_TENANT, tenantProperties.getMultitenancyStrategy());
+        //jpaProperties.put(Environment.MULTI_TENANT, tenantProperties.getMultitenancyStrategy());
         jpaProperties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         jpaProperties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
 

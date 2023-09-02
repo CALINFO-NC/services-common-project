@@ -35,6 +35,7 @@ import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.spi.HttpFacade;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.representations.adapters.config.AdapterConfig;
 import org.springframework.http.HttpMethod;
 
@@ -53,7 +54,7 @@ public class CommonKeycloakConfigResolver implements KeycloakConfigResolver {
 
         Request req = new Request();
         req.setUrl(new URL(request.getURI()));
-        req.setMethod(HttpMethod.resolve(request.getMethod()));
+        req.setMethod(HttpMethod.valueOf(request.getMethod()));
         req.setHeaders(request::getHeader);
         req.setParameters(request::getFirstParam);
 

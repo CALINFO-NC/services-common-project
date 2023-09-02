@@ -1,7 +1,6 @@
 package com.calinfo.api.common.kafka.mock;
 
 import com.calinfo.api.common.kafka.KafkaTopic;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 

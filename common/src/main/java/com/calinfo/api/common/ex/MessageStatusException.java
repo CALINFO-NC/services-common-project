@@ -23,7 +23,7 @@ package com.calinfo.api.common.ex;
  */
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
 /**
  * Created by dalexis on 02/12/2017.
@@ -31,23 +31,23 @@ import org.springframework.http.HttpStatus;
 public class MessageStatusException extends RuntimeException{
 
     @Getter
-    private final HttpStatus status;
+    private final HttpStatusCode status;
 
-    public MessageStatusException(HttpStatus statuts, String message){
+    public MessageStatusException(HttpStatusCode statuts, String message){
         super(constructMessage(statuts, message));
         this.status = statuts;
     }
 
-    protected MessageStatusException(HttpStatus statuts, String message, Throwable e){
+    protected MessageStatusException(HttpStatusCode statuts, String message, Throwable e){
         super(constructMessage(statuts, message), e);
         this.status = statuts;
     }
 
-    private static String constructMessage(HttpStatus statuts, String message){
+    private static String constructMessage(HttpStatusCode statuts, String message){
 
         StringBuilder msg = new StringBuilder();
         msg.append("Statut : ");
-        msg.append(statuts.name());
+        msg.append(statuts.value());
         msg.append("(");
         msg.append(statuts.value());
         msg.append(")");

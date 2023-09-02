@@ -24,8 +24,8 @@ package com.calinfo.api.common.ex;
 
 import lombok.Getter;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.util.Set;
 
 /**

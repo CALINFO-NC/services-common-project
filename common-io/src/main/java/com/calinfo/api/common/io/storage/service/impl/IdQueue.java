@@ -22,9 +22,9 @@ package com.calinfo.api.common.io.storage.service.impl;
  * #L%
  */
 
+import jakarta.ws.rs.InternalServerErrorException;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.ws.rs.InternalServerErrorException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;

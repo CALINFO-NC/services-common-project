@@ -24,7 +24,6 @@ package com.calinfo.api.common.tenant;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.MultiTenancyStrategy;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;

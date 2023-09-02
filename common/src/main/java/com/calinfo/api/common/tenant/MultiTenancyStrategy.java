@@ -1,8 +1,8 @@
-package com.calinfo.api.common.dto;
+package com.calinfo.api.common.tenant;
 
 /*-
  * #%L
- * common-api
+ * common
  * %%
  * Copyright (C) 2019 - 2023 CALINFO
  * %%
@@ -22,22 +22,8 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import com.calinfo.api.common.dto.Dto;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public enum MultiTenancyStrategy {
 
-import jakarta.validation.constraints.NotNull;
-
-@NoArgsConstructor
-@Data
-public class Sorter implements Dto {
-
-    @NotNull
-    private String name;
-    @NotNull
-    private Direction direction = Direction.DESC;
-
-    public enum Direction {
-        ASC, DESC
-    }
+    SCHEMA,
+    DATABASE
 }

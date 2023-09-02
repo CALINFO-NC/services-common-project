@@ -22,6 +22,10 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
@@ -29,10 +33,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URL;
 
@@ -49,15 +49,15 @@ public class DomainUrlFilter extends OncePerRequestFilter {
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException, ServletException {
 
+    @Override
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String oldDomain = DomainContext.getDomain();
         try {
 
             Request req = new Request();
             req.setUrl(new URL(httpServletRequest.getRequestURL().toString()));
-            req.setMethod(HttpMethod.resolve(httpServletRequest.getMethod()));
+            req.setMethod(HttpMethod.valueOf(httpServletRequest.getMethod()));
             req.setHeaders(httpServletRequest::getHeader);
             req.setParameters(httpServletRequest::getParameter);
 
@@ -68,5 +68,4 @@ public class DomainUrlFilter extends OncePerRequestFilter {
             DomainContext.setDomain(oldDomain);
         }
     }
-
 }

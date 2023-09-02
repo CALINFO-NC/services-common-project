@@ -22,11 +22,10 @@ package com.calinfo.api.common.ex;
  * #L%
  */
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
+import jakarta.validation.metadata.ConstraintDescriptor;
 import org.hibernate.validator.internal.engine.path.PathImpl;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.metadata.ConstraintDescriptor;
 
 public class CommonContraintViolation implements ConstraintViolation<Object> {
 
@@ -93,4 +92,7 @@ public class CommonContraintViolation implements ConstraintViolation<Object> {
     public <U> U unwrap(Class<U> aClass) {
         return null;
     }
+
+
+
 }

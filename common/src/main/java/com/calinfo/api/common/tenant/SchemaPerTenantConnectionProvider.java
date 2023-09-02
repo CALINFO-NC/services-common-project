@@ -23,7 +23,6 @@ package com.calinfo.api.common.tenant;
  */
 
 import org.hibernate.HibernateException;
-import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

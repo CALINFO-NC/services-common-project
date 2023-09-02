@@ -24,6 +24,7 @@ package com.calinfo.api.common.io.storage.connector.ftp;
 
 
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
+import jakarta.ws.rs.InternalServerErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
@@ -36,7 +37,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.InternalServerErrorException;
 import java.io.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
