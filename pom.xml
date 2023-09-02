@@ -23,40 +23,39 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.guava>31.1-jre</version.guava>
+        <version.guava>32.1.2-jre</version.guava>
         <version.liquibase-core>4.23.1</version.liquibase-core>
-        <version.springfox-swagger>3.0.0</version.springfox-swagger>
-        <version.httpclient>4.5.14</version.httpclient>
-        <version.auto-service>1.0.1</version.auto-service>
-        <version.compile-testing>0.20</version.compile-testing>
-        <version.shedlock-core>5.0.1</version.shedlock-core>
-        <version.commons-io>2.11.0</version.commons-io>
-        <version.google-cloud-storage>2.16.0</version.google-cloud-storage>
+        <version.httpclient>5.3-alpha1</version.httpclient>
+        <version.auto-service>1.1.1</version.auto-service>
+        <version.compile-testing>0.21.0</version.compile-testing>
+        <version.shedlock-core>5.7.0</version.shedlock-core>
+        <version.commons-io>2.13.0</version.commons-io>
+        <version.google-cloud-storage>2.26.1</version.google-cloud-storage>
         <version.MockFtpServer>3.1.0</version.MockFtpServer>
-        <version.validation-api>2.0.1.Final</version.validation-api>
+        <version.validation-api>3.0.2</version.validation-api>
         <version.commons-io>2.6</version.commons-io>
-        <version.jjwt>0.9.1</version.jjwt>
+        <version.jjwt>0.11.5</version.jjwt>
         <version.jaxb>2.4.0-b180830.0359</version.jaxb>
         <version.javassist>3.29.2-GA</version.javassist>
         <version.auto-service>1.0.1</version.auto-service>
         <version.compile-testing>0.20</version.compile-testing>
-        <version.truth>1.1.3</version.truth>
-        <version.h2>1.4.200</version.h2> <!-- Nous n'utilisons pas la version de spring boot, car la création de table via liquibase ne semble pas fonctionner -->
-        <version.equalsverifier>3.12.2</version.equalsverifier>
-        <version.springdoc-openapi-ui>1.6.13</version.springdoc-openapi-ui>
+        <version.truth>1.1.5</version.truth>
+        <version.h2>2.2.220</version.h2>
+        <version.equalsverifier>3.15.1</version.equalsverifier>
+        <version.springdoc-openapi-ui>1.7.0</version.springdoc-openapi-ui>
         <version.keycloak>22.0.1</version.keycloak>
-        <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
-        <version.lombok>1.18.24</version.lombok>
+        <version.maven-source-plugin>3.3.0</version.maven-source-plugin>
+        <version.lombok>1.18.28</version.lombok>
         <version.spring>3.0.0</version.spring>
-        <version.testng>7.7.0</version.testng>
-        <version.maven-war-plugin>3.3.1</version.maven-war-plugin>
-        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
+        <version.testng>7.8.0</version.testng>
+        <version.maven-war-plugin>3.4.0</version.maven-war-plugin>
+        <version.maven-compiler-plugin>3.11.0</version.maven-compiler-plugin>
         <version.common-net>3.9.0</version.common-net>
-        <version.jacoco-maven-plugin>0.8.7</version.jacoco-maven-plugin>
+        <version.jacoco-maven-plugin>0.8.10</version.jacoco-maven-plugin>
         <version.maven-surefire-plugin>3.0.0-M7</version.maven-surefire-plugin>
-        <version.commons-lang3>3.12.0</version.commons-lang3>
-        <version.teavm>0.7.0</version.teavm> <!-- Cette version doit rester dans le pom parent afin que les apply utilisant common-teavm puisse changer la version de teaVM -->
-        <version.sardine>5.10</version.sardine>
+        <version.commons-lang3>3.13.0</version.commons-lang3>
+        <version.teavm>0.8.1</version.teavm>
+        <version.sardine>5.12</version.sardine>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -117,6 +116,7 @@
 
         <pluginManagement>
             <plugins>
+
                 <!-- Licence GNU GPL -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>

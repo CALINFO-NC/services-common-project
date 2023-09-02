@@ -35,7 +35,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -43,7 +42,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import springfox.documentation.spi.service.contexts.OperationContext;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -182,21 +180,6 @@ public class MiscUtils {
         }
 
         return result;
-    }
-
-    public static String getNickNameSwagger(OperationContext operationContext){
-
-        String nickname = "";
-        Optional<ApiOperation> apiOperation = operationContext.findAnnotation(ApiOperation.class);
-        if (apiOperation.isPresent()){
-            nickname = apiOperation.get().nickname();
-        }
-
-        if (StringUtils.isBlank(nickname)) {
-            nickname = operationContext.getName();
-        }
-
-        return nickname;
     }
 
     public static String getActualMethodName(){
