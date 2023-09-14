@@ -1,4 +1,4 @@
-package com.calinfo.api.common.task;
+package com.calinfo.api.common.security.keycloak;
 
 /*-
  * #%L
@@ -22,31 +22,16 @@ package com.calinfo.api.common.task;
  * #L%
  */
 
-import lombok.Getter;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collection;
 
+public class KeycloakJwtAuthenticationConverter extends JwtAuthenticationConverter {
 
-/**
- * Représentation d'un pricipal
- */
-public class TaskPrincipal implements Principal {
-
-    @Getter
-    private String name;
-
-    @Getter
-    Collection<? extends GrantedAuthority> authorities;
-
-    @Getter
-    private String domain;
-
-    public TaskPrincipal(String username, String domain, Collection<? extends GrantedAuthority> authorities) {
-        this.name = username;
-        this.domain = domain;
-        this.authorities = authorities;
+    public KeycloakJwtAuthenticationConverter(Converter<Jwt, Collection<GrantedAuthority>> converter){
+        this.setJwtGrantedAuthoritiesConverter(converter);
     }
 }

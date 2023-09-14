@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security;
+package com.calinfo.api.common.security.keycloak;
 
 /*-
  * #%L
@@ -22,34 +22,17 @@ package com.calinfo.api.common.security;
  * #L%
  */
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import lombok.Data;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.security.Principal;
-
-/**
- * Created by dalexis on 05/04/2018.
- */
-
+@Data
 @Component
-public class PrincipalManager {
+@ConfigurationProperties(prefix = "common.configuration.keycloak")
+@ConditionalOnProperty(prefix = "common.configuration.keycloak", name = "enabled", havingValue = "true")
+public class KeycloakProperties {
 
-    /**
-     * @return Principal
-     */
-    public Principal getPrincipal(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null){
-            return null;
-        }
-
-        if (!(authentication.getPrincipal() instanceof Principal)){
-            throw new UnknownPrincipalException(authentication.getPrincipal(), "Class cast Principal exception");
-        }
-
-        return (Principal) authentication.getPrincipal();
-    }
-
+    private String baseUrl;
+    private String clientId;
 }

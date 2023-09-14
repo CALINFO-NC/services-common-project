@@ -22,7 +22,7 @@ package com.calinfo.api.common.io.storage.service.impl;
  * #L%
  */
 
-import jakarta.ws.rs.InternalServerErrorException;
+import com.calinfo.api.common.ex.ApplicationErrorException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -62,7 +62,7 @@ public class IdQueue {
             }
         }
         catch (InterruptedException e){
-            throw new InternalServerErrorException(e);
+            throw new ApplicationErrorException(e);
         }
         finally {
             locker.unlock();

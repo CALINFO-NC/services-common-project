@@ -22,13 +22,14 @@ package com.calinfo.api.common.utils;
  * #L%
  */
 
+import com.calinfo.api.common.security.keycloak.KeycloakUtils;
 import com.calinfo.api.common.task.TaskPrincipal;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.adapters.KeycloakDeployment;
-import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
-import org.keycloak.representations.AccessToken;
+import com.nimbusds.oauth2.sdk.token.AccessToken;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -38,10 +39,7 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -120,94 +118,64 @@ public class SecurityUtils {
     }
 
     /**
-     * Extrait les roles du principal
-     *
-     * @param intPrincipal
-     * @return List des rôles associé au principal
+     * Permet d'extraire les roles sous forme de liste de String depuis le SecurityContext
+     * @return Liste des roles
      */
-    public static List<String> getRoleFormPrincipal(Principal intPrincipal){
+    public static List<String> getRolesFromSecurityContext(){
+        SecurityContext context = SecurityContextHolder.getContext();
 
-        List<String> result = new ArrayList<>();
-
-        if (intPrincipal instanceof KeycloakPrincipal){
-            return getRoleFromKecloakPrincipal((KeycloakPrincipal<? extends KeycloakSecurityContext>) intPrincipal);
+        if (context == null){
+            return Collections.emptyList();
         }
 
-        if (intPrincipal instanceof TaskPrincipal){
-            return getRoleFromTaskPrincipal((TaskPrincipal) intPrincipal);
+        Authentication authentication = context.getAuthentication();
+
+        if (authentication == null){
+            return Collections.emptyList();
         }
 
-        return result;
+        Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
+
+        if (grantedAuthorities == null){
+            return Collections.emptyList();
+        }
+
+        return grantedAuthorities.stream().map(g -> g.getAuthority()).collect(Collectors.toList());
     }
 
-    private static List<String> getRoleFromTaskPrincipal(TaskPrincipal principal){
-        return principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+    /**
+     * Retourne le nom de l'utilisateur connecté
+     *
+     * @return Nom de l'utilisateur connecté
+     */
+    public static String getUsernameFromSecurityContext(){
+
+        SecurityContext context = SecurityContextHolder.getContext();
+
+        if (context == null){
+            return null;
+        }
+
+        Authentication authentication = context.getAuthentication();
+
+        if (authentication == null){
+            return null;
+        }
+
+        return authentication.getName();
     }
 
-    private static List<String> getRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
-
-        List<String> result = new ArrayList<>();
-        result.addAll(getRealmRoleFromKecloakPrincipal(principal));
-        result.addAll(getResourceRoleFromKecloakPrincipal(principal));
-
-        return  result;
-    }
-
-    private static List<String> getResourceRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
-
-        List<String> result = new ArrayList<>();
-
-
-        if (!(principal.getKeycloakSecurityContext() instanceof RefreshableKeycloakSecurityContext)){
-            return result;
+    /**
+     * Retourne true ou false en fonction de si l'utilisateur est connecté
+     *
+     * @return true si l'utilisateur est connecté
+     */
+    public static boolean isUserConnected(){
+        String login = getUsernameFromSecurityContext();
+        if (login != null){
+            login = login.trim();
         }
 
-        RefreshableKeycloakSecurityContext context = ((RefreshableKeycloakSecurityContext)principal.getKeycloakSecurityContext());
-
-        KeycloakDeployment deployment = context.getDeployment();
-        if (deployment == null){
-            return result;
-        }
-
-        AccessToken accessToken = context.getToken();
-        if (accessToken == null){
-            return result;
-        }
-
-
-        String resourceName = deployment.getResourceName();
-        AccessToken.Access resourceAccess = accessToken.getResourceAccess().get(resourceName);
-        if (resourceAccess == null){
-            return result;
-        }
-
-        Set<String> roles = resourceAccess.getRoles();
-        if (roles != null){
-            result.addAll(roles.stream().collect(Collectors.toList()));
-        }
-
-        return  result;
-    }
-
-    private static List<String> getRealmRoleFromKecloakPrincipal(KeycloakPrincipal<? extends KeycloakSecurityContext> principal){
-
-        List<String> result = new ArrayList<>();
-
-        AccessToken accessToken = principal.getKeycloakSecurityContext().getToken();
-        if (accessToken == null){
-            return result;
-        }
-
-        AccessToken.Access realmAccess = accessToken.getRealmAccess();
-        if (realmAccess == null){
-            return result;
-        }
-
-        Set<String> roles = realmAccess.getRoles();
-        if (roles != null){
-            result.addAll(roles.stream().collect(Collectors.toList()));
-        }
-
-        return  result;
+        return !StringUtils.isAllBlank(login) && !Objects.equals(login, KeycloakUtils.ANONYMOUS_USER_NAME);
     }
 }

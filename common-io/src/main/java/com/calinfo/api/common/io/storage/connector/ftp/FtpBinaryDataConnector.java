@@ -23,8 +23,8 @@ package com.calinfo.api.common.io.storage.connector.ftp;
  */
 
 
+import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
-import jakarta.ws.rs.InternalServerErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
@@ -154,7 +154,7 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
         try {
             return Boolean.TRUE.equals(createSpace(spaceName).get());
         } catch (InterruptedException | ExecutionException e) {
-            throw new InternalServerErrorException(e);
+            throw new ApplicationErrorException(e);
         }
     }
 

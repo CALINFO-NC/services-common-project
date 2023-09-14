@@ -1,6 +1,5 @@
 package com.calinfo.api.common.tenant;
 
-import com.calinfo.api.common.security.PrincipalManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,9 +13,6 @@ import java.io.IOException;
  * Created by dalexis on 29/05/2018.
  */
 public class TenantTestFilter extends OncePerRequestFilter {
-
-    @Autowired
-    private PrincipalManager principalManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {

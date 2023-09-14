@@ -3,7 +3,7 @@ common:
 
     tenant: # Propriété de la classe TenantProperties
 
-    security: # Propriété de la classe SecurityProperties
+    keycloak: # Propriété de la classe KeycloakProperties
 
     application: # Propriété de la classe ApplicationProperties
 

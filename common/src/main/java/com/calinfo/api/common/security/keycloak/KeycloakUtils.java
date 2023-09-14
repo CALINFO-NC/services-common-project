@@ -1,4 +1,4 @@
-package com.calinfo.api.common.task;
+package com.calinfo.api.common.security.keycloak;
 
 /*-
  * #%L
@@ -22,31 +22,27 @@ package com.calinfo.api.common.task;
  * #L%
  */
 
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class KeycloakUtils {
 
+    public static final String ANONYMOUS_USER_NAME = "anonymousUser";
 
-/**
- * Représentation d'un pricipal
- */
-public class TaskPrincipal implements Principal {
+    public static String getTenantIdFromIssuerUrl(String baseKeycloakUrl, String issuerUrl){
 
-    @Getter
-    private String name;
+        String baseUrl = baseKeycloakUrl;
+        if (!baseUrl.endsWith("/")){
+            baseUrl = baseUrl + "/";
+        }
+        baseUrl = baseUrl + "realms/";
 
-    @Getter
-    Collection<? extends GrantedAuthority> authorities;
+        String tenantId = issuerUrl.replace(baseUrl, "");
+        if (tenantId.endsWith("/")){
+            tenantId = tenantId.substring(0, tenantId.length() - 1);
+        }
 
-    @Getter
-    private String domain;
-
-    public TaskPrincipal(String username, String domain, Collection<? extends GrantedAuthority> authorities) {
-        this.name = username;
-        this.domain = domain;
-        this.authorities = authorities;
+        return tenantId;
     }
 }

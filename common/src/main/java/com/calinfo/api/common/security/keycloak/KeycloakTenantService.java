@@ -1,8 +1,8 @@
-package com.calinfo.api.common.dto;
+package com.calinfo.api.common.security.keycloak;
 
 /*-
  * #%L
- * common-api
+ * common
  * %%
  * Copyright (C) 2019 - 2023 CALINFO
  * %%
@@ -22,32 +22,11 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.data.domain.Pageable;
+import java.util.Optional;
 
-/**
- * Created by dalexis on 18/11/2017.
- * Utiliser {{@link #PageInfoDto}}
- */
-@EqualsAndHashCode(callSuper = true)
-@Data
-@Schema(name = "ChargementInfo")
-@Deprecated
-public class ChargementInfoDto extends PageInfoDto {
-    public ChargementInfoDto() {
-    }
+public interface KeycloakTenantService {
 
-    public ChargementInfoDto(Pageable page) {
-        super(page);
-    }
+    String extractTenantIdFromIssuerUrl(String issuerUrl);
 
-    public ChargementInfoDto(int start) {
-        super(start);
-    }
-
-    public ChargementInfoDto(int start, Integer limit) {
-        super(start, limit);
-    }
+    Optional<KeycloakTenant> getByIssuer(String tenantId);
 }

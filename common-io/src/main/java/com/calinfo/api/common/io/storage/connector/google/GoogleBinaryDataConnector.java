@@ -22,6 +22,7 @@ package com.calinfo.api.common.io.storage.connector.google;
  * #L%
  */
 
+import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
@@ -30,7 +31,6 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import jakarta.ws.rs.InternalServerErrorException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +106,7 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
         try {
             return Boolean.TRUE.equals(createSpace(spaceName).get());
         } catch (InterruptedException | ExecutionException e) {
-            throw new InternalServerErrorException(e);
+            throw new ApplicationErrorException(e);
         }
     }
 

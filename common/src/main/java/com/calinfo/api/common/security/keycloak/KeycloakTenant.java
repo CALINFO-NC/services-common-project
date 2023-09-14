@@ -1,4 +1,4 @@
-package com.calinfo.api.common.task;
+package com.calinfo.api.common.security.keycloak;
 
 /*-
  * #%L
@@ -23,30 +23,13 @@ package com.calinfo.api.common.task;
  */
 
 import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.Setter;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
+@Getter
+@Setter
+public class KeycloakTenant {
 
+    private String issuer;
 
-/**
- * Représentation d'un pricipal
- */
-public class TaskPrincipal implements Principal {
-
-    @Getter
-    private String name;
-
-    @Getter
-    Collection<? extends GrantedAuthority> authorities;
-
-    @Getter
-    private String domain;
-
-    public TaskPrincipal(String username, String domain, Collection<? extends GrantedAuthority> authorities) {
-        this.name = username;
-        this.domain = domain;
-        this.authorities = authorities;
-    }
+    private String jwkSetUrl;
 }

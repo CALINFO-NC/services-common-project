@@ -23,7 +23,6 @@ package com.calinfo.api.common.kafka;
  */
 
 import com.calinfo.api.common.config.ApplicationProperties;
-import com.calinfo.api.common.security.PrincipalManager;
 import com.calinfo.api.common.tenant.DomainContext;
 import com.calinfo.api.common.utils.DateUtils;
 import com.calinfo.api.common.utils.ExceptionUtils;
@@ -55,9 +54,6 @@ public class KafkaTopicAspect {
 
     @Autowired
     private ApplicationProperties applicationProperties;
-
-    @Autowired(required = false)
-    private PrincipalManager principalManager;
 
     @Around("execution(public * *(..)) && @annotation(com.calinfo.api.common.kafka.KafkaTopic)")
     public Object publishToKafka(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -158,18 +154,17 @@ public class KafkaTopicAspect {
 
         KafkaUser kafkaUser = null;
 
-        if (principalManager == null) {
+        if (!SecurityUtils.isUserConnected()) {
             return kafkaUser;
         }
 
-        Principal principal = principalManager.getPrincipal();
-        if (principal != null) {
-            String login = principal.getName();
+        String login = SecurityUtils.getUsernameFromSecurityContext();
 
-            kafkaUser = new KafkaUser();
-            kafkaUser.setLogin(login);
-            kafkaUser.setRoles(SecurityUtils.getRoleFormPrincipal(principal));
-        }
+        kafkaUser = new KafkaUser();
+        kafkaUser.setLogin(login);
+
+        kafkaUser.setRoles(SecurityUtils.getRolesFromSecurityContext());
+
 
         return kafkaUser;
     }
