@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,17 +22,26 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-import java.util.Collection;
+/**
+ * Created by dalexis on 29/05/2018.
+ */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class DomainContext {
 
-public class KeycloakJwtAuthenticationConverter extends JwtAuthenticationConverter {
+    private static ThreadLocal<String> currentTenant = new ThreadLocal<>();
 
-    public KeycloakJwtAuthenticationConverter(Converter<Jwt, Collection<GrantedAuthority>> converter){
-        this.setJwtGrantedAuthoritiesConverter(converter);
-        this.setPrincipalClaimName("preferred_username");
+    public static void setDomain(String tenant) {
+        currentTenant.set(tenant);
+    }
+
+    public static String getDomain() {
+        return currentTenant.get();
+    }
+
+    public static boolean isDomainInitialized(){
+        return getDomain() != null;
     }
 }

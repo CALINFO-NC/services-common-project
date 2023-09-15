@@ -40,9 +40,9 @@ public class MyFilter extends OncePerRequestFilter {
 
  Le développeur doit indiquer ces informations au *common*.
 
-  * Pour indiquer les *entity* pour le *domain* le développeur doit, dans le fichier *yaml*, définir la configuration *common.configuration.tenant.domainScanEntities*
+  * Pour indiquer les *entity* pour le *domain* le développeur doit, dans le fichier *yaml*, définir la configuration *common.configuration.domain.domainScanEntities*
 
-  * Pour indiquer les *entity* pour la base de données générique, le développeur doit, dans le fichier *yaml*, définir la configuration *common.configuration.tenant.genericScanEntities*.
+  * Pour indiquer les *entity* pour la base de données générique, le développeur doit, dans le fichier *yaml*, définir la configuration *common.configuration.domain.genericScanEntities*.
 
   * Pour indiquer les *jpaRepository* pour le *domain*, le développeur doit écrire la classe ci-dessous en indiquant dans *basePackages* la liste des packages concernés par le *domain*.
 
@@ -128,7 +128,7 @@ public class MyExample {
 
 # Configuration
 
- La configuration du *tenant* se fait dans la sous configuration *common.configuration.tenant* du fichier *yaml* .
+ La configuration du *tenant* se fait dans la sous configuration *common.configuration.domain* du fichier *yaml* .
  Toutes les propriétés de cette sous configuration sont décrites dans la JavaDoc de la classe *com.calinfo.api.common.tenant.TenantProperties*
 
 

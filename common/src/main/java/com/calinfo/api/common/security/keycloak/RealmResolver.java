@@ -22,30 +22,10 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.Jwt;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import com.calinfo.api.common.tenant.Request;
 
-@RequiredArgsConstructor
-public class KeycloakJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
+public interface RealmResolver {
 
-    private final Converter<Map<String, Object>, Collection<GrantedAuthority>> claimConverter;
-
-    @Override
-    public Collection<GrantedAuthority> convert(Jwt jwt) {
-
-        if (jwt == null){
-            return new ArrayList<>();
-        }
-
-        Map<String, Object> claims = jwt.getClaims();
-
-        return claimConverter.convert(claims);
-    }
-
+    String getRealm(Request request);
 }

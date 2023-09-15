@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,26 +22,17 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import com.calinfo.api.common.domain.DomainResolver;
+import com.calinfo.api.common.tenant.Request;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by dalexis on 29/05/2018.
- */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DomainContext {
 
-    private static ThreadLocal<String> currentTenant = new ThreadLocal<>();
+@Component
+public class DefaultDomainResolverImpl implements DomainResolver {
 
-    public static void setDomain(String tenant) {
-        currentTenant.set(tenant);
-    }
-
-    public static String getDomain() {
-        return currentTenant.get();
-    }
-
-    public static boolean isDomainInitialized(){
-        return getDomain() != null;
+    @SneakyThrows
+    public String getDomain(Request request){
+        return request.getUrl().getHost();
     }
 }

@@ -1,6 +1,6 @@
 package com.calinfo.api.common;
 
-import com.calinfo.api.common.tenant.DomainAwarePoolExecutor;
+import com.calinfo.api.common.domain.DomainAwarePoolExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

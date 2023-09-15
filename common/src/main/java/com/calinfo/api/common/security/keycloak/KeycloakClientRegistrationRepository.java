@@ -47,7 +47,7 @@ public class KeycloakClientRegistrationRepository implements ClientRegistrationR
                     .fromIssuerLocation(String.format("%s/realms/%s", MiscUtils.formatEndUrl(keycloakProperties.getBaseUrl()), registrationId))
                     .clientId(keycloakProperties.getClientId())
                     .scope("openid")
-                    .userNameAttributeName("preferred_username")
+                    .userNameAttributeName(keycloakProperties.getPrincipalClaimName())
                     .registrationId(registrationId)
                     .authorizationGrantType(new AuthorizationGrantType("authorization_code"))
                     .build());

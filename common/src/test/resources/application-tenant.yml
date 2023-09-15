@@ -4,7 +4,7 @@ common:
       id: "${common.configuration.application.name}_${common.configuration.application.version}"
       name: "common"
       version: "TEST"
-    tenant:
+    domain:
       enabled: true
       multitenancyStrategy: SCHEMA
       domainScanEntities: "com.calinfo.api.common.tenant.entity.domain"

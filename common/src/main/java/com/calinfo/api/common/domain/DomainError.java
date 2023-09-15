@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,28 +22,12 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-import java.util.concurrent.Callable;
+/**
+ * Created by dalexis on 08/05/2018.
+ */
+public class DomainError extends Error {
 
-public class DomainAwareCallable<T> implements Callable<T> {
-    private Callable<T> task;
-    private String domain;
-
-    public DomainAwareCallable(Callable<T> task, String domain) {
-        this.task = task;
-        this.domain = domain;
-    }
-
-    @Override
-    public T call() throws Exception {
-        String oldDomain = DomainContext.getDomain();
-        if (domain != null) {
-            DomainContext.setDomain(domain);
-        }
-
-        try {
-            return task.call();
-        } finally {
-            DomainContext.setDomain(oldDomain);
-        }
+    public DomainError(String message, Throwable cause) {
+        super(message, cause);
     }
 }

@@ -1,13 +1,10 @@
 common:
   configuration: # Configuration du common
 
-    tenant: # Propriété de la classe TenantProperties
+    domain: # Propriété de la classe DomainProperties
 
     keycloak: # Propriété de la classe KeycloakProperties
 
     application: # Propriété de la classe ApplicationProperties
 
     kafka-event: # Propriété de la classe KafkaProperties
-
-    deprecated:
-      swagger: true/false # Prise en charge du swagger malgré qu'il soit déprécié

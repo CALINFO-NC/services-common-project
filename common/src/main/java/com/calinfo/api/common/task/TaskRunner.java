@@ -22,7 +22,7 @@ package com.calinfo.api.common.task;
  * #L%
  */
 
-import com.calinfo.api.common.tenant.DomainContext;
+import com.calinfo.api.common.domain.DomainContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

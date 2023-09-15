@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -33,19 +33,19 @@ import org.springframework.stereotype.Component;
 /**
  * Created by dalexis on 06/01/2018.
  */
-@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
-@ConfigurationProperties(prefix = "common.configuration.tenant")
+@ConditionalOnProperty(DomainProperties.CONDITIONNAL_PROPERTY)
+@ConfigurationProperties(prefix = "common.configuration.domain")
 @Component
 // Ici on utilise pas @Configuration (voir https://stackoverflow.com/questions/53484529/inspection-info-verifies-configurationproperties-setup-new-in-2018-3-intellij)
 @Getter
 @Setter
-public class TenantProperties {
+public class DomainProperties {
 
 
-    public static final String CONDITIONNAL_PROPERTY = "common.configuration.tenant.enabled";
-    public static final String MULTITENANCY_STRATEGY = "common.configuration.tenant.multitenancyStrategy";
+    public static final String CONDITIONNAL_PROPERTY = "common.configuration.domain.enabled";
+    //public static final String MULTITENANCY_STRATEGY = "common.configuration.domain.multitenancyStrategy";
 
-    private String multitenancyStrategy = MultiTenancyStrategy.SCHEMA.name();
+    private String multitenancyStrategy = DomainStrategy.SCHEMA.name();
 
     /**
      * Activer la gestion de multi schméa (un schma par demaine)

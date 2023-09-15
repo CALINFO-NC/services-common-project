@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.security.keycloak;
 
 /*-
  * #%L
@@ -22,12 +22,15 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-/**
- * Created by dalexis on 08/05/2018.
- */
-public class TenantError extends Error {
+import com.calinfo.api.common.tenant.Request;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
-    public TenantError(String message, Throwable cause) {
-        super(message, cause);
+@Component
+public class DefaultRealmResolver implements RealmResolver {
+
+    @SneakyThrows
+    public String getRealm(Request request){
+        return request.getUrl().getHost();
     }
 }

@@ -23,7 +23,7 @@ package com.calinfo.api.common.utils;
  */
 
 import com.calinfo.api.common.ex.ApplicationErrorException;
-import com.calinfo.api.common.tenant.TenantError;
+import com.calinfo.api.common.domain.DomainError;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -95,7 +95,7 @@ public class DatabaseUtils {
             }
 
         } catch (Exception e) {
-            throw new TenantError(e.getMessage(), e);
+            throw new DomainError(e.getMessage(), e);
         }
 
         return result;

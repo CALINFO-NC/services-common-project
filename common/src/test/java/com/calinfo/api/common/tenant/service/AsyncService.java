@@ -1,6 +1,6 @@
 package com.calinfo.api.common.tenant.service;
 
-import com.calinfo.api.common.tenant.DomainContext;
+import com.calinfo.api.common.domain.DomainContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

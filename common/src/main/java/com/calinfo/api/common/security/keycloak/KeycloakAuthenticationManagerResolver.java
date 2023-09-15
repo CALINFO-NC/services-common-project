@@ -27,8 +27,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
@@ -41,14 +43,18 @@ public class KeycloakAuthenticationManagerResolver implements AuthenticationMana
     private final KeycloakTenantService keycloakTenantService;
     private final JwtDecoder jwtDecoder;
     private final BearerTokenResolver resolver = new DefaultBearerTokenResolver();
-    private final JwtAuthenticationConverter converter;
+    private final UserDetailsService userDetailsService;
+    private final KeycloakProperties keycloakProperties;
     private final Map<String, AuthenticationManager> authenticationManagers = new ConcurrentHashMap<>();
     public KeycloakAuthenticationManagerResolver(KeycloakTenantService keycloakTenantService,
-                                                 JwtDecoder jwtDecoder,
-                                                 JwtAuthenticationConverter converter) {
+                                                 KeycloakProperties keycloakProperties,
+                                                 UserDetailsService userDetailsService,
+                                                 JwtDecoder jwtDecoder) {
+
         this.keycloakTenantService = keycloakTenantService;
         this.jwtDecoder = jwtDecoder;
-        this.converter = converter;
+        this.userDetailsService = userDetailsService;
+        this.keycloakProperties = keycloakProperties;
     }
     @Override
     public AuthenticationManager resolve(HttpServletRequest request) {
@@ -65,13 +71,10 @@ public class KeycloakAuthenticationManagerResolver implements AuthenticationMana
     }
     protected AuthenticationManager fromTenant(String tenant) {
 
-        JwtAuthenticationProvider jwtAuthenticationProvider = keycloakTenantService.getByIssuer(tenant)
+        return keycloakTenantService.getByIssuer(tenant)
                 .map(KeycloakTenant::getIssuer)
-                .map(i -> new JwtAuthenticationProvider(jwtDecoder))
+                .map(i -> new KeycloakJwtAuthenticationManager(keycloakProperties, userDetailsService, jwtDecoder))
                 .orElseThrow(() -> new InvalidBearerTokenException("Unknown tenant: " + tenant));
 
-        jwtAuthenticationProvider.setJwtAuthenticationConverter(this.converter);
-
-        return jwtAuthenticationProvider::authenticate;
     }
 }

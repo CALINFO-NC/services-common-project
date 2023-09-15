@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,6 +22,7 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainProperties;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.cfg.Environment;
@@ -45,7 +46,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class TenantDatasourceConfiguration {
+public class DomainDatasourceConfiguration {
 
     public static final String ENTITY_MANAGER_FACTORY_REF = "tenantEntityManagerFactory";
     public static final String TRANSACTION_MANAGER_REF = "tenantTransactionManager";
@@ -53,7 +54,7 @@ public class TenantDatasourceConfiguration {
     public static final String ENTITY_MANAGER_REF = "tenantEntityManager";
 
     @Autowired
-    private TenantProperties tenantProperties;
+    private DomainProperties domainProperties;
 
     public static String getSchemaName(String prefix, String domainName) {
 
@@ -65,7 +66,7 @@ public class TenantDatasourceConfiguration {
     }
 
     @Bean(name = TENANT_DATASOURCE)
-    @ConfigurationProperties(prefix = "common.configuration.tenant.datasource")
+    @ConfigurationProperties(prefix = "common.configuration.domain.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -85,10 +86,10 @@ public class TenantDatasourceConfiguration {
 
         em.setDataSource(dataSource);
 
-        em.setPersistenceUnitName(tenantProperties.getPersistenceName());
-        em.setPackagesToScan(tenantProperties.getDomainScanEntities());
+        em.setPersistenceUnitName(domainProperties.getPersistenceName());
+        em.setPackagesToScan(domainProperties.getDomainScanEntities());
 
-        JpaProperties jpa = tenantProperties.getJpa();
+        JpaProperties jpa = domainProperties.getJpa();
         HibernateJpaVendorAdapter vendor = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendor);
 

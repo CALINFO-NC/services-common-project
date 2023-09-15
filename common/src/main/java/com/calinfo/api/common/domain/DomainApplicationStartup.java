@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -44,18 +44,18 @@ import javax.sql.DataSource;
  */
 
 @Slf4j
-@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
+@ConditionalOnProperty(DomainProperties.CONDITIONNAL_PROPERTY)
 @Component
-@Order(TenantApplicationStartup.ORDER)
-public class TenantApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
+@Order(DomainApplicationStartup.ORDER)
+public class DomainApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
 
     public static final int ORDER = 10000;
 
     @Autowired
-    private TenantProperties tenantProperties;
+    private DomainProperties domainProperties;
 
     @Autowired
-    @Qualifier(TenantDatasourceConfiguration.TENANT_DATASOURCE)
+    @Qualifier(DomainDatasourceConfiguration.TENANT_DATASOURCE)
     private DataSource dataSource;
 
     @Autowired
@@ -65,26 +65,26 @@ public class TenantApplicationStartup implements ApplicationListener<Application
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
 
-        LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
+        LiquibaseProperties liquibaseProperties = domainProperties.getLiquibase();
 
         // On ne fait la mise à jour sur les schémas uniquement si c'est configuré comme cela
         if (!liquibaseProperties.isEnabled()) {
             return;
         }
 
-        if (MultiTenancyStrategy.SCHEMA.name().equals(tenantProperties.getMultitenancyStrategy())) {
+        if (DomainStrategy.SCHEMA.name().equals(domainProperties.getMultitenancyStrategy())) {
 
             DatabaseUtils.listSchema(dataSource).forEach(schemaName -> {
-                if (schemaName.startsWith(tenantProperties.getPrefix()) && !schemaName.equals(tenantProperties.getDefaultValue())) {
+                if (schemaName.startsWith(domainProperties.getPrefix()) && !schemaName.equals(domainProperties.getDefaultValue())) {
                     LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schemaName, liquibaseProperties.getContexts());
                 }
             });
         }
 
-        if (MultiTenancyStrategy.DATABASE.name().equals(tenantProperties.getMultitenancyStrategy())) {
+        if (DomainStrategy.DATABASE.name().equals(domainProperties.getMultitenancyStrategy())) {
 
             DatabaseUtils.listDatabases(dataSource).forEach(databaseName -> {
-                if (databaseName.startsWith(tenantProperties.getPrefix()) && !databaseName.equals(tenantProperties.getDefaultValue())) {
+                if (databaseName.startsWith(domainProperties.getPrefix()) && !databaseName.equals(domainProperties.getDefaultValue())) {
                     LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), databaseName, liquibaseProperties.getContexts());
                 }
             });

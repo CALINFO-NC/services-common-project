@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,18 +22,10 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
-@Data
-@Component
-@ConfigurationProperties(prefix = "common.configuration.keycloak")
-@ConditionalOnProperty(prefix = "common.configuration.keycloak", name = "enabled", havingValue = "true")
-public class KeycloakProperties {
+import com.calinfo.api.common.tenant.Request;
 
-    private String baseUrl;
-    private String clientId;
-    private String principalClaimName = "preferred_username";
+public interface DomainResolver {
+
+    String getDomain(Request request);
 }

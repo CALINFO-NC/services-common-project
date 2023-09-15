@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,15 +22,8 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-import lombok.SneakyThrows;
-import org.springframework.stereotype.Component;
+public enum DomainStrategy {
 
-
-@Component
-public class DefaultDomainResolver implements DomainResolver {
-
-    @SneakyThrows
-    public String getDomain(Request request){
-        return request.getUrl().getHost();
-    }
+    SCHEMA,
+    DATABASE
 }

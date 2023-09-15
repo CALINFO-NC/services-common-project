@@ -22,12 +22,15 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainContext;
+import com.calinfo.api.common.domain.DomainResolver;
+import com.calinfo.api.common.security.keycloak.RealmContext;
+import com.calinfo.api.common.security.keycloak.RealmResolver;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -36,15 +39,20 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.net.URL;
 
-@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
-@RequiredArgsConstructor
 @Component
-@Order(DomainUrlFilter.ORDER_FILTER)
-public class DomainUrlFilter extends OncePerRequestFilter {
+@Order(TenantUrlFilter.ORDER_FILTER)
+public class TenantUrlFilter extends OncePerRequestFilter {
 
     public static final int ORDER_FILTER = 1000;
 
     private final DomainResolver domainResolver;
+    private final RealmResolver realmResolver;
+
+    public TenantUrlFilter(@Autowired(required = false) DomainResolver domainResolver,
+                           @Autowired(required = false) RealmResolver realmResolver){
+        this.domainResolver = domainResolver;
+        this.realmResolver = realmResolver;
+    }
 
     /**
      * {@inheritDoc}
@@ -53,6 +61,7 @@ public class DomainUrlFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String oldDomain = DomainContext.getDomain();
+        String oldRealm = RealmContext.getRealm();
         try {
 
             Request req = new Request();
@@ -61,11 +70,19 @@ public class DomainUrlFilter extends OncePerRequestFilter {
             req.setHeaders(httpServletRequest::getHeader);
             req.setParameters(httpServletRequest::getParameter);
 
-            DomainContext.setDomain(domainResolver.getDomain(req));
+            if (domainResolver != null) {
+                DomainContext.setDomain(domainResolver.getDomain(req));
+            }
+
+            if (realmResolver != null) {
+                RealmContext.setRealm(realmResolver.getRealm(req));
+            }
+
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
         finally {
             DomainContext.setDomain(oldDomain);
+            RealmContext.setRealm(oldRealm);
         }
     }
 }

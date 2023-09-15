@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,6 +22,9 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainContext;
+import com.calinfo.api.common.domain.DomainDatasourceConfiguration;
+import com.calinfo.api.common.domain.DomainProperties;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -29,12 +32,12 @@ import org.springframework.stereotype.Component;
 
 
 
-@ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
+@ConditionalOnProperty(DomainProperties.CONDITIONNAL_PROPERTY)
 @Component
-public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifierResolver {
+public class DomainIdentifierResolver implements CurrentTenantIdentifierResolver {
 
     @Autowired
-    private TenantProperties tenantProperties;
+    private DomainProperties domainProperties;
 
     @Override
     public String resolveCurrentTenantIdentifier() {
@@ -42,10 +45,10 @@ public class PrincipalTenantIdentifierResolver implements CurrentTenantIdentifie
         String domainName = DomainContext.getDomain();
 
         if (domainName != null){
-            return TenantDatasourceConfiguration.getSchemaName(tenantProperties.getPrefix(), domainName);
+            return DomainDatasourceConfiguration.getSchemaName(domainProperties.getPrefix(), domainName);
         }
 
-        return tenantProperties.getDefaultValue();
+        return domainProperties.getDefaultValue();
     }
 
     @Override

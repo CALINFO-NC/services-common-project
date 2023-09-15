@@ -26,6 +26,7 @@ import com.calinfo.api.common.security.keycloak.KeycloakProperties;
 import com.calinfo.api.common.security.keycloak.KeycloakTenant;
 import com.calinfo.api.common.security.keycloak.KeycloakTenantService;
 import com.calinfo.api.common.security.keycloak.KeycloakUtils;
+import com.calinfo.api.common.utils.MiscUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -47,10 +48,7 @@ public class DefaultKeycloakTenantServiceImpl implements KeycloakTenantService {
     @Override
     public Optional<KeycloakTenant> getByIssuer(String tenantId){
 
-        String baseUrl = keycloakProperties.getBaseUrl();
-        if (baseUrl.endsWith("/")){
-            baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
-        }
+        String baseUrl = MiscUtils.formatEndUrl(keycloakProperties.getBaseUrl());
 
         KeycloakTenant keycloakTenant = new KeycloakTenant();
         keycloakTenant.setIssuer(String.format("%s/realms/%s", baseUrl, tenantId));

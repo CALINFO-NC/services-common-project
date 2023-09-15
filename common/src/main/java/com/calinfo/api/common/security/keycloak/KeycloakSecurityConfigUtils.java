@@ -29,6 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
@@ -79,37 +80,27 @@ public class KeycloakSecurityConfigUtils {
         return getJwtDecoder(jwtProcessor, oAuth2TokenValidator);
     }
 
-    public static AuthenticationManagerResolver<HttpServletRequest> getAuthenticationManagerResolver(KeycloakTenantService keycloakTenantService, JwtDecoder jwtDecoder, JwtAuthenticationConverter jwtAuthenticationConverter){
-        return new KeycloakAuthenticationManagerResolver(keycloakTenantService, jwtDecoder, jwtAuthenticationConverter);
+    public static AuthenticationManagerResolver<HttpServletRequest> getAuthenticationManagerResolver(KeycloakTenantService keycloakTenantService,
+                                                                                                     KeycloakProperties keycloakProperties,
+                                                                                                     UserDetailsService userDetailsService,
+                                                                                                     JwtDecoder jwtDecoder) {
+        return new KeycloakAuthenticationManagerResolver(keycloakTenantService, keycloakProperties, userDetailsService, jwtDecoder);
     }
 
     public static AuthenticationManagerResolver<HttpServletRequest> getAuthenticationManagerResolver(KeycloakTenantService keycloakTenantService,
-                                                                                                     KeycloakProperties keycloakProperties){
+                                                                                                     KeycloakProperties keycloakProperties,
+                                                                                                     UserDetailsService userDetailsService){
 
         JwtDecoder jwtDecoder = getJwtDecoder(keycloakTenantService);
-        JwtAuthenticationConverter jwtAuthenticationConverter = getJwtAuthenticationConverter(keycloakProperties);
-
-        return getAuthenticationManagerResolver(keycloakTenantService, jwtDecoder, jwtAuthenticationConverter);
+        return getAuthenticationManagerResolver(keycloakTenantService, keycloakProperties, userDetailsService, jwtDecoder);
     }
 
     public static ClientRegistrationRepository getClientRegistrationRepository(KeycloakProperties keycloakProperties){
         return new KeycloakClientRegistrationRepository(keycloakProperties);
     }
 
-    public static JwtAuthenticationConverter getJwtAuthenticationConverter(Converter<Jwt, Collection<GrantedAuthority>> converter){
-        return new KeycloakJwtAuthenticationConverter(converter);
-    }
 
-    public static JwtAuthenticationConverter getJwtAuthenticationConverter(KeycloakProperties keycloakProperties){
-        return getJwtAuthenticationConverter(getJwtGrantedAuthoritiesConverter(keycloakProperties));
-    }
 
-    public static Converter<Jwt, Collection<GrantedAuthority>> getJwtGrantedAuthoritiesConverter(KeycloakProperties keycloakProperties){
-        return new KeycloakJwtGrantedAuthoritiesConverter(getClaimsGrantedAuthoritiesConverter(keycloakProperties));
-    }
 
-    public static Converter<Map<String, Object>, Collection<GrantedAuthority>> getClaimsGrantedAuthoritiesConverter(KeycloakProperties keycloakProperties){
-        return new KeycloakClaimsGrantedAuthoritiesConverter(keycloakProperties);
-    }
 
 }

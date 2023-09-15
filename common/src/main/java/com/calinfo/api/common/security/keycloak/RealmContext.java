@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.security.keycloak;
 
 /*-
  * #%L
@@ -22,8 +22,26 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
-public enum MultiTenancyStrategy {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-    SCHEMA,
-    DATABASE
+/**
+ * Created by dalexis on 29/05/2018.
+ */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class RealmContext {
+
+    private static ThreadLocal<String> currentTenant = new ThreadLocal<>();
+
+    public static void setRealm(String tenant) {
+        currentTenant.set(tenant);
+    }
+
+    public static String getRealm() {
+        return currentTenant.get();
+    }
+
+    public static boolean isRealmInitialized(){
+        return getRealm() != null;
+    }
 }

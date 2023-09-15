@@ -1,4 +1,4 @@
-package com.calinfo.api.common.tenant;
+package com.calinfo.api.common.domain;
 
 /*-
  * #%L
@@ -22,6 +22,7 @@ package com.calinfo.api.common.tenant;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainProperties;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,14 +37,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
-public class DefaultDatasourceConfiguration {
+public class GenericDatasourceConfiguration {
 
     public static final String ENTITY_MANAGER_FACTORY_REF = "entityManagerFactory";
     public static final String TRANSACTION_MANAGER_REF = "transactionManager";
     public static final String DEFAULT_DATASOURCE = "dataSource";
 
     @Autowired
-    private TenantProperties tenantProperties;
+    private DomainProperties domainProperties;
 
     // Bug IntelliJ qui ne support pas l'injection de la source de donnée
     // https://intellij-support.jetbrains.com/hc/en-us/community/posts/207338055-Autowiring-for-Bean-Class-inspection-in-Spring-Boot-project
@@ -67,7 +68,7 @@ public class DefaultDatasourceConfiguration {
         return builder
                 .dataSource(dataSource)
                 .persistenceUnit("default")
-                .packages(tenantProperties.getGenericScanEntities())
+                .packages(domainProperties.getGenericScanEntities())
                 .build();
     }
 

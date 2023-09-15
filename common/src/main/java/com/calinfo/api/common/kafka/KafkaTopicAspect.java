@@ -23,7 +23,7 @@ package com.calinfo.api.common.kafka;
  */
 
 import com.calinfo.api.common.config.ApplicationProperties;
-import com.calinfo.api.common.tenant.DomainContext;
+import com.calinfo.api.common.domain.DomainContext;
 import com.calinfo.api.common.utils.DateUtils;
 import com.calinfo.api.common.utils.ExceptionUtils;
 import com.calinfo.api.common.utils.MiscUtils;
@@ -40,7 +40,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j

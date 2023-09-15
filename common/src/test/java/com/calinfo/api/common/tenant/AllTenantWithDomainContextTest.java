@@ -1,6 +1,8 @@
 package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.AutowiredConfig;
+import com.calinfo.api.common.domain.DomainContext;
+import com.calinfo.api.common.domain.DomainProperties;
 import com.calinfo.api.common.tenant.service.TableDomainService;
 import com.calinfo.api.common.tenant.service.TableGenericService;
 import com.calinfo.api.common.utils.DatabaseUtils;
@@ -32,7 +34,7 @@ public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextT
 
 
     @Autowired
-    private TenantProperties tenantProperties;
+    private DomainProperties domainProperties;
 
     @Autowired
     @Qualifier("tenantDataSource")
@@ -56,11 +58,11 @@ public class AllTenantWithDomainContextTest extends AbstractTestNGSpringContextT
         System.setProperty("spring.profiles.active", "tenant");
 
 
-        LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
+        LiquibaseProperties liquibaseProperties = domainProperties.getLiquibase();
 
         for (int i = 0; i < nbDomain; i++){
             String dom = String.format("mydom%s", i);
-            String schema = String.format("%s%s", tenantProperties.getPrefix(), dom);
+            String schema = String.format("%s%s", domainProperties.getPrefix(), dom);
 
             DatabaseUtils.createSchemaOrDatabase(dataSource, schema);
             LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema);
