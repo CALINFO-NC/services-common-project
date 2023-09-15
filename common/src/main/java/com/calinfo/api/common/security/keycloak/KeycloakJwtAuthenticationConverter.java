@@ -33,5 +33,6 @@ public class KeycloakJwtAuthenticationConverter extends JwtAuthenticationConvert
 
     public KeycloakJwtAuthenticationConverter(Converter<Jwt, Collection<GrantedAuthority>> converter){
         this.setJwtGrantedAuthoritiesConverter(converter);
+        this.setPrincipalClaimName("preferred_username");
     }
 }

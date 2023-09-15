@@ -22,6 +22,7 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
+import com.calinfo.api.common.utils.MiscUtils;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.ClientRegistrations;
@@ -42,15 +43,11 @@ public class KeycloakClientRegistrationRepository implements ClientRegistrationR
     @Override
     public ClientRegistration findByRegistrationId(String registrationId) {
 
-
-        String baseUrl = keycloakProperties.getBaseUrl().endsWith("/") ?
-                keycloakProperties.getBaseUrl().substring(0, keycloakProperties.getBaseUrl().length() - 1) :
-                keycloakProperties.getBaseUrl();
-
         return cache.computeIfAbsent(registrationId, k -> ClientRegistrations
-                    .fromIssuerLocation(String.format("%s/realms/%s", baseUrl, registrationId))
+                    .fromIssuerLocation(String.format("%s/realms/%s", MiscUtils.formatEndUrl(keycloakProperties.getBaseUrl()), registrationId))
                     .clientId(keycloakProperties.getClientId())
                     .scope("openid")
+                    .userNameAttributeName("preferred_username")
                     .registrationId(registrationId)
                     .authorizationGrantType(new AuthorizationGrantType("authorization_code"))
                     .build());

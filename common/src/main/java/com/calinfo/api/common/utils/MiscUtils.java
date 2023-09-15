@@ -185,4 +185,19 @@ public class MiscUtils {
     public static String getActualMethodName(){
         return new Throwable().getStackTrace()[1].getMethodName();
     }
+
+    /**
+     * Cette méthode retire si nécessaire le / à la fin de l'URL
+     * @param originalUrl URL à fromater
+     * @return URL fromatée
+     */
+    public static String formatEndUrl(String originalUrl){
+
+        String result = originalUrl;
+        if (result.endsWith("/")){
+            result = result.substring(0, result.length() - 1);
+        }
+
+        return result;
+    }
 }

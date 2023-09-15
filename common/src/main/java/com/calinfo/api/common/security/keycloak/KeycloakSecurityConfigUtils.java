@@ -39,6 +39,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
 import java.util.Collection;
+import java.util.Map;
 
 public class KeycloakSecurityConfigUtils {
 
@@ -82,10 +83,11 @@ public class KeycloakSecurityConfigUtils {
         return new KeycloakAuthenticationManagerResolver(keycloakTenantService, jwtDecoder, jwtAuthenticationConverter);
     }
 
-    public static AuthenticationManagerResolver<HttpServletRequest> getAuthenticationManagerResolver(KeycloakTenantService keycloakTenantService){
+    public static AuthenticationManagerResolver<HttpServletRequest> getAuthenticationManagerResolver(KeycloakTenantService keycloakTenantService,
+                                                                                                     KeycloakProperties keycloakProperties){
 
         JwtDecoder jwtDecoder = getJwtDecoder(keycloakTenantService);
-        JwtAuthenticationConverter jwtAuthenticationConverter = getJwtAuthenticationConverter();
+        JwtAuthenticationConverter jwtAuthenticationConverter = getJwtAuthenticationConverter(keycloakProperties);
 
         return getAuthenticationManagerResolver(keycloakTenantService, jwtDecoder, jwtAuthenticationConverter);
     }
@@ -98,11 +100,16 @@ public class KeycloakSecurityConfigUtils {
         return new KeycloakJwtAuthenticationConverter(converter);
     }
 
-    public static JwtAuthenticationConverter getJwtAuthenticationConverter(){
-        return getJwtAuthenticationConverter(getConverter());
+    public static JwtAuthenticationConverter getJwtAuthenticationConverter(KeycloakProperties keycloakProperties){
+        return getJwtAuthenticationConverter(getJwtGrantedAuthoritiesConverter(keycloakProperties));
     }
 
-    public static Converter<Jwt, Collection<GrantedAuthority>> getConverter(){
-        return new KecloakJwtGrantedAuthoritiesConverter();
+    public static Converter<Jwt, Collection<GrantedAuthority>> getJwtGrantedAuthoritiesConverter(KeycloakProperties keycloakProperties){
+        return new KeycloakJwtGrantedAuthoritiesConverter(getClaimsGrantedAuthoritiesConverter(keycloakProperties));
     }
+
+    public static Converter<Map<String, Object>, Collection<GrantedAuthority>> getClaimsGrantedAuthoritiesConverter(KeycloakProperties keycloakProperties){
+        return new KeycloakClaimsGrantedAuthoritiesConverter(keycloakProperties);
+    }
+
 }
