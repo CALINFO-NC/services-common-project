@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -22,15 +22,26 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import com.calinfo.api.common.tenant.Request;
-import lombok.SneakyThrows;
-import org.springframework.stereotype.Component;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@Component
-public class DefaultRealmResolver implements RealmResolver {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+class KeycloakUtils {
 
-    @SneakyThrows
-    public String getRealm(Request request){
-        return request.getUrl().getHost();
+
+    public static String getTenantIdFromIssuerUrl(String baseKeycloakUrl, String issuerUrl){
+
+        String baseUrl = baseKeycloakUrl;
+        if (!baseUrl.endsWith("/")){
+            baseUrl = baseUrl + "/";
+        }
+        baseUrl = baseUrl + "realms/";
+
+        String tenantId = issuerUrl.replace(baseUrl, "");
+        if (tenantId.endsWith("/")){
+            tenantId = tenantId.substring(0, tenantId.length() - 1);
+        }
+
+        return tenantId;
     }
 }

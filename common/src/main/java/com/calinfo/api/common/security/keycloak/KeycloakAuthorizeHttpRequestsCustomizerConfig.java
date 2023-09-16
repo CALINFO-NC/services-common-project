@@ -22,27 +22,13 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class KeycloakUtils {
+public interface KeycloakAuthorizeHttpRequestsCustomizerConfig {
 
-    public static final String ANONYMOUS_USER_NAME = "anonymousUser";
+    int SECURITY_FILTER_CHAIN_ORDER = 100;
+    String ANONYMOUS_USER_NAME = "anonymousUser";
 
-    public static String getTenantIdFromIssuerUrl(String baseKeycloakUrl, String issuerUrl){
-
-        String baseUrl = baseKeycloakUrl;
-        if (!baseUrl.endsWith("/")){
-            baseUrl = baseUrl + "/";
-        }
-        baseUrl = baseUrl + "realms/";
-
-        String tenantId = issuerUrl.replace(baseUrl, "");
-        if (tenantId.endsWith("/")){
-            tenantId = tenantId.substring(0, tenantId.length() - 1);
-        }
-
-        return tenantId;
-    }
+    void config(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry request);
 }

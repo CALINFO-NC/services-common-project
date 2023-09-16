@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -31,7 +31,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
-public class KeycloakJwtDecoder implements JwtDecoder {
+class KeycloakJwtDecoder implements JwtDecoder {
 
     @Delegate
     private JwtDecoder jwtDecoder;

@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -30,7 +30,7 @@ import org.springframework.security.oauth2.jwt.JwtIssuerValidator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class KeycloakJwtIssuerValidator implements OAuth2TokenValidator<Jwt> {
+class KeycloakJwtIssuerValidator implements OAuth2TokenValidator<Jwt> {
     private final KeycloakTenantService keycloakTenantService;
     private final Map<String, JwtIssuerValidator> validators = new ConcurrentHashMap<>();
     public KeycloakJwtIssuerValidator(KeycloakTenantService keycloakTenantService) {

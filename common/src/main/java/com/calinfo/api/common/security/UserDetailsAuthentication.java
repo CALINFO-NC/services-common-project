@@ -26,18 +26,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.security.Principal;
 import java.util.Collection;
-import java.util.Objects;
 
 @RequiredArgsConstructor
-public class UserDetailAuthentication implements Authentication {
+public class UserDetailsAuthentication implements Authentication {
 
     private final UserDetails userDetails;
     private final Object credential;
-    private boolean authenticated;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

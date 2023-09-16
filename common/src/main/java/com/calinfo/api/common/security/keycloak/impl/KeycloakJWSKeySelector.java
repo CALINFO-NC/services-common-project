@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class KeycloakJWSKeySelector  implements JWTClaimsSetAwareJWSKeySelector<SecurityContext> {
+class KeycloakJWSKeySelector  implements JWTClaimsSetAwareJWSKeySelector<SecurityContext> {
     private final KeycloakTenantService keycloakTenantService;
     private final Map<String, JWSKeySelector<SecurityContext>> selectors = new ConcurrentHashMap<>();
 

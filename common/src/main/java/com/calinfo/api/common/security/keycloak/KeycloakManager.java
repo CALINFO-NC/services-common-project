@@ -22,14 +22,20 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class KeycloakTenant {
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.RealmResource;
 
-    private String issuer;
+public interface KeycloakManager {
 
-    private String jwkSetUrl;
+    Keycloak getRootHandle();
+
+    default RealmResource getKeycloakRealm(String realm){
+        return getRootHandle().realm(realm);
+    }
+
+    default RealmResource getKeycloakRealm() {
+        return getKeycloakRealm(RealmContext.getRealm());
+    }
 }
+

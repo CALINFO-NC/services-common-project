@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -22,13 +22,12 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
+import com.calinfo.api.common.security.keycloak.KeycloakProperties;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.proc.JWTClaimsSetAwareJWSKeySelector;
 import com.nimbusds.jwt.proc.JWTProcessor;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
@@ -37,12 +36,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
-import java.util.Collection;
-import java.util.Map;
-
-public class KeycloakSecurityConfigUtils {
+class KeycloakSecurityConfigUtils {
 
     public static JWTClaimsSetAwareJWSKeySelector<SecurityContext> getJwtSelector(KeycloakTenantService keycloakTenantService){
         return new KeycloakJWSKeySelector(keycloakTenantService);

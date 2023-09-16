@@ -22,9 +22,7 @@ package com.calinfo.api.common.utils;
  * #L%
  */
 
-import com.calinfo.api.common.security.keycloak.KeycloakUtils;
-import com.calinfo.api.common.task.TaskPrincipal;
-import com.nimbusds.oauth2.sdk.token.AccessToken;
+import com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -176,6 +174,6 @@ public class SecurityUtils {
             login = login.trim();
         }
 
-        return !StringUtils.isAllBlank(login) && !Objects.equals(login, KeycloakUtils.ANONYMOUS_USER_NAME);
+        return !StringUtils.isAllBlank(login) && !Objects.equals(login, KeycloakAuthorizeHttpRequestsCustomizerConfig.ANONYMOUS_USER_NAME);
     }
 }

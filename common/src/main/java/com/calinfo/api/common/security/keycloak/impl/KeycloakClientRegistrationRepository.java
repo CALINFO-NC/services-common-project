@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -22,6 +22,7 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
+import com.calinfo.api.common.security.keycloak.KeycloakProperties;
 import com.calinfo.api.common.utils.MiscUtils;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -31,7 +32,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeycloakClientRegistrationRepository implements ClientRegistrationRepository {
+class KeycloakClientRegistrationRepository implements ClientRegistrationRepository {
 
     private Map<String, ClientRegistration> cache = new HashMap<>();
     private final KeycloakProperties keycloakProperties;

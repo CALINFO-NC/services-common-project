@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -22,11 +22,14 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import java.util.Optional;
+import lombok.Getter;
+import lombok.Setter;
 
-public interface KeycloakTenantService {
+@Getter
+@Setter
+class KeycloakTenant {
 
-    String extractTenantIdFromIssuerUrl(String issuerUrl);
+    private String issuer;
 
-    Optional<KeycloakTenant> getByIssuer(String tenantId);
+    private String jwkSetUrl;
 }

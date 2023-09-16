@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -22,24 +22,21 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
+import com.calinfo.api.common.security.keycloak.KeycloakProperties;
 import com.nimbusds.jwt.JWTParser;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
-import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class KeycloakAuthenticationManagerResolver implements AuthenticationManagerResolver<HttpServletRequest> {
+class KeycloakAuthenticationManagerResolver implements AuthenticationManagerResolver<HttpServletRequest> {
     private final KeycloakTenantService keycloakTenantService;
     private final JwtDecoder jwtDecoder;
     private final BearerTokenResolver resolver = new DefaultBearerTokenResolver();

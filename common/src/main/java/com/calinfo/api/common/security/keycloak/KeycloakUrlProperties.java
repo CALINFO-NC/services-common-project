@@ -23,17 +23,20 @@ package com.calinfo.api.common.security.keycloak;
  */
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Data
-@Component
-@ConfigurationProperties(prefix = "common.configuration.keycloak")
-public class KeycloakProperties {
+public class KeycloakUrlProperties {
 
-    private String baseUrl;
-    private String clientId;
-    private String principalClaimName = "preferred_username";
-    private KeycloakUrlProperties urls = new KeycloakUrlProperties();
+    public static final String DEFAULT_LOGIN = "/security/login";
+    public static final String DEFAULT_LOGOUT = "/security/logout";
+    public static final String DEFAULT_USER_JSON_DETAILS = "/security/user-details";
+    public static final String DEFAULT_KEYCLOAK_ACCOUNT = "/security/account";
+    public static final String DEFAULT_KEYCLOAK_CONSOLE = "/security/console";
+
+    private String login = DEFAULT_LOGIN;
+    private String logout = DEFAULT_LOGOUT;
+    private String userJsonDetails = DEFAULT_USER_JSON_DETAILS;
+    private String keycloakAccount = DEFAULT_KEYCLOAK_ACCOUNT;
+    private String keycloakConsole = DEFAULT_KEYCLOAK_CONSOLE;
 }

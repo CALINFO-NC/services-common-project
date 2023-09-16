@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -22,18 +22,21 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig;
+import com.calinfo.api.common.security.keycloak.RealmResolver;
+import com.calinfo.api.common.tenant.Request;
+import lombok.SneakyThrows;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
-@Data
+@ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
+@ConditionalOnMissingBean(RealmResolver.class)
 @Component
-@ConfigurationProperties(prefix = "common.configuration.keycloak")
-public class KeycloakProperties {
+class DefaultRealmResolver implements RealmResolver {
 
-    private String baseUrl;
-    private String clientId;
-    private String principalClaimName = "preferred_username";
-    private KeycloakUrlProperties urls = new KeycloakUrlProperties();
+    @SneakyThrows
+    public String getRealm(Request request){
+        return request.getUrl().getHost();
+    }
 }

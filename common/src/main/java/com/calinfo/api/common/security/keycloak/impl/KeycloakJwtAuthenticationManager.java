@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -22,7 +22,9 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import com.calinfo.api.common.security.UserDetailAuthentication;
+import com.calinfo.api.common.security.UserDetailsAuthentication;
+import com.calinfo.api.common.security.keycloak.KeycloakProperties;
+import com.calinfo.api.common.security.keycloak.RealmContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,7 +42,7 @@ import org.springframework.security.oauth2.server.resource.authentication.Bearer
 
 @Slf4j
 @RequiredArgsConstructor
-public class KeycloakJwtAuthenticationManager implements AuthenticationManager {
+class KeycloakJwtAuthenticationManager implements AuthenticationManager {
 
 
     private final KeycloakProperties keycloakProperties;
@@ -60,7 +62,7 @@ public class KeycloakJwtAuthenticationManager implements AuthenticationManager {
             String realm = KeycloakUtils.getTenantIdFromIssuerUrl(keycloakProperties.getBaseUrl(), jwt.getClaimAsString("iss"));
             RealmContext.setRealm(realm);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            return new UserDetailAuthentication(userDetails, jwt);
+            return new UserDetailsAuthentication(userDetails, jwt);
         }
         finally {
             RealmContext.setRealm(actualRealm);

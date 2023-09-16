@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.keycloak.impl;
 
 /*-
  * #%L
@@ -29,7 +29,7 @@ import com.nimbusds.jwt.proc.JWTClaimsSetAwareJWSKeySelector;
 import com.nimbusds.jwt.proc.JWTProcessor;
 import lombok.experimental.Delegate;
 
-public class KeycloakJWTProcessor implements JWTProcessor<SecurityContext> {
+class KeycloakJWTProcessor implements JWTProcessor<SecurityContext> {
 
     @Delegate
     private JWTProcessor<SecurityContext> jwtProcessor;

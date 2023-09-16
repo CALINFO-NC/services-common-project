@@ -22,30 +22,28 @@ package com.calinfo.api.common.security.keycloak.impl;
  * #L%
  */
 
+import java.util.Optional;
+
+import com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig;
 import com.calinfo.api.common.security.keycloak.KeycloakProperties;
-import com.calinfo.api.common.security.keycloak.KeycloakTenant;
-import com.calinfo.api.common.security.keycloak.KeycloakTenantService;
-import com.calinfo.api.common.security.keycloak.KeycloakUtils;
 import com.calinfo.api.common.utils.MiscUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@ConditionalOnProperty(prefix = "common.configuration.keycloak", name = "enabled", havingValue = "true")
+@ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
 @RequiredArgsConstructor
 @Service
-public class DefaultKeycloakTenantServiceImpl implements KeycloakTenantService {
+class KeycloakTenantService {
 
     private final KeycloakProperties keycloakProperties;
 
-    @Override
     public String extractTenantIdFromIssuerUrl(String issuerUrl){
         return KeycloakUtils.getTenantIdFromIssuerUrl(keycloakProperties.getBaseUrl(), issuerUrl);
     }
 
-    @Override
     public Optional<KeycloakTenant> getByIssuer(String tenantId){
 
         String baseUrl = MiscUtils.formatEndUrl(keycloakProperties.getBaseUrl());
