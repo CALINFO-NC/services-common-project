@@ -1,4 +1,4 @@
-package com.calinfo.api.common.security.keycloak;
+package com.calinfo.api.common.security.actuator;
 
 /*-
  * #%L
@@ -22,14 +22,15 @@ package com.calinfo.api.common.security.keycloak;
  * #L%
  */
 
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-public interface KeycloakAuthorizeHttpRequestsCustomizerConfig {
+@Data
+@ConfigurationProperties(prefix = "common.configuration.security.actuator")
+@Configuration
+public class ActuatorProperties {
 
-    int SECURITY_FILTER_CHAIN_ORDER = 100;
-    String ANONYMOUS_USER_NAME = "anonymousUser";
-
-    void config(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry request);
+    private String login;
+    private String password;
 }

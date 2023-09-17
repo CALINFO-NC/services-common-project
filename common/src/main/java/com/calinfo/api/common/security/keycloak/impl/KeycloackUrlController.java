@@ -48,7 +48,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@ConditionalOnProperty(prefix = "common.configuration.keycloak.urls", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "common.configuration.security.keycloak.urls", name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
 @Slf4j
 @RequiredArgsConstructor
@@ -61,7 +61,7 @@ class KeycloackUrlController {
     private final UserDetailsService userDetailsService;
 
     @SneakyThrows
-    @GetMapping(value = "${common.configuration.keycloak.urls.login:" + KeycloakUrlProperties.DEFAULT_LOGIN + "}")
+    @GetMapping(value = "${common.configuration.security.keycloak.urls.login:" + KeycloakUrlProperties.DEFAULT_LOGIN + "}")
     public String login() {
 
         if (SecurityUtils.isUserConnected()) {
@@ -72,7 +72,7 @@ class KeycloackUrlController {
         }
     }
 
-    @GetMapping(value = "${common.configuration.keycloak.urls.logout:" + KeycloakUrlProperties.DEFAULT_LOGOUT + "}")
+    @GetMapping(value = "${common.configuration.security.keycloak.urls.logout:" + KeycloakUrlProperties.DEFAULT_LOGOUT + "}")
     public String logout(HttpServletRequest request) throws ServletException {
 
         String login = SecurityUtils.getUsernameFromSecurityContext();
@@ -86,15 +86,15 @@ class KeycloackUrlController {
     }
 
     @ResponseBody
-    @GetMapping(value = "${common.configuration.keycloak.urls.user-json-details:" + KeycloakUrlProperties.DEFAULT_USER_JSON_DETAILS + "}")
+    @GetMapping(value = "${common.configuration.security.keycloak.urls.user-json-details:" + KeycloakUrlProperties.DEFAULT_USER_JSON_DETAILS + "}")
     public UserDetails userJsonDetail(){
         String login = SecurityUtils.getUsernameFromSecurityContext();
         return userDetailsService.loadUserByUsername(login);
     }
 
-    @GetMapping(value = {"${common.configuration.keycloak.urls.keycloak-administration:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_CONSOLE + "}",
-            "${common.configuration.keycloak.urls.keycloak-administration:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_CONSOLE + "}/{page}",
-            "${common.configuration.keycloak.urls.keycloak-administration:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_CONSOLE + "}/{page}/{idPage}"})
+    @GetMapping(value = {"${common.configuration.security.keycloak.urls.keycloak-administration:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_CONSOLE + "}",
+            "${common.configuration.security.keycloak.urls.keycloak-administration:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_CONSOLE + "}/{page}",
+            "${common.configuration.security.keycloak.urls.keycloak-administration:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_CONSOLE + "}/{page}/{idPage}"})
     public void keycloakAdministration(HttpServletResponse httpServletResponse,
                                        @PathVariable(name = "page", required = false) String page,
                                        @PathVariable(name = "idPage", required = false) String idPage) {
@@ -123,8 +123,8 @@ class KeycloackUrlController {
         httpServletResponse.setStatus(302);
     }
 
-    @GetMapping(value = {"${common.configuration.keycloak.urls.keycloak-user-account:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_ACCOUNT + "}",
-            "${common.configuration.keycloak.urls.keycloak-user-account:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_ACCOUNT + "}/{page}"})
+    @GetMapping(value = {"${common.configuration.security.keycloak.urls.keycloak-user-account:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_ACCOUNT + "}",
+            "${common.configuration.security.keycloak.urls.keycloak-user-account:" + KeycloakUrlProperties.DEFAULT_KEYCLOAK_ACCOUNT + "}/{page}"})
     public void keycloakUserAccount(HttpServletResponse httpServletResponse, @PathVariable(name = "page", required = false) String page) {
 
         if (StringUtils.isBlank(page)) {

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "common.configuration.keycloak")
+@ConfigurationProperties(prefix = "common.configuration.security.keycloak")
 public class KeycloakProperties {
 
     private String baseUrl;
