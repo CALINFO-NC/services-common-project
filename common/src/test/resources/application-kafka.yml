@@ -1,5 +1,8 @@
 common:
   configuration:
+    service:
+      message:
+        enabled: false
     kafka-event:
       enabled: true
 

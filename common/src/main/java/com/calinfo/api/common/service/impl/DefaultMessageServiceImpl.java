@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.servlet.ConditionalOnMissingFilterBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -42,6 +43,8 @@ import java.util.Locale;
  * Utilise le fichier messages.properties, pour charger toutes les clés de message existantes
  * puis délègue à spring le soin de charger le bon message selon la locale précisée.
  */
+
+@ConditionalOnProperty(prefix = "common.configuration.service.message", name = "enabled", havingValue = "true", matchIfMissing = true)
 @Service
 @Slf4j
 @RequiredArgsConstructor

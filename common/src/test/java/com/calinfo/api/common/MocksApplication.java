@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @EnableAsync(mode = AdviceMode.ASPECTJ)
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MocksApplication {
     public static void main(String[] args) {

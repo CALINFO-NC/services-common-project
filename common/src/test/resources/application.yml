@@ -1,6 +1,8 @@
 common:
   configuration:
-
+    service:
+      message:
+        enabled: false
     application:
       id: "${common.configuration.application.name}_${common.configuration.application.version}"
       name: "common"
