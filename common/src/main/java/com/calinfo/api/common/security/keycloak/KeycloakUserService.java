@@ -38,14 +38,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
-@ConditionalOnMissingBean(UserDetailsService.class)
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class KeycloakUserService implements UserDetailsService {
 
     private final KeycloakManager keycloakManager;
