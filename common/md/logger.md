@@ -77,8 +77,8 @@ Ci-dessous un exemple de fichier *logback-spring.xml* avec 2 *appenders*. Un sur
  
 	 <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender"> 
 		 <layout class="ch.qos.logback.classic.PatternLayout"> 
-			 <Pattern> 
-				 %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable 
+			 <Pattern>
+                 %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
 			</Pattern> 
 		</layout> 
 	</appender>  

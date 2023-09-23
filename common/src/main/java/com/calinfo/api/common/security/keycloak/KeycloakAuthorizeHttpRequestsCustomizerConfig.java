@@ -24,12 +24,26 @@ package com.calinfo.api.common.security.keycloak;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 
 public interface KeycloakAuthorizeHttpRequestsCustomizerConfig {
 
     int SECURITY_FILTER_CHAIN_ORDER = 100;
     String ANONYMOUS_USER_NAME = "anonymousUser";
 
-    void config(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry request);
+    void configAuthHttpRequest(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry request);
+
+    default void configCsrf(CsrfConfigurer<HttpSecurity> csrf){
+        csrf.disable();
+    }
+
+    default void completeConfigHttpSecurity(HttpSecurity http){
+    }
+
+    default void configSessionManagement(SessionManagementConfigurer<HttpSecurity> session){
+        session.sessionAuthenticationStrategy(new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl()));
+    }
 }

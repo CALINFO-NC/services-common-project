@@ -28,7 +28,9 @@ import com.calinfo.api.common.tenant.Request;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import com.calinfo.api.common.security.keycloak.RealmResolver;
 
 @ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
 @ConditionalOnMissingBean(RealmResolver.class)
