@@ -31,7 +31,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Component;
 
 @ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
-@ConditionalOnMissingBean(RealmResolver.class)
 @Component
 class DefaultRealmResolver implements RealmResolver {
 
