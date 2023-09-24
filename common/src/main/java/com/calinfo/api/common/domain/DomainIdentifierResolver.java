@@ -22,9 +22,6 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
-import com.calinfo.api.common.domain.DomainContext;
-import com.calinfo.api.common.domain.DomainDatasourceConfiguration;
-import com.calinfo.api.common.domain.DomainProperties;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

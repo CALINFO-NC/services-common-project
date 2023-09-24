@@ -24,7 +24,6 @@ package com.calinfo.api.common.security.keycloak;
 
 import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.security.DefaultUserDetailsDto;
-import com.calinfo.api.common.security.keycloak.KeycloakManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.UserResource;
@@ -33,7 +32,6 @@ import org.keycloak.representations.idm.ClientMappingsRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -138,5 +136,4 @@ public class KeycloakUserService implements UserDetailsService {
     protected String toSpringRole(String originalRole){
         return String.format("ROLE_%s", originalRole);
     }
-
 }

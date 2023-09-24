@@ -22,7 +22,6 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
-import com.calinfo.api.common.domain.DomainProperties;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.cfg.Environment;

@@ -28,6 +28,7 @@ import com.nimbusds.jwt.proc.JWTClaimsSetAwareJWSKeySelector;
 import com.nimbusds.jwt.proc.JWTProcessor;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
@@ -95,7 +96,11 @@ class KeycloakSecurityConfigUtils {
     }
 
 
+    public static GrantedAuthoritiesMapper getGrantedAuthoritiesMapper(KeycloakProperties keycloakProperties,
+                                                                       UserDetailsService userDetailsService){
 
+        return new KeycloakGrantedAuthoritiesMapper(userDetailsService, keycloakProperties);
+    }
 
 
 }

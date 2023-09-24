@@ -28,8 +28,8 @@ import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.ex.MessageStatusException;
-import com.calinfo.api.common.kafka.KafkaTopicPrefix;
 import com.calinfo.api.common.kafka.KafkaTopic;
+import com.calinfo.api.common.kafka.KafkaTopicPrefix;
 import com.calinfo.api.common.service.MessageService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +46,10 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by dalexis on 20/11/2017.

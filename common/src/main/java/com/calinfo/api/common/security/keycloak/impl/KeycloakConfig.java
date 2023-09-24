@@ -29,10 +29,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.stereotype.Component;
 
 @ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
@@ -58,6 +56,7 @@ class KeycloakConfig {
         http.oauth2Login(login -> {
             login.clientRegistrationRepository(KeycloakSecurityConfigUtils.getClientRegistrationRepository(this.keycloakProperties));
             login.loginPage(keycloakProperties.getUrls().getLogin());
+            login.userInfoEndpoint(userInfo -> userInfo.userAuthoritiesMapper(KeycloakSecurityConfigUtils.getGrantedAuthoritiesMapper(keycloakProperties, userDetailsService)));
         });
         http.sessionManagement(session -> keycloakAuthorizeHttpRequestsCustomizerConfig.configSessionManagement(session));
 

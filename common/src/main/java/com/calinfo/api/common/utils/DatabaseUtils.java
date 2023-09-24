@@ -22,8 +22,8 @@ package com.calinfo.api.common.utils;
  * #L%
  */
 
-import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.domain.DomainError;
+import com.calinfo.api.common.ex.ApplicationErrorException;
 
 import javax.sql.DataSource;
 import java.sql.*;

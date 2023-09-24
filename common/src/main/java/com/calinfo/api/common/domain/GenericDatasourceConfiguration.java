@@ -22,7 +22,6 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
-import com.calinfo.api.common.domain.DomainProperties;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

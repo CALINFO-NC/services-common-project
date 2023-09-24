@@ -22,9 +22,6 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
-import com.calinfo.api.common.domain.DomainDatasourceConfiguration;
-import com.calinfo.api.common.domain.DomainProperties;
-import com.calinfo.api.common.domain.DomainStrategy;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;

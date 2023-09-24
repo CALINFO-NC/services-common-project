@@ -22,10 +22,10 @@ package com.calinfo.api.common.ex;
  * #L%
  */
 
-import lombok.Getter;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.Getter;
+
 import java.util.Set;
 
 /**

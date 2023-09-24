@@ -22,8 +22,6 @@ package com.calinfo.api.common.security.keycloak.impl;
  * #L%
  */
 
-import java.util.Optional;
-
 import com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig;
 import com.calinfo.api.common.security.keycloak.KeycloakProperties;
 import com.calinfo.api.common.utils.MiscUtils;

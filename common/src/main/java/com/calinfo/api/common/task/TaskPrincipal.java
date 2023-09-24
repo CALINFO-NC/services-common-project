@@ -26,7 +26,6 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collection;
 
 

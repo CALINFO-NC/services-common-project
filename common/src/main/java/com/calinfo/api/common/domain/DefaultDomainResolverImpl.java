@@ -22,7 +22,6 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
-import com.calinfo.api.common.domain.DomainResolver;
 import com.calinfo.api.common.tenant.Request;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
