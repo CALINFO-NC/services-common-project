@@ -5,7 +5,7 @@ import com.calinfo.api.common.kafka.mock.KafkaSubServiceImpl;
 import com.calinfo.api.common.kafka.mock.Receiver;
 import com.calinfo.api.common.mocks.MockMessageServiceImpl;
 import com.calinfo.api.common.mocks.MockServiceConstrainteVilationService;
-import com.calinfo.api.common.tenant.TenantProperties;
+import com.calinfo.api.common.domain.DomainProperties;
 import com.calinfo.api.common.tenant.TenantTestFilter;
 import com.calinfo.api.common.tenant.service.TableDomainServiceImpl;
 import com.calinfo.api.common.tenant.service.TableGenericServiceImpl;
@@ -47,7 +47,7 @@ public class AutowiredConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(TenantProperties.CONDITIONNAL_PROPERTY)
+    @ConditionalOnProperty(DomainProperties.CONDITIONNAL_PROPERTY)
     public TenantTestFilter tenantTestFilter() {
         TenantTestFilter obj = new TenantTestFilter();
         autowireCapableBeanFactory.autowireBean(obj);

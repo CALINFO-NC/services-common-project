@@ -30,4 +30,6 @@ Binaire disponnible dans le "repository" :  [https://calinfo.jfrog.io/calinfo/li
 # Quoi de nouveau
 
  * 2.1.0 : Ajout d'un WebdavBinaryDataConnector dans common-io
+ * 3.0.0 : Supression de la calsse CommonKeycloakSecurityConfigurerAdapter suite à l'abandon de KeycloakWebSecurityConfigurerAdapter (https://www.keycloak.org/docs/latest/securing_apps/#_spring_security_adapter).
+           Il faut suivre : https://www.baeldung.com/spring-boot-keycloak
 

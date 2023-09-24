@@ -28,6 +28,7 @@ import com.calinfo.api.common.ex.BadRequestParameterException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.service.MessageService;
 import com.calinfo.api.common.utils.HandlerUtils;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -37,8 +38,6 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)

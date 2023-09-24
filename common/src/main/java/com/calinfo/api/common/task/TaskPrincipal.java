@@ -23,12 +23,9 @@ package com.calinfo.api.common.task;
  */
 
 import lombok.Getter;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -38,13 +35,10 @@ import java.util.Collection;
 public class TaskPrincipal implements Principal {
 
     @Getter
-    private KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipal;
-
-    @Getter
     private String name;
 
     @Getter
-    Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
+    Collection<? extends GrantedAuthority> authorities;
 
     @Getter
     private String domain;

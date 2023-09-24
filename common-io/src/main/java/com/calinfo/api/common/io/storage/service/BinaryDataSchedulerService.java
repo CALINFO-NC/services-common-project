@@ -22,10 +22,11 @@ package com.calinfo.api.common.io.storage.service;
  * #L%
  */
 
+import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import com.calinfo.api.common.io.storage.service.impl.IdQueue;
 import com.calinfo.api.common.io.storage.service.impl.IdQueueManager;
-import com.calinfo.api.common.tenant.DomainContext;
+import com.calinfo.api.common.domain.DomainContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -34,7 +35,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.ws.rs.InternalServerErrorException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
@@ -121,7 +121,7 @@ public class BinaryDataSchedulerService {
             }
         }
         catch (IOException e){
-            throw new InternalServerErrorException(e);
+            throw new ApplicationErrorException(e);
         }
 
     }

@@ -118,19 +118,19 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
 
         dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
-        dto.setName("prm.prop1");
+        dto.setName("arg0.prop1");
         dto.setType(TypeAttribut.RESOURCE);
         dto.getListMessages().add("must not be null");
 
         dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
-        dto.setName("prm.prop2");
+        dto.setName("arg0.prop2");
         dto.setType(TypeAttribut.RESOURCE);
         dto.getListMessages().add("must be null");
 
         dto = new AttributDto();
         valueTester.getListErrorMessages().add(dto);
-        dto.setName("prm.prop3.prop1");
+        dto.setName("arg0.prop3.prop1");
         dto.setType(TypeAttribut.RESOURCE);
         dto.getListMessages().add("must not be null");
 

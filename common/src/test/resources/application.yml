@@ -1,17 +1,12 @@
 common:
   configuration:
-
-    matching:
-      filter:
-        enabled: true
-
+    service:
+      message:
+        enabled: false
     application:
       id: "${common.configuration.application.name}_${common.configuration.application.version}"
       name: "common"
       version: "TEST"
-
-    security:
-      enabled: false
 
 spring:
   liquibase:
@@ -25,29 +20,4 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-
-keycloak:
-  enabled: false
-
----
-spring:
-  config:
-    activate:
-      on-profile: disableSecurity
-common:
-  configuration:
-    security:
-      enabled: false
-keycloak:
-  enabled: false
----
-spring:
-  config:
-    activate:
-      on-profile: enableSecurity
-common:
-  configuration:
-
-    security:
-      enabled: true
 

@@ -1,5 +1,6 @@
 package com.calinfo.api.common.tenant;
 
+import com.calinfo.api.common.domain.DomainContext;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

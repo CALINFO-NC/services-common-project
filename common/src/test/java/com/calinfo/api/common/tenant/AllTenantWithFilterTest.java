@@ -1,6 +1,7 @@
 package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.AutowiredConfig;
+import com.calinfo.api.common.domain.DomainProperties;
 import com.calinfo.api.common.manager.RestTemplateManager;
 import com.calinfo.api.common.utils.DatabaseUtils;
 import com.calinfo.api.common.utils.LiquibaseUtils;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -46,7 +47,7 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
     private int port;
 
     @Autowired
-    private TenantProperties tenantProperties;
+    private DomainProperties domainProperties;
 
     @Autowired
     @Qualifier("tenantDataSource")
@@ -71,10 +72,10 @@ public class AllTenantWithFilterTest extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void init(){
 
-        String schema1 = String.format("%s%s", tenantProperties.getPrefix(), domain1);
-        String schema2 = String.format("%s%s", tenantProperties.getPrefix(), domain2);
+        String schema1 = String.format("%s%s", domainProperties.getPrefix(), domain1);
+        String schema2 = String.format("%s%s", domainProperties.getPrefix(), domain2);
 
-        LiquibaseProperties liquibaseProperties = tenantProperties.getLiquibase();
+        LiquibaseProperties liquibaseProperties = domainProperties.getLiquibase();
 
         DatabaseUtils.createSchemaOrDatabase(dataSource, schema1);
         LiquibaseUtils.updateSchema(dataSource, liquibaseProperties.getChangeLog(), schema1);

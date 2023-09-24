@@ -2,7 +2,7 @@ package com.calinfo.api.common.io.storage.mock;
 
 import com.calinfo.api.common.io.storage.service.BinaryDataClientService;
 import com.calinfo.api.common.io.storage.service.TransfertData;
-import com.calinfo.api.common.tenant.DomainContext;
+import com.calinfo.api.common.domain.DomainContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

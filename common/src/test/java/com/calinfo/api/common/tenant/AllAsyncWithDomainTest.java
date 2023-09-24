@@ -1,6 +1,7 @@
 package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.AutowiredConfig;
+import com.calinfo.api.common.domain.DomainContext;
 import com.calinfo.api.common.tenant.service.AsyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

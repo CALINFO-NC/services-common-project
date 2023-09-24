@@ -1,6 +1,5 @@
 package com.calinfo.api.common.io;
 
-import com.calinfo.api.common.io.mock.MockMessageService;
 import com.calinfo.api.common.io.storage.mock.MockBinaryDataConnector;
 import com.calinfo.api.common.io.storage.mock.MockBinaryDataDomainService;
 import com.calinfo.api.common.io.storage.mock.MockBinaryDataService;
@@ -37,13 +36,5 @@ public class AutowiredConfig {
         autowireCapableBeanFactory.autowireBean(obj);
         return obj;
     }
-
-    @Bean
-    public MockMessageService mockMessageService() {
-        MockMessageService obj = new MockMessageService();
-        autowireCapableBeanFactory.autowireBean(obj);
-        return obj;
-    }
-
 
 }

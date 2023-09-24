@@ -22,8 +22,8 @@ package com.calinfo.api.common.utils;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainError;
 import com.calinfo.api.common.ex.ApplicationErrorException;
-import com.calinfo.api.common.tenant.TenantError;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -61,11 +61,6 @@ public class DatabaseUtils {
         }
     }
 
-    @Deprecated
-    public static void createSchema(DataSource dataSource, String schemaName) {
-        createSchemaOrDatabase(dataSource, schemaName);
-    }
-
     public static void deleteSchema(DataSource dataSource, String schemaName) {
 
         // Création de la connection
@@ -100,7 +95,7 @@ public class DatabaseUtils {
             }
 
         } catch (Exception e) {
-            throw new TenantError(e.getMessage(), e);
+            throw new DomainError(e.getMessage(), e);
         }
 
         return result;

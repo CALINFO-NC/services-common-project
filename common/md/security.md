@@ -5,215 +5,105 @@ Le common embarque une sécurité cablé avec Keycloak (https://www.keycloak.org
 # Mise en oeuvre
 
 La sécurité prend en charge la gestion du multi-tenant et utilise keyckloak pour son fonctionnement. 
-Le common injectera le domain directement dans le realm de la configuration keycloak
+Le common injectera le realm de la configuration keycloak
 
 Exemple de configuration
 ```
-keycloak:
-  # realm: ""   # cette valeur n'a pas besoin d'être spécifiée. Le common alimentera cette clef avec la valeur du domain
-  auth-server-url: http://localhost:8085/auth   # Serveur d'authentification
-  resource: login-app   # Client keycloak (nom de l'application dans keycloak)
-  public-client: true
-  use-resource-role-mappings: true
-  principal-attribute: preferred_username
+common:
+  configuration:
+    security:
+      keycloak:
+        baseUrl: http://host.docker.internal:8106
+        client-id: '@project.artifactId@'
+        urls:       # (facultatif) Un certain nombre d'URL ici est paramétrable. Voir la classe KeycloakUrlProperties
+          login: /login
+          logout: /protected/api/v1/logout
 ```
 
-Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter*....
+Il faut aussi écrire la classe Java qui implémente *com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig*....
 
-Exemple (Prennez note de l'annotation @KeycloakConfiguration):
-```
-import com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter;
-import com.calinfo.api.common.security.HostResolver;
-import com.calinfo.api.common.security.SecurityProperties;
-import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
-import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
-@EnableWebSecurity
-@KeycloakConfiguration
-public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
-
-    public SecurityConfig(SecurityProperties securityProperties,
-                          KeycloakSpringBootProperties adapterConfig,
-                          HostResolver hostResolver){
-        super(securityProperties, adapterConfig, hostResolver);
-    }
-    
-    // Exemple de configuration de la sécurité
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-
-        http.authorizeRequests().regexMatchers("/private/*").hasRole(securityProperties.getAccessAppRole()).anyRequest().permitAll();
-        http.csrf().disable();
-    }
-}
-```
-
-... Et la classe java qui inject le bean *com.calinfo.api.common.security.CommonKeycloakConfigResolver*.
 Exemple :
 ```
-import com.calinfo.api.common.tenant.DomainResolver;
-import lombok.RequiredArgsConstructor;
-import org.keycloak.adapters.KeycloakConfigResolver;
-import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
-import org.springframework.context.annotation.Bean;
+import com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig;
 import org.springframework.context.annotation.Configuration;
-
-@RequiredArgsConstructor
-@Configuration
-public class KeycloakConfigResolverConfiguration {
-
-    private final KeycloakSpringBootProperties adapterConfig;
-    private final DomainResolver domainResolver;
-
-    @Bean
-    public KeycloakConfigResolver keycloakConfigResolver() {
-        return new CommonKeycloakConfigResolver(adapterConfig, domainResolver);
-    }
-}
-```
-
-# Déseactiver la sécurité
-
-Pour désactiver la sécurité avec Keycloak, vous devrez définir la configuration ci-dessous
-```
-keycloak:
-  enabled: false
-```
-
-Vous pouvez aussi désactivé le méchanisme de sécurité spring en utilisant l'annotation *@SpringBootApplication(exclude = SecurityAutoConfiguration.class)*
-
-Exemple :
-```
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-
-
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-public class Application extends SpringBootServletInitializer {
-
-    ...
-
-}
-```
-
-# Comment intégrer une une sécurité "httpBasic" délégué à spring tout en utilisant keycloak ?
-
-Un cas d'utilisation est par exemple d'utiliser la gestion de la sécurité à keycloak pour toutes
-les urls "/api/v*/private/**" et de déléguer les urls "/actuator/**" à l'authentification basic.
-
-##1. Créer une implémentation de *AuthenticationProvider*
-
-```
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-
-import java.util.Collections;
-
-@RequiredArgsConstructor
-public class BasicAuthenticationProvider implements AuthenticationProvider {
-
-    private final String user;
-    private final String password;
-
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        String username = authentication.getName();
-        String password = authentication.getCredentials()
-                .toString();
-
-        if (user.equals(username) && password.equals(password)) {
-            return new UsernamePasswordAuthenticationToken
-                    (username, password, Collections.emptyList());
-        } else {
-            throw new BadCredentialsException("External system authentication failed");
-        }
-    }
-
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(aClass);
-    }
-}
-```
-
-##2. Surcharger la classe *CommonKeycloakSecurityConfigurerAdapter*
-
-```
-import com.calinfo.api.common.security.CommonKeycloakSecurityConfigurerAdapter;
-import com.calinfo.api.common.tenant.DomainResolver;
-import org.keycloak.OAuth2Constants;
-import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
-import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
-import org.keycloak.adapters.springsecurity.filter.KeycloakAuthenticationProcessingFilter;
-import org.keycloak.adapters.springsecurity.filter.QueryParamPresenceRequestMatcher;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import javax.servlet.http.HttpServletRequest;
+@Configuration
+public class KeycloakSecurityConfig implements KeycloakAuthorizeHttpRequestsCustomizerConfig {
 
-@KeycloakConfiguration
-public class SecurityConfig extends CommonKeycloakSecurityConfigurerAdapter {
 
-    private final SecurityProperties securityProperties;
-
-    public SecurityConfig(KeycloakSpringBootProperties adapterConfig,
-                          DomainResolver domainResolver,
-                          KeycloakSpringBootProperties keycloakSpringBootProperties,
-                          SecurityProperties securityProperties){
-        super(adapterConfig, domainResolver, keycloakSpringBootProperties.getResource());
-        this.securityProperties = securityProperties;
+    private RequestMatcher getKeycloakRequestMatcher(){
+        return new OrRequestMatcher(
+            new AntPathRequestMatcher("/protected/**"),
+            new AntPathRequestMatcher("/data/**"),
+            new AntPathRequestMatcher("/jsapplication/sencha/extjs/genesis/**")
+        );
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/api/v*/private/**").hasRole("CLOUDPRINT")
-                .antMatchers("/actuator/**").authenticated()
-                .and()
-                .httpBasic();
-    }
-
-    @Bean
-    @Override
-    protected KeycloakAuthenticationProcessingFilter keycloakAuthenticationProcessingFilter() throws Exception {
-        RequestMatcher requestMatcher =
-                new OrRequestMatcher(
-                        new AntPathRequestMatcher("/sso/login"),
-                        new QueryParamPresenceRequestMatcher(OAuth2Constants.ACCESS_TOKEN),
-                        new RequestMatcher(){
-                            public boolean matches(HttpServletRequest request) {
-                                String authorizationHeaderValue = request.getHeader("Authorization");
-                                return authorizationHeaderValue != null && !authorizationHeaderValue.startsWith("Basic ");
-                            }
-                        }
-                );
-        return new KeycloakAuthenticationProcessingFilter(authenticationManagerBean(), requestMatcher);
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(new BasicAuthenticationProvider(securityProperties.getUser().getName(), securityProperties.getUser().getPassword()));
+    public void config(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry request) {
+        request
+                .requestMatchers(getKeycloakRequestMatcher())
+                .authenticated()
+                .anyRequest()
+                .permitAll();
     }
 }
 ```
+
+Pour finir il faut Implémenter l'interfact KeycloakManager.
+Voici un exemple d'implémentation :
+```
+import com.calinfo.api.common.security.keycloak.KeycloakManager;
+import com.calinfo.api.common.security.keycloak.KeycloakProperties;
+import com.calinfo.api.common.tenant.TenantUrlFilter;
+import com.calinfo.api.keycloak.GenesisKeycloakProperties;
+import lombok.Getter;
+import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+@Component
+@Order(KeycloakManagerImpl.ORDER_FILTER)
+public class KeycloakManagerImpl implements KeycloakManager {
+
+    public static final int ORDER_FILTER = TenantUrlFilter.ORDER_FILTER + 100;
+
+    @Getter
+    private final Keycloak rootHandle;
+
+
+    public KeycloakManagerImpl(GenesisKeycloakProperties genesisKeycloakProperties,
+                               KeycloakProperties keycloakProperties) {
+
+
+        this.rootHandle = KeycloakBuilder.builder()
+                .serverUrl(keycloakProperties.getBaseUrl())
+                .realm("master")
+                .username(genesisKeycloakProperties.getRoot().getLogin())
+                .password(genesisKeycloakProperties.getRoot().getPassword())
+                .clientId("admin-cli")
+                .resteasyClient(new ResteasyClientBuilderImpl().connectionPoolSize(100).build())
+                .build();
+    }
+}
+```
+
+Vous remarquerez, que ce composant doit être démaré après le composant TenantUrlFilter.
+
+# URLs par défaut 
+
+Le module common intègre par défaut des URLs (voir la classe KeycloakUrlProperties pour les valeurs par défaut). 
+Ces adresses sont les suivantes :
+
+* Connexion : Lien permettant de se connecter.
+* Déconnexion : Lien permettant de se déconnecter.
+* Informations JSON de l'utilisateur connecté : Renvoie l'utilisateur connecté avec ses rôles au format JSON.
+* Profil de l'utilisateur : Lien Keycloak vers la page du profil de l'utilisateur. Vous pouvez ajouter à cette URL les pages du profil Keycloak (par exemple : url + "/personal-info").
+* Console d'administration : Lien Keycloak pour accéder à la console d'administration de Keycloak. Vous pouvez ajouter à cette URL les pages de la console de Keycloak (par exemple : url + "/users" sans le realm).

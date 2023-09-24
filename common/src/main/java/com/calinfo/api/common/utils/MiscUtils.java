@@ -28,14 +28,13 @@ import com.calinfo.api.common.dto.BadResponseDto;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.ex.MessageStatusException;
-import com.calinfo.api.common.kafka.KafkaTopicPrefix;
 import com.calinfo.api.common.kafka.KafkaTopic;
+import com.calinfo.api.common.kafka.KafkaTopicPrefix;
 import com.calinfo.api.common.service.MessageService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -43,12 +42,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import springfox.documentation.spi.service.contexts.OperationContext;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by dalexis on 20/11/2017.
@@ -184,22 +185,22 @@ public class MiscUtils {
         return result;
     }
 
-    public static String getNickNameSwagger(OperationContext operationContext){
-
-        String nickname = "";
-        Optional<ApiOperation> apiOperation = operationContext.findAnnotation(ApiOperation.class);
-        if (apiOperation.isPresent()){
-            nickname = apiOperation.get().nickname();
-        }
-
-        if (StringUtils.isBlank(nickname)) {
-            nickname = operationContext.getName();
-        }
-
-        return nickname;
-    }
-
     public static String getActualMethodName(){
         return new Throwable().getStackTrace()[1].getMethodName();
+    }
+
+    /**
+     * Cette méthode retire si nécessaire le / à la fin de l'URL
+     * @param originalUrl URL à fromater
+     * @return URL fromatée
+     */
+    public static String formatEndUrl(String originalUrl){
+
+        String result = originalUrl;
+        if (result.endsWith("/")){
+            result = result.substring(0, result.length() - 1);
+        }
+
+        return result;
     }
 }
