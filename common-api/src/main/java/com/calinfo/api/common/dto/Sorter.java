@@ -22,11 +22,9 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
-import com.calinfo.api.common.dto.Dto;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @Data

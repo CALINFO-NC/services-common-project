@@ -22,11 +22,11 @@ package com.calinfo.api.common.io.storage.service;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainContext;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import com.calinfo.api.common.io.storage.service.impl.IdQueue;
 import com.calinfo.api.common.io.storage.service.impl.IdQueueManager;
-import com.calinfo.api.common.domain.DomainContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

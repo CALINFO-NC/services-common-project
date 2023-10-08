@@ -1,6 +1,8 @@
 package com.calinfo.api.common.task;
 
 import com.calinfo.api.common.AutowiredConfig;
+import com.calinfo.api.common.domain.DomainContext;
+import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.tenant.DomainDatasourceConfiguration;
 import com.calinfo.api.common.tenant.GenericDatasourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * Created by dalexis on 31/05/2018.
@@ -26,21 +29,26 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void runOk() throws TaskException {
+    public void runOk() {
 
         Authentication oldAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        taskRunner.run("login", "domain", new String[]{"role1"}, () -> {
+
+        taskRunner.run(TaskParam
+                .builder()
+                .username("login")
+                .domain("domain")
+                .roles(new String[]{"role1"})
+                .build(), () -> {
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            TaskPrincipal principal = (TaskPrincipal)auth.getPrincipal();
 
-            Assert.assertEquals(principal.getName(), "login");
-            Assert.assertEquals(principal.getDomain(), "domain");
-            Assert.assertTrue(principal.getAuthorities().size() == 1);
-            Assert.assertEquals(principal.getAuthorities().iterator().next().getAuthority(), "role1");
+            Assert.assertEquals(auth.getName(), "login");
+            Assert.assertEquals(DomainContext.getDomain(), "domain");
+            Assert.assertTrue(auth.getAuthorities().size() == 1);
+            Assert.assertEquals(auth.getAuthorities().iterator().next().getAuthority(), "role1");
 
-            return Optional.<Void>empty();
+            return null;
         });
 
         Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -51,14 +59,19 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
     public void runKo() {
 
         try {
-            taskRunner.run("login", "domain", new String[]{"role1"}, () -> {
+            taskRunner.run(TaskParam
+                    .builder()
+                    .username("login")
+                    .domain("domain")
+                    .roles(new String[]{"role1"})
+                    .build(), () -> {
 
-                throw new TaskException();
+                throw new ApplicationErrorException();
             });
 
             Assert.fail("Une exception aurrait du être levée");
 
-        } catch (TaskException e) {
+        } catch (ApplicationErrorException e) {
 
             // Une exception est levée, c'est normal
 

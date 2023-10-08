@@ -35,7 +35,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.concurrent.Future;
 
 @Slf4j

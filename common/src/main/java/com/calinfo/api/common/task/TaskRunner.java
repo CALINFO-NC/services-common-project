@@ -23,47 +23,106 @@ package com.calinfo.api.common.task;
  */
 
 import com.calinfo.api.common.domain.DomainContext;
+import com.calinfo.api.common.ex.ApplicationErrorException;
+import com.calinfo.api.common.security.keycloak.RealmContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @Component
 public class TaskRunner {
 
-    public <T> Optional<T> run (String username, String domainName, String[] roles, Task<T> task) throws TaskException {
+    public <T> T run (TaskParam taskParam, Supplier<T> task) {
 
         String actualDomain = DomainContext.getDomain();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String actualRealm = RealmContext.getRealm();
+        Authentication actualAuth = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = taskParam.getUsername();
+        String domainName = taskParam.getDomain();
+        String realmName = taskParam.getRealm();
+        String[] roles = taskParam.getRoles();
 
         try {
+            // Mettre en place le domain
             DomainContext.setDomain(domainName);
 
-            List<SimpleGrantedAuthority> grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            // Mettre en place le realm
+            RealmContext.setRealm(realmName);
 
             // Mettre en place l'authentification
-            TaskPrincipal principal = new TaskPrincipal(username, domainName, grants);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+            List<SimpleGrantedAuthority> grants = new ArrayList<>();
+            if (roles != null) {
+                grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            }
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username, "", grants);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Exécuter la tâche
-            return task.run();
+            return task.get();
 
         }
         finally {
-            DomainContext.setDomain(actualDomain);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            // Re mettre en place l'ancien domain
+            boolean setOk = setDomainContext(actualDomain);
+
+            // Re mettre en place l'ancien realm
+            setOk = setOk && setRealmContext(actualRealm);
+
+            // Re mettre en place l'ancien,e authentification
+            setOk = setOk && setAuth(actualAuth);
+
+            if (!setOk){
+                throw new ApplicationErrorException("L'exécution du task runner ne s'est pas bien déroulé. Voir les autres exceptions");
+            }
         }
     }
 
-    public <T> Optional<T> run (String username, String domainName, Task<T> task) throws TaskException {
-        return run(username, domainName, new String[0], task);
+    private boolean setRealmContext(String realmContext){
+
+        try{
+            RealmContext.setRealm(realmContext);
+            return true;
+        }
+        catch (Exception e){
+            log.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private boolean setDomainContext(String domainContext){
+
+        try{
+            DomainContext.setDomain(domainContext);
+            return true;
+        }
+        catch (Exception e){
+            log.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private boolean setAuth(Authentication auth){
+
+        try{
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return true;
+        }
+        catch (Exception e){
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 }

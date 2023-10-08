@@ -22,10 +22,20 @@ package com.calinfo.api.common.task;
  * #L%
  */
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Optional;
+@Builder
+@Getter
+@Setter
+public class TaskParam {
 
-@FunctionalInterface
-public interface Task<T> {
-    Optional<T> run() throws TaskException;
+    private String domain;
+
+    private String realm;
+
+    private String username;
+
+    private String[] roles;
 }

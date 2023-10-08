@@ -48,6 +48,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+import java.util.Objects;
+
 @ConditionalOnProperty(prefix = "common.configuration.security.keycloak.urls", name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
 @Slf4j
@@ -77,9 +80,21 @@ class KeycloackUrlController {
 
         String login = SecurityUtils.getUsernameFromSecurityContext();
 
-        UserRepresentation userRepresentation = this.keycloakManager.getKeycloakRealm().users().search(login).get(0);
-        UserResource userResource = this.keycloakManager.getKeycloakRealm().users().get(userRepresentation.getId());
-        userResource.logout();
+        List<UserRepresentation> lstUserRepresentation = this.keycloakManager.getKeycloakRealm().users().search(login);
+
+        if (lstUserRepresentation.size() > 1){
+            log.warn(String.format("Attention, plusieurs utilisateurs identifiés pour le login '%s' lors de la déconnexion", login));
+        }
+
+        if (lstUserRepresentation.size() < 1 && !Objects.equals(login, KeycloakAuthorizeHttpRequestsCustomizerConfig.ANONYMOUS_USER_NAME)){
+            log.warn(String.format("Attention, aucun utilisateur identifié pour le login '%s' lors de la déconnexion", login));
+        }
+
+        if (lstUserRepresentation.size() == 1){
+            UserRepresentation userRepresentation = lstUserRepresentation.get(0);
+            UserResource userResource = this.keycloakManager.getKeycloakRealm().users().get(userRepresentation.getId());
+            userResource.logout();
+        }
 
         request.logout();
         return "redirect:/";

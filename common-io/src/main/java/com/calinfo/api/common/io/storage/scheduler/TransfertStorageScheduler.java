@@ -25,7 +25,7 @@ package com.calinfo.api.common.io.storage.scheduler;
 import com.calinfo.api.common.io.storage.connector.BinaryDataConnector;
 import com.calinfo.api.common.io.storage.service.BinaryDataDomainService;
 import com.calinfo.api.common.io.storage.service.BinaryDataSchedulerService;
-import com.calinfo.api.common.task.TaskException;
+import com.calinfo.api.common.task.TaskParam;
 import com.calinfo.api.common.task.TaskRunner;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -75,15 +75,13 @@ public class TransfertStorageScheduler {
 
     private void runTransfertBinaryDataWithDomainParameter(String domain){
 
-        try {
-            taskRunner.run(null, domain, () -> {
+        taskRunner.run(TaskParam.builder()
+                .domain(domain)
+                .build(), () -> {
 
-                binaryDataSchedulerService.transfert(domain);
+            binaryDataSchedulerService.transfert(domain);
 
-                return Optional.empty();
-            });
-        } catch (TaskException e) {
-            log.error(e.getMessage(), e);
-        }
+            return Optional.empty();
+        });
     }
 }
