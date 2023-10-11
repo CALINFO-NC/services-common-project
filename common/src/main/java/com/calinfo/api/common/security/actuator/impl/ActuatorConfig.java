@@ -33,8 +33,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class ActuatorConfig {
 
     private final ActuatorProperties actuatorProperties;
@@ -54,6 +55,10 @@ public class ActuatorConfig {
                 );
         http.httpBasic(Customizer.withDefaults());
         http.authenticationProvider(new ActuatorAuthenticationProvider(this.actuatorProperties));
+        http.cors(cors -> {
+            cors.disable();
+        });
+
         return http.build();
     }
 
