@@ -60,10 +60,6 @@ class KeycloakConfig {
         });
         http.sessionManagement(session -> keycloakAuthorizeHttpRequestsCustomizerConfig.configSessionManagement(session));
 
-        http.cors(cors -> {
-            cors.disable();
-        });
-
         keycloakAuthorizeHttpRequestsCustomizerConfig.completeConfigHttpSecurity(http);
 
         return http.build();

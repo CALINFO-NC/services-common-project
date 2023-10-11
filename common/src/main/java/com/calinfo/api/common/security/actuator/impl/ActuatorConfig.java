@@ -55,9 +55,6 @@ public class ActuatorConfig {
                 );
         http.httpBasic(Customizer.withDefaults());
         http.authenticationProvider(new ActuatorAuthenticationProvider(this.actuatorProperties));
-        http.cors(cors -> {
-            cors.disable();
-        });
 
         return http.build();
     }
