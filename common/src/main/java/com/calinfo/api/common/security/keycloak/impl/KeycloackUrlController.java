@@ -22,11 +22,7 @@ package com.calinfo.api.common.security.keycloak.impl;
  * #L%
  */
 
-import com.calinfo.api.common.domain.DomainContext;
-import com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig;
-import com.calinfo.api.common.security.keycloak.KeycloakManager;
-import com.calinfo.api.common.security.keycloak.KeycloakProperties;
-import com.calinfo.api.common.security.keycloak.KeycloakUrlProperties;
+import com.calinfo.api.common.security.keycloak.*;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.utils.SecurityUtils;
 import jakarta.servlet.ServletException;
@@ -71,7 +67,7 @@ class KeycloackUrlController {
             return "redirect:/";
         }
         else{
-            return String.format("redirect:/oauth2/authorization/%s", DomainContext.getDomain());
+            return String.format("redirect:/oauth2/authorization/%s", RealmContext.getRealm());
         }
     }
 
@@ -115,22 +111,22 @@ class KeycloackUrlController {
                                        @PathVariable(name = "idPage", required = false) String idPage) {
 
         if (StringUtils.isBlank(page)) {
-            httpServletResponse.setHeader("Location", String.format("%s/admin/%s/console/", getAuthServerUrl(), DomainContext.getDomain()));
+            httpServletResponse.setHeader("Location", String.format("%s/admin/%s/console/", getAuthServerUrl(), RealmContext.getRealm()));
         }
         else{
 
             if (StringUtils.isBlank(idPage)) {
                 httpServletResponse.setHeader("Location", String.format("%s/admin/%s/console/#/%s/%s",
                         getAuthServerUrl(),
-                        DomainContext.getDomain(),
-                        DomainContext.getDomain(),
+                        RealmContext.getRealm(),
+                        RealmContext.getRealm(),
                         page));
             }
             else {
                 httpServletResponse.setHeader("Location", String.format("%s/admin/%s/console/#/%s/%s/%s",
                         getAuthServerUrl(),
-                        DomainContext.getDomain(),
-                        DomainContext.getDomain(),
+                        RealmContext.getRealm(),
+                        RealmContext.getRealm(),
                         page,
                         idPage));
             }
@@ -143,12 +139,12 @@ class KeycloackUrlController {
     public void keycloakUserAccount(HttpServletResponse httpServletResponse, @PathVariable(name = "page", required = false) String page) {
 
         if (StringUtils.isBlank(page)) {
-            httpServletResponse.setHeader("Location", String.format("%s/realms/%s/account/", getAuthServerUrl(), DomainContext.getDomain()));
+            httpServletResponse.setHeader("Location", String.format("%s/realms/%s/account/", getAuthServerUrl(), RealmContext.getRealm()));
         }
         else{
             httpServletResponse.setHeader("Location", String.format("%s/realms/%s/account/#/%s",
                     getAuthServerUrl(),
-                    DomainContext.getDomain(),
+                    RealmContext.getRealm(),
                     page));
         }
 
