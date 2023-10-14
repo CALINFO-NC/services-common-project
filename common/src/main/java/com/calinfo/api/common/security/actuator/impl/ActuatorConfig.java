@@ -54,6 +54,9 @@ public class ActuatorConfig {
                             .authenticated()
                 );
         http.httpBasic(Customizer.withDefaults());
+        http.csrf(csfr -> {
+            csfr.disable();
+        });
         http.authenticationProvider(new ActuatorAuthenticationProvider(this.actuatorProperties));
 
         return http.build();
