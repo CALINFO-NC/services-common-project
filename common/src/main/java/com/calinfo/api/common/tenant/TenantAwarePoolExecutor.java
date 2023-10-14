@@ -1,4 +1,4 @@
-package com.calinfo.api.common.domain;
+package com.calinfo.api.common.tenant;
 
 /*-
  * #%L
@@ -22,21 +22,23 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainContext;
+import com.calinfo.api.common.security.keycloak.RealmContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-public class DomainAwarePoolExecutor extends ThreadPoolTaskExecutor {
+public class TenantAwarePoolExecutor extends ThreadPoolTaskExecutor {
 
     @Override
     public <T> Future<T> submit(Callable<T> task) {
-        return super.submit(new DomainAwareCallable(task, DomainContext.getDomain()));
+        return super.submit(new TenantAwareCallable(task, DomainContext.getDomain(), RealmContext.getRealm()));
     }
 
     @Override
     public <T> ListenableFuture<T> submitListenable(Callable<T> task) {
-        return super.submitListenable(new DomainAwareCallable(task, DomainContext.getDomain()));
+        return super.submitListenable(new TenantAwareCallable(task, DomainContext.getDomain(), RealmContext.getRealm()));
     }
 }

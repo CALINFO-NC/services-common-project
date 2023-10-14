@@ -1,4 +1,4 @@
-package com.calinfo.api.common.domain;
+package com.calinfo.api.common.tenant;
 
 /*-
  * #%L
@@ -22,28 +22,55 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
+import com.calinfo.api.common.domain.DomainContext;
+import com.calinfo.api.common.security.keycloak.RealmContext;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.Callable;
 
-public class DomainAwareCallable<T> implements Callable<T> {
+@Slf4j
+public class TenantAwareCallable<T> implements Callable<T> {
     private Callable<T> task;
     private String domain;
+    private String realm;
 
-    public DomainAwareCallable(Callable<T> task, String domain) {
+    public TenantAwareCallable(Callable<T> task, String domain, String realm) {
         this.task = task;
         this.domain = domain;
+        this.realm = realm;
     }
 
     @Override
     public T call() throws Exception {
         String oldDomain = DomainContext.getDomain();
-        if (domain != null) {
-            DomainContext.setDomain(domain);
-        }
+        String oldRealm = RealmContext.getRealm();
 
         try {
+            DomainContext.setDomain(domain);
+            RealmContext.setRealm(realm);
+
             return task.call();
         } finally {
-            DomainContext.setDomain(oldDomain);
+            setDomain(oldDomain);
+            setRealm(oldRealm);
+        }
+    }
+
+    private void setDomain(String domain){
+        try {
+            DomainContext.setDomain(domain);
+        }
+        catch (Exception e){
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    private void setRealm(String realm){
+        try {
+            RealmContext.setRealm(realm);
+        }
+        catch (Exception e){
+            log.error(e.getMessage(), e);
         }
     }
 }

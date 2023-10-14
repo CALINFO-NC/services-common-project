@@ -1,6 +1,6 @@
 package com.calinfo.api.common;
 
-import com.calinfo.api.common.domain.DomainAwarePoolExecutor;
+import com.calinfo.api.common.tenant.TenantAwarePoolExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +17,6 @@ public class ExecutorConfig extends AsyncConfigurerSupport {
     @Override
     @Bean
     public Executor getAsyncExecutor() {
-        return new DomainAwarePoolExecutor();
+        return new TenantAwarePoolExecutor();
     }
 }
