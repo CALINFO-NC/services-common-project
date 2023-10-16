@@ -44,7 +44,7 @@
         <version.truth>1.1.5</version.truth>
         <version.h2>2.2.220</version.h2>
         <version.equalsverifier>3.15.1</version.equalsverifier>
-        <version.springdoc-openapi-ui>1.7.0</version.springdoc-openapi-ui>
+        <version.springdoc-openapi-ui>2.2.0</version.springdoc-openapi-ui>
         <version.maven-source-plugin>3.3.0</version.maven-source-plugin>
         <version.lombok>1.18.28</version.lombok>
         <version.testng>7.8.0</version.testng>
@@ -56,7 +56,7 @@
         <version.commons-lang3>3.13.0</version.commons-lang3>
         <version.teavm>0.8.1</version.teavm>
         <version.sardine>5.12</version.sardine>
-        <version.keycloak>22.0.3</version.keycloak>
+        <version.keycloak>22.0.3</version.keycloak>  <!-- Cette version doit être EXACTEMENT la même que la version keycloak utilisée -->
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
