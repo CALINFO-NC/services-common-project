@@ -30,6 +30,9 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <compilerReuseStrategy>reuseSame</compilerReuseStrategy>
                     <optimize>true</optimize>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

@@ -93,7 +93,7 @@ public class HandlerUtils {
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.TEXT_PLAIN);
 
-        return new ResponseEntity<>(ExceptionUtils.getPrintValue(ex), header, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ex.getMessage(), header, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

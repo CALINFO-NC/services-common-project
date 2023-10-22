@@ -31,12 +31,10 @@ import java.util.List;
 public interface MessageInfoAndWarningInterface extends Serializable {
 
 
-    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Message de type 'Information' concernant cette ressource."))
     List<String> getListInfoMessages();
 
     void setListInfoMessages(List<String> listInfoMessages);
 
-    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Message de type 'Attention' concernant cette ressource."))
     List<String> getListWarningMessages();
 
     void setListWarningMessages(List<String> listWarningMessages);

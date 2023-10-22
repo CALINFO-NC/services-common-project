@@ -22,6 +22,8 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -31,8 +33,10 @@ import java.util.List;
 @Data
 public class DefaultMessageInfoAndWarning implements MessageInfoAndWarningInterface{
 
+    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Information message regarding this resource."))
     private List<String> listInfoMessages = new ArrayList<>();
 
+    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Attention message regarding this resource."))
     private List<String> listWarningMessages = new ArrayList<>();
 
 }
