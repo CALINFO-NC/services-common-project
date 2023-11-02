@@ -66,7 +66,7 @@ public class UserDetailsAuthentication implements Authentication {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        throw new IllegalArgumentException(String.format("Unsupported argument : %s", isAuthenticated));
+        throw new UnsupportedOperationException(String.format("Unsupported operation with argument : %s", isAuthenticated));
     }
 
     @Override

@@ -23,9 +23,9 @@ package com.calinfo.api.common.security.keycloak;
  */
 
 
-import com.calinfo.api.common.tenant.Request;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface RealmResolver {
 
-    String getRealm(Request request);
+    String getRealm(HttpServletRequest request);
 }

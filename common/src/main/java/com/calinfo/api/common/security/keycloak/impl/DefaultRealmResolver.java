@@ -24,17 +24,19 @@ package com.calinfo.api.common.security.keycloak.impl;
 
 import com.calinfo.api.common.security.keycloak.KeycloakAuthorizeHttpRequestsCustomizerConfig;
 import com.calinfo.api.common.security.keycloak.RealmResolver;
-import com.calinfo.api.common.tenant.Request;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
+
+import java.net.URL;
 
 @ConditionalOnBean(KeycloakAuthorizeHttpRequestsCustomizerConfig.class)
 @Component
 class DefaultRealmResolver implements RealmResolver {
 
     @SneakyThrows
-    public String getRealm(Request request){
-        return request.getUrl().getHost();
+    public String getRealm(HttpServletRequest request){
+        return new URL(request.getRequestURL().toString()).getHost().replaceAll("\\.", "-");
     }
 }

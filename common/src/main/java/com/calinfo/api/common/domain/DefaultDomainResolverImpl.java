@@ -22,16 +22,18 @@ package com.calinfo.api.common.domain;
  * #L%
  */
 
-import com.calinfo.api.common.tenant.Request;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+
+import java.net.URL;
 
 
 @Component
 public class DefaultDomainResolverImpl implements DomainResolver {
 
     @SneakyThrows
-    public String getDomain(Request request){
-        return request.getUrl().getHost();
+    public String getDomain(HttpServletRequest request){
+        return new URL(request.getRequestURL().toString()).getHost();
     }
 }

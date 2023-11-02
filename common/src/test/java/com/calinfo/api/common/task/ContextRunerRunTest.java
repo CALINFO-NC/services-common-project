@@ -14,18 +14,15 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 /**
  * Created by dalexis on 31/05/2018.
  */
 @SpringBootTest(classes = {AutowiredConfig.class, GenericDatasourceConfiguration.class, DomainDatasourceConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
+public class ContextRunerRunTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    private TaskRunner taskRunner;
+    private ContextRunner contextRunner;
 
 
     @Test
@@ -34,11 +31,10 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
         Authentication oldAuth = SecurityContextHolder.getContext().getAuthentication();
 
 
-        taskRunner.run(TaskParam
+        contextRunner.run(ContextParam
                 .builder()
-                .username("login")
+                .authentication(ContextParam.authenticationFromUserRoles("login", new String[]{"role1"}))
                 .domain("domain")
-                .roles(new String[]{"role1"})
                 .build(), () -> {
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -59,11 +55,10 @@ public class TasckRunerRunTest extends AbstractTestNGSpringContextTests {
     public void runKo() {
 
         try {
-            taskRunner.run(TaskParam
+            contextRunner.run(ContextParam
                     .builder()
-                    .username("login")
+                    .authentication(ContextParam.authenticationFromUserRoles("login", new String[]{"role1"}))
                     .domain("domain")
-                    .roles(new String[]{"role1"})
                     .build(), () -> {
 
                 throw new ApplicationErrorException();

@@ -64,18 +64,12 @@ public class TenantUrlFilter extends OncePerRequestFilter {
         String oldRealm = RealmContext.getRealm();
         try {
 
-            Request req = new Request();
-            req.setUrl(new URL(httpServletRequest.getRequestURL().toString()));
-            req.setMethod(HttpMethod.valueOf(httpServletRequest.getMethod()));
-            req.setHeaders(httpServletRequest::getHeader);
-            req.setParameters(httpServletRequest::getParameter);
-
             if (domainResolver != null) {
-                DomainContext.setDomain(domainResolver.getDomain(req));
+                DomainContext.setDomain(domainResolver.getDomain(httpServletRequest));
             }
 
             if (realmResolver != null) {
-                RealmContext.setRealm(realmResolver.getRealm(req));
+                RealmContext.setRealm(realmResolver.getRealm(httpServletRequest));
             }
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);

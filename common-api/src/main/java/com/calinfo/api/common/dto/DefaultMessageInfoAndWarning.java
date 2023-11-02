@@ -33,10 +33,10 @@ import java.util.List;
 @Data
 public class DefaultMessageInfoAndWarning implements MessageInfoAndWarningInterface{
 
-    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Information message regarding this resource."))
+    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Information messages regarding this resource."))
     private List<String> listInfoMessages = new ArrayList<>();
 
-    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Attention message regarding this resource."))
+    @ArraySchema(arraySchema = @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Attention messages regarding this resource."))
     private List<String> listWarningMessages = new ArrayList<>();
 
 }

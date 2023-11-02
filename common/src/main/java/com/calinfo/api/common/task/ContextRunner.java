@@ -41,18 +41,16 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class TaskRunner {
+public class ContextRunner {
 
-    public <T> T run (TaskParam taskParam, Supplier<T> task) {
+    public <T> T run (ContextParam contextParam, Supplier<T> task) {
 
         String actualDomain = DomainContext.getDomain();
         String actualRealm = RealmContext.getRealm();
         Authentication actualAuth = SecurityContextHolder.getContext().getAuthentication();
 
-        String username = taskParam.getUsername();
-        String domainName = taskParam.getDomain();
-        String realmName = taskParam.getRealm();
-        String[] roles = taskParam.getRoles();
+        String domainName = contextParam.getDomain();
+        String realmName = contextParam.getRealm();
 
         try {
             // Mettre en place le domain
@@ -60,14 +58,7 @@ public class TaskRunner {
 
             // Mettre en place le realm
             RealmContext.setRealm(realmName);
-
-            // Mettre en place l'authentification
-            List<SimpleGrantedAuthority> grants = new ArrayList<>();
-            if (roles != null) {
-                grants = Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-            }
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, "", grants);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(contextParam.getAuthentication());
 
             // Exécuter la tâche
             return task.get();

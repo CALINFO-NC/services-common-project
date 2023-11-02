@@ -98,6 +98,24 @@ public class SecurityUtils {
     }
 
     /**
+     * Permet de crypter une donnée
+     *
+     * @param data Donnée à crypter
+     * @param publicKey Clé public
+     * @return Donnée crypté
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeyException Exception si la clé est incorrecte
+     * @throws NoSuchPaddingException Problème pour encrypter la clé
+     * @throws IllegalBlockSizeException Problème pour encrypter la clé
+     * @throws BadPaddingException Problème pour encrypter la clé
+     */
+    public static byte[] rsaEncryption(byte[] data, PublicKey publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        return cipher.doFinal(data);
+    }
+
+    /**
      * Permet de décrypter une donnée
      *
      * @param data Donnée à décrypter
@@ -112,6 +130,24 @@ public class SecurityUtils {
     public static byte[] rsaDecryption(byte[] data, PublicKey publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, publicKey);
+        return cipher.doFinal(data);
+    }
+
+    /**
+     * Permet de décrypter une donnée
+     *
+     * @param data Donnée à décrypter
+     * @param privateKey Clé privée
+     * @return Donnée décrypté
+     * @throws NoSuchAlgorithmException Exception si l'algorithme utilisé pour décrypté la clé n'est pas bon
+     * @throws InvalidKeyException Exception si la clé est incorrecte
+     * @throws NoSuchPaddingException Problème pour encrypter la clé
+     * @throws IllegalBlockSizeException Problème pour encrypter la clé
+     * @throws BadPaddingException Problème pour encrypter la clé
+     */
+    public static byte[] rsaDecryption(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
         return cipher.doFinal(data);
     }
 

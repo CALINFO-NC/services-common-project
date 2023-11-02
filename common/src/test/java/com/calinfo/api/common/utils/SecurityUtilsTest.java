@@ -37,6 +37,14 @@ public class SecurityUtilsTest {
         String decryptValStrResult = new String(decryptValByteResult);
 
         Assert.assertEquals(decryptValStrResult, decryptValStr);
+
+        // Meme test mais cette fois ci en inversant les clé public et privé pour le cryptage et le décryptage
+        encryptValByte = SecurityUtils.rsaEncryption(decryptValByte, publicKey);
+        decryptValByteResult = SecurityUtils.rsaDecryption(encryptValByte, privateKey);
+
+        decryptValStrResult = new String(decryptValByteResult);
+
+        Assert.assertEquals(decryptValStrResult, decryptValStr);
     }
 
 

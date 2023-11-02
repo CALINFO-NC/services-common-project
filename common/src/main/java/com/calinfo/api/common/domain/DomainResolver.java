@@ -23,9 +23,10 @@ package com.calinfo.api.common.domain;
  */
 
 
-import com.calinfo.api.common.tenant.Request;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface DomainResolver {
 
-    String getDomain(Request request);
+    String getDomain(HttpServletRequest request);
 }
