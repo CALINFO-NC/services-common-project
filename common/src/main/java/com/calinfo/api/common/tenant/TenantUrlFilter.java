@@ -24,6 +24,8 @@ package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.domain.DomainContext;
 import com.calinfo.api.common.domain.DomainResolver;
+import com.calinfo.api.common.ex.MessageException;
+import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.security.keycloak.RealmContext;
 import com.calinfo.api.common.security.keycloak.RealmResolver;
 import jakarta.servlet.FilterChain;
@@ -64,12 +66,18 @@ public class TenantUrlFilter extends OncePerRequestFilter {
         String oldRealm = RealmContext.getRealm();
         try {
 
-            if (domainResolver != null) {
-                DomainContext.setDomain(domainResolver.getDomain(httpServletRequest));
-            }
+            try {
+                if (domainResolver != null) {
+                    DomainContext.setDomain(domainResolver.getDomain(httpServletRequest));
+                }
 
-            if (realmResolver != null) {
-                RealmContext.setRealm(realmResolver.getRealm(httpServletRequest));
+                if (realmResolver != null) {
+                    RealmContext.setRealm(realmResolver.getRealm(httpServletRequest));
+                }
+            }
+            catch (MessageStatusException e){
+                httpServletResponse.sendError(e.getStatus().value(), e.getMessage());
+                return;
             }
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);

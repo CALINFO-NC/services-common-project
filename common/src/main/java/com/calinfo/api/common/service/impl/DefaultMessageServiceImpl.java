@@ -51,7 +51,7 @@ class DefaultMessageServiceImpl implements MessageService {
     @Override
     public String translate(Locale locale, MessageCodeValue codeMessage, Serializable... params) {
         try {
-            return String.format(this.messageSource.getMessage(codeMessage.name(), params, locale), (Object[]) params);
+            return this.messageSource.getMessage(codeMessage.name(), params, locale);
         } catch (NoSuchMessageException e) {
             log.warn(e.getMessage());
             log.debug(e.getMessage(), e);
