@@ -24,7 +24,6 @@ package com.calinfo.api.common.tenant;
 
 import com.calinfo.api.common.domain.DomainContext;
 import com.calinfo.api.common.domain.DomainResolver;
-import com.calinfo.api.common.ex.MessageException;
 import com.calinfo.api.common.ex.MessageStatusException;
 import com.calinfo.api.common.security.keycloak.RealmContext;
 import com.calinfo.api.common.security.keycloak.RealmResolver;
@@ -34,12 +33,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.net.URL;
 
 @Component
 @Order(TenantUrlFilter.ORDER_FILTER)

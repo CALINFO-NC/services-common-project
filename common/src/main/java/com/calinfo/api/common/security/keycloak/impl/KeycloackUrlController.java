@@ -55,6 +55,7 @@ import java.util.Objects;
 @Controller
 class KeycloackUrlController {
 
+    public static final String LOCATION = "Location";
     private final KeycloakManager keycloakManager;
     private final KeycloakProperties keycloakProperties;
     private final UserDetailsService userDetailsService;
@@ -111,19 +112,19 @@ class KeycloackUrlController {
                                        @PathVariable(name = "idPage", required = false) String idPage) {
 
         if (StringUtils.isBlank(page)) {
-            httpServletResponse.setHeader("Location", String.format("%s/admin/%s/console/", getAuthServerUrl(), RealmContext.getRealm()));
+            httpServletResponse.setHeader(LOCATION, String.format("%s/admin/%s/console/", getAuthServerUrl(), RealmContext.getRealm()));
         }
         else{
 
             if (StringUtils.isBlank(idPage)) {
-                httpServletResponse.setHeader("Location", String.format("%s/admin/%s/console/#/%s/%s",
+                httpServletResponse.setHeader(LOCATION, String.format("%s/admin/%s/console/#/%s/%s",
                         getAuthServerUrl(),
                         RealmContext.getRealm(),
                         RealmContext.getRealm(),
                         page));
             }
             else {
-                httpServletResponse.setHeader("Location", String.format("%s/admin/%s/console/#/%s/%s/%s",
+                httpServletResponse.setHeader(LOCATION, String.format("%s/admin/%s/console/#/%s/%s/%s",
                         getAuthServerUrl(),
                         RealmContext.getRealm(),
                         RealmContext.getRealm(),
@@ -139,10 +140,10 @@ class KeycloackUrlController {
     public void keycloakUserAccount(HttpServletResponse httpServletResponse, @PathVariable(name = "page", required = false) String page) {
 
         if (StringUtils.isBlank(page)) {
-            httpServletResponse.setHeader("Location", String.format("%s/realms/%s/account/", getAuthServerUrl(), RealmContext.getRealm()));
+            httpServletResponse.setHeader(LOCATION, String.format("%s/realms/%s/account/", getAuthServerUrl(), RealmContext.getRealm()));
         }
         else{
-            httpServletResponse.setHeader("Location", String.format("%s/realms/%s/account/#/%s",
+            httpServletResponse.setHeader(LOCATION, String.format("%s/realms/%s/account/#/%s",
                     getAuthServerUrl(),
                     RealmContext.getRealm(),
                     page));

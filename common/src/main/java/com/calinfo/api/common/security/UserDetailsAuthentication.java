@@ -33,7 +33,7 @@ import java.util.Collection;
 public class UserDetailsAuthentication implements Authentication {
 
     private final UserDetails userDetails;
-    private final Object credential;
+    private final transient Object credential;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

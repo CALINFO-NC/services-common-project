@@ -26,17 +26,11 @@ import com.calinfo.api.common.domain.DomainContext;
 import com.calinfo.api.common.ex.ApplicationErrorException;
 import com.calinfo.api.common.security.keycloak.RealmContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -52,6 +46,7 @@ public class ContextRunner {
         String domainName = contextParam.getDomain();
         String realmName = contextParam.getRealm();
 
+        Exception originalException = null;
         try {
             // Mettre en place le domain
             DomainContext.setDomain(domainName);
@@ -63,6 +58,10 @@ public class ContextRunner {
             // Exécuter la tâche
             return task.get();
 
+        }
+        catch (Exception e){
+            originalException = e;
+            throw e;
         }
         finally {
 
@@ -76,7 +75,7 @@ public class ContextRunner {
             setOk = setOk && setAuth(actualAuth);
 
             if (!setOk){
-                throw new ApplicationErrorException("L'exécution du task runner ne s'est pas bien déroulé. Voir les autres exceptions");
+                throw new ApplicationErrorException("L'exécution du task runner ne s'est pas bien déroulé. Voir les autres exceptions", originalException);
             }
         }
     }

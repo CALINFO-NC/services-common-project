@@ -89,8 +89,12 @@ public class BinaryDataSchedulerService {
                     transfertFromId(id);
 
 
-                } catch (IOException | InterruptedException | ExecutionException e) {
+                } catch (IOException | ExecutionException e) {
                     log.error(e.getMessage(), e);
+                }
+                catch (InterruptedException e){
+                    Thread.currentThread().interrupt();
+                    throw new ApplicationErrorException(e);
                 }
 
                 id = idQueue.get();

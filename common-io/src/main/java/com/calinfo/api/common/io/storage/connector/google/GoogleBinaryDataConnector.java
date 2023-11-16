@@ -31,6 +31,7 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ import java.nio.channels.Channels;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+@Slf4j
 @Component
 @ConditionalOnProperty(prefix = "common-io.storage.connector", name = "provider", havingValue = "google")
 public class GoogleBinaryDataConnector implements BinaryDataConnector {
@@ -105,7 +107,11 @@ public class GoogleBinaryDataConnector implements BinaryDataConnector {
     public boolean isSpaceExist(String spaceName) throws IOException{
         try {
             return Boolean.TRUE.equals(createSpace(spaceName).get());
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (ExecutionException e) {
+            throw new ApplicationErrorException(e);
+        }
+        catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             throw new ApplicationErrorException(e);
         }
     }

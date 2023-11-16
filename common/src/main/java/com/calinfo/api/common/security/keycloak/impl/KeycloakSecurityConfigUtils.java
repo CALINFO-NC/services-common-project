@@ -27,6 +27,8 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.proc.JWTClaimsSetAwareJWSKeySelector;
 import com.nimbusds.jwt.proc.JWTProcessor;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,6 +40,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class KeycloakSecurityConfigUtils {
 
     public static JWTClaimsSetAwareJWSKeySelector<SecurityContext> getJwtSelector(KeycloakTenantService keycloakTenantService){

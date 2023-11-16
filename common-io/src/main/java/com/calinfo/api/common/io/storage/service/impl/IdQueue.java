@@ -62,6 +62,7 @@ public class IdQueue {
             }
         }
         catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             throw new ApplicationErrorException(e);
         }
         finally {

@@ -153,7 +153,11 @@ public class FtpBinaryDataConnector implements BinaryDataConnector {
     public boolean isSpaceExist(String spaceName) throws IOException{
         try {
             return Boolean.TRUE.equals(createSpace(spaceName).get());
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (ExecutionException e) {
+            throw new ApplicationErrorException(e);
+        }
+        catch (InterruptedException e){
+            Thread.currentThread().interrupt();
             throw new ApplicationErrorException(e);
         }
     }
