@@ -22,6 +22,7 @@ package com.calinfo.api.common.security.keycloak.impl;
  * #L%
  */
 
+import com.calinfo.api.common.security.UserDetailsAuthentication;
 import com.calinfo.api.common.security.keycloak.*;
 import com.calinfo.api.common.utils.MiscUtils;
 import com.calinfo.api.common.utils.SecurityUtils;
@@ -36,6 +37,7 @@ import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -100,6 +102,9 @@ class KeycloackUrlController {
     @ResponseBody
     @GetMapping(value = "${common.configuration.security.keycloak.urls.user-json-details:" + KeycloakUrlProperties.DEFAULT_USER_JSON_DETAILS + "}")
     public UserDetails userJsonDetail(){
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof UserDetailsAuthentication auth){
+            return (UserDetails) auth.getDetails();
+        }
         String login = SecurityUtils.getUsernameFromSecurityContext();
         return userDetailsService.loadUserByUsername(login);
     }
