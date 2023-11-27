@@ -22,6 +22,7 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -41,11 +42,13 @@ import java.util.function.Function;
 public class DynamicListDto<R extends Serializable> extends DefaultMessageInfoAndWarning implements Dto, MessageInfoAndWarningInterface {
 
 
+    @Schema(description = "List of data.")
     private List<R> data = new ArrayList<>();
 
     /**
      * Correspond soit au nombre d'élément, soit au nombre de page disponnible
      */
+    @Schema(description = "Total number of data.")
     private long count;
 
     public <E> DynamicListDto(Function<E, R> function, Page<E> page){

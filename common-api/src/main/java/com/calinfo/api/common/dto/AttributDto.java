@@ -34,9 +34,12 @@ import java.util.List;
 public class AttributDto implements Dto {
 
 
+    @Schema(description = "Name of the HTTP parameter or the property of the resource at issue.")
     private String name;
 
+    @Schema(description = "The field type is incorrect. This could be due to an HTTP request parameter or a property of the resource.")
     private TypeAttribut type;
 
+    @Schema(description = "Enumeration of errors associated with the field identified by 'name'.")
     private List<String> listMessages = new ArrayList<>();
 }

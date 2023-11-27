@@ -35,7 +35,9 @@ import java.util.Map;
 @Schema(name = "BadResponse")
 public class BadResponseDto implements Serializable {
 
+    @Schema(description = "This is a data structure (Map<String, List<String>>) utilizing a Map in Java, where each key is a string (String) representing the name of a property of a resource. Each key is associated with a list (List) of strings (String) containing specific error messages related to that resource's property.")
     private Map<String, List<String>> mapErrorMessagesFields = new HashMap<>();
 
+    @Schema(description = "Collection of global error messages.")
     private List<String> listErrorMessages = new ArrayList<>();
 }
