@@ -29,13 +29,5 @@ import org.keycloak.admin.client.resource.RealmResource;
 public interface KeycloakManager {
 
     Keycloak getRootHandle();
-
-    default RealmResource getKeycloakRealm(String realm){
-        return getRootHandle().realm(realm);
-    }
-
-    default RealmResource getKeycloakRealm() {
-        return getKeycloakRealm(RealmContext.getRealm());
-    }
 }
 

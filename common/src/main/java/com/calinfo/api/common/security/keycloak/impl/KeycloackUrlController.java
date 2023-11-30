@@ -33,6 +33,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -78,25 +80,29 @@ class KeycloackUrlController {
     @GetMapping(value = "${common.configuration.security.keycloak.urls.logout:" + KeycloakUrlProperties.DEFAULT_LOGOUT + "}")
     public String logout(HttpServletRequest request) throws ServletException {
 
-        String login = SecurityUtils.getUsernameFromSecurityContext();
+        try(Keycloak keycloak = this.keycloakManager.getRootHandle()) {
 
-        List<UserRepresentation> lstUserRepresentation = this.keycloakManager.getKeycloakRealm().users().search(login).stream().filter(r -> Objects.equals(r.getUsername(), login)).toList();
+            RealmResource realmResource = keycloak.realm(RealmContext.getRealm());
+            String login = SecurityUtils.getUsernameFromSecurityContext();
 
-        if (lstUserRepresentation.size() > 1){
-            log.warn(String.format("Attention, plusieurs utilisateurs identifiés pour le login '%s' lors de la déconnexion", login));
+            List<UserRepresentation> lstUserRepresentation = realmResource.users().search(login).stream().filter(r -> Objects.equals(r.getUsername(), login)).toList();
+
+            if (lstUserRepresentation.size() > 1) {
+                log.warn(String.format("Attention, plusieurs utilisateurs identifiés pour le login '%s' lors de la déconnexion", login));
+            }
+
+            if (lstUserRepresentation.size() < 1 && !Objects.equals(login, KeycloakAuthorizeHttpRequestsCustomizerConfig.ANONYMOUS_USER_NAME)) {
+                log.warn(String.format("Attention, aucun utilisateur identifié pour le login '%s' lors de la déconnexion", login));
+            }
+
+            lstUserRepresentation.forEach(userRepresentation -> {
+                UserResource userResource = realmResource.users().get(userRepresentation.getId());
+                userResource.logout();
+            });
+
+            request.logout();
+            return "redirect:/";
         }
-
-        if (lstUserRepresentation.size() < 1 && !Objects.equals(login, KeycloakAuthorizeHttpRequestsCustomizerConfig.ANONYMOUS_USER_NAME)){
-            log.warn(String.format("Attention, aucun utilisateur identifié pour le login '%s' lors de la déconnexion", login));
-        }
-
-        lstUserRepresentation.forEach(userRepresentation -> {
-            UserResource userResource = this.keycloakManager.getKeycloakRealm().users().get(userRepresentation.getId());
-            userResource.logout();
-        });
-
-        request.logout();
-        return "redirect:/";
     }
 
     @ResponseBody

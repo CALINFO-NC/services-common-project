@@ -26,6 +26,7 @@ import com.calinfo.api.common.config.ApplicationProperties;
 import com.calinfo.api.common.security.DefaultUserDetailsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientMappingsRepresentation;
@@ -53,36 +54,39 @@ public class KeycloakUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 
-        DefaultUserDetailsDto octopusUserDetailDto = new DefaultUserDetailsDto();
-        octopusUserDetailDto.setUsername(login);
+        try(Keycloak keycloak = keycloakManager.getRootHandle()) {
 
-        List<String> roles = new ArrayList<>();
-        if (findUserResource(login) != null) {
+            DefaultUserDetailsDto octopusUserDetailDto = new DefaultUserDetailsDto();
+            octopusUserDetailDto.setUsername(login);
 
-            // TODO ajouter les autres champs de UserDetails
+            List<String> roles = new ArrayList<>();
+            if (findUserResource(keycloak, login) != null) {
 
-            try {
-                roles.addAll(getRoleFromKeycloackClient(login, applicationProperties.getId()));
-                roles.addAll(getRoleFromKeycloackRealm(login));
+                // TODO ajouter les autres champs de UserDetails
 
-            } catch (Exception e) {
-                log.debug(e.getMessage(), e);
-                log.info(e.getMessage());
+                try {
+                    roles.addAll(getRoleFromKeycloackClient(keycloak, login, applicationProperties.getId()));
+                    roles.addAll(getRoleFromKeycloackRealm(keycloak, login));
+
+                } catch (Exception e) {
+                    log.debug(e.getMessage(), e);
+                    log.info(e.getMessage());
+                }
+
             }
 
+            octopusUserDetailDto.setAuthorities(roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+
+
+            return octopusUserDetailDto;
         }
-
-        octopusUserDetailDto.setAuthorities(roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-
-
-        return octopusUserDetailDto;
     }
 
 
-    private List<String> getRoleFromKeycloackRealm(String login){
+    private List<String> getRoleFromKeycloackRealm(Keycloak keycloak, String login){
 
         List<String> roles = new ArrayList<>();
-        UserResource userResource = findUserResource(login);
+        UserResource userResource = findUserResource(keycloak, login);
 
         if (userResource == null){
             return roles;
@@ -96,10 +100,10 @@ public class KeycloakUserService implements UserDetailsService {
         return roles;
     }
 
-    private List<String> getRoleFromKeycloackClient(String login, String clientId){
+    private List<String> getRoleFromKeycloackClient(Keycloak keycloak, String login, String clientId){
 
         List<String> roles = new ArrayList<>();
-        UserResource userResource = findUserResource(login);
+        UserResource userResource = findUserResource(keycloak, login);
 
         if (userResource == null){
             return roles;
@@ -121,8 +125,8 @@ public class KeycloakUserService implements UserDetailsService {
         return roles;
     }
 
-    private UserResource findUserResource(String login){
-        UsersResource usersResource = this.keycloakManager.getKeycloakRealm().users();
+    private UserResource findUserResource(Keycloak keycloak, String login){
+        UsersResource usersResource = keycloak.realm(RealmContext.getRealm()).users();
         Optional<UserRepresentation> userRepresentation = usersResource.search(login).stream().filter(r -> Objects.equals(r.getUsername(), login)).findFirst();
 
         return userRepresentation.map(representation -> usersResource.get(representation.getId())).orElse(null);
