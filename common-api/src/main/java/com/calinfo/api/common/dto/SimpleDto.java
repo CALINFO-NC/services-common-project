@@ -22,6 +22,7 @@ package com.calinfo.api.common.dto;
  * #L%
  */
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,7 @@ import java.io.Serializable;
 @Data
 public class SimpleDto<R extends Serializable> implements Dto {
 
+    @Schema(description = "Value of the data.")
     private R value;
 
 }
