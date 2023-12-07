@@ -101,7 +101,7 @@ public class RestResponseEntityExceptionHandlerMissignServletRequestParameterExc
         ObjectMapper objectMapper = MiscUtils.getObjectMapper();
 
         this.mockMvc.perform(httpRequest)
-                .andExpect(status().isNotImplemented())
+                .andExpect(status().is(422))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(valueTester)));
     }

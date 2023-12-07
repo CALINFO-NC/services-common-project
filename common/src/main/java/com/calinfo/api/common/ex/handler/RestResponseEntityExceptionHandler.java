@@ -73,7 +73,7 @@ public class RestResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(MessageException.class)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public BadResponseDto messageException(MessageException ex) {
         return HandlerUtils.messageException(messageService, ex);
     }

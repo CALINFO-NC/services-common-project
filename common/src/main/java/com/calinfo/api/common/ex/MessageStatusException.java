@@ -34,30 +34,12 @@ public class MessageStatusException extends RuntimeException{
     private final HttpStatusCode status;
 
     public MessageStatusException(HttpStatusCode statuts, String message){
-        super(constructMessage(statuts, message));
+        super(message);
         this.status = statuts;
     }
 
     protected MessageStatusException(HttpStatusCode statuts, String message, Throwable e){
-        super(constructMessage(statuts, message), e);
+        super(message, e);
         this.status = statuts;
-    }
-
-    private static String constructMessage(HttpStatusCode statuts, String message){
-
-        StringBuilder msg = new StringBuilder();
-        msg.append("Statut : ");
-        msg.append(statuts.value());
-        msg.append("(");
-        msg.append(statuts.value());
-        msg.append(")");
-
-        if (message != null){
-            msg.append(" : ");
-            msg.append(message);
-        }
-
-
-        return msg.toString();
     }
 }
