@@ -23,9 +23,13 @@ package com.calinfo.api.common.service;
  */
 
 
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
+
 import java.io.Serializable;
 
+@Validated
 public interface DeleteService<I extends Serializable> {
 
-    void delete(I id);
+    void delete(@NotNull I id);
 }

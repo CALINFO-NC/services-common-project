@@ -56,13 +56,15 @@ public class KeycloakUserService implements UserDetailsService {
 
         try(Keycloak keycloak = keycloakManager.getRootHandle()) {
 
-            DefaultUserDetailsDto octopusUserDetailDto = new DefaultUserDetailsDto();
-            octopusUserDetailDto.setUsername(login);
+            DefaultUserDetailsDto userDetailDto = new DefaultUserDetailsDto();
+            userDetailDto.setUsername(login);
 
             List<String> roles = new ArrayList<>();
-            if (findUserResource(keycloak, login) != null) {
+            UserResource userResource = findUserResource(keycloak, login);
+            if (userResource != null) {
 
-                // TODO ajouter les autres champs de UserDetails
+                UserRepresentation userRepresentation = userResource.toRepresentation();
+                userDetailDto.setEnabled(userRepresentation.isEnabled());
 
                 try {
                     roles.addAll(getRoleFromKeycloackClient(keycloak, login, applicationProperties.getId()));
@@ -75,10 +77,10 @@ public class KeycloakUserService implements UserDetailsService {
 
             }
 
-            octopusUserDetailDto.setAuthorities(roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+            userDetailDto.setAuthorities(roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
 
 
-            return octopusUserDetailDto;
+            return userDetailDto;
         }
     }
 

@@ -23,13 +23,16 @@ package com.calinfo.api.common.service;
  */
 
 import com.calinfo.api.common.dto.Dto;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 
 /**
  * Created by dalexis on 04/04/2018.
  */
+@Validated
 public interface DestroyService<D extends Dto, I extends Serializable> {
 
-    D destroy(I id);
+    D destroy(@NotNull I id);
 }

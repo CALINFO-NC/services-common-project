@@ -23,13 +23,16 @@ package com.calinfo.api.common.service;
  */
 
 import com.calinfo.api.common.dto.Resource;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 
 /**
  * Created by dalexis on 04/04/2018.
  */
+@Validated
 public interface ReadService<R extends Resource<I>, I extends Serializable> {
 
-    R read(I id);
+    R read(@NotNull I id);
 }

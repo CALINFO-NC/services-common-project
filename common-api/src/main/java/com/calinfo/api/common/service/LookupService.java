@@ -26,11 +26,14 @@ import com.calinfo.api.common.dto.DynamicListDto;
 import com.calinfo.api.common.dto.MultiSorter;
 import com.calinfo.api.common.dto.PageInfoDto;
 import com.calinfo.api.common.dto.Resource;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 
+@Validated
 public interface LookupService<R extends Resource<? extends Serializable>> {
 
-    DynamicListDto<R> lookup(PageInfoDto ci, MultiSorter sorter, String fulltext);
+    DynamicListDto<R> lookup(@NotNull PageInfoDto ci, @NotNull MultiSorter sorter, String fulltext);
 
 }

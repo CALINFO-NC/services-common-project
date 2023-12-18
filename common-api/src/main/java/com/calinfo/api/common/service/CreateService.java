@@ -23,13 +23,17 @@ package com.calinfo.api.common.service;
  */
 
 import com.calinfo.api.common.dto.Resource;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 
 /**
  * Created by dalexis on 04/04/2018.
  */
+@Validated
 public interface CreateService<T extends Resource<? extends Serializable>> {
 
-    T create(T resource);
+    T create(@NotNull @Valid T resource);
 }
